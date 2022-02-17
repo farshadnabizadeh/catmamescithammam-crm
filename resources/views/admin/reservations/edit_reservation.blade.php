@@ -10,7 +10,7 @@
             <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
             <div class="card p-5 mt-3">
                 <div class="card-title">
-                    <h2>Edit Customer</h2>
+                    <h2>Edit Reservation</h2>
                     <p class="float-right last-user">Last Operation User: {{ $reservation->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/customers/update/'.$customer->id) }}" method="POST">

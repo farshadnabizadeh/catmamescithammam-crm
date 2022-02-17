@@ -14,6 +14,8 @@
     <link type="text/css" href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/glightbox.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/spectrum.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/clockpicker.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/datepicker.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/fullcalendar.min.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -47,7 +49,8 @@
     <script type="text/javascript" src="{{ asset('assets/js/Chart.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/glightbox.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/Chart.extension.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/countrystatecity.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/daterangepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/clockpicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/file-upload.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.datatable.min.js') }}"></script>

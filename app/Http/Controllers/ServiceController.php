@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -38,6 +39,16 @@ class ServiceController extends Controller
         }
     }
 
+    public function getService($id)
+    {
+        $arrivalsC = DB::table('services')
+            ->select('services.*')
+            ->where('id', '=', $id)
+            ->first();
+
+        return response()->json([$arrivalsC], 200);
+    }
+
     public function edit($id)
     {
         $service = Service::where('id','=',$id)->first();
@@ -62,7 +73,8 @@ class ServiceController extends Controller
     }
 
     public function destroy($id){
-        Service::find($id)->delete();
+        $services = Service::where('id', '=', $id)->delete();
+
         return redirect('definitions/services')->with('message', 'Service Deleted Successfully!');
     }
 }

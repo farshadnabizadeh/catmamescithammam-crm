@@ -75,6 +75,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/services/edit/{id}', 'ServiceController@edit');
     Route::POST('definitions/services/update/{id}', 'ServiceController@update');
     Route::GET('definitions/services/destroy/{id}', 'ServiceController@destroy');
+    //api
+    Route::GET('getService/{id}', 'ServiceController@getService');    
     //Services end
 
     //Therapists

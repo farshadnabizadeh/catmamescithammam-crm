@@ -31,8 +31,12 @@ class ReservationController extends Controller
     {
         $newReservation = new Reservation();
         $newReservation->arrival_date = $request->input('arrivalDate');
-        $newReservation->arrival_time = $request->input('serviceCurrency');
+        $newReservation->arrival_time = $request->input('arrivalTime');
+        $newReservation->total_customer = $request->input('totalCustomer');
+        $newReservation->service_id	= $request->input('serviceId');
+        $newReservation->service_currency = $request->input('serviceCurrency');
         $newReservation->service_cost = $request->input('serviceCost');
+        $newReservation->service_commission = $request->input('serviceComission');
 
         $newReservation->user_id = auth()->user()->id;
         $result = $newReservation->save();
@@ -43,5 +47,10 @@ class ReservationController extends Controller
         else {
             return response(false, 500);
         }
+    }
+
+    public function destroy($id){
+        Reservation::find($id)->delete();
+        return redirect('definitions/patients')->with('message', 'Reservation Deleted Successfully!');
     }
 }

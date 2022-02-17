@@ -61,19 +61,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/customers/store') }}" method="POST">
+                <form action="{{ url('/definitions/reservations/store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="arrivalDate">Reservation Date</label>
-                                <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" placeholder="Enter Arrival Date" required>
+                                <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Reservation Date" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="arrivalTime">Reservation Time</label>
-                                <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Arrival Time" required>
+                                <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" autocomplete="off" required>
                             </div>
                         </div>
                     </div>
@@ -119,8 +119,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
+                                <label for="serviceComission">Service Comission</label>
+                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
                                 <label for="therapistId">Therapist</label>
-                                <select id="therapistId" name="therapistId" class="form-control" required>
+                                <select id="therapistId" name="therapistId" onchange="getServiceDetail(this)" class="form-control" required>
                                     <option></option>
                                     @foreach ($therapists as $therapist)
                                     <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
@@ -129,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right">Save <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

@@ -3723,7 +3723,7 @@ pre code
 
     transition: all .15s cubic-bezier(.68, -.55, .265, 1.55);
 
-    color: #8898aa;
+    color: #000;
     border: 1px solid #dee2e6;
     border-radius: .25rem;
     background-color: #fff;
@@ -3750,10 +3750,10 @@ pre code
 .form-control:focus
 {
     color: #8898aa;
-    border-color: #5e72e4;
+    border-color: #511124;
     outline: 0;
     background-color: #fff;
-    box-shadow: 0 3px 9px rgba(50, 50, 9, 0), 3px 4px 8px rgba(94, 114, 228, .1);
+    box-shadow: 0 3px 9px rgba(50, 50, 9, 0), 3px 4px 8px rgba(94, 114, 228, .1)
 }
 .form-control::-ms-input-placeholder
 {

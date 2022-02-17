@@ -1,6 +1,12 @@
 var HIDDEN_URL = {
-    TEST: '/definitions/test'
+    RESERVATION: '/definitions/reservations',
+    THERAPIST: '/definitions/therapists',
+    SERVICES: '/definitions/services',
+    SOURCES: '/definitions/sources',
+    USER: '/definitions/users',
+    HOME: '/home'
 }
+
 function changeTreatmentPlanForm() {
     try {
         $("#bariatricPdf").on("click", function() {
@@ -112,71 +118,14 @@ var app = (function() {
     if ([HIDDEN_URL.HOME].includes(window.location.pathname)) {
         dashboard();
     }
-
-    /* $('#searchname').autocomplete({
-        source: 'search/autocomplete',
-        minlength:1,
-        autoFocus:true,
-        select:function(e,ui)
-        {
-            $('#searchname').val(ui.item.value);
-            console.log(ui.item.value);
-        }
-    }); */
-
-    var lightboxVideo = GLightbox({
-        selector: '.glightbox'
-    });
-
     $(document).ready(function() {
         select2Init();
         dataTableInit();
         dtSearchInit();
     });
 
-    $("#leadSourceId").on("change", function() {
-        let selectedSource = $(this).children("option:selected").val();
-        if (selectedSource == 2) {
-            $(".general").text("Agency");
-            $("#general").attr("name", "agentId");
-            $.ajax({
-                url: '/getAgents',
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    if (response) {
-                        $("#general").empty();
-                        $.each(response, function(key, value) {
-                            $("#general").append('<option value="' + key + '">' + value + '</option>');
-                        });
-                    }
-                },
-                error: function() {
-                    console.log(DEFINITIONS.LOG_SUCCESS);
-                },
-            });
-        } else if (selectedSource == 4) {
-            $(".general").text("Sales Agent");
-            $("#general").attr("name", "sales_person_id");
-            $.ajax({
-                url: '/getsalesAgent',
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    if (response) {
-                        $("#general").empty();
-                        $.each(response, function(key, value) {
-                            $("#general").append('<option value="' + key + '">' + value + '</option>');
-                        });
-                    }
-                },
-                error: function() {
-                    console.log(DEFINITIONS.LOG_SUCCESS);
-                },
-            });
-        }
-    });
-
+    getServiceDetail();
+    clockPicker();
 
     $("#colorpicker").spectrum();
     $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
@@ -201,7 +150,7 @@ var app = (function() {
         },
     });
 
-    if (![HIDDEN_URL.SERVICES, HIDDEN_URL.TREATMENT_PLANS, HIDDEN_URL.TREATMENT_PLAN_CREATE, HIDDEN_URL.TEST].includes(window.location.pathname)) {
+    if (![HIDDEN_URL.RESERVATION, HIDDEN_URL.HOME, HIDDEN_URL.THERAPIST, HIDDEN_URL.SERVICES, HIDDEN_URL.SOURCES, HIDDEN_URL.USER].includes(window.location.pathname)) {
         var input_get = document.querySelector("#phone_get");
         var country_get = document.querySelector("#country_get");
         var countryData_get = window.intlTelInputGlobals.getCountryData();
@@ -228,7 +177,6 @@ var app = (function() {
             });
         }
     }
-
 });
 
 var Layout = (function() {
@@ -507,19 +455,15 @@ var NavbarCollapse = (function() {
 })();
 
 var FormControl = (function() {
-
     var $input = $('.form-control');
-
     function init($this) {
         $this.on('focus blur', function(e) {
             $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus'));
         }).trigger('blur');
     }
-
     if ($input.length) {
         init($input);
     }
-
 })();
 
 var Datepicker = (function() {
@@ -528,7 +472,7 @@ var Datepicker = (function() {
     function init($this) {
         var options = {
             disableTouchKeyboard: true,
-            autoclose: false
+            autoclose: true
         };
         $this.datepicker(options);
     }
@@ -569,401 +513,41 @@ function deleteTableRow(id) {
     finally { }
 }
 
-
-//patient operation
-function addPatientOperation() {
-    try {
-        $('#savePatient').on('click', function() {
-            var patientName = $('#patientName').val();
-            var phone = $('#phone_get').val().length;
-            var patientPhone = $('#phone_get').val();
-            var patientEmail = $('#patientEmail').val();
-            var patientCountry = $('#country_get').val();
-            var patientBirthDate = $('#patientBirthdate').val();
-            var salesPersonId = $('#salesPersonId').children("option:selected").val();
-            var agentId = $('[name="agentId"]').children("option:selected").val();
-            var leadSourceId = $('#leadSourceId').children("option:selected").val();
-            var gender = $('input[name="gender"]:checked').val();
-            var weight = $('#weight').val();
-            var height = $('#height').val();
-            var bmiValue = $('#bmiValue').val();
-            var is_cigarette = $('input[name="is_cigarette"]:checked').val();
-            var note = $('#note').val();
-            if (patientName == "" || phone <= 5 || patientPhone == "") {
-                swal({
-                    icon: 'error',
-                    title: 'Please fill in all fields!',
-                    text: ''
-                });
-            } else {
-                setTimeout(() => {
-                    addPatient(patientName, patientPhone, patientEmail, patientCountry, patientBirthDate, salesPersonId, agentId, leadSourceId, gender, weight, height, bmiValue, is_cigarette, note);
-                }, 1000);
-                setTimeout(() => {
-                    $("#medicalHistoryTable").find("tr").each(function() {
-                        var $tds = $(this).find('td'),
-                            medication = $tds.eq(0).text(),
-                            note = $tds.eq(1).text();
-                        addPatienttoMedicalHistory(medication, note);
-                    });
-                }, 2000);
-                setTimeout(() => {
-                    $("#requestTreatmentTable").find("tr").each(function() {
-                        var $tds = $(this).find('td'),
-                            treatment_id = $tds.eq(0).attr("id"),
-                            note = $tds.eq(1).text();
-                        addPatienttoRequestTreatment(treatment_id, note);
-                    });
-                }, 2000);
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
+function clockPicker(){
+    $('#arrivalTime').clockpicker({ autoclose: true, donetext: 'Done', placement: 'left', align: 'top' });
 }
 
-function addPatient(patientName, patientPhone, patientEmail, patientCountry, patientBirthDate, salesPersonId, agentId, leadSourceId, gender, weight, height, bmiValue, is_cigarette, note) {
+function getServiceDetail() {
     try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/patients/store',
-            type: 'POST',
-            data: {
-                'patientName': patientName,
-                'patientPhone': patientPhone,
-                'patientEmail': patientEmail,
-                'patientCountry': patientCountry,
-                'patientBirthDate': patientBirthDate,
-                'salesPersonId': salesPersonId,
-                'agentId': agentId,
-                'leadSourceId': leadSourceId,
-                'gender': gender,
-                'weight': weight,
-                'height': height,
-                'bmiValue': bmiValue,
-                'is_cigarette': is_cigarette,
-                'note': note
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Patient Added Successfully!', timer: 1000 });
-                    patient_global_id = response;
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-
-function addPatienttoMedicalHistory(medication, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/patients/addPatienttoMedicalHistory',
-            type: 'POST',
-            data: {
-                'medication': medication,
-                'patient_id': patient_global_id,
-                'note': note
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Medical History Added Successfully!', timer: 1000 });
-                    location.href = "/definitions/patients/";
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addPatienttoRequestTreatment(treatment_id, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/patients/addPatienttoRequestTreatment',
-            type: 'POST',
-            data: {
-                'treatment_id': treatment_id,
-                'patient_id': patient_global_id,
-                'note': note
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Request Treatments Added Successfully!', timer: 1000 });
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addMedicalHistoryPatient(medications, patientId, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/patients/addPatienttoMedicalHistory',
-            type: 'POST',
-            data: {
-                'medication': medications,
-                'patient_id': patientId,
-                'note': note
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Treatment Added Successfully!', timer: 1000 });
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-//patient operation end
-
-//agent operation
-function addAgentOperation() {
-    try {
-        var treatmentId, pPrice, pCurrency, sPrice, sCurrency, note;
-        $('#saveAgentBtn').on('click', function() {
-            var agentName = $('#agentName').val();
-            var agentCountry = $('#countryId').children("option:selected").val();
-            var agentCity = $('#stateId').children("option:selected").val();
-            var agentAddress = $('#agentAddress').val();
-            var agentEmail = $('#agentEmail').val();
-            if (agentName == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                $("#treatmentsTable").find("tr").each(function(i) {
-                    var $tds = $(this).find('td'),
-                        treatmentId = $tds.eq(0).attr("id"),
-                        pPrice = $tds.eq(1).text(),
-                        pCurrency = $tds.eq(2).text(),
-                        sPrice = $tds.eq(3).text(),
-                        sCurrency = $tds.eq(4).text(),
-                        note = $tds.eq(5).text();
-                    setTimeout(() => {
-                        addTreatmenttoAgent(treatmentId, agentId, pPrice, pCurrency, sPrice, sCurrency, note);
-                    }, 500);
-                });
-                setTimeout(() => {
-                    addAgent(agentName, agentCountry, agentCity, agentAddress, agentEmail);
-                }, 100);
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addAgent(agentName, agentCountry, agentCity, agentAddress, agentEmail) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/agents/store',
-            type: 'POST',
-            data: {
-                'agentName': agentName,
-                'agentCountry': agentCountry,
-                'agentCity': agentCity,
-                'agentAddress': agentAddress,
-                'agentEmail': agentEmail
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                var treatmentData = $("#treatmentSelect").children("option:selected").val();
-                if (response) {
-                    swal({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Agent Added Successfully!',
-                        timer: 1000
-                    });
-                    agentId = response;
-                    if (treatmentData == "") {
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
+        $("#serviceId").on("change", function(){
+            var selectedId = $(this).children("option:selected").val();
+            $.ajax({
+                url: '/getService/' + selectedId,
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    if (response) {
+                        $.each(response, function (key, value) {
+                            var data = value;
+                            if (data == null) {
+                                swal({ icon: 'info', title: 'This patient does not have an arrival reservation!', text: '' });
+                            }
+                            else if (!data.isNull) {
+                                let serviceCost = data.service_cost;
+                                let serviceCurrency = data.service_currency;
+                                $("#serviceCost").val(serviceCost);
+                                $("#serviceCurrency > option").each(function () {
+                                    if (this.value == serviceCurrency) $(this).attr("selected", true); $(this).trigger("change");
+                                });
+                            }
+                        });
                     }
-                }
-            },
+                },
 
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-
-function addTreatmenttoAgent(treatmentId, agentId, pPrice, pCurrency, sPrice, sCurrency, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/agents/addTreatmenttoAgent',
-            type: 'POST',
-            data: {
-                'treatment_id': treatmentId,
-                'agent_id': agentId,
-                'pPrice': pPrice,
-                'pCurrency': pCurrency,
-                'sPrice': sPrice,
-                'sCurrency': sCurrency,
-                'note': note
-            },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Treatment Added Successfully!',
-                        timer: 1000
-                    });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-//agent operation end
-
-function addTreatmenttoHospital(treatmentId, hospitalId, pPrice, pCurrency, sPrice, sCurrency, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/hospitals/addTreatmenttoHospital',
-            type: 'POST',
-            data: { 'treatment_id': treatmentId, 'hospital_id': hospitalId, 'pPrice': pPrice, 'pCurrency': pCurrency, 'sPrice': sPrice, 'sCurrency': sCurrency, 'note': note },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Treatment Added Successfully!', timer: 1000 });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-//hospital operation
-function addHospitalOperation() {
-    try {
-        var treatmentId, pPrice, pCurrency, sPrice, sCurrency, note;
-        $('#saveHospitalBtn').on('click', function() {
-            var hospitalName = $('#hospitalName').val();
-            var phone = $('#phone_get').val().length;
-            var hospitalPhone = $('#phone_get').val();
-            var hospitalAddress = $('#hospitalAddress').val();
-            var hospitalEmail = $('#hospitalEmail').val();
-            var hospitalZone = $('#hospitalZone').val();
-            var hospitalCity = $('#hospitalCity').val();
-            var hospitalMap = $('#hospitalMap').val();
-            var description = $('#description').val();
-            if (hospitalName == "" || phone <= 7 || hospitalEmail == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                $("#treatmentsTable").find("tr").each(function(i) {
-                    var $tds = $(this).find('td'),
-                        treatmentId = $tds.eq(0).attr("id"),
-                        pPrice = $tds.eq(1).text(),
-                        pCurrency = $tds.eq(2).text(),
-                        sPrice = $tds.eq(3).text(),
-                        sCurrency = $tds.eq(4).text(),
-                        note = $tds.eq(5).text();
-                    setTimeout(() => {
-                        addTreatmenttoHospital(treatmentId, hospitalId, pPrice, pCurrency, sPrice, sCurrency, note);
-                    }, 100);
-                });
-                addHospital(hospitalName, hospitalPhone, hospitalAddress, hospitalEmail, hospitalZone, hospitalCity, hospitalMap, description);
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addHospital(hospitalName, hospitalPhone, hospitalAddress, hospitalEmail, hospitalZone, hospitalCity, hospitalMap, description) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/hospitals/store',
-            type: 'POST',
-            data: { 'hospitalName': hospitalName, 'hospitalPhone': hospitalPhone, 'hospitalAddress': hospitalAddress, 'hospitalEmail': hospitalEmail, 'hospitalZone': hospitalZone, 'hospitalCity': hospitalCity, 'hospitalMap': hospitalMap, 'description': description },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Hospital Added Successfully!', timer: 1000 });
-                    hospitalId = response;
-                }
-            },
-
-            error: function() {},
+                error: function () {
+                    
+                },
+            });
         });
     }
     catch (error) {
@@ -971,408 +555,3 @@ function addHospital(hospitalName, hospitalPhone, hospitalAddress, hospitalEmail
     }
     finally { }
 }
-
-function addTreatmenttoHospital(treatmentId, hospitalId, pPrice, pCurrency, sPrice, sCurrency, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/hospitals/addTreatmenttoHospital',
-            type: 'POST',
-            data: { 'treatment_id': treatmentId, 'hospital_id': hospitalId, 'pPrice': pPrice, 'pCurrency': pCurrency, 'sPrice': sPrice, 'sCurrency': sCurrency, 'note': note },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Treatment Added Successfully!', timer: 1000 });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-//hospital operation end
-
-function changeStatus() {}
-
-function addMedicalHistoryOperation() {
-    try {
-        $('#addMedicalHistory').on('click', function() {
-            var medications = $("#newMedicalHistoryModal").find('#medications').val();
-            var patientId = $("#newMedicalHistoryModal").find('.patient_id').val();
-            var note = $("#newMedicalHistoryModal").find('#note').val();
-            if (medications == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                addMedicalHistoryPatient(medications, patientId, note);
-                swal({ icon: 'success', title: 'Success!', text: 'Medical History Added Successfully!', timer: 1000 });
-                location.reload();
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-//new patient page
-function createMedicalHistoryOperation() {
-    try {
-        $('#createMedicalHistory').on('click', function() {
-            var medications = $("#newMedicalHistoryModal").find('#medications').val();
-            var note = $("#newMedicalHistoryModal").find('#note').val();
-
-            if (medications == "") {
-                swal({
-                    icon: 'error',
-                    title: 'Please fill in all fields!',
-                    text: ''
-                });
-            } else {
-                var rowId = "1";
-                var markup = "<tr class='doctor' id='" + rowId + "'>" +
-                    "<td id='" + rowId + "'>" + medications + "</td>" +
-                    "<td>" + note + "</td>" +
-                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Remove</button></td>" +
-                    "</tr>";
-
-                $('#medicalHistoryTable tbody').append(markup);
-                $('#medicalHistoryTable').trigger('rowAddOrRemove');
-
-                $('.close').trigger('click');
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-//new patient page
-function createRequestTreatmentOperation() {
-    try {
-        $('#createRequestTreatment').on('click', function() {
-            var treatmentId = $("#newRequestTreatmentModal").find('#treatmentId').children("option:selected").val();
-            var treatmentText = $("#newRequestTreatmentModal").find('#treatmentId').children("option:selected").text();
-            var note = $("#newRequestTreatmentModal").find('#note').val();
-
-            if (treatmentId == "") {
-                swal({
-                    icon: 'error',
-                    title: 'Please fill in all fields!',
-                    text: ''
-                });
-            } else {
-                var rowId = treatmentId;
-                var markup = "<tr class='doctor' id='" + rowId + "'>" +
-                    "<td id='" + rowId + "'>" + treatmentText + "</td>" +
-                    "<td>" + note + "</td>" +
-                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Remove</button></td>" +
-                    "</tr>";
-
-                $('#requestTreatmentTable tbody').append(markup);
-                $('#requestTreatmentTable').trigger('rowAddOrRemove');
-
-                $('.close').trigger('click');
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addRequestTreatmentOperationUpdate() {
-    try {
-        $('#addRequestTreatment').on('click', function() {
-            var patientId = $("#newRequestTreatmentModal").find('.patient_id').val();
-            var treatmentId = $("#newRequestTreatmentModal").find('#treatmentId').children("option:selected").val();
-            var note = $("#newRequestTreatmentModal").find('#note').val();
-            if (treatmentId == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                addRequestTreatmentPatient(patientId, treatmentId, note);
-                swal({ icon: 'success', title: 'Success!', text: 'Treatment Added Successfully!', timer: 1000 });
-                location.reload();
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addRequestTreatmentPatient(patientId, treatmentId, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/requestTreatments/store',
-            type: 'POST',
-            data: { 'patientId': patientId, 'treatmentId': treatmentId, 'note': note },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Treatment Added Successfully!', timer: 1000 });
-                    window.location.href = "/definitions/treatmentplans/";
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-//hospital end
-
-//treatment plans
-function addTreatmentPlanOperation() {
-    try {
-        var doctor_id, service_provider_id, service_id, note;
-        $('#saveTreatmentPlanBtn').on('click', function() {
-            var request_title = $('#request_title').val();
-            var request_description = $('#request_description').val();
-            var medical_department_id = $('#mDepartment').children("option:selected").val();
-            var medical_sub_department_id = $('#msubDepartment').children("option:selected").val();
-            var sales_person_id = $('#salesPersonId').children("option:selected").val();
-            var patient_id = $('#patients').children("option:selected").val();
-            var treatment_plan_status_id = $('#treatmentPlanStatusId').children("option:selected").val();
-            if (request_title == "" && request_description == "" && medical_department_id == "" && medical_sub_department_id == "" && sales_person_id == "" && patient_id == "" && treatment_plan_status_id == "") {
-                swal({
-                    icon: 'error',
-                    title: 'Please fill in all fields!',
-                    text: ''
-                });
-            }
-            else {
-                addTreatmentPlan(request_title, request_description, medical_department_id, medical_sub_department_id, sales_person_id, patient_id, treatment_plan_status_id);
-                $("#doctorsTable").find("tbody tr").each(function(i) {
-                    var $tds = $(this).find('td'),
-                        doctor_id = $tds.eq(0).attr("id");
-                    setTimeout(() => {
-                        addTreatmenttoTreatmentplans(treatment_plan_id, doctor_id);
-                    }, 1000);
-                });
-                $("#serviceProviderTable").find("tbody tr").each(function(i) {
-                    var $tds = $(this).find('td'),
-                        service_provider_id = $tds.eq(0).attr("id"),
-                        service_id = $tds.eq(1).attr("id"),
-                        note = $tds.eq(2).text();
-                    setTimeout(() => {
-                        addServiceProvidertoTreatmentplans(treatment_plan_id, service_provider_id, service_id, note);
-                    }, 1500);
-                });
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addTreatmentPlan(request_title, request_description, medical_department_id, medical_sub_department_id, sales_person_id, patient_id, treatment_plan_status_id) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/treatmentplans/store',
-            type: 'POST',
-            data: { 'request_title': request_title, 'request_description': request_description, 'medical_department_id': medical_department_id, 'medical_sub_department_id': medical_sub_department_id, 'sales_person_id': sales_person_id, 'patient_id': patient_id, 'treatment_plan_status_id': treatment_plan_status_id },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Treatment Plan Added Successfully!', text: '', timer: 1000 });
-                    treatment_plan_id = response;
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-
-function addTreatmenttoTreatmentplans(treatment_plan_id, doctor_id) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/treatmentplans/addTreatmenttoTreatmentplans',
-            type: 'POST',
-            data: { 'treatment_plan_id': treatment_plan_id, 'doctor_id': doctor_id },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Request Added Successfully!', text: '', timer: 1000 });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addServiceProvidertoTreatmentplans(treatment_plan_id, service_provider_id, service_id, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/treatmentplans/addServiceProvidertoTreatmentplans',
-            type: 'POST',
-            data: { 'treatment_plan_id': treatment_plan_id, 'service_provider_id': service_provider_id, 'service_id': service_id, 'note': note },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Added Successfully!', text: '', timer: 1000 });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function saveServiceProvider() {
-    try {
-        $('#saveServiceProvider').on('click', function() {
-            var serviceProviderId = $('#service_providerId').val();
-            var serviceId = $('#service_id').children("option:selected").val();
-            var pPrice = $('#pPrice').val();
-            var pCurrency = $('#pCurrency').children("option:selected").val();
-            var sPrice = $('#sPrice').val();
-            var sCurrency = $('#sCurrency').children("option:selected").val();
-            var note = $('#note').val();
-
-            if (serviceProviderId == "" || pPrice == "" || sPrice == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                addServicetoServiceProvider(serviceProviderId, serviceId, pPrice, pCurrency, sPrice, sCurrency, note);
-                swal({ icon: 'success', title: 'Treatment Added Successfully!', text: '', timer: 2000 });
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-//service providers
-function addserviceProviderOperation() {
-    try {
-        var serviceId, pPrice, sPrice, note;
-        $('#saveServiceProviderBtn').on('click', function() {
-            var provider_name = $('#provider_name').val();
-            var phone = $('#phone_get').val().length;
-            var phone_get = $('#phone_get').val();
-            var provider_city = $('#provider_city').val();
-            var provider_address = $('#provider_address').val();
-            var provider_photo = $('#provider_photo').val();
-            var country_get = $('#country_get').val();
-            var provider_email = $('#provider_email').val();
-            if (provider_name == "" || phone_get <= 7 || phone_get == "" || provider_email == "") {
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
-            }
-            else {
-                $("#servicesTable").find("tr").each(function(i) {
-                    var $tds = $(this).find('td'),
-                        serviceId = $tds.eq(0).attr("id"),
-                        pPrice = $tds.eq(1).text(),
-                        pCurrency = $tds.eq(2).text(),
-                        sPrice = $tds.eq(3).text(),
-                        sCurrency = $tds.eq(4).text(),
-                        note = $tds.eq(5).text();
-                    setTimeout(() => {
-                        addServicetoServiceProvider(serviceProviderId, serviceId, pPrice, pCurrency, sPrice, sCurrency, note);
-                    }, 100);
-                });
-                addServiceProvider(provider_name, country_get, provider_city, provider_address, provider_photo, phone_get, provider_email);
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function addServiceProvider(provider_name, country_get, provider_city, provider_address, provider_photo, phone_get, provider_email) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/serviceProviders/store',
-            type: 'POST',
-            data: { 'provider_name': provider_name, 'provider_country': country_get, 'provider_city': provider_city, 'provider_address': provider_address, 'provider_photo': provider_photo, 'provider_phone': phone_get, 'provider_email': provider_email },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Service Provider Added Successfully!', text: '', timer: 1000 });
-                    serviceProviderId = response;
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-
-function addServicetoServiceProvider(serviceProviderId, serviceId, pPrice, pCurrency, sPrice, sCurrency, note) {
-    try {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/definitions/serviceProviders/addServicetoServiceProvider',
-            type: 'POST',
-            data: { 'service_provider_id': serviceProviderId, 'serviceId': serviceId, 'pPrice': pPrice, 'pCurrency': pCurrency, 'sPrice': sPrice, 'sCurrency': sCurrency, 'note': note },
-            async: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response) {
-                    swal({ icon: 'success', title: 'Service Provider Added Successfully!', text: '', timer: 1000 });
-                    location.reload();
-                }
-            },
-
-            error: function() {},
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-//service providers end
