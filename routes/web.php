@@ -85,4 +85,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/therapists/destroy/{id}', 'TherapistController@destroy');
     //Therapists end
 
+    //Report
+    Route::GET('definitions/reports', 'ReportController@index');
+    //Report end
+
 });

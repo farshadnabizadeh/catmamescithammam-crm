@@ -183,6 +183,7 @@ var app = (function() {
     $("#serviceCurrency").select2({ placeholder: "Select Currency", dropdownAutoWidth: true, allowClear: true });
     $("#customerSobId").select2({ placeholder: "Select Source Of Booking", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Select Service", dropdownAutoWidth: true, allowClear: true });
+    $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -228,28 +229,6 @@ var app = (function() {
         }
     }
 
-    addservicetoserviceProviderModal();
-    addserviceProviderOperation();
-    addHospitalOperation();
-    addAgentOperation();
-    addTreatmentPlanOperation();
-    addTreatmenttoHospitalModal();
-    addRequestTreatmentOperationUpdate();
-    createRequestTreatmentOperation();
-    createMedicalHistoryOperation();
-    addMedicalHistoryOperation();
-    assignDoctorModal();
-    addServiceProviderModal();
-    addPatientOperation();
-    saveTreatmentHospital();
-    saveTreatmentAgent();
-    saveServiceProvider();
-    changeTreatmentPlanForm();
-
-    bmiCalculate();
-    //api's
-    getSubDepartments();
-    getMedicalDepartments();
 });
 
 var Layout = (function() {

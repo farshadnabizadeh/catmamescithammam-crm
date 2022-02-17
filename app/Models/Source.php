@@ -10,4 +10,9 @@ class Source extends Model
 {
     use HasFactory;
     protected $table = 'sources';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

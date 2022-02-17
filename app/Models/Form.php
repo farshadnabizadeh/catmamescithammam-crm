@@ -17,33 +17,8 @@ class Form extends Model
         return $this->belongsTo(SalesPerson::class,'sales_person_id');
     }
 
-    public function agent()
+    public function user()
     {
-        return $this->belongsTo(Agent::class,'agent_id');
-    }
-
-    public function age()
-    {
-        return Carbon::parse($this->attributes['birthdate'])->age;
-    }
-
-    public function leadSource()
-    {
-        return $this->belongsTo(LeadSource::class,'lead_source_id');
-    }
-
-    public function treatmentPlans()
-    {
-        return $this->hasMany(TreatmentPlan::class);
-    }
-
-    public function medicalHistories()
-    {
-        return $this->hasMany(MedicalHistory::class);
-    }
-
-    public function requestTreatments()
-    {
-        return $this->hasMany(RequestTreatment::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

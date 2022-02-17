@@ -17,6 +17,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
+                                <th scope="col">Customer Name</th>
                                 <th scope="col">Reservation Date</th>
                                 <th scope="col">Reservation Time</th>
                                 <th scope="col">Total Customer</th>
@@ -65,13 +66,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="arrivalDate">Arrival Date</label>
+                                <label for="arrivalDate">Reservation Date</label>
                                 <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" placeholder="Enter Arrival Date" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="arrivalTime">Arrival Time</label>
+                                <label for="arrivalTime">Reservation Time</label>
                                 <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Arrival Time" required>
                             </div>
                         </div>
@@ -98,11 +99,31 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerSobId">Source Of Booking</label>
-                                <select id="customerSobId" name="customerSobId" class="form-control" required>
+                                <label for="serviceCurrency">Service Currency</label>
+                                <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
                                     <option></option>
-                                    @foreach ($sources as $source)
-                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                                    <option value="EUR">EURO</option>
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="TL">TL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="serviceCost">Service Cost</label>
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="therapistId">Therapist</label>
+                                <select id="therapistId" name="therapistId" class="form-control" required>
+                                    <option></option>
+                                    @foreach ($therapists as $therapist)
+                                    <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -25,7 +25,6 @@ class TherapistController extends Controller
     {
         $newTherapist = new Therapist();
         $newTherapist->therapist_name = $request->input('therapistName');
-        $newTherapist->therapist_surname = $request->input('therapistSurname');
         $newTherapist->user_id = auth()->user()->id;
 
         $result = $newTherapist->save();
@@ -42,19 +41,17 @@ class TherapistController extends Controller
     {
         $therapist = Therapist::where('id','=',$id)->first();
 
-        return view('admin.therapists.therapists_list', ['therapist' => $therapist]);
+        return view('admin.therapists.edit_therapist', ['therapist' => $therapist]);
     }
 
     public function update(Request $request, $id)
     {
         $user = auth()->user();
 
-        $temp['name_surname'] = $request->input('patientName');
-        $temp['is_cigarette'] = $request->input('is_cigarette');
-        $temp['note'] = $request->input('note');
+        $temp['therapist_name'] = $request->input('therapistName');
 
         if ($updateSelectedData = Therapist::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/patients')->with('message', 'Patient Updated Successfully!');
+            return redirect('/definitions/therapists')->with('message', 'Therapist Updated Successfully!');
         }
         else {
             return back()->withInput($request->input());

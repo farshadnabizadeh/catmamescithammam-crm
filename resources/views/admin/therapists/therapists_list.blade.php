@@ -18,7 +18,6 @@
                             <tr>
                                 <th scope="col">Operation</th>
                                 <th scope="col">Therapist Name</th>
-                                <th scope="col">Therapist Surname</th>
                             </tr>
                         </thead>
                         @foreach ($therapists as $therapist)
@@ -33,7 +32,6 @@
                                 </div>
                             </td>
                             <td>{{ $therapist->therapist_name }}</td>
-                            <td>{{ $therapist->therapist_surname }}</td>
                         </tr>
                         @endforeach
                     </table>
@@ -56,16 +54,10 @@
                 <form action="{{ url('/definitions/therapists/store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="therapistName">Therapist Name</label>
                                 <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Enter Therapist Name" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="therapistSurname">Therapist Surname</label>
-                                <input type="text" class="form-control" id="therapistSurname" name="therapistSurname" placeholder="Enter Therapist Surname">
                             </div>
                         </div>
                     </div>

@@ -57,6 +57,18 @@
                         </a>
                     </li>
                 </ul>
+                <hr class="my-3">
+                <h6 class="navbar-heading p-0 text-muted">
+                    <span class="docs-normal">Reports</span>
+                </h6>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="{{ url('definitions/reports') }}">
+                            <i class="fa fa-users text-primary"></i>
+                            <span class="nav-link-text">General Report</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

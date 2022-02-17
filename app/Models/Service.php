@@ -10,4 +10,9 @@ class Service extends Model
 {
     use HasFactory;
     protected $table = 'services';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

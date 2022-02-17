@@ -11,7 +11,7 @@
             <div class="card p-5 mt-3">
                 <div class="card-title">
                     <h2>Edit Source</h2>
-                    {{-- <p class="float-right last-user">Last Operation User: {{ $source->name }}</p> --}}
+                    <p class="float-right last-user">Last Operation User: {{ $source->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/sources/update/'.$source->id) }}" method="POST">
                     @csrf

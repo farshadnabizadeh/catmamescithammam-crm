@@ -11,9 +11,24 @@ class Reservation extends Model
     use HasFactory;
     protected $table = 'reservations';
 
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+    
     public function customer()
     {
-        return $this->belongsTo(Source::class, 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function therapist()
+    {
+        return $this->belongsTo(Therapist::class, 'therapist_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

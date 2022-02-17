@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\Source;
+use App\Models\Therapist;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -21,7 +22,26 @@ class ReservationController extends Controller
         $reservations = Reservation::all();
         $services = Service::orderBy('service_name', 'asc')->get();
         $sources = Source::orderBy('source_name', 'asc')->get();
-        $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources);
+        $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
+        $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists);
         return view('admin.reservations.reservations_list')->with($data);
+    }
+
+    public function store(Request $request)
+    {
+        $newReservation = new Reservation();
+        $newReservation->arrival_date = $request->input('arrivalDate');
+        $newReservation->arrival_time = $request->input('serviceCurrency');
+        $newReservation->service_cost = $request->input('serviceCost');
+
+        $newReservation->user_id = auth()->user()->id;
+        $result = $newReservation->save();
+
+        if ($result) {
+            return redirect('/definitions/reservations')->with('message', 'Reservation Added Successfully!');
+        }
+        else {
+            return response(false, 500);
+        }
     }
 }

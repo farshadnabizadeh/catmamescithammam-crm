@@ -16,4 +16,9 @@ class Customer extends Model
         return $this->belongsTo(Source::class, 'customer_sob_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

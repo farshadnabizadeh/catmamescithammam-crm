@@ -11,7 +11,7 @@
             <div class="card p-5 mt-3">
                 <div class="card-title">
                     <h2>Edit Customer</h2>
-                    <p class="float-right last-user">Last Operation User: {{ $customer->user->name }}</p>
+                    <p class="float-right last-user">Last Operation User: {{ $reservation->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/customers/update/'.$customer->id) }}" method="POST">
                     @csrf

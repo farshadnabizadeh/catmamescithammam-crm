@@ -47,32 +47,23 @@ class CustomersController extends Controller
     public function edit($id)
     {
         $customer = Customer::where('id','=',$id)->first();
+        $sources = Source::orderBy('source_name', 'asc')->get();
 
-        //$data = $patient->requestTreatments()->get();
-        //dd($data->first()->subTreatment->treatment_name);
-        return view('admin.customers.edit_customer', ['customer' => $customer]);
+        return view('admin.customers.edit_customer', ['customer' => $customer ,'sources' => $sources]);
     }
 
     public function update(Request $request, $id)
     {
         $user = auth()->user();
 
-        $temp['name_surname'] = $request->input('patientName');
-        $temp['phone_number'] = $request->input('patientPhone');
-        $temp['email_address'] = $request->input('patientEmail');
-        $temp['country'] = $request->input('patientCountry');
-        $temp['birthdate'] = $request->input('patientBirthdate');
-        $temp['sales_person_id'] = $request->input('salesPersonId');
-        $temp['lead_source_id'] = $request->input('leadSourceId');
-        $temp['gender'] = $request->input('gender');
-        $temp['weight'] = $request->input('weight');
-        $temp['height'] = $request->input('height');
-        $temp['bmiValue'] = $request->input('bmiValue');
-        $temp['is_cigarette'] = $request->input('is_cigarette');
-        $temp['note'] = $request->input('note');
+        $temp['customer_name'] = $request->input('customerName');
+        $temp['customer_phone'] = $request->input('customerPhone');
+        $temp['customer_country'] = $request->input('customerCountry');
+        $temp['customer_email'] = $request->input('customerEmail');
+        $temp['customer_sob_id'] = $request->input('customerSobId');
 
-        if ($updateSelectedData = Patient::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/patients')->with('message', 'Patient Updated Successfully!');
+        if ($updateSelectedData = Customer::where('id', '=', $id)->update($temp)) {
+            return redirect('/definitions/customers')->with('message', 'Customer Updated Successfully!');
         }
         else {
             return back()->withInput($request->input());

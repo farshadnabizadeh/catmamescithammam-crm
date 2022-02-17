@@ -15,19 +15,20 @@ class CreateReservations extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('arrival_date');
-            $table->string('arrival_time')->nullable();
+            $table->date('reservation_date');
+            $table->string('reservation_time')->nullable();
             $table->string('total_customer')->nullable();
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services')
+                ->onDelete('cascade');
+            $table->integer('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')
                 ->onDelete('cascade');
             $table->string('service_currency')->nullable();
             $table->string('service_cost')->nullable();
             $table->string('service_commission')->nullable();
             $table->integer('therapist_id')->unsigned();
             $table->foreign('therapist_id')->references('id')->on('therapists')
-                ->onDelete('cascade');
-            $table->foreign('source_id')->references('id')->on('sources')
                 ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();

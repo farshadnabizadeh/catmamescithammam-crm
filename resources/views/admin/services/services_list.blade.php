@@ -79,7 +79,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="serviceCost">Service Cost</label>
-                                <input type="text" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" required>
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" required>
                             </div>
                         </div>
                     </div>
