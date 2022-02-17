@@ -28,6 +28,7 @@ class CustomersController extends Controller
     {
         $newCustomer = new Customer();
         $newCustomer->customer_name = $request->input('customerName');
+        $newCustomer->customer_surname = $request->input('customerSurname');
         $newCustomer->customer_phone = $request->input('customerPhone');
         $newCustomer->customer_country = $request->input('customerCountry');
         $newCustomer->customer_email = $request->input('customerEmail');
@@ -42,28 +43,6 @@ class CustomersController extends Controller
         else {
             return response(false, 500);
         }
-    }
-
-    public function getArrivalReservations($id)
-    {
-        $arrivalsC = DB::table('arrival_reservations_customers')
-            ->select('arrival_reservations.*', 'arrival_reservations_customers.*', 'arrival_reservations_customers.arrival_reservation_id as reservation_id', 'arrival_reservations_customers.arrival_reservations_customers_id as reservation_c_id', 'patient_statuses.patient_status_color', 'patient_statuses.patient_status_name'
-                , 'routes.route_name', 'contact_persons.person_name_surname', 'treatments.*', 'customers.*', 'hotels.hotel_name', 'hospitals.hospital_name')
-            ->leftJoin('arrival_reservations', 'arrival_reservations_customers.arrival_reservation_id', '=', 'arrival_reservations.arrival_reservation_id', 'market_leaders.id as mlId')
-            ->leftJoin('patient_statuses', 'arrival_reservations_customers.patient_status_id', '=', 'patient_statuses.patient_status_id')
-            ->leftJoin('contact_persons', 'arrival_reservations_customers.contact_person_id', '=', 'contact_persons.id')
-            ->leftJoin('routes', 'arrival_reservations_customers.route_id', '=', 'routes.route_id')
-            ->leftJoin('hotels', 'arrival_reservations_customers.hotel_id', '=', 'hotels.hotel_id')
-            ->leftJoin('hospitals', 'arrival_reservations_customers.hospital_id', '=', 'hospitals.hospital_id')
-            ->leftJoin('treatments', 'arrival_reservations_customers.treatment_id', '=', 'treatments.treatment_id')
-            ->leftJoin('market_leaders', 'arrival_reservations_customers.market_leaders_id', '=', 'market_leaders.id')
-            ->leftJoin('customers', 'arrival_reservations_customers.customer_id', '=', 'customers.customer_id')
-            ->where('arrival_reservations_customers.customer_id', '=', $id)
-            ->orderByRaw('DATE_FORMAT(arrival_date, "%d-%m")')
-            ->orderBy('arrival_time')
-            ->first();
-
-        return response()->json([$arrivalsC], 200);
     }
 
     public function edit($id)

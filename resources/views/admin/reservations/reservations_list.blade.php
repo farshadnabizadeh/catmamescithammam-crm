@@ -61,7 +61,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/reservations/store') }}" method="POST">
+                <form method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
@@ -100,7 +100,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCurrency">Service Currency</label>
-                                <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
+                                <select id="serviceCurrency" name="serviceCurrency" class="form-control">
                                     <option></option>
                                     <option value="EUR">EURO</option>
                                     <option value="USD">USD</option>
@@ -112,7 +112,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCost">Service Cost</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" required>
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost">
                             </div>
                         </div>
                     </div>
@@ -120,13 +120,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceComission">Service Comission</label>
-                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission" required>
+                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="therapistId">Therapist</label>
-                                <select id="therapistId" name="therapistId" onchange="getServiceDetail(this)" class="form-control" required>
+                                <select id="therapistId" name="therapistId" onchange="getServiceDetail(this)" class="form-control">
                                     <option></option>
                                     @foreach ($therapists as $therapist)
                                     <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
@@ -135,10 +135,57 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="button" data-toggle="modal" data-target="#add-customer-modal" class="btn btn-outline-primary mb-3" title="Add Customer To This Reservation">Add Customer</button>
+                    <button type="submit" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
+                <table class="table table-bordered" id="customerTableReservation">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th></th>
+                    </tr>
+                </table>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-customer-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Customer</h4>
+                <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="customerId">Customer</label>
+                                    <select id="customerId" class="form-control" name="customerId">
+                                        <option></option>
+                                        @foreach($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }} {{ $customer->customer_surname }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>

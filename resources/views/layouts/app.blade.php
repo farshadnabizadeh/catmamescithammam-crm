@@ -7,16 +7,10 @@
     <meta name="robots" content="noindex">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=7">
-    <title>Catma Mescit Hamamı CRM</title>
+    <title>Catma Mescit Hammam CRM</title>
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/glightbox.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/spectrum.min.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/clockpicker.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/datepicker.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/fullcalendar.min.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">

@@ -4,7 +4,8 @@ var HIDDEN_URL = {
     SERVICES: '/definitions/services',
     SOURCES: '/definitions/sources',
     USER: '/definitions/users',
-    HOME: '/home'
+    HOME: '/home',
+    FORM: '/definitions/forms'
 }
 
 function changeTreatmentPlanForm() {
@@ -113,6 +114,7 @@ dtSearchAction = function(selector, columnId) {
         dataTable.api().column(columnId).search(fv, true, false).draw();
     }
 };
+
 var app = (function() {
 
     if ([HIDDEN_URL.HOME].includes(window.location.pathname)) {
@@ -126,6 +128,8 @@ var app = (function() {
 
     getServiceDetail();
     clockPicker();
+    addCustomertoReservationModal();
+    addReservationOperation();
 
     $("#colorpicker").spectrum();
     $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
@@ -133,6 +137,7 @@ var app = (function() {
     $("#customerSobId").select2({ placeholder: "Select Source Of Booking", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Select Service", dropdownAutoWidth: true, allowClear: true });
     $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
+    $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -150,7 +155,7 @@ var app = (function() {
         },
     });
 
-    if (![HIDDEN_URL.RESERVATION, HIDDEN_URL.HOME, HIDDEN_URL.THERAPIST, HIDDEN_URL.SERVICES, HIDDEN_URL.SOURCES, HIDDEN_URL.USER].includes(window.location.pathname)) {
+    if (![HIDDEN_URL.RESERVATION, HIDDEN_URL.HOME, HIDDEN_URL.THERAPIST, HIDDEN_URL.SERVICES, HIDDEN_URL.SOURCES, HIDDEN_URL.USER, HIDDEN_URL.FORM].includes(window.location.pathname)) {
         var input_get = document.querySelector("#phone_get");
         var country_get = document.querySelector("#country_get");
         var countryData_get = window.intlTelInputGlobals.getCountryData();
@@ -217,14 +222,8 @@ var Layout = (function() {
 
     $(document).ready(function() {
 
-        $("#tableCompleted").dataTable({
-            paging: true,
-            pageLength: 25
-        });
-        $("#tableData").dataTable({
-            paging: true,
-            pageLength: 25
-        });
+        $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
+        $("#tableData").dataTable({ paging: true, pageLength: 25 });
 
         $('label.tree-toggler').click(function() {
             $(this).parent().children('ul.tree').toggle(300);
@@ -304,31 +303,6 @@ var Layout = (function() {
             setTimeout(function() {
                 $('body').removeClass('g-sidenav-hide').addClass('g-sidenav-hidden');
             }, 300);
-        }
-    });
-
-    $("#post-treatment").on("click", function() {
-        $("#post-treatment-card").toggle(500);
-    });
-
-    $("#testing").on("click", function() {
-        var age = $("#patientBirthDate").val();
-        var height = document.getElementById("height");
-        var weight = document.getElementById("weight");
-        var male = document.getElementById("male");
-        var female = document.getElementById("female");
-
-        var p = [age.value, height.value, weight.value];
-        if (male.checked) {
-            var bmi = Number(p[2]) / (Number(p[1]) / 100 * Number(p[1]) / 100);
-
-            var today = new Date();
-            var dayDiff = Math.ceil(today - age) / (1000 * 60 * 60 * 24 * 365);
-            var newAge = parseInt(dayDiff);
-            console.log(newAge + ' years old');
-        } else if (female.checked) {
-            var bmi = Number(p[2]) / (Number(p[1]) / 100 * Number(p[1]) / 100);
-            console.log(bmi);
         }
     });
 
@@ -445,7 +419,6 @@ var NavbarCollapse = (function() {
                 $('body').removeClass('nav-open');
                 navbar_menu_visible = 0;
                 $('.bodyClick').remove();
-
             });
 
             $('body').addClass('nav-open');
@@ -489,23 +462,8 @@ function previousPage() {
 
 function deleteTableRow(id) {
     try {
-        $('table#servicesTable tr#' + id).remove();
-        $('#servicesTable').trigger('rowAddOrRemove');
-
-        $('table#treatmentsTable tr#' + id).remove();
-        $('#treatmentsTable').trigger('rowAddOrRemove');
-
-        $('table#doctorsTable tr#' + id).remove();
-        $('#doctorsTable').trigger('rowAddOrRemove');
-
-        $('table#serviceProviderTable tr#' + id).remove();
-        $('#serviceProviderTable').trigger('rowAddOrRemove');
-
-        $('table#requestTreatmentTable tr#' + id).remove();
-        $('#requestTreatmentTable').trigger('rowAddOrRemove');
-
-        $('table#medicalHistoryTable tr#' + id).remove();
-        $('#medicalHistoryTable').trigger('rowAddOrRemove');
+        $('table#customerTableReservation tr#' + id).remove();
+        $('#customerTableReservation').trigger('rowAddOrRemove');
     }
     catch(error){
         console.log(error);
@@ -514,7 +472,13 @@ function deleteTableRow(id) {
 }
 
 function clockPicker(){
-    $('#arrivalTime').clockpicker({ autoclose: true, donetext: 'Done', placement: 'left', align: 'top' });
+    try {
+        $('#arrivalTime').clockpicker({ autoclose: true, donetext: 'Done', placement: 'left', align: 'top' });
+    }
+    catch(error){
+        console.log(error);
+    }
+    finally { }
 }
 
 function getServiceDetail() {
@@ -544,9 +508,7 @@ function getServiceDetail() {
                     }
                 },
 
-                error: function () {
-                    
-                },
+                error: function () { },
             });
         });
     }
@@ -554,4 +516,99 @@ function getServiceDetail() {
         console.log(error);
     }
     finally { }
+}
+
+function addCustomertoReservationModal() {
+    try {
+        $('#addCustomertoReservationSave').on('click', function(){
+            var customerId = $('#customerId').children("option:selected").val();
+            var customerName = $('#customerId').children("option:selected").text();
+            if (customerId == ""){
+                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
+            }
+            else {
+                var rowId = customerId;
+                var markup = "<tr class='reservation' id='" + customerId + "'>" +
+                    "<td id=" + customerId + ">" + customerName + "</td>" +
+                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn float-right'><i class='fa fa-window-close'></i> Remove</button></td>" +
+                "</tr>";
+
+                $('#customerTableReservation tbody').append(markup);
+                $('#customerTableReservation').trigger('rowAddOrRemove');
+                $('.add-reservation-close').trigger('click');
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addReservationOperation() {
+    try {
+        var serviceId, pPrice, sPrice, note;
+        $('#reservationSave').on('click', function(){
+            var arrivalDate = $('#arrivalDate').val();
+            var arrivalTime = $('#arrivalTime').val();
+            var totalCustomer = $('#totalCustomer').val();
+            var serviceId = $('#serviceId').children("option:selected").val();
+            var serviceCurrency = $('#serviceCurrency').children("option:selected").val();
+            var serviceCost = $('#serviceCost').val();
+            var serviceComission = $('#serviceComission').val();
+            var therapistId = $('#therapistId').children("option:selected").val();
+            if (arrivalDate == "" || arrivalTime == ""){
+                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
+            }
+            else {
+                $("#customerTableReservation").find("tr").each(function (i) {
+                    var $tds = $(this).find('td'),
+                        customerId = $tds.eq(0).attr("id");
+                    setTimeout(() => {
+                        addServicetoServiceProvider(customerId);
+                    }, 100);
+                });
+                addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, serviceComission, therapistId);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId){
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/definitions/reservations/store',
+            type: 'POST',
+            data: {
+                'arrivalDate': arrivalDate,
+                'arrivalTime': arrivalTime,
+                'totalCustomer': totalCustomer,
+                'serviceId': serviceId,
+                'serviceCurrency': serviceCurrency,
+                'serviceCost': serviceCost,
+                'serviceComission': serviceComission
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Reservation Added Successfully!',
+                        timer: 1000
+                    });
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }

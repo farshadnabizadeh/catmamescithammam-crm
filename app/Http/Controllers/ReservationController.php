@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\Source;
 use App\Models\Therapist;
+use App\Models\Customer;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class ReservationController extends Controller
         $services = Service::orderBy('service_name', 'asc')->get();
         $sources = Source::orderBy('source_name', 'asc')->get();
         $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
-        $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists);
+        $customers = Customer::orderBy('customer_name', 'asc')->get();
+        $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers);
         return view('admin.reservations.reservations_list')->with($data);
     }
 
@@ -42,7 +44,7 @@ class ReservationController extends Controller
         $result = $newReservation->save();
 
         if ($result) {
-            return redirect('/definitions/reservations')->with('message', 'Reservation Added Successfully!');
+            return response($newReservation->id, 200);
         }
         else {
             return response(false, 500);

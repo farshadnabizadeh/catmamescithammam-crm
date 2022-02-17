@@ -1,5 +1,11 @@
 @charset 'UTF-8';
 
+@import url('jquery-ui.css');
+@import url('glightbox.css');
+@import url('spectrum.min.css');
+@import url('clockpicker.css');
+@import url('datepicker.css');
+@import url('fullcalendar.min.css');
 @import url('font.css');
 @import url('nucleo.css');
 @import url('jquery.dataTables.min.css');
@@ -414,13 +420,17 @@ caption
     margin-top: -45px !important;
     font-size: 12px !important;
     padding: 10px !important;
-    margin-bottom: 13px;
+    margin-bottom: 13px
 }
 
 #savePatient {
     right: 10px;
     position: absolute;
     bottom: 10px
+}
+
+.swal-button {
+    background-color: #511124 !important
 }
 
 .remove-btn {
@@ -504,8 +514,7 @@ textarea
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-
-    margin: 0;
+    margin: 0
 }
 
 .logo {
@@ -551,12 +560,12 @@ input
 button,
 select
 {
-    text-transform: none;
+    text-transform: none
 }
 
 select
 {
-    word-wrap: normal;
+    word-wrap: normal
 }
 
 button,
@@ -564,7 +573,7 @@ button,
 [type='reset'],
 [type='submit']
 {
-    -webkit-appearance: button;
+    -webkit-appearance: button
 }
 
 button:not(:disabled),
@@ -572,7 +581,7 @@ button:not(:disabled),
 [type='reset']:not(:disabled),
 [type='submit']:not(:disabled)
 {
-    cursor: pointer;
+    cursor: pointer
 }
 
 button::-moz-focus-inner,
@@ -582,7 +591,7 @@ button::-moz-focus-inner,
 {
     padding: 0;
 
-    border-style: none;
+    border-style: none
 }
 
 input[type="file"] {
@@ -602,7 +611,7 @@ input[type='time'],
 input[type='datetime-local'],
 input[type='month']
 {
-    -webkit-appearance: listbox;
+    -webkit-appearance: listbox
 }
 
 textarea
@@ -618,7 +627,7 @@ fieldset
     margin: 0;
     padding: 0;
 
-    border: 0;
+    border: 0
 }
 
 legend
@@ -1667,30 +1676,30 @@ mark,
 {
     padding-left: 0;
 
-    list-style: none;
+    list-style: none
 }
 
 .list-inline-item
 {
-    display: inline-block;
+    display: inline-block
 }
 .list-inline-item:not(:last-child)
 {
-    margin-right: .5rem;
+    margin-right: .5rem
 }
 
 .initialism
 {
     font-size: 90%;
 
-    text-transform: uppercase;
+    text-transform: uppercase
 }
 
 .blockquote
 {
     font-size: 1.25rem;
 
-    margin-bottom: 1rem;
+    margin-bottom: 1rem
 }
 
 .blockquote-footer
@@ -1709,7 +1718,7 @@ mark,
 .img-fluid
 {
     max-width: 100%;
-    height: auto;
+    height: auto
 }
 
 .img-thumbnail
@@ -1721,26 +1730,26 @@ mark,
     border: 1px solid #dee2e6;
     border-radius: .375rem;
     background-color: #f8f9fe;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .075)
 }
 
 .figure
 {
-    display: inline-block;
+    display: inline-block
 }
 
 .figure-img
 {
     line-height: 1;
 
-    margin-bottom: .5rem;
+    margin-bottom: .5rem
 }
 
 .figure-caption
 {
     font-size: 90%;
 
-    color: #8898aa;
+    color: #8898aa
 }
 
 code
@@ -1749,7 +1758,7 @@ code
 
     word-wrap: break-word;
 
-    color: #f3a4b5;
+    color: #f3a4b5
 }
 a > code
 {

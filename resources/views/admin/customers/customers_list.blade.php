@@ -18,6 +18,7 @@
                             <tr>
                                 <th scope="col">Operation</th>
                                 <th scope="col">Customer Name</th>
+                                <th scope="col">Customer Surname</th>
                                 <th scope="col">Customer Phone</th>
                                 <th scope="col">Customer Country</th>
                                 <th scope="col">Customer Email</th>
@@ -36,6 +37,7 @@
                                 </div>
                             </td>
                             <td>{{ $customer->customer_name }}</td>
+                            <td>{{ $customer->customer_surname }}</td>
                             <td>{{ $customer->customer_phone }}</td>
                             <td>{{ $customer->customer_country }}</td>
                             <td>{{ $customer->customer_email }}</td>
@@ -70,27 +72,33 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="phone_get">Customer Phone</label>
-                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Enter Customer Phone">
+                                <label for="customerSurname">Customer Surname</label>
+                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Enter Customer Surname">
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="phone_get">Customer Phone</label>
+                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Enter Customer Phone">
+                            </div>
+                        </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerCountry">Customer Country</label>
                                 <input type="text" class="form-control" id="country_get" name="customerCountry" placeholder="Enter Customer Country" required>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerEmail">Customer Email</label>
-                                <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
+                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerSobId">Source Of Booking</label>
                                 <select id="customerSobId" name="customerSobId" class="form-control" required>

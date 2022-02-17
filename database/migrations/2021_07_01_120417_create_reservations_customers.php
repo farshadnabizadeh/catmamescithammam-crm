@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCustomers extends Migration
+class CreateReservationsCustomers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,19 @@ class CreateCustomers extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('customer_name');
-            $table->string('customer_surname')->nullable();
-            $table->string('customer_phone')->nullable();
-            $table->string('customer_country')->nullable();
-            $table->string('customer_email')->nullable();
-            $table->integer('customer_sob_id')->unsigned();
-            $table->foreign('customer_sob_id')->references('id')->on('sources')
+        Schema::create('reservations_customers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('reservation_customer_id')->unsigned();
+            $table->foreign('reservation_customer_id')
+                ->references('id')
+                ->on('reservations')
+                ->onDelete('cascade');
+            $table->integer('customer_id')->unsigned();
+            $table->foreign('customer_id')
+                ->references('id')
+                ->on('customers')
                 ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
-            $table->softDeletes();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
         });
@@ -37,6 +38,6 @@ class CreateCustomers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('reservations_customers');
     }
 }
