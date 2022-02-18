@@ -23,30 +23,40 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        $newService = new Service();
-        $newService->service_name = $request->input('serviceName');
-        $newService->service_currency = $request->input('serviceCurrency');
-        $newService->service_cost = $request->input('serviceCost');
+        try {
+            $newService = new Service();
+            $newService->service_name = $request->input('serviceName');
+            $newService->service_currency = $request->input('serviceCurrency');
+            $newService->service_cost = $request->input('serviceCost');
 
-        $newService->user_id = auth()->user()->id;
-        $result = $newService->save();
+            $newService->user_id = auth()->user()->id;
+            $result = $newService->save();
 
-        if ($result) {
-            return redirect('/definitions/services')->with('message', 'Service Added Successfully!');
+            if ($result) {
+                return redirect('/definitions/services')->with('message', 'Service Added Successfully!');
+            }
+            else {
+                return response(false, 500);
+            }
         }
-        else {
-            return response(false, 500);
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 
     public function getService($id)
     {
-        $arrivalsC = DB::table('services')
+        try {
+            $services = DB::table('services')
             ->select('services.*')
             ->where('id', '=', $id)
             ->first();
 
-        return response()->json([$arrivalsC], 200);
+            return response()->json([$services], 200);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function edit($id)

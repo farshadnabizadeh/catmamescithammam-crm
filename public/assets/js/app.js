@@ -1,3 +1,5 @@
+var reservationID;
+
 var HIDDEN_URL = {
     RESERVATION: '/definitions/reservations',
     THERAPIST: '/definitions/therapists',
@@ -150,9 +152,11 @@ var app = (function() {
     });
 
     getServiceDetail();
+    getDiscountDetail();
     clockPicker();
     addCustomertoReservationModal();
     addReservationOperation();
+    addcustomerReservation();
 
     $("#colorpicker").spectrum();
     $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
@@ -161,6 +165,7 @@ var app = (function() {
     $("#serviceId").select2({ placeholder: "Select Service", dropdownAutoWidth: true, allowClear: true });
     $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
+    $("#discountId").select2({ placeholder: "Select Discount", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -468,7 +473,8 @@ var Datepicker = (function() {
     function init($this) {
         var options = {
             disableTouchKeyboard: true,
-            autoclose: true
+            autoclose: true,
+            dateFormat: 'yy-mm-dd'
         };
         $this.datepicker(options);
     }
@@ -506,7 +512,7 @@ function clockPicker(){
 
 function getServiceDetail() {
     try {
-        $("#serviceId").on("change", function(){
+        $("#serviceId").on("change", function () {
             var selectedId = $(this).children("option:selected").val();
             $.ajax({
                 url: '/getService/' + selectedId,
@@ -526,6 +532,48 @@ function getServiceDetail() {
                                 $("#serviceCurrency > option").each(function () {
                                     if (this.value == serviceCurrency) $(this).attr("selected", true); $(this).trigger("change");
                                 });
+                            }
+                        });
+                    }
+                },
+
+                error: function () { },
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    finally { }
+}
+
+function getDiscountDetail() {
+    try {
+        $("#discountId").on("change", function () {
+            var serviceCost = $("#serviceCost").val();
+            var selectedId = $(this).children("option:selected").val();
+            $.ajax({
+                url: '/getDiscount/' + selectedId,
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    if (response) {
+                        $.each(response, function (key, value) {
+                            var data = value;
+                            if (data == null) {
+                                swal({ icon: 'info', title: 'Percentage not defined!', text: '' });
+                            }
+                            else if(serviceCost == ""){
+                                swal({ icon: 'error', title: 'Please enter the price of the service!', text: '' });
+                            }
+                            else if (!data.isNull) {
+                                let discountPercentage = data.discount_percentage;
+                                var result = (serviceCost / 100) * discountPercentage;
+                                result = serviceCost - result;
+                                result = result.toFixed(2);
+                                console.log(result);
+                                $("#serviceCost").val(result);
+                                swal({ icon: 'success', title: 'Discount applied successfully!', text: '' });
                             }
                         });
                     }
@@ -584,12 +632,12 @@ function addReservationOperation() {
             else {
                 $("#customerTableReservation").find("tr").each(function (i) {
                     var $tds = $(this).find('td'),
-                        customerId = $tds.eq(0).attr("id");
+                        customersId = $tds.eq(0).attr("id");
                     setTimeout(() => {
-                        addServicetoServiceProvider(customerId);
+                        addCustomertoReservation(reservationID, customersId);
                     }, 100);
                 });
-                addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, serviceComission, therapistId);
+                addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId);
             }
         });
     } catch (error) {
@@ -614,18 +662,56 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serv
                 'serviceId': serviceId,
                 'serviceCurrency': serviceCurrency,
                 'serviceCost': serviceCost,
-                'serviceComission': serviceComission
+                'serviceComission': serviceComission,
+                'therapistId': therapistId
             },
             async: false,
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Reservation Added Successfully!',
-                        timer: 1000
-                    });
+                    swal({ icon: 'success', title: 'Success!', text: 'Reservation Added Successfully!', timer: 1000 });
+                    reservationID = response;
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addcustomerReservation() {
+    try {
+        $('#saveCustomerReservation').on('click', function () {
+            var reservationID = $('#reservation_id').val();
+            var customersId = $("#addCustomer").find('#customerId').children("option:selected").val();
+            setTimeout(() => {
+                addCustomertoReservation(reservationID, customersId);
+            }, 200);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addCustomertoReservation(reservationID, customersId){
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/definitions/reservations/addCustomertoReservation',
+            type: 'POST',
+            data: { 'reservation_id': reservationID, 'customer_id': customersId },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({ icon: 'success', title: 'Customer Added Successfully!', text: '', timer: 1000 });
+                    location.reload();
                 }
             },
 

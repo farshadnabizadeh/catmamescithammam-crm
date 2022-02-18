@@ -15,8 +15,8 @@ class CreateReservationsCustomers extends Migration
     {
         Schema::create('reservations_customers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('reservation_customer_id')->unsigned();
-            $table->foreign('reservation_customer_id')
+            $table->integer('reservation_id')->unsigned();
+            $table->foreign('reservation_id')
                 ->references('id')
                 ->on('reservations')
                 ->onDelete('cascade');

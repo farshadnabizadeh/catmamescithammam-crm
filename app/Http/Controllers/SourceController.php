@@ -16,9 +16,15 @@ class SourceController extends Controller
 
     public function index()
     {
-        $sources = Source::orderBy('source_name', 'asc')->get();
-        $data = array('sources' => $sources);
-        return view('admin.sources.sources_list')->with($data);
+        try {
+            $sources = Source::orderBy('source_name', 'asc')->get();
+            $data = array('sources' => $sources);
+            return view('admin.sources.sources_list')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+        
     }
 
     public function store(Request $request)

@@ -16,25 +16,36 @@ class TherapistController extends Controller
 
     public function index()
     {
-        $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
-        $data = array('therapists' => $therapists);
-        return view('admin.therapists.therapists_list')->with($data);
+        try {
+            $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
+            $data = array('therapists' => $therapists);
+            return view('admin.therapists.therapists_list')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function store(Request $request)
     {
-        $newTherapist = new Therapist();
-        $newTherapist->therapist_name = $request->input('therapistName');
-        $newTherapist->user_id = auth()->user()->id;
+        try {
+            $newTherapist = new Therapist();
+            $newTherapist->therapist_name = $request->input('therapistName');
+            $newTherapist->user_id = auth()->user()->id;
 
-        $result = $newTherapist->save();
+            $result = $newTherapist->save();
 
-        if ($result) {
-            return redirect('/definitions/therapists')->with('message', 'Therapist Added Successfully!');
+            if ($result) {
+                return redirect('/definitions/therapists')->with('message', 'Therapist Added Successfully!');
+            }
+            else {
+                return response(false, 500);
+            }
         }
-        else {
-            return response(false, 500);
+        catch (\Throwable $th) {
+            throw $th;
         }
+        
     }
 
     public function edit($id)

@@ -17,7 +17,6 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Customer Name</th>
                                 <th scope="col">Reservation Date</th>
                                 <th scope="col">Reservation Time</th>
                                 <th scope="col">Total Customer</th>
@@ -39,9 +38,14 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $reservation->arrival_date }}</td>
-                            <td>{{ $reservation->arrival_time }}</td>
+                            <td>{{ $reservation->reservation_date }}</td>
+                            <td>{{ $reservation->reservation_time }}</td>
                             <td>{{ $reservation->total_customer }}</td>
+                            <td>{{ $reservation->service->service_name }}</td>
+                            <td>{{ $reservation->service_currency }}</td>
+                            <td>{{ $reservation->service_cost }}</td>
+                            <td>{{ $reservation->service_commission }}</td>
+                            <td>{{ $reservation->therapist->therapist_name }}</td>
                         </tr>
                         @endforeach
                     </table>
@@ -119,24 +123,37 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceComission">Service Comission</label>
-                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission">
+                                <label for="discountId">Discount</label>
+                                <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
+                                    <option></option>
+                                    @foreach ($discounts as $discount)
+                                    <option value="{{ $discount->id }}">{{ $discount->discount_name }} | %{{ $discount->discount_percentage }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
+                                <label for="serviceComission">Service Comission</label>
+                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
                                 <label for="therapistId">Therapist</label>
-                                <select id="therapistId" name="therapistId" onchange="getServiceDetail(this)" class="form-control">
+                                <select id="therapistId" name="therapistId" class="form-control">
                                     <option></option>
                                     @foreach ($therapists as $therapist)
                                     <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                     <button type="button" data-toggle="modal" data-target="#add-customer-modal" class="btn btn-outline-primary mb-3" title="Add Customer To This Reservation">Add Customer</button>
-                    <button type="submit" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
                 <table class="table table-bordered" id="customerTableReservation">
                     <tr>
@@ -171,16 +188,14 @@
                                     <select id="customerId" class="form-control" name="customerId">
                                         <option></option>
                                         @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }} {{ $customer->customer_surname }}</option>
+                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }} {{ $customer->customer_surname }} / {{ $customer->customer_country }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </form>
-                
                 <div class="col-lg-12">
                     <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
                 </div>

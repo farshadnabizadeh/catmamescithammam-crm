@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DiscountController extends Controller
 {
@@ -48,11 +49,31 @@ class DiscountController extends Controller
         }
     }
 
+    public function getDiscount($id)
+    {
+        try {
+            $discounts = DB::table('discounts')
+            ->select('discounts.*')
+            ->where('id', '=', $id)
+            ->first();
+
+            return response()->json([$discounts], 200);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+       
+    }
+
     public function edit($id)
     {
-        $discount = Discount::where('id','=', $id)->first();
-
-        return view('admin.discounts.edit_discount', ['discount' => $discount]);
+        try {
+            $discount = Discount::where('id','=', $id)->first();
+            return view('admin.discounts.edit_discount', ['discount' => $discount]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)

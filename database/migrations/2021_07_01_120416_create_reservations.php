@@ -21,9 +21,6 @@ class CreateReservations extends Migration
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services')
                 ->onDelete('cascade');
-            $table->integer('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('customers')
-                ->onDelete('cascade');
             $table->string('service_currency')->nullable();
             $table->string('service_cost')->nullable();
             $table->string('service_commission')->nullable();

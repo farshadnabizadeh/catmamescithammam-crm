@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/reservations', 'ReservationController@index');
     Route::POST('definitions/reservations/store', 'ReservationController@store');
     Route::GET('definitions/reservations/edit/{id}', 'ReservationController@edit');
+    Route::POST('definitions/reservations/addCustomertoReservation', 'ReservationController@addCustomertoReservation');
+    Route::GET('definitions/reservations/edit/{id}', 'ReservationController@edit');
     Route::POST('definitions/reservations/update/{id}', 'ReservationController@update');
     Route::GET('definitions/reservations/destroy/{id}', 'ReservationController@destroy');
     //Reservations end
@@ -93,6 +95,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/discounts/edit/{id}', 'DiscountController@edit');
     Route::POST('definitions/discounts/update/{id}', 'DiscountController@update');
     Route::GET('definitions/discounts/destroy/{id}', 'DiscountController@destroy');
+    //api
+    Route::GET('getDiscount/{id}', 'DiscountController@getDiscount');  
     //Discounts end
 
     //Report
