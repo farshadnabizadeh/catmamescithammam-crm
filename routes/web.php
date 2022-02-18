@@ -87,6 +87,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/therapists/destroy/{id}', 'TherapistController@destroy');
     //Therapists end
 
+    //Discounts
+    Route::GET('definitions/discounts', 'DiscountController@index');
+    Route::POST('definitions/discounts/store', 'DiscountController@store');
+    Route::GET('definitions/discounts/edit/{id}', 'DiscountController@edit');
+    Route::POST('definitions/discounts/update/{id}', 'DiscountController@update');
+    Route::GET('definitions/discounts/destroy/{id}', 'DiscountController@destroy');
+    //Discounts end
+
     //Report
     Route::GET('definitions/reports', 'ReportController@index');
     //Report end

@@ -26,16 +26,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $lastCustomers = Customer::latest()->take(5)->get();
+        try {
+            $lastCustomers = Customer::latest()->take(5)->get();
 
-        $customerCount = Customer::all()->count();
+            $customerCount = Customer::all()->count();
 
-        $userID = Auth::user()->id;
-        $user = auth()->user();
+            $userID = Auth::user()->id;
+            $user = auth()->user();
 
-        $dashboard = array('lastCustomers' => $lastCustomers, 'customerCount' => $customerCount);
+            $dashboard = array('lastCustomers' => $lastCustomers, 'customerCount' => $customerCount);
 
-        return view('home')->with($dashboard);
-
+            return view('home')->with($dashboard);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

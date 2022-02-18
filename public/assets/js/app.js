@@ -8,16 +8,6 @@ var HIDDEN_URL = {
     FORM: '/definitions/forms'
 }
 
-function changeTreatmentPlanForm() {
-    try {
-        $("#bariatricPdf").on("click", function() {
-            console.log("eee!");
-        });
-    } catch (error) {
-        console.log(error);
-    } finally {}
-}
-
 function dashboard() {
     new Chart(document.getElementById("pie-chart"), {
         type: 'pie',
@@ -73,6 +63,39 @@ function voucherPdf() {
     } catch (error) {
         console.info(error);
     } finally {}
+}
+
+function timeFormat(timeInput) {
+    try {
+        validTime = timeInput.value;
+        if (validTime < 24 && validTime.length == 2) {
+            timeInput.value = timeInput.value + ":";
+            return false;
+        }
+        if (validTime == 24 && validTime.length == 2) {
+            timeInput.value = timeInput.value.length - 2 + "0:";
+            return false;
+        }
+        if (validTime > 24 && validTime.length == 2) {
+            timeInput.value = "";
+            return false;
+        }
+        if (validTime.length == 5 && validTime.slice(-2) < 60) {
+            timeInput.value = timeInput.value + "";
+            return false;
+        }
+        if (validTime.length == 5 && validTime.slice(-2) > 60) {
+            timeInput.value = timeInput.value.slice(0, 2) + "";
+            return false;
+        }
+        if (validTime.length == 5 && validTime.slice(-2) == 60) {
+            timeInput.value = timeInput.value.slice(0, 2) + ":00";
+            return false;
+        }
+    } catch (error) {
+        console.info(error);
+    } finally {
+    }
 }
 
 var dataTable;

@@ -27,6 +27,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('definitions/discounts*') ? 'active' : '' }}" href="{{ url('/definitions/discounts'); }}">
+                            <i class="fa fa-percent text-primary"></i>
+                            <span class="nav-link-text">Discounts</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('definitions/reservations*') ? 'active' : '' }}" href="{{ url('/definitions/reservations'); }}">
                             <i class="fa fa-check text-primary"></i>
                             <span class="nav-link-text">Reservations</span>
