@@ -61,8 +61,12 @@ class SourceController extends Controller
     }
 
     public function destroy($id){
-        Source::find($id)->delete();
-        return redirect('definitions/sources')->with('message', 'Source Deleted Successfully!');
+        try {
+            $sources = Source::where('id', '=', $id)->delete();
+            return redirect('definitions/sources')->with('message', 'Source Deleted Successfully!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
-
 }

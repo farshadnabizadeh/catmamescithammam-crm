@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Source extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
     protected $table = 'sources';
 
     public function user()
