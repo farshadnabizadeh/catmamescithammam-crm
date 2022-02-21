@@ -6,13 +6,13 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: *');
 header('Access-Control-Allow-Headers: *');
 
-Route::get('/', function () {
+Route::GET('/', function () {
     return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/clear-cache', function() {
+Route::GET('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('config:cache');
     return 'DONE';
@@ -20,8 +20,8 @@ Route::get('/clear-cache', function() {
 
 Route::group(['middleware' => ['auth']], function(){
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+    Route::GET('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::GET('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
     Route::GET('getCurrencies', 'CurrencyController@getCurrencies');
 
