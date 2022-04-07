@@ -44,14 +44,20 @@ Route::group(['middleware' => ['auth']], function(){
     //Customers end
 
     //Contact Forms
-    Route::GET('definitions/forms', 'FormController@index');
-    Route::POST('definitions/forms/store', 'FormController@store');
-    Route::GET('getMedicalDepartment', 'FormController@getMedicalDepartment');
-    Route::GET('getuserName', 'FormController@getUserName');
-    Route::GET('definitions/forms/edit/{id}', 'FormController@edit');
-    Route::POST('definitions/forms/update/{id}', 'FormController@update');
-    Route::GET('definitions/forms/destroy/{id}', 'FormController@destroy');
+    Route::GET('definitions/contactforms', 'ContactFormController@index');
+    Route::POST('definitions/contactforms/store', 'ContactFormController@store');
+    Route::GET('definitions/contactforms/edit/{id}', 'ContactFormController@edit');
+    Route::POST('definitions/contactforms/update/{id}', 'ContactFormController@update');
+    Route::GET('definitions/contactforms/destroy/{id}', 'ContactFormController@destroy');
     //Contact Forms end
+
+    //Hotels
+    Route::GET('definitions/hotels', 'HotelController@index');
+    Route::POST('definitions/hotels/store', 'HotelController@store');
+    Route::GET('definitions/hotels/edit/{id}', 'HotelController@edit');
+    Route::POST('definitions/hotels/update/{id}', 'HotelController@update');
+    Route::GET('definitions/hotels/destroy/{id}', 'HotelController@destroy');
+    //Hotels end
 
     //Reservations
     Route::GET('definitions/reservations', 'ReservationController@index');

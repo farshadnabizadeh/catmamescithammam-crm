@@ -7,10 +7,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
-            <div class="card p-5 mt-3">
+            <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Reservations Lists</h2>
-                    <button data-toggle="modal" data-target="#reservationModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Reservation</button>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2>Reservations Lists</h2>
+                        </div>
+                        <div class="col-lg-6">
+                            <button data-toggle="modal" data-target="#reservationModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Reservation</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
@@ -21,7 +27,6 @@
                                 <th scope="col">Reservation Time</th>
                                 <th scope="col">Total Customer</th>
                                 <th scope="col">Service Name</th>
-                                <th scope="col">Service Currency</th>
                                 <th scope="col">Service Cost</th>
                                 <th scope="col">Commission</th>
                                 <th scope="col">Therapist</th>
@@ -38,12 +43,11 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $reservation->reservation_date }}</td>
+                            <td>{{ date('d/m/Y', strtotime($reservation->reservation_date)) }}</td>
                             <td>{{ $reservation->reservation_time }}</td>
                             <td>{{ $reservation->total_customer }}</td>
                             <td>{{ $reservation->service->service_name }}</td>
-                            <td>{{ $reservation->service_currency }}</td>
-                            <td>{{ $reservation->service_cost }}</td>
+                            <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
                             <td>{{ $reservation->service_commission }}</td>
                             <td>{{ $reservation->therapist->therapist_name }}</td>
                         </tr>

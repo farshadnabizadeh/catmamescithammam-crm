@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('definitions/forms*') ? 'active' : '' }}" href="{{ url('/definitions/forms'); }}">
+                        <a class="nav-link {{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms'); }}">
                             <i class="fa fa-align-justify text-primary"></i>
                             <span class="nav-link-text">Contact Forms</span>
                         </a>
@@ -30,6 +30,12 @@
                         <a class="nav-link {{ request()->is('definitions/discounts*') ? 'active' : '' }}" href="{{ url('/definitions/discounts'); }}">
                             <i class="fa fa-percent text-primary"></i>
                             <span class="nav-link-text">Discounts</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('definitions/hotels*') ? 'active' : '' }}" href="{{ url('/definitions/hotels'); }}">
+                            <i class="fa fa-hospital-o text-primary"></i>
+                            <span class="nav-link-text">Hotels</span>
                         </a>
                     </li>
                     <li class="nav-item">

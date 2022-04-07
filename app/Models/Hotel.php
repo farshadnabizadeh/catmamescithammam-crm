@@ -4,21 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Form extends Model
+class Hotel extends Model
 {
-    use HasFactory;
-    protected $table = 'forms';
-    protected $appends = ['age'];
+    use SoftDeletes;
+    protected $table = 'hotels';
 
-    public function salesPerson()
+    public function sob()
     {
-        return $this->belongsTo(SalesPerson::class,'sales_person_id');
+        return $this->belongsTo(Source::class, 'customer_sob_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
 }

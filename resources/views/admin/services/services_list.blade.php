@@ -7,10 +7,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
-            <div class="card p-5 mt-3">
+            <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Services Lists</h2>
-                    <button data-toggle="modal" data-target="#serviceModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Service</button>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2>Services Lists</h2>
+                        </div>
+                        <div class="col-lg-6">
+                            <button data-toggle="modal" data-target="#serviceModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Service</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">

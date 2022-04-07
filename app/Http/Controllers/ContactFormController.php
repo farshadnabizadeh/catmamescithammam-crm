@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Form;
+use App\Models\ContactForm;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class FormController extends Controller
+class ContactFormController extends Controller
 {
     public function __construct()
     {
@@ -17,14 +17,14 @@ class FormController extends Controller
 
     public function index()
     {
-        $forms = Form::orderBy('name_surname', 'asc')->get();
+        $forms = ContactForm::orderBy('name_surname', 'asc')->get();
         $data = array('forms' => $forms);
-        return view('admin.forms.forms_list')->with($data);
+        return view('admin.contactforms.contactforms_list')->with($data);
     }
 
     public function store(Request $request)
     {
-        $newForm = new Form();
+        $newForm = new ContactForm();
         $newForm->customer_name = $request->input('customerName');
         $newForm->customer_phone = $request->input('customerPhone');
         $newForm->customer_country = $request->input('customerCountry');
@@ -77,7 +77,11 @@ class FormController extends Controller
     }
 
     public function destroy($id){
-        Patient::find($id)->delete();
-        return redirect('definitions/patients')->with('message', 'Patient Deleted Successfully!');
+        try {
+            Form::find($id)->delete();
+            return redirect('definitions/patients')->with('message', 'Patient Deleted Successfully!');  
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }

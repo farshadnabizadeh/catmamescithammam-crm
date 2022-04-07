@@ -102,7 +102,12 @@ class ReservationController extends Controller
     }
 
     public function destroy($id){
-        Reservation::find($id)->delete();
-        return redirect('definitions/patients')->with('message', 'Reservation Deleted Successfully!');
+        try {
+            Reservation::find($id)->delete();
+            return redirect('definitions/reservations')->with('message', 'Reservation Deleted Successfully!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

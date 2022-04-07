@@ -323,7 +323,7 @@ table
 .info-box .info-box-text {
     display: block;
     overflow: hidden;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #000;
@@ -407,8 +407,8 @@ caption
 }
 
 .swal-title {
-    font-family: var(--pagefont);
-    font-weight: 100;
+    font-family: var(--font-montserrat);
+    font-weight: 600;
     color: #000
 }
 
@@ -443,7 +443,7 @@ caption
 
 .swal-text {
     font-size: 18px;
-    font-family: 'Poppins';
+    font-family: var(--font-montserrat);
     text-align: center
 }
 
@@ -453,7 +453,7 @@ caption
 
 .shortcut-item small {
     color: #fff !important;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     font-size: 12px
 }
 
@@ -462,13 +462,14 @@ caption
 }
 
 .last-user {
-    font-family: 'Nunito';
-    margin-top: -40px
+    font-family: var(--font-montserrat);
+    margin-top: -40px;
+    font-size: 14px
 }
 
 .sub-table-title {
-    font-family: var(--pagefont);
-    font-weight: 100;
+    font-family: var(--font-montserrat);
+    font-weight: 600;
     margin-bottom: -5px
 }
 
@@ -478,8 +479,9 @@ caption
 
 .currencyText {
     margin-left: 10px;
+    font-weight: 600;
     color: #fff;
-    font-family: var(--pagefont)
+    font-family: var(--font-montserrat)
 }
 
 th
@@ -490,7 +492,7 @@ th
 label
 {
     display: inline-block;
-    font-family: 'Poppins';
+    font-family: var(--font-montserrat);
     margin-bottom: .5rem
 }
 
@@ -529,26 +531,26 @@ textarea
 .edit-btn {
     font-size: 12px !important;
     height: 34px;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     font-weight: 100 !important;
     line-height: 12px !important
 }
 
 .item-text {
-    font-family: var(--pagefont) !important;
+    font-family: var(--font-montserrat) !important;
     font-weight: 100 !important
 }
 
 .text-dashboard-card {
     color: #000 !important;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     margin-bottom: 13px !important;
     font-size: 18px;
-    font-weight: 100
+    font-weight: 600
 }
 
 .count-card {
-    font-family: var(--pagefont) !important
+    font-family: var(--font-montserrat) !important
 }
 
 button,
@@ -1557,15 +1559,15 @@ h3,
 .h3
 {
     font-size: 1.0625rem;
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 h4,
 .h4
 {
     font-size: .9375rem;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     font-weight: 100
 }
 
@@ -1579,6 +1581,7 @@ h6,
 .h6
 {
     font-size: .625rem;
+    font-weight: 600 !important
 }
 
 .lead
@@ -3609,6 +3612,8 @@ pre code
     color: #8898aa;
     border-color: #e9ecef;
     background-color: #f6f9fc;
+    font-weight: 600;
+    font-size: 15px
 }
 
 .table-dark
@@ -3731,7 +3736,7 @@ pre code
     padding: .625rem .75rem;
 
     transition: all .15s cubic-bezier(.68, -.55, .265, 1.55);
-
+    font-family: var(--font-montserrat);
     color: #000;
     border: 1px solid #dee2e6;
     border-radius: .25rem;
@@ -4363,7 +4368,7 @@ textarea.form-control
 .btn.focus
 {
     outline: 0;
-    box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+    box-shadow: 0 7px 14px rgba(27, 27, 241, 0.1), 0 3px 6px rgba(0, 0, 0, .08);
 }
 .btn.disabled,
 .btn:disabled
@@ -4392,7 +4397,7 @@ fieldset:disabled a.btn
 {
     color: #fff;
     border-color: #5e72e4;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     font-weight: 100;
     background-color: #5e72e4;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
@@ -4476,8 +4481,8 @@ fieldset:disabled a.btn
     border-color: #2dce89;
     background-color: #2dce89;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 .btn-success:hover
 {
@@ -4598,8 +4603,8 @@ fieldset:disabled a.btn
     border-color: #511124;
     background-color: #511124;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 .btn-danger:hover
 {
@@ -4717,7 +4722,7 @@ fieldset:disabled a.btn
 .btn-default
 {
     color: #fff;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     font-weight: 100;
     border-color: #172b4d;
     background-color: #172b4d;
@@ -4880,8 +4885,8 @@ fieldset:disabled a.btn
 {
     color: #5e72e4;
     border-color: #5e72e4;
-    font-family: var(--pagefont);
-    font-weight: 100;
+    font-family: var(--font-montserrat);
+    font-weight: 600;
     background-color: transparent;
     background-image: none
 }
@@ -6718,7 +6723,7 @@ input[type='button'].btn-block
 .nav-link
 {
     display: block;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     padding: .25rem .75rem;
 }
 .nav-link:hover,
@@ -6813,7 +6818,7 @@ input[type='button'].btn-block
 
 .tree-toggler {
     font-size: 18px;
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     color: #000;
     cursor: pointer
 }
@@ -7365,8 +7370,8 @@ input[type='button'].btn-block
 }
 
 .card-title h2 {
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 .card-subtitle
@@ -7614,6 +7619,13 @@ input[type='button'].btn-block
 {
     padding-left: .5rem;
 }
+
+.breadcrumb-item a {
+    font-family: var(--font-montserrat);
+    color: #000 !important;
+    font-weight: 600
+}
+
 .breadcrumb-item + .breadcrumb-item::before
 {
     display: inline-block;
@@ -7638,6 +7650,7 @@ input[type='button'].btn-block
 .breadcrumb-item.active
 {
     color: #8898aa;
+    font-family: var(--font-montserrat)
 }
 
 .pagination
@@ -9119,8 +9132,8 @@ a.close.disabled
     line-height: 1.1;
     margin-bottom: 0;
     color: #000;
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 .modal-body {
@@ -9130,7 +9143,7 @@ a.close.disabled
 }
 
 .modal-body label {
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     color: #000;
     font-size: 15px
 }
@@ -19205,7 +19218,8 @@ a.text-darker:focus
 }
 
 .username {
-    font-family: var(--pagefont)
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 .avatar
@@ -20960,19 +20974,20 @@ a.btn-icon-only
 
 .dropdown-menu a
 {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    font-weight: 600 !important
 }
 
 .dropdown-menu h6 {
-    font-family: var(--pagefont);
-    font-weight: 100
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 .dropdown-menu .dropdown-item
 {
     font-size: .875rem;
     padding: 4px;
-    font-family: var(--pagefont)
+    font-family: var(--font-montserrat)
 }
 
 .dropdown-menu .dropdown-item > i,
@@ -22679,7 +22694,7 @@ textarea[resize='horizontal']
 .navbar-vertical.navbar-expand-xs .navbar-nav .nav-link
 {
     padding: .675rem 1.5rem;
-    font-family: var(--pagefont)
+    font-family: var(--font-montserrat)
 }
 .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item
 {
@@ -23344,10 +23359,11 @@ textarea[resize='horizontal']
 
 .g-sidenav-show .sidenav .nav-link-text
 {
-    font-family: var(--pagefont);
+    font-family: var(--font-montserrat);
     transition: .3s ease;
     opacity: 1;
     font-size: 14px;
+    font-weight: 600;
     margin-left: 0
 }
 
@@ -24865,8 +24881,8 @@ textarea[resize='horizontal']
 .table th
 {
     font-size: .8125rem;
-    font-family: var(--pagefont);
-    font-weight: 100;
+    font-family: var(--font-montserrat);
+    font-weight: 600;
     white-space: nowrap
 }
 
@@ -24890,7 +24906,7 @@ textarea[resize='horizontal']
 {
     color: #000;
     background-color: #f6f9fc;
-    font-family: var(--pagefont)
+    font-family: var(--font-montserrat)
 }
 
 .table .thead-light th a
@@ -24940,6 +24956,8 @@ textarea[resize='horizontal']
 {
     padding-right: 1.5rem;
     padding-left: 1.5rem;
+    font-family: var(--font-montserrat);
+    font-weight: 600
 }
 
 .table .custom-toggle
@@ -30058,7 +30076,7 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 .select2-container--default .select2-selection--single .select2-selection__rendered
 {
     line-height: inherit;
-
+    font-family: var(--font-montserrat);
     color: inherit;
 }
 
