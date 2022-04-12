@@ -59,6 +59,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/hotels/destroy/{id}', 'HotelController@destroy');
     //Hotels end
 
+    //Payments
+    Route::GET('definitions/payments', 'HotelController@index');
+    Route::POST('definitions/payments/store', 'HotelController@store');
+    Route::GET('definitions/payments/edit/{id}', 'HotelController@edit');
+    Route::POST('definitions/payments/update/{id}', 'HotelController@update');
+    Route::GET('definitions/payments/destroy/{id}', 'HotelController@destroy');
+    //Hotels end
+
     //Reservations
     Route::GET('definitions/reservations', 'ReservationController@index');
     Route::POST('definitions/reservations/store', 'ReservationController@store');
