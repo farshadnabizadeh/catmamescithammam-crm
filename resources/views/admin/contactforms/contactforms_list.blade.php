@@ -7,10 +7,22 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
-            <div class="card p-5 mt-3">
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact Forms</li>
+                </ol>
+            </nav>
+            <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Contact Forms</h2>
-                    <button data-toggle="modal" data-target="#formModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Contact Form</button>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2>Contact Forms</h2>
+                        </div>
+                        <div class="col-lg-6">
+                            <button data-toggle="modal" data-target="#formModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Contact Form</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
@@ -23,21 +35,21 @@
                                 <th scope="col">Email</th>
                             </tr>
                         </thead>
-                        @foreach ($forms as $form)
+                        @foreach ($contact_forms as $contact_form)
                         <tr>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/definitions/agents/edit/'.$form->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
-                                        <li><a href="{{ url('/definitions/agents/destroy/'.$form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        <li><a href="{{ url('/definitions/agents/edit/'.$contact_form->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        <li><a href="{{ url('/definitions/agents/destroy/'.$contact_form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $form->name_surname }}</td>
-                            <td>{{ $form->phone }}</td>
-                            <td>{{ $form->country }}</td>
-                            <td>{{ $form->email }}</td>
+                            <td>{{ $contact_form->name_surname }}</td>
+                            <td>{{ $contact_form->phone }}</td>
+                            <td>{{ $contact_form->country }}</td>
+                            <td>{{ $contact_form->email }}</td>
                         </tr>
                         @endforeach
                     </table>

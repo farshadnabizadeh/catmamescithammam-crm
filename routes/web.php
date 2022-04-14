@@ -60,11 +60,11 @@ Route::group(['middleware' => ['auth']], function(){
     //Hotels end
 
     //Payments
-    Route::GET('definitions/payments', 'HotelController@index');
-    Route::POST('definitions/payments/store', 'HotelController@store');
-    Route::GET('definitions/payments/edit/{id}', 'HotelController@edit');
-    Route::POST('definitions/payments/update/{id}', 'HotelController@update');
-    Route::GET('definitions/payments/destroy/{id}', 'HotelController@destroy');
+    Route::GET('definitions/payments', 'PaymentController@index');
+    Route::POST('definitions/payments/store', 'PaymentController@store');
+    Route::GET('definitions/payments/edit/{id}', 'PaymentController@edit');
+    Route::POST('definitions/payments/update/{id}', 'PaymentController@update');
+    Route::GET('definitions/payments/destroy/{id}', 'PaymentController@destroy');
     //Hotels end
 
     //Reservations

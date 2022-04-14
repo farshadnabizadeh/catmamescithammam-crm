@@ -33,12 +33,6 @@
                                 <input type="text" class="form-control" id="treatmentName" name="treatmentName" placeholder="Change Password" value="">
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="agencyId">Kullanıcının Rolleri</label>
-                                {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
-                            </div>
-                        </div>
                     </div>
                     <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>

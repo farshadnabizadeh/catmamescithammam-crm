@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

@@ -45,14 +45,17 @@ class TherapistController extends Controller
         catch (\Throwable $th) {
             throw $th;
         }
-        
     }
 
     public function edit($id)
     {
-        $therapist = Therapist::where('id','=',$id)->first();
-
-        return view('admin.therapists.edit_therapist', ['therapist' => $therapist]);
+        try {
+            $therapist = Therapist::where('id','=',$id)->first();
+            return view('admin.therapists.edit_therapist', ['therapist' => $therapist]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
@@ -70,7 +73,12 @@ class TherapistController extends Controller
     }
 
     public function destroy($id){
-        Therapist::find($id)->delete();
-        return redirect('definitions/therapists')->with('message', 'Therapist Deleted Successfully!');
+        try {
+            Therapist::find($id)->delete();
+            return redirect('definitions/therapists')->with('message', 'Therapist Deleted Successfully!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

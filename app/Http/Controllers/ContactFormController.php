@@ -17,62 +17,77 @@ class ContactFormController extends Controller
 
     public function index()
     {
-        $forms = ContactForm::orderBy('name_surname', 'asc')->get();
-        $data = array('forms' => $forms);
-        return view('admin.contactforms.contactforms_list')->with($data);
+        try {
+            $contact_forms = ContactForm::orderBy('name_surname', 'asc')->get();
+            $data = array('contact_forms' => $contact_forms);
+            return view('admin.contactforms.contactforms_list')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function store(Request $request)
     {
-        $newForm = new ContactForm();
-        $newForm->customer_name = $request->input('customerName');
-        $newForm->customer_phone = $request->input('customerPhone');
-        $newForm->customer_country = $request->input('customerCountry');
-        $newForm->customer_email = $request->input('customerEmail');
+        try {
+            $newData = new ContactForm();
+            $newData->customer_name = $request->input('customerName');
+            $newData->customer_phone = $request->input('customerPhone');
+            $newData->customer_country = $request->input('customerCountry');
+            $newData->customer_email = $request->input('customerEmail');
 
-        $newForm->user_id = auth()->user()->id;
-        $result = $newForm->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
-        if ($result) {
-            return response($newForm->id, 200);
+            if ($result) {
+                return response($newData->id, 200);
+            }
+            else {
+                return response(false, 500);
+            }
         }
-        else {
-            return response(false, 500);
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 
     public function edit($id)
     {
-        $customer = Customer::where('id','=',$id)->first();
-
-        //$data = $patient->requestTreatments()->get();
-        //dd($data->first()->subTreatment->treatment_name);
-        return view('admin.customers.edit_customer', ['customer' => $customer]);
+        try {
+            $customer = Customer::where('id','=',$id)->first();
+            return view('admin.customers.edit_customer', ['customer' => $customer]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $user = auth()->user();
+        try {
+            $temp['name_surname'] = $request->input('patientName');
+            $temp['phone_number'] = $request->input('patientPhone');
+            $temp['email_address'] = $request->input('patientEmail');
+            $temp['country'] = $request->input('patientCountry');
+            $temp['birthdate'] = $request->input('patientBirthdate');
+            $temp['sales_person_id'] = $request->input('salesPersonId');
+            $temp['lead_source_id'] = $request->input('leadSourceId');
+            $temp['gender'] = $request->input('gender');
+            $temp['weight'] = $request->input('weight');
+            $temp['height'] = $request->input('height');
+            $temp['bmiValue'] = $request->input('bmiValue');
+            $temp['is_cigarette'] = $request->input('is_cigarette');
+            $temp['note'] = $request->input('note');
 
-        $temp['name_surname'] = $request->input('patientName');
-        $temp['phone_number'] = $request->input('patientPhone');
-        $temp['email_address'] = $request->input('patientEmail');
-        $temp['country'] = $request->input('patientCountry');
-        $temp['birthdate'] = $request->input('patientBirthdate');
-        $temp['sales_person_id'] = $request->input('salesPersonId');
-        $temp['lead_source_id'] = $request->input('leadSourceId');
-        $temp['gender'] = $request->input('gender');
-        $temp['weight'] = $request->input('weight');
-        $temp['height'] = $request->input('height');
-        $temp['bmiValue'] = $request->input('bmiValue');
-        $temp['is_cigarette'] = $request->input('is_cigarette');
-        $temp['note'] = $request->input('note');
-
-        if ($updateSelectedData = Patient::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/patients')->with('message', 'Patient Updated Successfully!');
+            if ($updateSelectedData = Patient::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/patients')->with('message', 'Patient Updated Successfully!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
         }
-        else {
-            return back()->withInput($request->input());
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 
@@ -80,8 +95,9 @@ class ContactFormController extends Controller
         try {
             Form::find($id)->delete();
             return redirect('definitions/patients')->with('message', 'Patient Deleted Successfully!');  
-        } catch (\Throwable $th) {
-            //throw $th;
+        }
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 }

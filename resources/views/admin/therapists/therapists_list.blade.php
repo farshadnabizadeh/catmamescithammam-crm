@@ -7,6 +7,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Therapists</li>
+                </ol>
+            </nav>
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <div class="row">
@@ -14,7 +20,7 @@
                             <h2>Therapists Lists</h2>
                         </div>
                         <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#therapistModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Therapist</button>
+                            <button data-toggle="modal" data-target="#therapistModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Therapist</button>
                         </div>
                     </div>
                 </div>
@@ -67,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

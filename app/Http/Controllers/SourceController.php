@@ -24,45 +24,56 @@ class SourceController extends Controller
         catch (\Throwable $th) {
             throw $th;
         }
-        
     }
 
     public function store(Request $request)
     {
-        $newSource = new Source();
-        $newSource->source_name = $request->input('sourceName');
-        $newSource->source_color = $request->input('sourceColor');
-        $newSource->user_id = auth()->user()->id;
+        try {
+            $newSource = new Source();
+            $newSource->source_name = $request->input('sourceName');
+            $newSource->source_color = $request->input('sourceColor');
+            $newSource->user_id = auth()->user()->id;
 
-        $result = $newSource->save();
+            $result = $newSource->save();
 
-        if ($result) {
-            return redirect('/definitions/sources')->with('message', 'Source Added Successfully!');
+            if ($result) {
+                return redirect('/definitions/sources')->with('message', 'Source Added Successfully!');
+            }
+            else {
+                return response(false, 500);
+            }
         }
-        else {
-            return response(false, 500);
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 
     public function edit($id)
     {
-        $source = Source::where('id','=',$id)->first();
-
-        return view('admin.sources.edit_source', ['source' => $source]);
+        try {
+            $source = Source::where('id','=',$id)->first();
+            return view('admin.sources.edit_source', ['source' => $source]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $user = auth()->user();
+        try {
+            $temp['source_name'] = $request->input('sourceName');
+            $temp['source_color'] = $request->input('sourceColor');
 
-        $temp['source_name'] = $request->input('sourceName');
-        $temp['source_color'] = $request->input('sourceColor');
-
-        if ($updateSelectedData = Source::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/sources')->with('message', 'Source Updated Successfully!');
+            if ($updateSelectedData = Source::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/sources')->with('message', 'Source Updated Successfully!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
         }
-        else {
-            return back()->withInput($request->input());
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 

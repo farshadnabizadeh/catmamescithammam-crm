@@ -13,18 +13,11 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-
     public function __construct()
     {
-
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $users = User::with("roles")->get();
@@ -35,11 +28,6 @@ class UserController extends Controller
         return view('admin.users.users_list')->with($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         // $roles = UserRole::all();
@@ -48,16 +36,8 @@ class UserController extends Controller
         return view('users.new_user')->with($data);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-
         $newUser = new User;
         $newUser->name = $request->input('userName');
         $newUser->email = $request->input('userEmail');
@@ -72,32 +52,15 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-
-
-       $user = User::find($id);
-
+        $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
-
         $userRole = $user->roles->pluck('name', 'name')->all();
 
         return view('users.edit_user', compact('user', 'roles', 'userRole'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = User::find($id);
@@ -109,14 +72,6 @@ class UserController extends Controller
         return view('admin.users.edit_user', compact('user', 'roles', 'userRole'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $temp['name'] = $request->input('userName');

@@ -41,7 +41,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('definitions/payments*') ? 'active' : '' }}" href="{{ url('/definitions/payments'); }}">
                             <i class="fa fa-credit-card-alt text-primary"></i>
-                            <span class="nav-link-text">Kasa</span>
+                            <span class="nav-link-text">Payments</span>
                         </a>
                     </li>
                     <li class="nav-item">

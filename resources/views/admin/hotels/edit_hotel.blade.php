@@ -44,11 +44,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group">
+                                <label for="hotelPersonSendAmount">Hotel Person Send Amount</label>
+                                <input type="text" class="form-control" id="hotelPersonSendAmount" name="hotelPersonSendAmount" placeholder="Enter Hotel Person Send Amount" value="{{ $hotel->hotel_person_send_amount }}">
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

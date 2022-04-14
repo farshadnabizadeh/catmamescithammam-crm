@@ -3,38 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Hotel;
 use Auth;
-use App\Models\Treatment;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-    */
     public function index()
     {
         try {
             $lastCustomers = Customer::latest()->take(5)->get();
 
             $customerCount = Customer::all()->count();
+            $hotelCount = Hotel::all()->count();
 
             $userID = Auth::user()->id;
             $user = auth()->user();
 
-            $dashboard = array('lastCustomers' => $lastCustomers, 'customerCount' => $customerCount);
+            $dashboard = array('lastCustomers' => $lastCustomers, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount);
 
             return view('home')->with($dashboard);
         }

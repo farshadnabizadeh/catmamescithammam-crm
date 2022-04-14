@@ -56,10 +56,14 @@ class HotelController extends Controller
 
     public function edit($id)
     {
-        $hotel = Hotel::where('id','=',$id)->first();
-        $sources = Source::orderBy('source_name', 'asc')->get();
+        try {
+            $hotel = Hotel::where('id','=',$id)->first();
 
-        return view('admin.hotels.edit_hotel', ['hotel' => $hotel, 'sources' => $sources]);
+            return view('admin.hotels.edit_hotel', ['hotel' => $hotel]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
@@ -67,14 +71,14 @@ class HotelController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['customer_name'] = $request->input('customerName');
-            $temp['customer_phone'] = $request->input('customerPhone');
-            $temp['customer_country'] = $request->input('customerCountry');
-            $temp['customer_email'] = $request->input('customerEmail');
-            $temp['customer_sob_id'] = $request->input('customerSobId');
+            $temp['hotel_name'] = $request->input('hotelName');
+            $temp['hotel_phone'] = $request->input('hotelPhone');
+            $temp['hotel_person'] = $request->input('hotelPerson');
+            $temp['hotel_person_account_number'] = $request->input('hotelPersonAccountNumber');
+            $temp['hotel_person_send_amount'] = $request->input('hotelPersonSendAmount');
 
-            if ($updateSelectedData = Customer::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/customers')->with('message', 'Customer Updated Successfully!');
+            if ($updateSelectedData = Hotel::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/hotels')->with('message', 'Hotel Updated Successfully!');
             }
             else {
                 return back()->withInput($request->input());
@@ -87,8 +91,8 @@ class HotelController extends Controller
 
     public function destroy($id){
         try {
-            $customers = Customer::where('id', '=', $id)->delete();
-            return redirect('definitions/customers')->with('message', 'Customer Deleted Successfully!');
+            $hotels = Hotel::where('id', '=', $id)->delete();
+            return redirect('definitions/hotels')->with('message', 'Hotel Deleted Successfully!');
         }
         catch (\Throwable $th) {
             throw $th;

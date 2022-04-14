@@ -12,6 +12,7 @@
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -78,13 +79,13 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/js-cookie/js.cookie.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/js.cookie.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.scrollbar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-scrollLock.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/Chart.extension.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/app.js') }}" defer></script>
 </body>
 </html>

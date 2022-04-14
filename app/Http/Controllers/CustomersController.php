@@ -60,7 +60,7 @@ class CustomersController extends Controller
         $customer = Customer::where('id','=',$id)->first();
         $sources = Source::orderBy('source_name', 'asc')->get();
 
-        return view('admin.customers.edit_customer', ['customer' => $customer, 'sources' => $sources, 'allCustomers' => $allCustomers]);
+        return view('admin.customers.edit_customer', ['customer' => $customer, 'sources' => $sources, 'customer' => $customer]);
     }
 
     public function update(Request $request, $id)

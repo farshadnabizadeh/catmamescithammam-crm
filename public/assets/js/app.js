@@ -166,6 +166,7 @@ var app = (function() {
     $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
     $("#discountId").select2({ placeholder: "Select Discount", dropdownAutoWidth: true, allowClear: true });
+    $("#country").select2({ placeholder: "Select a Country", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',

@@ -7,6 +7,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Users</li>   
+                </ol>
+            </nav>
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <div class="row">
@@ -14,7 +20,7 @@
                             <h2>Users</h2>
                         </div>
                         <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#exampleModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New User</button>
+                            <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New User</button>
                         </div>
                     </div>
                 </div>
@@ -80,12 +86,6 @@
                         <div class="form-group">
                             <label for="userPassword">User Password</label>
                             <input type="text" class="form-control" id="userPassword" name="userPassword" placeholder="Enter User Password" required>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="roleId">Role</label>
-                            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
                         </div>
                     </div>
                 </div>

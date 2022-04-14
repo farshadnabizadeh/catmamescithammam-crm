@@ -16,9 +16,14 @@ class ServiceController extends Controller
 
     public function index()
     {
-        $services = Service::orderBy('service_name', 'asc')->get();
-        $data = array('services' => $services);
-        return view('admin.services.services_list')->with($data);
+        try {
+            $services = Service::orderBy('service_name', 'asc')->get();
+            $data = array('services' => $services);
+            return view('admin.services.services_list')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function store(Request $request)
@@ -61,30 +66,44 @@ class ServiceController extends Controller
 
     public function edit($id)
     {
-        $service = Service::where('id','=',$id)->first();
+        try {
+            $service = Service::where('id','=',$id)->first();
 
-        return view('admin.services.edit_service', ['service' => $service]);
+            return view('admin.services.edit_service', ['service' => $service]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        $temp['service_name'] = $request->input('serviceName');
-        $temp['service_currency'] = $request->input('serviceCurrency');
-        $temp['service_cost'] = $request->input('serviceCost');
+            $temp['service_name'] = $request->input('serviceName');
+            $temp['service_currency'] = $request->input('serviceCurrency');
+            $temp['service_cost'] = $request->input('serviceCost');
 
-        if ($updateSelectedData = Service::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/services')->with('message', 'Service Updated Successfully!');
+            if ($updateSelectedData = Service::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/services')->with('message', 'Service Updated Successfully!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
         }
-        else {
-            return back()->withInput($request->input());
+        catch (\Throwable $th) {
+            throw $th;
         }
     }
 
     public function destroy($id){
-        $services = Service::where('id', '=', $id)->delete();
-
-        return redirect('definitions/services')->with('message', 'Service Deleted Successfully!');
+        try {
+            $services = Service::where('id', '=', $id)->delete();
+            return redirect('definitions/services')->with('message', 'Service Deleted Successfully!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

@@ -20,7 +20,7 @@
                             <h2>Hotels Lists</h2>
                         </div>
                         <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#hotelModal" class="btn btn-success float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Hotel</button>
+                            <button data-toggle="modal" data-target="#hotelModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Hotel</button>
                         </div>
                     </div>
                 </div>

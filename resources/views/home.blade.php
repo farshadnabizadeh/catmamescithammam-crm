@@ -14,18 +14,80 @@
         <div class="col-xl-3 col-md-6">
             <div class="card card-stats">
                 <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <h5 class="card-title text-dashboard-card">Customers</h5>
-                        <hr>
-                        <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
-                    </div>
-                    <div class="col-auto">
-                        <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                            <i class="fa fa-user"></i>
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-dashboard-card">Customers</h5>
+                            <hr>
+                            <a href="{{ url('/definitions/customers') }}">
+                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                <i class="fa fa-user"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-dashboard-card">Hotels</h5>
+                            <hr>
+                            <a href="{{ url('/definitions/hotels') }}">
+                                <span class="h2 mb-0 count-card">{{ $hotelCount }}</span>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                <i class="fa fa-hospital-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-dashboard-card">Contact Forms</h5>
+                            <hr>
+                            <a href="{{ url('/definitions/contactforms') }}">
+                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                <i class="fa fa-align-justify"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-dashboard-card">Therapists</h5>
+                            <hr>
+                            <a href="{{ url('/definitions/therapists') }}">
+                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                <i class="fa fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
