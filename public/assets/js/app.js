@@ -167,6 +167,7 @@ var app = (function() {
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
     $("#discountId").select2({ placeholder: "Select Discount", dropdownAutoWidth: true, allowClear: true });
     $("#country").select2({ placeholder: "Select a Country", dropdownAutoWidth: true, allowClear: true });
+    $("#sobId").select2({ placeholder: "Select a Sob", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -183,34 +184,6 @@ var app = (function() {
             console.log();
         },
     });
-
-    if (![HIDDEN_URL.RESERVATION, HIDDEN_URL.HOME, HIDDEN_URL.THERAPIST, HIDDEN_URL.SERVICES, HIDDEN_URL.SOURCES, HIDDEN_URL.USER, HIDDEN_URL.FORM].includes(window.location.pathname)) {
-        var input_get = document.querySelector("#phone_get");
-        var country_get = document.querySelector("#country_get");
-        var countryData_get = window.intlTelInputGlobals.getCountryData();
-        var iti_get = window.intlTelInput(input_get, {
-            autoHideDialCode: false,
-            autoPlaceholder: "on",
-            geoIpLookup: function(callback) {
-                $.get("https://api.ipgeolocation.io/ipgeo?apiKey=6fe879f09f9a4d0e9178277171ba6e46&fields=geo", function() {}, "json").always(function(resp) {
-                    var countryCode = (resp && resp.country_code2) ? resp.country_code2 : "";
-                    callback(countryCode);
-                });
-            },
-            initialCountry: "auto",
-            nationalMode: false,
-            preferredCountries: ['tr', 'gb', 'fr', 'sa', 'us', 'de', 'se', 'be', 'kw', 'ae', 'qa', 'nl'],
-            separateDialCode: false,
-            utilsScript: "https://sales.arpanumedical.com/assets/js/utils.js",
-        });
-
-        if (![HIDDEN_URL.HOSPITALS].includes(window.location.pathname)) {
-            input_get.addEventListener('countrychange', function(e) {
-                var countryname_get = iti_get.getSelectedCountryData().name;
-                country_get.value = countryname_get.replace(/.+\((.+)\)/, "$1");
-            });
-        }
-    }
 });
 
 var Layout = (function() {

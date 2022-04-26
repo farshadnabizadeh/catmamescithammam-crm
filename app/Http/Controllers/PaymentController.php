@@ -28,9 +28,9 @@ class PaymentController extends Controller
             $sources = Source::orderBy('source_name', 'asc')->get();
             $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
             $customers = Customer::orderBy('customer_name', 'asc')->get();
-            $discounts = Discount::orderBy('discount_name', 'asc')->get();
-            $data = array('payments' => $payments, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts);
-            return view('admin.payments.payments_list')->with($data);   
+            $sources = Source::orderBy('source_name', 'asc')->get();
+            $data = array('payments' => $payments, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'sources' => $sources);
+            return view('admin.payments.payments_list')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -41,6 +41,7 @@ class PaymentController extends Controller
     {
         try {
             $newReservation = new Reservation();
+            $newReservation->reservation_date = date('Y/m/d');
             $newReservation->total_customer = $request->input('totalCustomer');
             $newReservation->service_id	= $request->input('serviceId');
             $newReservation->service_currency = $request->input('serviceCurrency');

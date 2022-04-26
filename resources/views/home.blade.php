@@ -56,15 +56,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Contact Forms</h5>
+                            <h5 class="card-title text-dashboard-card">Services</h5>
                             <hr>
-                            <a href="{{ url('/definitions/contactforms') }}">
-                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                            <a href="{{ url('/definitions/services') }}">
+                                <span class="h2 mb-0 count-card">{{ $serviceCount }}</span>
                             </a>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-align-justify"></i>
+                                <i class="fa fa-sun-o"></i>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                             <h5 class="card-title text-dashboard-card">Therapists</h5>
                             <hr>
                             <a href="{{ url('/definitions/therapists') }}">
-                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                                <span class="h2 mb-0 count-card">{{ $therapistCount }}</span>
                             </a>
                         </div>
                         <div class="col-auto">

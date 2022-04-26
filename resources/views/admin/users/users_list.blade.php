@@ -28,7 +28,6 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col">Operation</th>
-                        <th scope="col">User Role</th>
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
                     </tr>
@@ -44,7 +43,6 @@
                             </ul>
                         </div>
                     </td>
-                    <td>@foreach($user->roles as $key => $value){{ $value->name.' '}}@endforeach</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                 </tr>

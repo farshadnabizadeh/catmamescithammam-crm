@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 @section('content')
+
 @include('layouts.navbar')
 
 <div class="container-fluid">
@@ -11,7 +13,7 @@
                <li class="breadcrumb-item active" aria-current="page">Payments</li>
             </ol>
          </nav>
-         <div class="card p-4 mt-3">
+         <div class="card p-3 mt-3">
             <div class="card-title">
                <div class="row">
                   <div class="col-lg-6">
@@ -74,7 +76,7 @@
             </button>
          </div>
          <div class="modal-body">
-            <form method="POST">
+            <form action="{{ url('/definitions/payments/store') }}" method="POST">
                @csrf
                <div class="row">
                   <div class="col-lg-6">
@@ -83,6 +85,14 @@
                         <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Total Customer" required>
                      </div>
                   </div>
+                  <div class="col-lg-6">
+                     <div class="form-group">
+                        <label for="arrivalTime">Reservation Time</label>
+                        <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
                         <label for="serviceId">Service</label>
@@ -94,8 +104,6 @@
                         </select>
                      </div>
                   </div>
-               </div>
-               <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
                         <label for="serviceCurrency">Service Currency</label>
@@ -108,23 +116,12 @@
                         </select>
                      </div>
                   </div>
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label for="serviceCost">Service Cost</label>
-                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost">
-                     </div>
-                  </div>
                </div>
                <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
-                        <label for="discountId">Discount</label>
-                        <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
-                           <option></option>
-                           @foreach ($discounts as $discount)
-                           <option value="{{ $discount->id }}">{{ $discount->discount_name }} | %{{ $discount->discount_percentage }}</option>
-                           @endforeach
-                        </select>
+                        <label for="serviceCost">Service Cost</label>
+                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost">
                      </div>
                   </div>
                   <div class="col-lg-6">
@@ -389,8 +386,6 @@
                         </select>
                      </div>
                   </div>
-               </div>
-               <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
                         <label for="therapistId">Therapist</label>
@@ -403,15 +398,21 @@
                      </div>
                   </div>
                </div>
-               {{-- <button type="button" data-toggle="modal" data-target="#add-customer-modal" class="btn btn-outline-primary mb-3" title="Add Customer To This Reservation">Add Customer</button> --}}
-               <button type="button" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+               <div class="row">
+                  <div class="col-lg-6">
+                     <div class="form-group">
+                        <label for="sobId">Source Of Bookings</label>
+                        <select id="sobId" name="sobId" class="form-control">
+                           <option></option>
+                           @foreach ($sources as $source)
+                           <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                           @endforeach
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               <button type="submitt" class="btn btn-success float-right">Save <i class="fa fa-check" aria-hidden="true"></i></button>
             </form>
-            <table class="table table-bordered" id="customerTableReservation">
-               <tr>
-                  <th>Customer Name</th>
-                  <th></th>
-               </tr>
-            </table>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

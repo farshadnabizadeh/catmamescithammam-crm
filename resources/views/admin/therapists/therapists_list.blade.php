@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Therapists</li>
                 </ol>
             </nav>
-            <div class="card p-4 mt-3">
+            <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">

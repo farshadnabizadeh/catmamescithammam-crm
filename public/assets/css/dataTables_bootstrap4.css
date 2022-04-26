@@ -105,7 +105,7 @@ table.dataTable thead>tr>th.sorting_desc {
     color: #000;
     font-family: var(--font-montserrat);
     font-weight: 600;
-    font-size: 13px
+    font-size: 11px
 }
 
 table.dataTable thead>tr>td:active,
