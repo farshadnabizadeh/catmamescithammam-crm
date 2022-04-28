@@ -11,6 +11,8 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/jquery-steps.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -36,6 +38,8 @@
     <script type="text/javascript" src="{{ asset('assets/js/chart.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-steps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.scrollbar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery-scrollLock.min.js') }}"></script>
@@ -58,5 +62,24 @@
     <script type="text/javascript" src="{{ asset('assets/js/extension-btns-custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/rest_api.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/app.js') }}" defer></script>
+    <script>
+        $('.inline-popups').magnificPopup({
+            type: 'inline',
+            removalDelay: 100,
+            fixedBgPos: true,
+            closeBtnInside: true,
+            callbacks: {
+                beforeOpen: function() {
+                    this.st.mainClass = this.st.el.attr('data-effect');
+                },
+
+                beforeClose: function() {
+                    this.content.addClass('animate__animated animate__zoomInDown');
+                },
+            },
+            type: 'ajax',
+            midClick: true
+        });
+    </script>
 </body>
 </html>

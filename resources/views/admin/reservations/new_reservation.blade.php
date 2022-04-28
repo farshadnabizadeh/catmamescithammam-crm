@@ -5,70 +5,321 @@
 @include('layouts.navbar')
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 table-responsive">
-            <nav aria-label="breadcrumb" class="mt-3">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Customers</li>
-                </ol>
-            </nav>
-            <div class="card p-3 mt-3">
-                <div class="card-title">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h2>Customers Lists</h2>
+   <div class="row">
+      <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left" aria-hidden="true"></i> Previous Page</button>
+      <div class="col-md-12 table-responsive">
+         <div class="card p-4 mt-3">
+            <div class="card-title d-flex">
+               <h2>Create New Reservation</h2>
+               <p class="patientName"></p>
+               <hr>
+            </div>
+            <div id="demo">
+                <div class="step-app">
+                    <ul class="step-steps">
+                        <li>
+                            <a href="#tab1"><span class="number">1</span> Create Customer</a>
+                        </li>
+                        <li>
+                            <a href="#tab2"><span class="number">2</span> Reservation Detail</a>
+                        </li>
+                        <li>
+                            <a href="#tab3"><span class="number">3</span> Payment Detail</a>
+                        </li>
+                        <li>
+                            <a href="#tab4"><span class="number">4</span> Reservation Summary</a>
+                        </li>
+                    </ul>
+                    <div class="step-content">
+                        <div class="step-tab-panel" id="tab1">
+                            <div class="progress mt-3">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="25" style="width: 25%">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                    <div class="card p-3 mt-3">
+                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Create New Customer <i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                    <div class="card p-3 mt-3">
+                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseCustomerModal">Choose Customer From the list <i class="fa fa-user"></i></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Customer</button>
+
+                        <div class="step-tab-panel" id="tab2">
+                            <div class="progress mt-3">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50" style="width: 50%">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3">
+                                    <form method="POST">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="arrivalDate">Reservation Date</label>
+                                                    <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Reservation Date" autocomplete="off" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="arrivalTime">Reservation Time</label>
+                                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="totalCustomer">Total Customer</label>
+                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Total Customer" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="therapistId">Therapist</label>
+                                                    <select id="therapistId" name="therapistId" class="form-control">
+                                                        <option></option>
+                                                        @foreach ($therapists as $therapist)
+                                                        <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form name="frmInfo" class="d-none" id="frmInfo">
+                            <input type="text" name="txtFirstName" required>
+                            <input type="text" name="txtLastName" required>
+                            </form>
+                        </div>
+                        <div class="step-tab-panel" id="tab3">
+                            <div class="progress mt-3">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="75" style="width: 75%">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="serviceId">Service</label>
+                                        <select id="serviceId" name="serviceId" class="form-control" required>
+                                            <option></option>
+                                            @foreach ($services as $service)
+                                            <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="serviceCurrency">Service Currency</label>
+                                        <select id="serviceCurrency" name="serviceCurrency" class="form-control">
+                                            <option></option>
+                                            <option value="EUR">EURO</option>
+                                            <option value="USD">USD</option>
+                                            <option value="GBP">GBP</option>
+                                            <option value="TL">TL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="serviceCost">Service Cost</label>
+                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost">
+                                     </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="serviceComission">Service Comission</label>
+                                        <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="discountId">Discount</label>
+                                        <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
+                                            <option></option>
+                                            @foreach ($discounts as $discount)
+                                            <option value="{{ $discount->id }}">{{ $discount->discount_name }} | %{{ $discount->discount_percentage }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherTreatmentPlanBtn">Next <i class="fa fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                            <form name="frmInfo" class="d-none" id="frmInfo">
+                            <input type="text" name="txtFirstName" required>
+                            <input type="text" name="txtLastName" required>
+                            </form>
+                        </div>
+
+                        <div class="step-tab-panel" id="tab4">
+                            <div class="progress mt-3">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="mt-3">Reservation Summary: </h4>
+                                    <hr>
+                                    <div style="clear:both;"></div>
+                                    <div class="table-responsive resultTable mt-4">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Reservation Date:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="medical-department-name"></p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>Reservation Time:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="medical-subdepartment-name"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Total Customer:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-treatment"></p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>Therapist:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="sales-person"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Weight:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-weight"></p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>Height:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-height"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>BMI Value:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-bmi"></p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>Estimated Price:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-estimated-price"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Currency:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-currency"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Duration Of Stay:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-duration-of-stay"></p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>Hospitalization:</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p class="treatment-plan-hospitalization"></p>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary mt-3 float-right" id="completeReservation">Complete Reservation <i class="fa fa-check"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <form name="frmLogin" class="d-none" id="frmLogin">
+                                Email address:<br>
+                                <input type="text" name="txtEmail" required>
+                                <br> Password:<br>
+                                <input type="text" name="txtPassword" required>
+                            </form>
                         </div>
                     </div>
+                    <div class="step-footer">
+                        <button data-direction="prev" class="step-btn"><i class="fa fa-arrow-left"></i> Previous</button>
+                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="next-step">Next <i class="fa fa-arrow-right"></i></button>
+                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="saveTreatmentPlan">Save and Next <i class="fa fa-arrow-right"></i></button>
+                        <button data-direction="finish" class="step-btn d-none">Finish</button>
+                    </div>
                 </div>
-                <div class="dt-responsive table-responsive">
-                    <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Operation</th>
-                                <th scope="col">Customer Name</th>
-                                <th scope="col">Customer Surname</th>
-                                <th scope="col">Customer Phone</th>
-                                <th scope="col">Customer Country</th>
-                                <th scope="col">Customer Email</th>
-                                <th scope="col">Customer Source</th>
-                            </tr>
-                        </thead>
-                        @foreach ($customers as $customer)
-                        <tr>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/definitions/customers/edit/'.$customer->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
-                                        <li><a href="{{ url('/definitions/customers/destroy/'.$customer->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>{{ $customer->customer_name }}</td>
-                            <td>{{ $customer->customer_surname }}</td>
-                            <td>{{ $customer->customer_phone }}</td>
-                            <td>{{ $customer->customer_country }}</td>
-                            <td>{{ $customer->customer_email }}</td>
-                            <td style="background-color: {{ $customer->sob->source_color }}; color: #fff">{{ $customer->sob->source_name }}</td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+</div>
+
+
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Reservation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <table class="table table-bordered" id="customerTableReservation">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th></th>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="addCustomerModal">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Customer</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h4 class="modal-title">Add Customer</h4>
+                <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -370,10 +621,66 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
-                </form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </form>                
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="chooseCustomerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Choose Customer From the List</h4>
+                <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card p-3">
+                            <div class="dt-responsive table-responsive">
+                                <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Operation</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Surname</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Country</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Note</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($customers as $customer)
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name }}"><i class="fa fa-check"></i> Choose</button>
+                                        </td>
+                                        <td>{{ $customer->customer_name }}</td>
+                                        <td>{{ $customer->customer_surname }}</td>
+                                        <td>{{ $customer->customer_phone }}</td>
+                                        <td>{{ $customer->customer_country }}</td>
+                                        <td>{{ $customer->customer_email }}</td>
+                                        <td>{{ $customer->note }}</td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>

@@ -1,13 +1,6 @@
-@extends('layouts.app')
-
-@section('content')
-
-@include('layouts.navbar')
-
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Edit Therapist</h2>
@@ -29,5 +22,3 @@
         </div>
     </div>
 </div>
-
-@endsection

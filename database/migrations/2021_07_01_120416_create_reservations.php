@@ -27,6 +27,13 @@ class CreateReservations extends Migration
             $table->integer('therapist_id')->unsigned();
             $table->foreign('therapist_id')->references('id')->on('therapists')
                 ->onDelete('cascade');
+            $table->integer('payment_type_id')->unsigned();
+            $table->foreign('payment_type_id')->references('id')->on('payment_types')
+                ->onDelete('cascade');
+            $table->integer('source_id')->unsigned();
+            $table->foreign('source_id')->references('id')
+                ->on('sources')
+                ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();

@@ -37,6 +37,23 @@ class ReservationController extends Controller
         }
     }
 
+    public function create()
+    {
+        try {
+            $reservations = Reservation::all();
+            $services = Service::orderBy('service_name', 'asc')->get();
+            $sources = Source::orderBy('source_name', 'asc')->get();
+            $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
+            $customers = Customer::orderBy('customer_name', 'asc')->get();
+            $discounts = Discount::orderBy('discount_name', 'asc')->get();
+            $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts);
+            return view('admin.reservations.new_reservation')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(Request $request)
     {
         try {

@@ -35,8 +35,6 @@ div.dataTables_wrapper div.dataTables_length select {
 
 div.dataTables_wrapper div.dataTables_filter {
     text-align: right;
-    position: fixed;
-    right: 79px;
     z-index: 3;
     padding-top: 10px;
     padding-left: 10px;

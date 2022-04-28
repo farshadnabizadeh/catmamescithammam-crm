@@ -145,12 +145,14 @@ var app = (function() {
     if ([HIDDEN_URL.HOME].includes(window.location.pathname)) {
         dashboard();
     }
+
     $(document).ready(function() {
         select2Init();
         dataTableInit();
         dtSearchInit();
     });
 
+    reservationStep();
     getServiceDetail();
     getDiscountDetail();
     clockPicker();
@@ -224,7 +226,7 @@ var Layout = (function() {
 
     $(document).ready(function() {
 
-        $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
+        $("#tableComplete   d").dataTable({ paging: true, pageLength: 25 });
         $("#tableData").dataTable({ paging: true, pageLength: 25 });
 
         $('label.tree-toggler').click(function() {
@@ -482,6 +484,66 @@ function clockPicker(){
         console.log(error);
     }
     finally { }
+}
+
+function reservationStep() {
+    try {
+        var frmInfo = $('#frmInfo');
+        var frmInfoValidator = frmInfo.validate();
+
+        var frmLogin = $('#frmLogin');
+        var frmLoginValidator = frmLogin.validate();
+
+        var frmMobile = $('#frmMobile');
+        var frmMobileValidator = frmMobile.validate();
+
+        $('#demo').steps({
+            onChange: function (currentIndex, newIndex, stepDirection) {
+                console.log('onChange', currentIndex, newIndex, stepDirection);
+                // tab1
+                if (currentIndex === 3) {
+                    if (stepDirection === 'forward') {
+                        var valid = frmLogin.valid();
+                        return valid;
+                    }
+                    if (stepDirection === 'backward') {
+                        frmLoginValidator.resetForm();
+                    }
+                }
+
+                // tab2
+                if (currentIndex === 1) {
+                    if (stepDirection === 'forward') {
+                        var valid = frmInfo.valid();
+                        return valid;
+                    }
+                    if (stepDirection === 'backward') {
+                        frmInfoValidator.resetForm();
+                    }
+                }
+
+                // tab3
+                if (currentIndex === 4) {
+                    if (stepDirection === 'forward') {
+                        var valid = frmMobile.valid();
+                        return valid;
+                    }
+                    if (stepDirection === 'backward') {
+                        frmMobileValidator.resetForm();
+                    }
+                }
+
+                return true;
+            },
+            onFinish: function () {
+                alert('Wizard Completed');
+            }
+        });
+
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 function getServiceDetail() {

@@ -60,15 +60,17 @@ Route::group(['middleware' => ['auth']], function(){
     //Hotels end
 
     //Payments
-    Route::GET('definitions/payments', 'PaymentController@index');
-    Route::POST('definitions/payments/store', 'PaymentController@store');
-    Route::GET('definitions/payments/edit/{id}', 'PaymentController@edit');
-    Route::POST('definitions/payments/update/{id}', 'PaymentController@update');
-    Route::GET('definitions/payments/destroy/{id}', 'PaymentController@destroy');
+    Route::GET('definitions/payment_types', 'PaymentTypeController@index');
+    Route::POST('definitions/payment_types/store', 'PaymentTypeController@store');
+    Route::GET('definitions/payment_types/edit/{id}', 'PaymentTypeController@edit');
+    Route::POST('definitions/payment_types/update/{id}', 'PaymentTypeController@update');
+    Route::GET('definitions/payment_types/destroy/{id}', 'PaymentTypeController@destroy');
     //Hotels end
 
     //Reservations
     Route::GET('definitions/reservations', 'ReservationController@index');
+    Route::GET('definitions/reservations/calendar', 'ReservationController@calendar');
+    Route::GET('definitions/reservations/create', 'ReservationController@create');
     Route::POST('definitions/reservations/store', 'ReservationController@store');
     Route::GET('definitions/reservations/edit/{id}', 'ReservationController@edit');
     Route::POST('definitions/reservations/addCustomertoReservation', 'ReservationController@addCustomertoReservation');

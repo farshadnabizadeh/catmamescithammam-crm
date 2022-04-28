@@ -93,8 +93,8 @@ class ContactFormController extends Controller
 
     public function destroy($id){
         try {
-            Form::find($id)->delete();
-            return redirect('definitions/patients')->with('message', 'Patient Deleted Successfully!');  
+            ContactForm::find($id)->delete();
+            return redirect('definitions/contactforms')->with('message', 'Contact Form Deleted Successfully!');
         }
         catch (\Throwable $th) {
             throw $th;

@@ -39,15 +39,21 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('definitions/payments*') ? 'active' : '' }}" href="{{ url('/definitions/payments'); }}">
+                        <a class="nav-link {{ request()->is('definitions/payment_types*') ? 'active' : '' }}" href="{{ url('/definitions/payment_types'); }}">
                             <i class="fa fa-credit-card-alt text-primary"></i>
-                            <span class="nav-link-text">Payments</span>
+                            <span class="nav-link-text">Payment Types</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('definitions/reservations*') ? 'active' : '' }}" href="{{ url('/definitions/reservations'); }}">
                             <i class="fa fa-check text-primary"></i>
                             <span class="nav-link-text">Reservations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('definitions/reservations/calendar*') ? 'active' : '' }}" href="{{ url('/definitions/reservations/calendar'); }}">
+                            <i class="fa fa-calendar text-primary"></i>
+                            <span class="nav-link-text">Reservations Calendar</span>
                         </a>
                     </li>
                     <li class="nav-item">
