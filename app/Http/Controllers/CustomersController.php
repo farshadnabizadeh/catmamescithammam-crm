@@ -57,10 +57,15 @@ class CustomersController extends Controller
 
     public function edit($id)
     {
-        $customer = Customer::where('id','=',$id)->first();
-        $sources = Source::orderBy('source_name', 'asc')->get();
+        try {
+            $customer = Customer::where('id','=',$id)->first();
+            $sources = Source::orderBy('source_name', 'asc')->get();
 
-        return view('admin.customers.edit_customer', ['customer' => $customer, 'sources' => $sources, 'customer' => $customer]);
+            return view('admin.customers.edit_customer', ['customer' => $customer, 'sources' => $sources, 'customer' => $customer]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update(Request $request, $id)
@@ -88,7 +93,7 @@ class CustomersController extends Controller
 
     public function destroy($id){
         try {
-            $customers = Customer::where('id', '=', $id)->delete();
+            Customer::where('id', '=', $id)->delete();
             return redirect('definitions/customers')->with('message', 'Customer Deleted Successfully!');
         }
         catch (\Throwable $th) {

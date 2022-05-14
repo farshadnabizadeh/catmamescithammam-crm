@@ -15,6 +15,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('operationcalendar*') ? 'active' : '' }}" href="{{ url('/operationcalendar'); }}">
+                            <i class="fa fa-users text-primary"></i>
+                            <span class="nav-link-text">Operation Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('definitions/customers*') ? 'active' : '' }}" href="{{ url('/definitions/customers'); }}">
                             <i class="fa fa-users text-primary"></i>
                             <span class="nav-link-text">Customers</span>

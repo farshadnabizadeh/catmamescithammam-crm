@@ -51,6 +51,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/contactforms/destroy/{id}', 'ContactFormController@destroy');
     //Contact Forms end
 
+    //Calendars
+    Route::GET('operationcalendar', 'ReservationController@operationcalendar');
+    //Calendars end
+
     //Hotels
     Route::GET('definitions/hotels', 'HotelController@index');
     Route::POST('definitions/hotels/store', 'HotelController@store');
@@ -94,7 +98,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::POST('definitions/services/update/{id}', 'ServiceController@update');
     Route::GET('definitions/services/destroy/{id}', 'ServiceController@destroy');
     //api
-    Route::GET('getService/{id}', 'ServiceController@getService');    
+    Route::GET('getService/{id}', 'ServiceController@getService');
     //Services end
 
     //Therapists
@@ -112,7 +116,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::POST('definitions/discounts/update/{id}', 'DiscountController@update');
     Route::GET('definitions/discounts/destroy/{id}', 'DiscountController@destroy');
     //api
-    Route::GET('getDiscount/{id}', 'DiscountController@getDiscount');  
+    Route::GET('getDiscount/{id}', 'DiscountController@getDiscount');
     //Discounts end
 
     //Report

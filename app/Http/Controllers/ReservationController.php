@@ -12,6 +12,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -30,7 +31,7 @@ class ReservationController extends Controller
             $customers = Customer::orderBy('customer_name', 'asc')->get();
             $discounts = Discount::orderBy('discount_name', 'asc')->get();
             $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts);
-            return view('admin.reservations.reservations_list')->with($data);   
+            return view('admin.reservations.reservations_list')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -98,6 +99,33 @@ class ReservationController extends Controller
             else {
                 return response(false, 500);
             }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function operationcalendar()
+    {
+        try {
+            $user = auth()->user();
+
+            $calendarCount = DB::table('treatment_plans')
+                ->select('treatment_plans.operation_date as date', 'sales_persons.id as sId', 'sales_persons.name_surname', 'treatments.treatment_name', DB::raw('count(treatment_name) as countR'))
+                ->leftJoin('sales_persons', 'treatment_plans.sales_person_id', '=', 'sales_persons.id')
+                ->leftJoin('patients', 'treatment_plans.patient_id', '=', 'patients.id')
+                ->leftJoin('treatments', 'treatment_plans.treatment_id', '=', 'treatments.id')
+                ->whereNull('deleted_at')
+                ->whereNotNull('treatment_plans.sales_person_id')
+                ->whereIn('treatment_plans.treatment_plan_status_id', array(2))
+                // ->whereMonth('treatment_plans.created_date', Carbon::now()->month)
+                ->groupBy(['date', 'sId']);
+
+            $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
+            $calendarCount->getBindings());
+
+            $data = array('listCountByMonth' => $listCountByMonth);
+            return view('operation_calendar')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;

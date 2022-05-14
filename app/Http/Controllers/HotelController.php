@@ -91,7 +91,7 @@ class HotelController extends Controller
 
     public function destroy($id){
         try {
-            $hotels = Hotel::where('id', '=', $id)->delete();
+            Hotel::where('id', '=', $id)->delete();
             return redirect('definitions/hotels')->with('message', 'Hotel Deleted Successfully!');
         }
         catch (\Throwable $th) {
