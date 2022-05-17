@@ -105,13 +105,13 @@ class ReservationController extends Controller
         }
     }
 
-    public function operationcalendar()
+    public function reservationCalendar()
     {
         try {
             $user = auth()->user();
 
-            $calendarCount = DB::table('treatment_plans')
-                ->select('treatment_plans.operation_date as date', 'sales_persons.id as sId', 'sales_persons.name_surname', 'treatments.treatment_name', DB::raw('count(treatment_name) as countR'))
+            /* $calendarCount = DB::table('reservations')
+                ->select('reservations.reservation_date as date', 'sales_persons.id as sId', 'sales_persons.name_surname', 'treatments.treatment_name', DB::raw('count(treatment_name) as countR'))
                 ->leftJoin('sales_persons', 'treatment_plans.sales_person_id', '=', 'sales_persons.id')
                 ->leftJoin('patients', 'treatment_plans.patient_id', '=', 'patients.id')
                 ->leftJoin('treatments', 'treatment_plans.treatment_id', '=', 'treatments.id')
@@ -124,8 +124,8 @@ class ReservationController extends Controller
             $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
             $calendarCount->getBindings());
 
-            $data = array('listCountByMonth' => $listCountByMonth);
-            return view('operation_calendar')->with($data);
+            $data = array('listCountByMonth' => $listCountByMonth); */
+            return view('admin.reservations.reservation_calendar');
         }
         catch (\Throwable $th) {
             throw $th;

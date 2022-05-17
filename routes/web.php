@@ -51,10 +51,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/contactforms/destroy/{id}', 'ContactFormController@destroy');
     //Contact Forms end
 
-    //Calendars
-    Route::GET('operationcalendar', 'ReservationController@operationcalendar');
-    //Calendars end
-
     //Hotels
     Route::GET('definitions/hotels', 'HotelController@index');
     Route::POST('definitions/hotels/store', 'HotelController@store');
@@ -69,11 +65,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/payment_types/edit/{id}', 'PaymentTypeController@edit');
     Route::POST('definitions/payment_types/update/{id}', 'PaymentTypeController@update');
     Route::GET('definitions/payment_types/destroy/{id}', 'PaymentTypeController@destroy');
-    //Hotels end
+    //Payment Types end
 
     //Reservations
     Route::GET('definitions/reservations', 'ReservationController@index');
-    Route::GET('definitions/reservations/calendar', 'ReservationController@calendar');
+    Route::GET('definitions/reservations/calendar', 'ReservationController@reservationCalendar');
     Route::GET('definitions/reservations/create', 'ReservationController@create');
     Route::POST('definitions/reservations/store', 'ReservationController@store');
     Route::GET('definitions/reservations/edit/{id}', 'ReservationController@edit');

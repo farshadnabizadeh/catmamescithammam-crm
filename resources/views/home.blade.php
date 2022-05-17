@@ -4,7 +4,7 @@
 
 <div class="header bg-primary pb-6">
 <div class="container-fluid">
-<div class="header-body">
+    <div class="header-body">
     <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
             <h6 class="h2 text-white d-inline-block mb-0 item-text font-weight-600">Dashboard </h6>
@@ -130,6 +130,20 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-6">
+         <div class="card">
+            <div class="card-header border-0">
+               <div class="row align-items-center">
+                  <div class="col">
+                     <h3 class="mb-0">General Summary</h3>
+                  </div>
+               </div>
+            </div>
+            <div class="card-body">
+               <canvas id="pie-chart" width="800" height="450"></canvas>
+            </div>
+         </div>
+      </div>
     </div>
 </div>
 

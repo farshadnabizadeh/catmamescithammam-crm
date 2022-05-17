@@ -12,4 +12,8 @@ class PaymentType extends Model
     use SoftDeletes;
     protected $table = 'payment_types';
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

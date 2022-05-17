@@ -72,11 +72,26 @@ class PaymentTypeController extends Controller
     public function edit($id)
     {
         try {
-            $reservation = Reservation::where('id','=', $id)->first();
-            $services = Service::all();
-            $therapists = Therapist::all();
-            $customers = Customer::orderBy('customer_name', 'asc')->get();
-            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'customers' => $customers]);
+            $payment_type = PaymentType::where('id','=', $id)->first();
+            return view('admin.payment_types.edit_payment_type', ['payment_type' => $payment_type]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $temp['payment_type_name'] = $request->input('paymentTypeName');
+            $temp['note'] = $request->input('note');
+
+            if ($updateSelectedData = PaymentType::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/payment_types')->with('message', 'Payment Type Updated Successfully!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
         }
         catch (\Throwable $th) {
             throw $th;
@@ -85,8 +100,8 @@ class PaymentTypeController extends Controller
 
     public function destroy($id){
         try {
-            Reservation::find($id)->delete();
-            return redirect('definitions/reservations')->with('message', 'Reservation Deleted Successfully!');
+            PaymentType::find($id)->delete();
+            return redirect('definitions/payment_types')->with('message', 'Payment Type Deleted Successfully!');
         }
         catch (\Throwable $th) {
             throw $th;

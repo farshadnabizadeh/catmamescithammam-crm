@@ -1533,7 +1533,7 @@ h6,
 .h5,
 .h6
 {
-    font-family: inherit;
+    font-family: "Montserrat";
     font-weight: 600;
     line-height: 1.5;
 
@@ -6738,22 +6738,61 @@ input[type='button'].btn-block
 {
     text-decoration: none;
 }
+
 .nav-link.disabled
 {
     cursor: default;
     pointer-events: none;
-
-    color: #8898aa;
+    color: #8898aa
 }
 
 .nav-tabs
 {
     border-bottom: 1px solid #dee2e6;
 }
+
 .nav-tabs .nav-item
 {
     margin-bottom: -1px;
 }
+
+.nav-item .nav-item_sub,
+.nav-item .nav-item_sub li {
+    list-style: none
+}
+
+.nav-item .nav-item_sub {
+    margin-left: 15px;
+    margin-bottom: 10px;
+    display: none
+}
+
+.nav-item .nav-item_sub li a {
+    font-size: 14px;
+    display: block;
+    padding: 5px 0;
+    font-family: 'Montserrat';
+    color: #000
+}
+
+.nav-item .nav-item_sub li a.active {
+    font-weight: bold
+}
+
+.nav-item .sub-icon {
+    position: absolute;
+    right: 20px;
+    min-width: auto !important
+}
+
+.nav-item.active .sub-icon {
+    transform: rotate(45deg)
+}
+
+.nav-item.active .nav-item_sub {
+    display: block
+}
+
 .nav-tabs .nav-link
 {
     border: 1px solid transparent;

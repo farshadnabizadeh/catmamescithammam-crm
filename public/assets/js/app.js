@@ -156,6 +156,7 @@ var app = (function() {
     getServiceDetail();
     getDiscountDetail();
     clockPicker();
+    datePicker();
     addCustomertoReservationModal();
     addReservationOperation();
     addcustomerReservation();
@@ -185,6 +186,10 @@ var app = (function() {
         error: function() {
             console.log();
         },
+    });
+
+    $('.navbar-nav li a').on('click', function () {
+        $(this).parent().toggleClass('active');
     });
 });
 
@@ -443,24 +448,6 @@ var FormControl = (function() {
     }
 })();
 
-var Datepicker = (function() {
-    var $datepicker = $('.datepicker');
-
-    function init($this) {
-        var options = {
-            disableTouchKeyboard: true,
-            autoclose: true,
-            dateFormat: 'yy-mm-dd'
-        };
-        $this.datepicker(options);
-    }
-    if ($datepicker.length) {
-        $datepicker.each(function() {
-            init($(this));
-        });
-    }
-})();
-
 function previousPage() {
     history.go(-1);
 }
@@ -474,6 +461,28 @@ function deleteTableRow(id) {
         console.log(error);
     }
     finally { }
+}
+
+function datePicker(){
+    try {
+        var userFormat = "YYYY-MM-DD";
+
+        $('#arrivalDate').daterangepicker({
+            "autoApply": true,
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": true,
+            locale: {
+                firstDay: 1,
+                format: userFormat
+            },
+            minDate: moment().add(1, 'days'),
+            maxDate: moment().add(359, 'days'),
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 function clockPicker(){

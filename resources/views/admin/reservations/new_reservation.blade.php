@@ -176,7 +176,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <h4 class="mt-3">Reservation Summary: </h4>
+                                    <h4 class="mt-3">Reservation Detail: </h4>
                                     <hr>
                                     <div style="clear:both;"></div>
                                     <div class="table-responsive resultTable mt-4">
@@ -210,59 +210,6 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <p>Weight:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-weight"></p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p>Height:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-height"></p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <p>BMI Value:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-bmi"></p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p>Estimated Price:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-estimated-price"></p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <p>Currency:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-currency"></p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <p>Duration Of Stay:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-duration-of-stay"></p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p>Hospitalization:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="treatment-plan-hospitalization"></p>
-                                            </div>
-                                        </div>
                                         <button class="btn btn-primary mt-3 float-right" id="completeReservation">Complete Reservation <i class="fa fa-check"></i></button>
                                     </div>
                                 </div>
@@ -287,7 +234,6 @@
       </div>
    </div>
 </div>
-
 
 <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -619,7 +565,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>  
                     </div>
                     <div class="row">
                         <div class="col-lg-12">

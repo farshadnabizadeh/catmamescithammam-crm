@@ -38,8 +38,8 @@
                         <div class="dropdown">
                            <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                            <ul class="dropdown-menu">
-                              <li><a href="{{ url('/definitions/reservations/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
-                              <li><a href="{{ url('/definitions/reservations/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                              <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                              <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
                            </ul>
                         </div>
                      </td>
