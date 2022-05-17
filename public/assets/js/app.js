@@ -649,6 +649,7 @@ function addCustomertoReservationModal() {
                     "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn float-right'><i class='fa fa-window-close'></i> Remove</button></td>" +
                 "</tr>";
 
+                $("#next-step").trigger("click");
                 $('#customerTableReservation tbody').append(markup);
                 $('#customerTableReservation').trigger('rowAddOrRemove');
                 $('.add-reservation-close').trigger('click');
@@ -661,29 +662,52 @@ function addCustomertoReservationModal() {
 
 function addReservationOperation() {
     try {
-        var serviceId, pPrice, sPrice, note;
         $('#reservationSave').on('click', function(){
             var arrivalDate = $('#arrivalDate').val();
             var arrivalTime = $('#arrivalTime').val();
             var totalCustomer = $('#totalCustomer').val();
-            var serviceId = $('#serviceId').children("option:selected").val();
-            var serviceCurrency = $('#serviceCurrency').children("option:selected").val();
-            var serviceCost = $('#serviceCost').val();
-            var serviceComission = $('#serviceComission').val();
             var therapistId = $('#therapistId').children("option:selected").val();
             if (arrivalDate == "" || arrivalTime == ""){
                 swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
             }
             else {
-                $("#customerTableReservation").find("tr").each(function (i) {
+                /* $("#customerTableReservation").find("tr").each(function (i) {
                     var $tds = $(this).find('td'),
                         customersId = $tds.eq(0).attr("id");
                     setTimeout(() => {
                         addCustomertoReservation(reservationID, customersId);
                     }, 100);
-                });
-                addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId);
+                }); */
+                $("#next-step").trigger("click");
+                // addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId);
             }
+        });
+
+        $("#saveOtherDataBtn").on("click", function () {
+            var serviceId = $("#bariatricRequestResult").find('#bariatricMSubDepartment').children("option:selected").val();
+            var serviceCurrency = $("#plasticRequestResult").find('#plasticMDepartment').children("option:selected").val();
+            var serviceCost = $("#plasticRequestResult").find('#plasticMDepartment').children("option:selected").val();
+            var serviceComission = $("#plasticRequestResult").find('#plasticMDepartment').children("option:selected").val();
+
+            $(".medical-department-name").text(medicalDepartment);
+            $(".medical-subdepartment-name").text(medicalSubDepartment);
+            $(".treatment-plan-treatment").text(treatmentName);
+            $(".sales-person").text(salesPerson);
+            $("#next-step").trigger("click");
+
+            var leadSourceId = $("#addCustomerModal").find('#leadSourceId').children("option:selected").val();
+            var agentId = $("#addCustomerModal").find('[name="agentId"]').children("option:selected").val();
+            var salesPersonId = $("#addCustomerModal").find('[name="sales_person_id"]').children("option:selected").val();
+            var patientName = $("#addCustomerModal").find('#patientName').val();
+            var patientPhone = $("#addCustomerModal").find('#phone_get').val();
+            var patientEmail = $("#addCustomerModal").find('#patientEmail').val();
+            var patientCountry = $("#addCustomerModal").find('#country_get').children("option:selected").val();
+            var patientBirthDate = $("#addCustomerModal").find('#patientBirthdate').val();
+            var patientGender = $("#addCustomerModal").find('[name="gender"]:checked').val();
+            var note = $("#addCustomerModal").find('#note').val();
+            setTimeout(() => {
+                addPatient(leadSourceId, agentId, salesPersonId, patientName, patientPhone, patientEmail, patientCountry, patientBirthDate, patientGender, note);
+            }, 500);
         });
     } catch (error) {
         console.log(error);
@@ -691,6 +715,42 @@ function addReservationOperation() {
 }
 
 function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId){
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/definitions/reservations/store',
+            type: 'POST',
+            data: {
+                'arrivalDate': arrivalDate,
+                'arrivalTime': arrivalTime,
+                'totalCustomer': totalCustomer,
+                'serviceId': serviceId,
+                'serviceCurrency': serviceCurrency,
+                'serviceCost': serviceCost,
+                'serviceComission': serviceComission,
+                'therapistId': therapistId
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({ icon: 'success', title: 'Success!', text: 'Reservation Added Successfully!', timer: 1000 });
+                    reservationID = response;
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addCustomer(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId) {
     try {
         $.ajaxSetup({
             headers: {

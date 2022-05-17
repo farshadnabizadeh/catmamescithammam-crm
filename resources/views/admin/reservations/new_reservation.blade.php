@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
    <div class="row">
-      <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left" aria-hidden="true"></i> Previous Page</button>
+      <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left"></i> Previous Page</button>
       <div class="col-md-12 table-responsive">
          <div class="card p-4 mt-3">
             <div class="card-title d-flex">
@@ -39,7 +39,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
                                     <div class="card p-3 mt-3">
-                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Create New Customer <i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Create New Customer <i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
@@ -92,7 +92,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-success float-right" id="reservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-primary float-right" id="reservationSave">Next <i class="fa fa-arrow-right"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherTreatmentPlanBtn">Next <i class="fa fa-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherDataBtn">Next <i class="fa fa-arrow-right"></i></button>
                                 </div>
                             </div>
                             <form name="frmInfo" class="d-none" id="frmInfo">
@@ -235,13 +235,13 @@
    </div>
 </div>
 
-<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New Reservation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -266,7 +266,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Add Customer</h4>
                 <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -569,7 +569,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check"></i></button>
                         </div>
                     </div>
                 </form>                
@@ -587,7 +587,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Choose Customer From the List</h4>
                 <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">

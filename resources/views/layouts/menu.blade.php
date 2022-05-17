@@ -98,7 +98,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('definitions/users*') ? 'active' : '' }}" href="{{ url('/definitions/users'); }}">
-                            <i class="fa fa-cogs text-primary"></i>
+                            <i class="fa fa-user text-primary"></i>
                             <span class="nav-link-text">Users</span>
                         </a>
                     </li>
