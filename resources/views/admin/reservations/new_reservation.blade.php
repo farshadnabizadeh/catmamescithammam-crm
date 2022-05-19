@@ -270,7 +270,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/customers/store') }}" method="POST">
+                <form method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

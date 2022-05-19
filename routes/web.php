@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Customers
     Route::GET('definitions/customers', 'CustomersController@index');
     Route::POST('definitions/customers/store', 'CustomersController@store');
+    Route::POST('definitions/customers/save', 'CustomersController@save');
     Route::GET('getMedicalDepartment', 'CustomersController@getMedicalDepartment');
     Route::GET('getuserName', 'CustomersController@getUserName');
     Route::GET('definitions/customers/edit/{id}', 'CustomersController@edit');

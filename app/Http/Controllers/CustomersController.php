@@ -55,6 +55,32 @@ class CustomersController extends Controller
         }
     }
 
+    public function save(Request $request)
+    {
+        try {
+            $newCustomer = new Customer();
+            $newCustomer->customer_name = $request->input('customerName');
+            $newCustomer->customer_surname = $request->input('customerSurname');
+            $newCustomer->customer_phone = $request->input('customerPhone');
+            $newCustomer->customer_country = $request->input('customerCountry');
+            $newCustomer->customer_email = $request->input('customerEmail');
+            $newCustomer->customer_sob_id = $request->input('customerSobId');
+
+            $newCustomer->user_id = auth()->user()->id;
+            $result = $newCustomer->save();
+
+            if ($result) {
+                return response($newCustomer->id, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function edit($id)
     {
         try {
