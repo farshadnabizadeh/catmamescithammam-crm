@@ -1,4 +1,5 @@
 var reservationID;
+var customerID;
 
 var HIDDEN_URL = {
     RESERVATION: '/definitions/reservations',
@@ -14,7 +15,7 @@ function dashboard() {
     new Chart(document.getElementById("pie-chart"), {
         type: 'pie',
         data: {
-            labels: ["Doctors", "Sales", "Patients", "Treatments"],
+            labels: ["Doctors", "Sales", "Customers", "Treatments"],
             datasets: [{
                 label: "Population (millions)",
                 backgroundColor: ["#11cdef", "#8e5ea2", "#11cdef", "#11cdef"],
@@ -153,8 +154,10 @@ var app = (function() {
     });
 
     reservationStep();
+    getCustomerId();
     getServiceDetail();
     getDiscountDetail();
+    completeReservation();
     clockPicker();
     datePicker();
     addCustomertoReservationModal();
@@ -164,13 +167,13 @@ var app = (function() {
     $("#colorpicker").spectrum();
     $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Select Currency", dropdownAutoWidth: true, allowClear: true });
-    $("#customerSobId").select2({ placeholder: "Select Source Of Booking", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Select Service", dropdownAutoWidth: true, allowClear: true });
     $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
     $("#discountId").select2({ placeholder: "Select Discount", dropdownAutoWidth: true, allowClear: true });
     $("#country").select2({ placeholder: "Select a Country", dropdownAutoWidth: true, allowClear: true });
     $("#sobId").select2({ placeholder: "Select a Sob", dropdownAutoWidth: true, allowClear: true });
+    $("#paymentType").select2({ placeholder: "Select a Payment Type", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -231,7 +234,7 @@ var Layout = (function() {
 
     $(document).ready(function() {
 
-        $("#tableComplete   d").dataTable({ paging: true, pageLength: 25 });
+        $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
         $("#tableData").dataTable({ paging: true, pageLength: 25 });
 
         $('label.tree-toggler').click(function() {
@@ -555,6 +558,24 @@ function reservationStep() {
     }
 }
 
+function getCustomerId() {
+    try {
+        $('#chooseCustomerModal tbody').on('click', 'td .create-registered-customer-reservation', function () {
+            var selectedCustomerId = this.id;
+            var patientName = $(this).attr("data-name");
+            $(".close").trigger("click");
+            $(this).text("Selected");
+            $(this).addClass("btn-danger");
+            $("#next-step").trigger("click");
+            $(".patientName").html('<i class="fa fa-user text-primary mr-2"></i>' + patientName);
+            customerID = selectedCustomerId;
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 function getServiceDetail() {
     try {
         $("#serviceId").on("change", function () {
@@ -667,7 +688,7 @@ function addReservationOperation() {
             var arrivalTime = $('#arrivalTime').val();
             var totalCustomer = $('#totalCustomer').val();
             var therapistId = $('#therapistId').children("option:selected").val();
-            if (arrivalDate == "" || arrivalTime == ""){
+            if (arrivalDate == "" || arrivalTime == "" || totalCustomer == "" || therapistId == ""){
                 swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
             }
             else {
@@ -684,34 +705,76 @@ function addReservationOperation() {
         });
 
         $("#saveOtherDataBtn").on("click", function () {
-            var serviceId = $("#tab3").find('#serviceId').children("option:selected").val();
-            var serviceCurrency = $("#tab3").find('#serviceCurrency').children("option:selected").val();
-            var serviceCost = $("#tab3").find('#serviceCost').val();
-            var serviceComission = $("#tab3").find('#serviceComission').val();
-            var discountId = $("#tab3").find('#discountId').children("option:selected").val();
+            var arrivalDate = $("#tab2").find('#arrivalDate').val();
+            var arrivalTime = $("#tab2").find('#arrivalTime').val();
+            var totalCustomer = $("#tab2").find('#totalCustomer').val();
+            var therapistName = $("#tab2").find('#therapistId').children("option:selected").text();
 
-            // $(".medical-department-name").text(medicalDepartment);
-            // $(".medical-subdepartment-name").text(medicalSubDepartment);
-            // $(".treatment-plan-treatment").text(treatmentName);
-            // $(".sales-person").text(salesPerson);
+            var serviceName = $("#tab3").find("#serviceId").children("option:selected").text();
+            var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").text();
+            var serviceCost = $("#tab3").find("#serviceCost").val();
+            var serviceComission = $("#tab3").find("#serviceComission").val();
+
+            $(".reservation-date").text(arrivalDate);
+            $(".reservation-time").text(arrivalTime);
+            $(".total-customer").text(totalCustomer);
+            $(".therapist-name").text(therapistName);
+
+            $(".service-name").text(serviceName);
+            $(".service-cost").text(serviceCost + " " + serviceCurrency);
             $("#next-step").trigger("click");
 
-            var customerName = $("#addCustomerModal").find('#customerName').val();
-            var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
-            var customerPhone = $("#addCustomerModal").find('#phone_get').val();
-            var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
-            var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
-            var customerSobId = $("#addCustomerModal").find('#customerSobId').children("option:selected").val();
-            setTimeout(() => {
-                addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail, customerSobId);
-            }, 500);
+            if(customerID == undefined){
+                var customerName = $("#addCustomerModal").find('#customerName').val();
+                var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
+                var customerPhone = $("#addCustomerModal").find('#phone_get').val();
+                var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
+                var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
+                setTimeout(() => {
+                    addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
+                }, 500);
+            }
         });
     } catch (error) {
         console.log(error);
     }
 }
 
-function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId){
+function completeReservation() {
+    try {
+        $("#completeReservation").on("click", function () {
+            if (customerID != undefined) {
+                setTimeout(() => {
+                    //reservation
+                    var arrivalDate = $("#tab2").find('#arrivalDate').val();
+                    var arrivalTime = $("#tab2").find('#arrivalTime').val();
+                    var totalCustomer = $("#tab2").find('#totalCustomer').val();
+                    var therapistId = $('#tab2').find('#therapistId').children("option:selected").val();
+                    var sourceId = $('#tab2').find("#sobId").children("option:selected").val();
+                    
+                    var serviceId = $("#tab3").find("#serviceId").children("option:selected").val();
+                    var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").val();
+                    var serviceCost = $("#tab3").find("#serviceCost").val();
+                    var serviceComission = $('#tab3').find("#serviceComission").val();
+                    var paymentType = $('#tab3').find("#paymentType").children("option:selected").val();
+                    var discountId = $('#tab3').find("#discountId").children("option:selected").val();
+                    addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId, paymentType, discountId, sourceId);
+
+                    //Chronic Illnesses
+                    // $("#chronicIllnessesTable").find("tbody tr").each(function (i) {
+                    //     var $tds = $(this).find('td');
+                    //     chronic_illnesses = $tds.eq(0).text();
+                    //     note = $tds.eq(1).text();
+                    //     addTreatmentPlantoChronicIllnesses(chronic_illnesses, treatment_plan_id, note);
+                    // });
+                }, 500);
+            }
+        });
+    }
+    catch (error) { }
+}
+
+function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId, paymentType, discountId, sourceId){
     try {
         $.ajaxSetup({
             headers: {
@@ -725,11 +788,15 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serv
                 'arrivalDate': arrivalDate,
                 'arrivalTime': arrivalTime,
                 'totalCustomer': totalCustomer,
+                'customerId': customerID,
                 'serviceId': serviceId,
                 'serviceCurrency': serviceCurrency,
                 'serviceCost': serviceCost,
                 'serviceComission': serviceComission,
-                'therapistId': therapistId
+                'therapistId': therapistId,
+                'paymentType': paymentType,
+                'discountId': discountId,
+                'sourceId': sourceId
             },
             async: false,
             dataType: 'json',
@@ -747,7 +814,7 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serv
     }
 }
 
-function addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail, customerSobId) {
+function addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail) {
     try {
         $.ajaxSetup({
             headers: {
@@ -762,15 +829,14 @@ function addCustomer(customerName, customerSurname, customerPhone, customerCount
                 'customerSurname': customerSurname,
                 'customerPhone': customerPhone,
                 'customerCountry': customerCountry,
-                'customerEmail': customerEmail,
-                'customerSobId': customerSobId
+                'customerEmail': customerEmail
             },
             async: false,
             dataType: 'json',
             success: function (response) {
                 if (response) {
                     swal({ icon: 'success', title: 'Success!', text: 'Customer Added Successfully!', timer: 1000 });
-                    customerId = response;
+                    customerID = response;
                 }
             },
 

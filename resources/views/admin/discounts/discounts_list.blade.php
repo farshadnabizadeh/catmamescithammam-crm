@@ -41,7 +41,7 @@
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/definitions/discounts/edit/'.$discount->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        <li><a href="{{ url('/definitions/discounts/edit/'.$discount->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
                                         <li><a href="{{ url('/definitions/discounts/destroy/'.$discount->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
                                     </ul>
                                 </div>
@@ -95,7 +95,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="discountNote">Discount Note</label>
-                                <input type="text" class="form-control" id="discountNote" name="discountNote" placeholder="Enter Discount Note" required>
+                                <input type="text" class="form-control" id="discountNote" name="discountNote" placeholder="Enter Discount Note">
                             </div>
                         </div>
                     </div>

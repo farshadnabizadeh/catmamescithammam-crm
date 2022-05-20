@@ -35,8 +35,6 @@ class ContactFormController extends Controller
             $newData->customer_phone = $request->input('customerPhone');
             $newData->customer_country = $request->input('customerCountry');
             $newData->customer_email = $request->input('customerEmail');
-
-            $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result) {

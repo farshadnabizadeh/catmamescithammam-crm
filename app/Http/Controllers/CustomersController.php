@@ -38,7 +38,6 @@ class CustomersController extends Controller
             $newCustomer->customer_phone = $request->input('customerPhone');
             $newCustomer->customer_country = $request->input('customerCountry');
             $newCustomer->customer_email = $request->input('customerEmail');
-            $newCustomer->customer_sob_id = $request->input('customerSobId');
 
             $newCustomer->user_id = auth()->user()->id;
             $result = $newCustomer->save();
@@ -64,7 +63,6 @@ class CustomersController extends Controller
             $newCustomer->customer_phone = $request->input('customerPhone');
             $newCustomer->customer_country = $request->input('customerCountry');
             $newCustomer->customer_email = $request->input('customerEmail');
-            $newCustomer->customer_sob_id = $request->input('customerSobId');
 
             $newCustomer->user_id = auth()->user()->id;
             $result = $newCustomer->save();
@@ -103,7 +101,6 @@ class CustomersController extends Controller
             $temp['customer_phone'] = $request->input('customerPhone');
             $temp['customer_country'] = $request->input('customerCountry');
             $temp['customer_email'] = $request->input('customerEmail');
-            $temp['customer_sob_id'] = $request->input('customerSobId');
 
             if ($updateSelectedData = Customer::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/customers')->with('message', 'Customer Updated Successfully!');

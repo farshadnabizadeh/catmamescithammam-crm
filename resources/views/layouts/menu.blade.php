@@ -11,7 +11,13 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('home*') ? 'active' : '' }}" href="{{ url('/home'); }}">
                             <i class="fa fa-pie-chart text-primary"></i>
-                            <span class="nav-link-text" id="testData">Dashboard</span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('definitions/customers*') ? 'active' : '' }}" href="{{ url('/definitions/customers'); }}">
+                            <i class="fa fa-users text-primary"></i>
+                            <span class="nav-link-text">Customers</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -35,11 +41,6 @@
                             <i class="fa fa-caret-right sub-icon"></i>
                         </a>
                         <ul class="nav-item_sub">
-                            <li>
-                                <a class="{{ request()->is('definitions/customers*') ? 'active' : '' }}" href="{{ url('/definitions/customers'); }}">
-                                    <span>Customers</span>
-                                </a>
-                            </li>
                             <li>
                                 <a class="{{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms'); }}">
                                     <span>Contact Forms</span>

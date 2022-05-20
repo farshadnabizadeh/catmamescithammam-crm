@@ -12,14 +12,8 @@ class Customer extends Model
     use SoftDeletes;
     protected $table = 'customers';
 
-    public function sob()
-    {
-        return $this->belongsTo(Source::class, 'customer_sob_id');
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 }

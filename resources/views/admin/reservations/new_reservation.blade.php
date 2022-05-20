@@ -9,7 +9,7 @@
       <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left"></i> Previous Page</button>
       <div class="col-md-12 table-responsive">
          <div class="card p-4 mt-3">
-            <div class="card-title d-flex">
+            <div class="card-title">
                <h2>Create New Reservation</h2>
                <p class="patientName"></p>
                <hr>
@@ -92,6 +92,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="sobId">Source Of Booking</label>
+                                                    <select id="sobId" name="sobId" class="form-control">
+                                                        <option></option>
+                                                        @foreach ($sources as $source)
+                                                        <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <button type="button" class="btn btn-primary float-right" id="reservationSave">Next <i class="fa fa-arrow-right"></i></button>
                                     </form>
                                 </div>
@@ -148,6 +161,17 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
+                                        <label for="paymentType">Payment Types</label>
+                                        <select id="paymentType" name="paymentType" class="form-control">
+                                            <option></option>
+                                            @foreach ($payment_types as $payment_type)
+                                            <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
                                         <label for="discountId">Discount</label>
                                         <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
                                             <option></option>
@@ -182,32 +206,36 @@
                                     <div class="table-responsive resultTable mt-4">
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Reservation Date:</p>
+                                                <p>Reservation Date: <span class="reservation-date"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-3">
+                                                <p>Reservation Time: <span class="reservation-time"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Total Customer: <span class="total-customer"></span></p>
                                             </div>
                                             <div class="col-lg-3">
-                                                <p class="medical-department-name"></p>
+                                                <p ></p>
                                             </div>
                                             <div class="col-lg-3">
-                                                <p>Reservation Time:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="medical-subdepartment-name"></p>
+                                                <p>Therapist: <span class="therapist-name"></span></p>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Total Customer:</p>
+                                                <p>Service: <span class="service-name"></span></p>
                                             </div>
+                                            <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
-                                                <p class="treatment-plan-treatment"></p>
+                                                <p>Service Cost: <span class="service-cost"></span></p>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <p>Therapist:</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p class="sales-person"></p>
-                                            </div>
+                                            <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
                                         <button class="btn btn-primary mt-3 float-right" id="completeReservation">Complete Reservation <i class="fa fa-check"></i></button>
@@ -273,13 +301,13 @@
                 <form method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerName">Customer Name</label>
                                 <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name" required>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerSurname">Customer Surname</label>
                                 <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Enter Customer Surname">
@@ -287,13 +315,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="phone_get">Customer Phone</label>
                                 <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Enter Customer Phone">
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerCountry">Country</label>
                                 <select class="form-control" name="customerCountry" id="country">
@@ -549,23 +577,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerEmail">Customer Email</label>
                                 <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="customerSobId">Source Of Booking</label>
-                                <select id="customerSobId" name="customerSobId" class="form-control" required>
-                                    <option></option>
-                                    @foreach ($sources as $source)
-                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>  
                     </div>
                     <div class="row">
                         <div class="col-lg-12">

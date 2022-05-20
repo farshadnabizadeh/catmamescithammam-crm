@@ -36,19 +36,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="customerSobId">Source Of Booking</label>
-                                <select id="customerSobId" name="customerSobId" class="form-control" required>
-                                    <option value="{{ $customer->sob->id }}" @selected(true)>{{ $customer->sob->source_name }}</option>
-                                    @foreach ($sources as $source)
-                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>  
                     <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>

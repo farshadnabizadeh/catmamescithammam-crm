@@ -7,7 +7,7 @@
       <meta name="robots" content="noindex">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <meta http-equiv="X-UA-Compatible" content="IE=7">
-      <title>Arpanu Medical TPAS | Operation / Surgery Calendar</title>
+      <title>Catma Mescit Hammam | Reservation Calendar</title>
       <link rel="dns-prefetch" href="//fonts.gstatic.com">
       <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 mt-3">
-                            <h2 class="text-white">Operation / Surgery Calendar</h2>
+                            <h2 class="text-white">Reservation Calendar</h2>
                             <hr>
                             <div class="card card-primary">
                                 <div class="card-body p-0">
@@ -86,15 +86,17 @@
                     editable: false,
                     dayMaxEvents: false,
                     events: [
+                        @foreach($listCountByMonth as $reservation)
                         {
-                        title: 'test',
-                        start: '2022-05-17',
-                        description: 'TEST DENEME',
-                        end: '2022-05-17',
-                        color: '#000',
-                        url: '',
-                        textColor: '#fff'
-                        }
+                            title: '{{ $reservation->countR }} {{ $reservation->source_name }}',
+                            start: '{{ $reservation->date }}',
+                            description: '{{ $reservation->countR }} {{ $reservation->source_name }}',
+                            end: '{{ $reservation->date }}',
+                            color: '{{ $reservation->source_color }}',
+                            url: '{{ url('/operationbydate?s='.$reservation->date) }}',
+                            textColor: '#fff',
+                        },
+                        @endforeach
                     ],
                 });
                 calendar.render();

@@ -31,6 +31,7 @@
                                 <th scope="col">Operation</th>
                                 <th scope="col">Reservation Date</th>
                                 <th scope="col">Reservation Time</th>
+                                <th scope="col">Customer Name</th>
                                 <th scope="col">Total Customer</th>
                                 <th scope="col">Service Name</th>
                                 <th scope="col">Service Cost</th>
@@ -51,6 +52,7 @@
                             </td>
                             <td>{{ date('d/m/Y', strtotime($reservation->reservation_date)) }}</td>
                             <td>{{ $reservation->reservation_time }}</td>
+                            <td>{{ $reservation->customer->customer_name }} {{ $reservation->customer->customer_surname }}</td>
                             <td>{{ $reservation->total_customer }}</td>
                             <td>{{ $reservation->service->service_name }}</td>
                             <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>

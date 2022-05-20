@@ -34,7 +34,6 @@
                                 <th scope="col">Customer Phone</th>
                                 <th scope="col">Customer Country</th>
                                 <th scope="col">Customer Email</th>
-                                <th scope="col">Customer Source</th>
                             </tr>
                         </thead>
                         @foreach ($customers as $customer)
@@ -53,7 +52,6 @@
                             <td>{{ $customer->customer_phone }}</td>
                             <td>{{ $customer->customer_country }}</td>
                             <td>{{ $customer->customer_email }}</td>
-                            <td style="background-color: {{ $customer->sob->source_color }}; color: #fff">{{ $customer->sob->source_name }}</td>
                         </tr>
                         @endforeach
                     </table>
@@ -356,17 +354,6 @@
                             <div class="form-group">
                                 <label for="customerEmail">Customer Email</label>
                                 <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="customerSobId">Source Of Booking</label>
-                                <select id="customerSobId" name="customerSobId" class="form-control" required>
-                                    <option></option>
-                                    @foreach ($sources as $source)
-                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
                     </div>

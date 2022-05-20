@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Models\ReservationCustomer;
 use App\Models\Service;
+use App\Models\PaymentType;
 use App\Models\Source;
 use App\Models\Therapist;
 use App\Models\Discount;
@@ -47,7 +48,8 @@ class ReservationController extends Controller
             $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
             $customers = Customer::orderBy('customer_name', 'asc')->get();
             $discounts = Discount::orderBy('discount_name', 'asc')->get();
-            $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts);
+            $payment_types = PaymentType::orderBy('payment_type_name', 'asc')->get();
+            $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts, 'payment_types' => $payment_types);
             return view('admin.reservations.new_reservation')->with($data);
         }
         catch (\Throwable $th) {
@@ -62,11 +64,15 @@ class ReservationController extends Controller
             $newReservation->reservation_date = $request->input('arrivalDate');
             $newReservation->reservation_time = $request->input('arrivalTime');
             $newReservation->total_customer = $request->input('totalCustomer');
+            $newReservation->customer_id = $request->input('customerId');
             $newReservation->service_id	= $request->input('serviceId');
             $newReservation->service_currency = $request->input('serviceCurrency');
             $newReservation->service_cost = $request->input('serviceCost');
             $newReservation->service_commission = $request->input('serviceComission');
             $newReservation->therapist_id = $request->input('therapistId');
+            $newReservation->payment_type_id = $request->input('paymentType');
+            $newReservation->discount_id = $request->input('discountId');
+            $newReservation->source_id = $request->input('sourceId');
 
             $newReservation->user_id = auth()->user()->id;
             $result = $newReservation->save();
@@ -110,22 +116,20 @@ class ReservationController extends Controller
         try {
             $user = auth()->user();
 
-            /* $calendarCount = DB::table('reservations')
-                ->select('reservations.reservation_date as date', 'sales_persons.id as sId', 'sales_persons.name_surname', 'treatments.treatment_name', DB::raw('count(treatment_name) as countR'))
-                ->leftJoin('sales_persons', 'treatment_plans.sales_person_id', '=', 'sales_persons.id')
-                ->leftJoin('patients', 'treatment_plans.patient_id', '=', 'patients.id')
-                ->leftJoin('treatments', 'treatment_plans.treatment_id', '=', 'treatments.id')
-                ->whereNull('deleted_at')
-                ->whereNotNull('treatment_plans.sales_person_id')
-                ->whereIn('treatment_plans.treatment_plan_status_id', array(2))
+            $calendarCount = DB::table('reservations')
+                ->select('reservations.reservation_date as date', 'sources.id as sId', 'sources.source_color', 'sources.source_name', DB::raw('count(source_name) as countR'))
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
+                // ->whereNull('deleted_at')
+                ->whereNotNull('reservations.source_id')
                 // ->whereMonth('treatment_plans.created_date', Carbon::now()->month)
                 ->groupBy(['date', 'sId']);
 
             $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
             $calendarCount->getBindings());
 
-            $data = array('listCountByMonth' => $listCountByMonth); */
-            return view('admin.reservations.reservation_calendar');
+            $data = array('listCountByMonth' => $listCountByMonth);
+            return view('admin.reservations.reservation_calendar')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;

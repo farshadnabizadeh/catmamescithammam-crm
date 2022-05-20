@@ -20,9 +20,6 @@ class CreateCustomers extends Migration
             $table->string('customer_phone')->nullable();
             $table->string('customer_country')->nullable();
             $table->string('customer_email')->nullable();
-            $table->integer('customer_sob_id')->unsigned();
-            $table->foreign('customer_sob_id')->references('id')->on('sources')
-                ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();

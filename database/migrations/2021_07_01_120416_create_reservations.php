@@ -18,6 +18,10 @@ class CreateReservations extends Migration
             $table->date('reservation_date');
             $table->string('reservation_time')->nullable();
             $table->string('total_customer')->nullable();
+            $table->integer('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')
+                ->on('customers')
+                ->onDelete('cascade');
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services')
                 ->onDelete('cascade');
@@ -29,6 +33,9 @@ class CreateReservations extends Migration
                 ->onDelete('cascade');
             $table->integer('payment_type_id')->unsigned();
             $table->foreign('payment_type_id')->references('id')->on('payment_types')
+                ->onDelete('cascade');
+            $table->integer('discount_id')->unsigned()->nullable();
+            $table->foreign('discount_id')->references('id')->on('discounts')
                 ->onDelete('cascade');
             $table->integer('source_id')->unsigned();
             $table->foreign('source_id')->references('id')

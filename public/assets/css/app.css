@@ -8999,12 +8999,35 @@ a.close.disabled
     max-width: 850px !important
 }
 
+#chooseCustomerModal .modal-dialog {
+    max-width: 75%
+}
+
 #agentModal .modal-dialog {
     max-width: 1050px !important
 }
 
 #addServiceProvider .modal-dialog {
     max-width: 850px !important
+}
+
+#tab4 p {
+    font-size: 15px
+}
+
+#tab4 span {
+    font-weight: bold;
+    color: #000
+}
+
+.patientName {
+    text-align: right;
+    /* margin-top: -40px; */
+    font-size: 17px
+}
+
+#tableData {
+    zoom: 95%
 }
 
 .modal-open
@@ -27552,7 +27575,7 @@ table.dataTable tbody > tr.selected
 }
 .fc-icon:hover
 {
-    color: #5e72e4;
+    color: #fff
 }
 
 .fc-button
