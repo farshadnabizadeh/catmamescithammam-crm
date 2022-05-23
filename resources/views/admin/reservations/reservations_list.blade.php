@@ -50,7 +50,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ date('d/m/Y', strtotime($reservation->reservation_date)) }}</td>
+                            <td>{{ date('d.m.Y', strtotime($reservation->reservation_date)) }}</td>
                             <td>{{ $reservation->reservation_time }}</td>
                             <td>{{ $reservation->customer->customer_name }} {{ $reservation->customer->customer_surname }}</td>
                             <td>{{ $reservation->total_customer }}</td>

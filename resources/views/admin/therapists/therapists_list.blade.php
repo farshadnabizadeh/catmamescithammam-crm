@@ -20,7 +20,9 @@
                             <h2>Therapists Lists</h2>
                         </div>
                         <div class="col-lg-6">
+                            @can('create therapist')
                             <button data-toggle="modal" data-target="#therapistModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Therapist</button>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -38,8 +40,12 @@
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
+                                        @can('edit therapist')
                                         <li><a href="{{ url('/definitions/therapists/edit/'.$therapist->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        @endcan
+                                        @can('delete therapist')
                                         <li><a href="{{ url('/definitions/therapists/destroy/'.$therapist->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </td>

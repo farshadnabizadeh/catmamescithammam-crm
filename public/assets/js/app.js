@@ -714,6 +714,8 @@ function addReservationOperation() {
             var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").text();
             var serviceCost = $("#tab3").find("#serviceCost").val();
             var serviceComission = $("#tab3").find("#serviceComission").val();
+            var sourceName = $("#tab2").find("#sobId").children("option:selected").text();
+            var paymentType = $("#tab3").find("#paymentType").children("option:selected").text();
 
             $(".reservation-date").text(arrivalDate);
             $(".reservation-time").text(arrivalTime);
@@ -722,6 +724,8 @@ function addReservationOperation() {
 
             $(".service-name").text(serviceName);
             $(".service-cost").text(serviceCost + " " + serviceCurrency);
+            $(".sob-name").text(sourceName);
+            $(".payment-type").text(paymentType);
             $("#next-step").trigger("click");
 
             if(customerID == undefined){

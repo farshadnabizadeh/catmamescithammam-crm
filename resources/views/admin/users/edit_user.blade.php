@@ -22,8 +22,14 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="departmentId">Password</label>
-                                <input type="text" class="form-control" id="treatmentName" name="treatmentName" placeholder="Change Password" value="">
+                                <label for="userPassword">Password</label>
+                                <input type="text" class="form-control" id="userPassword" name="userPassword" placeholder="Change Password" value="">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="roles">User Roles</label>
+                                {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
                             </div>
                         </div>
                     </div>

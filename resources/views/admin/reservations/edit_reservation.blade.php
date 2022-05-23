@@ -84,7 +84,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCurrency">Service Currency</label>
-                                <select id="customerSobId" name="serviceCurrency" class="form-control" required>
+                                <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
                                     <option value="{{ $reservation->service_currency }}" @selected(true)>{{ $reservation->service_currency }}</option>
                                     <option value="EUR">EURO</option>
                                     <option value="USD">USD</option>

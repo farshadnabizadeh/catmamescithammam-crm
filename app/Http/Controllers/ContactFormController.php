@@ -31,10 +31,10 @@ class ContactFormController extends Controller
     {
         try {
             $newData = new ContactForm();
-            $newData->customer_name = $request->input('customerName');
-            $newData->customer_phone = $request->input('customerPhone');
-            $newData->customer_country = $request->input('customerCountry');
-            $newData->customer_email = $request->input('customerEmail');
+            $newData->name_surname = $request->input('name_surname');
+            $newData->phone = $request->input('phone');
+            $newData->country = $request->input('country');
+            $newData->email = $request->input('email');
             $result = $newData->save();
 
             if ($result) {
@@ -52,8 +52,8 @@ class ContactFormController extends Controller
     public function edit($id)
     {
         try {
-            $customer = Customer::where('id','=',$id)->first();
-            return view('admin.customers.edit_customer', ['customer' => $customer]);
+            $contact_form = ContactForm::where('id','=',$id)->first();
+            return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -63,22 +63,13 @@ class ContactFormController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $temp['name_surname'] = $request->input('patientName');
-            $temp['phone_number'] = $request->input('patientPhone');
-            $temp['email_address'] = $request->input('patientEmail');
-            $temp['country'] = $request->input('patientCountry');
-            $temp['birthdate'] = $request->input('patientBirthdate');
-            $temp['sales_person_id'] = $request->input('salesPersonId');
-            $temp['lead_source_id'] = $request->input('leadSourceId');
-            $temp['gender'] = $request->input('gender');
-            $temp['weight'] = $request->input('weight');
-            $temp['height'] = $request->input('height');
-            $temp['bmiValue'] = $request->input('bmiValue');
-            $temp['is_cigarette'] = $request->input('is_cigarette');
-            $temp['note'] = $request->input('note');
+            $temp['name_surname'] = $request->input('name_surname');
+            $temp['phone_number'] = $request->input('phone');
+            $temp['country'] = $request->input('country');
+            $temp['email'] = $request->input('email');
 
-            if ($updateSelectedData = Patient::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/patients')->with('message', 'Patient Updated Successfully!');
+            if ($updateSelectedData = ContactForm::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/contactforms')->with('message', 'Contact Form Updated Successfully!');
             }
             else {
                 return back()->withInput($request->input());

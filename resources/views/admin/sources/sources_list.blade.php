@@ -20,7 +20,9 @@
                             <h2>Source Of Booking Lists</h2>
                         </div>
                         <div class="col-lg-6">
+                            @can('create sources')
                             <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Source Of Booking</button>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -39,8 +41,12 @@
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
+                                        @can('edit sources')
                                         <li><a href="{{ url('/definitions/sources/edit/'.$source->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        @endcan
+                                        @can('delete sources')
                                         <li><a href="{{ url('/definitions/sources/destroy/'.$source->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </td>

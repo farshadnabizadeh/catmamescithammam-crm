@@ -11,13 +11,4 @@ class ContactForm extends Model
     use HasFactory;
     protected $table = 'contact_forms';
 
-    public function salesPerson()
-    {
-        return $this->belongsTo(SalesPerson::class,'sales_person_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

@@ -20,7 +20,9 @@
                      <h2>Payment Type Lists</h2>
                   </div>
                   <div class="col-lg-6">
+                     @can('create payment type')
                      <button data-toggle="modal" data-target="#createPaymentTypeModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Payment Type</button>
+                     @endcan
                   </div>
                </div>
             </div>
@@ -38,8 +40,12 @@
                         <div class="dropdown">
                            <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                            <ul class="dropdown-menu">
+                              @can('edit payment type')
                               <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                              @endcan
+                              @can('delete payment type')
                               <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                              @endcan
                            </ul>
                         </div>
                      </td>
@@ -52,7 +58,7 @@
       </div>
    </div>
 </div>
-
+   
 <div class="modal fade" id="createPaymentTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">

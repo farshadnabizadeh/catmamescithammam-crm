@@ -238,6 +238,17 @@
                                             <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Source Of Booking: <span class="sob-name"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-3">
+                                                <p>Payment Type: <span class="payment-type"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                        </div>
+                                        <hr>
                                         <button class="btn btn-primary mt-3 float-right" id="completeReservation">Complete Reservation <i class="fa fa-check"></i></button>
                                     </div>
                                 </div>

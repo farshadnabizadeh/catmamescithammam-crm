@@ -116,14 +116,13 @@ class ReservationController extends Controller
         try {
             $user = auth()->user();
 
-            $calendarCount = DB::table('reservations')
-                ->select('reservations.reservation_date as date', 'sources.id as sId', 'sources.source_color', 'sources.source_name', DB::raw('count(source_name) as countR'))
-                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
-                // ->whereNull('deleted_at')
-                ->whereNotNull('reservations.source_id')
-                // ->whereMonth('treatment_plans.created_date', Carbon::now()->month)
-                ->groupBy(['date', 'sId']);
+            $calendarCount = Reservation::select('reservations.reservation_date as date', 'sources.id as sId', 'sources.source_color', 'sources.source_name', DB::raw('count(source_name) as countR'))
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
+            ->whereNull('reservations.deleted_at')
+            ->whereNotNull('reservations.source_id')
+            // ->whereMonth('treatment_plans.created_date', Carbon::now()->month)
+            ->groupBy(['date', 'sId']);
 
             $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
             $calendarCount->getBindings());
