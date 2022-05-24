@@ -111,6 +111,44 @@ class ReservationController extends Controller
         }
     }
 
+    public function allReservationByDate(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $searchDate = $request->input('s');
+            $tpStatus = $request->input('ps');
+
+            $arrivalsA = DB::table('reservations')
+                ->select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'payment_types.*', 'services.*', 'therapists.*', 'customers.customer_name as Cname')
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
+                ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
+                ->leftJoin('services', 'reservations.service_id', '=', 'services.id')
+                ->leftJoin('payment_types', 'reservations.payment_type_id', '=', 'payment_types.id')
+                // ->whereNull('deleted_at')
+                ->whereDate('reservations.reservation_date', '=', $searchDate)
+                ->orderBy('reservation_date');
+
+            if (!empty($tpStatus)) {
+                $arrivalsA->where('reservations.source_id', '=', $tpStatus);
+            }
+
+            $listAllByDates = DB::select($arrivalsA->orderByRaw('DATE_FORMAT(date, "%y-%m-%d")')->toSql(), $arrivalsA->getBindings());
+
+            $datePrmtr = date('d.m.Y', strtotime($searchDate));
+
+            if (!empty($tpStatus)) {
+                $datePrmtr = $datePrmtr . "  -  " . $tpStatus;
+            }
+           
+            $data = array('listAllByDates' => $listAllByDates, 'tableTitle' => 'All Reservations By ' . $datePrmtr);
+            return view('admin.reservations.all_reservation')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function reservationCalendar()
     {
         try {

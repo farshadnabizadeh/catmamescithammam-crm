@@ -93,7 +93,7 @@
                             description: '{{ $reservation->countR }} {{ $reservation->source_name }}',
                             end: '{{ $reservation->date }}',
                             color: '{{ $reservation->source_color }}',
-                            url: '{{ url('/operationbydate?s='.$reservation->date) }}',
+                            url: '{{ url('/reservationbydate?s='.$reservation->date) }}',
                             textColor: '#fff',
                         },
                         @endforeach

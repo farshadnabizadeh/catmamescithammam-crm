@@ -743,8 +743,6 @@ function addReservationOperation() {
                     }, 500);
                 }
             }
-
-            
         });
     } catch (error) {
         console.log(error);
