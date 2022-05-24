@@ -684,11 +684,12 @@ function addCustomertoReservationModal() {
 function addReservationOperation() {
     try {
         $('#reservationSave').on('click', function(){
-            var arrivalDate = $('#arrivalDate').val();
-            var arrivalTime = $('#arrivalTime').val();
-            var totalCustomer = $('#totalCustomer').val();
-            var therapistId = $('#therapistId').children("option:selected").val();
-            if (arrivalDate == "" || arrivalTime == "" || totalCustomer == "" || therapistId == ""){
+            var arrivalDate = $("#tab2").find('#arrivalDate').val();
+            var arrivalTime = $("#tab2").find('#arrivalTime').val();
+            var totalCustomer = $("#tab2").find('#totalCustomer').val();
+            var sourceName = $("#tab2").find("#sobId").children("option:selected").text();
+            var therapistId = $("#tab2").find('#therapistId').children("option:selected").val();
+            if (arrivalDate == "" || arrivalTime == "" || totalCustomer == "" || therapistId == "" || sourceName == ""){
                 swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
             }
             else {
@@ -717,27 +718,33 @@ function addReservationOperation() {
             var sourceName = $("#tab2").find("#sobId").children("option:selected").text();
             var paymentType = $("#tab3").find("#paymentType").children("option:selected").text();
 
-            $(".reservation-date").text(arrivalDate);
-            $(".reservation-time").text(arrivalTime);
-            $(".total-customer").text(totalCustomer);
-            $(".therapist-name").text(therapistName);
-
-            $(".service-name").text(serviceName);
-            $(".service-cost").text(serviceCost + " " + serviceCurrency);
-            $(".sob-name").text(sourceName);
-            $(".payment-type").text(paymentType);
-            $("#next-step").trigger("click");
-
-            if(customerID == undefined){
-                var customerName = $("#addCustomerModal").find('#customerName').val();
-                var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
-                var customerPhone = $("#addCustomerModal").find('#phone_get').val();
-                var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
-                var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
-                setTimeout(() => {
-                    addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
-                }, 500);
+            if(serviceName == "" || serviceCurrency == "" || serviceCost == "" || paymentType == ""){
+                swal({ icon: 'error', title: 'Error!', text: 'Please fill in the blanks!', timer: 1000 });
             }
+            else {
+                $(".reservation-date").text(arrivalDate);
+                $(".reservation-time").text(arrivalTime);
+                $(".total-customer").text(totalCustomer);
+                $(".therapist-name").text(therapistName);
+
+                $(".service-name").text(serviceName);
+                $(".service-cost").text(serviceCost + " " + serviceCurrency);
+                $(".sob-name").text(sourceName);
+                $(".payment-type").text(paymentType);
+                $("#next-step").trigger("click");
+                if (customerID == undefined) {
+                    var customerName = $("#addCustomerModal").find('#customerName').val();
+                    var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
+                    var customerPhone = $("#addCustomerModal").find('#phone_get').val();
+                    var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
+                    var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
+                    setTimeout(() => {
+                        addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
+                    }, 500);
+                }
+            }
+
+            
         });
     } catch (error) {
         console.log(error);
@@ -808,6 +815,9 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, ser
                 if (response) {
                     swal({ icon: 'success', title: 'Success!', text: 'Reservation Added Successfully!', timer: 1000 });
                     reservationID = response;
+                    setTimeout(() => {
+                        window.location.href = "/definitions/reservations/calendar";
+                    }, 500);
                 }
             },
 
@@ -839,7 +849,7 @@ function addCustomer(customerName, customerSurname, customerPhone, customerCount
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Customer Added Successfully!', timer: 1000 });
+                    // swal({ icon: 'success', title: 'Success!', text: 'Customer Added Successfully!', timer: 1000 });
                     customerID = response;
                 }
             },

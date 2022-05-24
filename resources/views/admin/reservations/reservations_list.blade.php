@@ -26,16 +26,16 @@
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                        <thead class="thead-light">
+                        <thead class="thead-light"> 
                             <tr>
                                 <th scope="col">Operation</th>
                                 <th scope="col">Reservation Date</th>
                                 <th scope="col">Reservation Time</th>
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Total Customer</th>
+                                <th scope="col">Payment Type</th>
                                 <th scope="col">Service Name</th>
                                 <th scope="col">Service Cost</th>
-                                <th scope="col">Commission</th>
                                 <th scope="col">Therapist</th>
                             </tr>
                         </thead>
@@ -54,9 +54,9 @@
                             <td>{{ $reservation->reservation_time }}</td>
                             <td>{{ $reservation->customer->customer_name }} {{ $reservation->customer->customer_surname }}</td>
                             <td>{{ $reservation->total_customer }}</td>
+                            <td>{{ $reservation->paymentType->payment_type_name }}</td>
                             <td>{{ $reservation->service->service_name }}</td>
                             <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
-                            <td>{{ $reservation->service_commission }}</td>
                             <td>{{ $reservation->therapist->therapist_name }}</td>
                         </tr>
                         @endforeach
