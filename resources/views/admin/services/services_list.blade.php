@@ -10,14 +10,14 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Services</li>
+                    <li class="breadcrumb-item active" aria-current="page">Hizmetler</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Services Lists</h2>
+                            <h2>Hizmetler</h2>
                         </div>
                         <div class="col-lg-6">
                             @can('create services')
@@ -31,9 +31,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Service Name</th>
-                                <th scope="col">Service Currency</th>
-                                <th scope="col">Service Cost</th>
+                                <th scope="col">Hizmet Adı</th>
+                                <th scope="col">Hizmet Para Birimi</th>
+                                <th scope="col">Hizmet Ücreti</th>
                             </tr>
                         </thead>
                         @foreach ($services as $service)

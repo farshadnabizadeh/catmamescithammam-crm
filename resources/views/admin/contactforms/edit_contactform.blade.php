@@ -16,8 +16,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="discountCode">Phone</label>
-                                <input type="text" class="form-control" id="discountCode" name="discountCode" placeholder="Enter Phone" value="{{ $contact_form->phone }}">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone" value="{{ $contact_form->phone }}">
                             </div>
                         </div>
                     </div>
@@ -283,7 +283,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success mt-5 float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

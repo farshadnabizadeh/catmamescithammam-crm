@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Customers</h5>
+                            <h5 class="card-title text-dashboard-card">Müşteriler</h5>
                             <hr>
                             <a href="{{ url('/definitions/customers') }}">
                                 <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Hotels</h5>
+                            <h5 class="card-title text-dashboard-card">Oteller</h5>
                             <hr>
                             <a href="{{ url('/definitions/hotels') }}">
                                 <span class="h2 mb-0 count-card">{{ $hotelCount }}</span>
@@ -56,7 +56,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Services</h5>
+                            <h5 class="card-title text-dashboard-card">Hizmetler</h5>
                             <hr>
                             <a href="{{ url('/definitions/services') }}">
                                 <span class="h2 mb-0 count-card">{{ $serviceCount }}</span>
@@ -76,7 +76,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Therapists</h5>
+                            <h5 class="card-title text-dashboard-card">Terapistler</h5>
                             <hr>
                             <a href="{{ url('/definitions/therapists') }}">
                                 <span class="h2 mb-0 count-card">{{ $therapistCount }}</span>
@@ -101,10 +101,10 @@
                 <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="mb-0">Last 5 Customers</h3>
+                        <h3 class="mb-0">Son Girilen 5 Müşteri</h3>
                     </div>
                     <div class="col text-right">
-                        <a href="{{ url('/definitions/customers') }}" class="btn btn-sm btn-danger">See all</a>
+                        <a href="{{ url('/definitions/customers') }}" class="btn btn-sm btn-danger">Tümünü Gör</a>
                     </div>
                 </div>
                 </div>

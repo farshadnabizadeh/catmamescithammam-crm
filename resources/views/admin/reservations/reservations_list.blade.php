@@ -10,17 +10,17 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Reservations</li>
+                    <li class="breadcrumb-item active" aria-current="page">Rezervasyonlar</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Reservations</h2>
+                            <h2>Rezervasyonlar</h2>
                         </div>
                         <div class="col-lg-6">
-                            <a href="{{ url('/definitions/reservations/create') }}" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Reservation</a>
+                            <a href="{{ url('/definitions/reservations/create') }}" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon</a>
                         </div>
                     </div>
                 </div>
@@ -29,14 +29,14 @@
                         <thead class="thead-light"> 
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Reservation Date</th>
-                                <th scope="col">Reservation Time</th>
-                                <th scope="col">Customer Name</th>
-                                <th scope="col">Total Customer</th>
-                                <th scope="col">Payment Type</th>
-                                <th scope="col">Service Name</th>
-                                <th scope="col">Service Cost</th>
-                                <th scope="col">Therapist</th>
+                                <th scope="col">Rezervasyon Tarihi</th>
+                                <th scope="col">Rezervasyon Saati</th>
+                                <th scope="col">Müşteri Adı</th>
+                                <th scope="col">Müşteri Sayısı</th>
+                                <th scope="col">Ödeme Türü</th>
+                                <th scope="col">Hizmet Adı</th>
+                                <th scope="col">Hizmet Bedeli</th>
+                                <th scope="col">Terapist</th>
                             </tr>
                         </thead>
                         @foreach ($reservations as $reservation)
@@ -45,8 +45,8 @@
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
-                                        <li><a href="{{ url('/definitions/reservations/destroy/'.$reservation->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        <li><a href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ url('/definitions/reservations/destroy/'.$reservation->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                     </ul>
                                 </div>
                             </td>

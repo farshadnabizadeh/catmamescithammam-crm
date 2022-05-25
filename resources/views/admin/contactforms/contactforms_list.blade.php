@@ -10,14 +10,14 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Contact Forms</li>
+                    <li class="breadcrumb-item active" aria-current="page">İletişim Formları</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Contact Forms</h2>
+                            <h2>İletişim Formları</h2>
                         </div>
                         <div class="col-lg-6">
                             <button data-toggle="modal" data-target="#formModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Contact Form</button>

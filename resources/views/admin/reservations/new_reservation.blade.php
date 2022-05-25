@@ -6,11 +6,11 @@
 
 <div class="container-fluid">
    <div class="row">
-      <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left"></i> Previous Page</button>
+      <button onclick="previousPage();" class="btn btn-primary float-left mt-3"><i class="fa fa-angle-left"></i> Önceki Sayfa</button>
       <div class="col-md-12 table-responsive">
          <div class="card p-4 mt-3">
             <div class="card-title">
-               <h2>Create New Reservation</h2>
+               <h2>Yeni Rezervasyon Oluştur</h2>
                <p class="patientName"></p>
                <hr>
             </div>
@@ -18,16 +18,16 @@
                 <div class="step-app">
                     <ul class="step-steps">
                         <li>
-                            <a href="#tab1"><span class="number">1</span> Create Customer</a>
+                            <a href="#tab1"><span class="number">1</span> Müşteri Oluştur</a>
                         </li>
                         <li>
-                            <a href="#tab2"><span class="number">2</span> Reservation Detail</a>
+                            <a href="#tab2"><span class="number">2</span> Rezervasyon Detayları</a>
                         </li>
                         <li>
-                            <a href="#tab3"><span class="number">3</span> Payment Detail</a>
+                            <a href="#tab3"><span class="number">3</span> Ödeme Detayları</a>
                         </li>
                         <li>
-                            <a href="#tab4"><span class="number">4</span> Reservation Summary</a>
+                            <a href="#tab4"><span class="number">4</span> Rezervasyon Özeti</a>
                         </li>
                     </ul>
                     <div class="step-content">
@@ -39,7 +39,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
                                     <div class="card p-3 mt-3">
-                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Create New Customer <i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Yeni Müşteri Oluştur <i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
@@ -62,27 +62,27 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="arrivalDate">Reservation Date</label>
-                                                    <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Reservation Date" autocomplete="off" required>
+                                                    <label for="arrivalDate">Rezervasyon Tarihi</label>
+                                                    <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Rezervasyon Tarihi" autocomplete="off" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="arrivalTime">Reservation Time</label>
-                                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
+                                                    <label for="arrivalTime">Rezervasyon Saati</label>
+                                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="totalCustomer">Total Customer</label>
-                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Total Customer" required>
+                                                    <label for="totalCustomer">Toplam Müşteri</label>
+                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Toplam Müşteri" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="therapistId">Therapist</label>
+                                                    <label for="therapistId">Terapist</label>
                                                     <select id="therapistId" name="therapistId" class="form-control">
                                                         <option></option>
                                                         @foreach ($therapists as $therapist)
@@ -95,7 +95,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="sobId">Source Of Booking</label>
+                                                    <label for="sobId">Rezervasyon Kaynağı</label>
                                                     <select id="sobId" name="sobId" class="form-control">
                                                         <option></option>
                                                         @foreach ($sources as $source)
@@ -122,7 +122,7 @@
                             <div class="row">
                                 <div class="col-lg-6 mt-3">
                                     <div class="form-group">
-                                        <label for="serviceId">Service</label>
+                                        <label for="serviceId">Hizmet</label>
                                         <select id="serviceId" name="serviceId" class="form-control" required>
                                             <option></option>
                                             @foreach ($services as $service)
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col-lg-6 mt-3">
                                     <div class="form-group">
-                                        <label for="serviceCurrency">Service Currency</label>
+                                        <label for="serviceCurrency">Para Birimi</label>
                                         <select id="serviceCurrency" name="serviceCurrency" class="form-control">
                                             <option></option>
                                             <option value="EUR">EURO</option>
@@ -147,9 +147,9 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="serviceCost">Service Cost</label>
-                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost">
-                                     </div>
+                                        <label for="serviceCost">Hizmet Bedeli</label>
+                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Hizmet Bedeli">
+                                    </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -161,7 +161,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="paymentType">Payment Types</label>
+                                        <label for="paymentType">Ödeme Türleri</label>
                                         <select id="paymentType" name="paymentType" class="form-control">
                                             <option></option>
                                             @foreach ($payment_types as $payment_type)
@@ -172,7 +172,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="discountId">Discount</label>
+                                        <label for="discountId">İndirim</label>
                                         <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
                                             <option></option>
                                             @foreach ($discounts as $discount)
@@ -184,7 +184,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherDataBtn">Next <i class="fa fa-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherDataBtn">İleri <i class="fa fa-arrow-right"></i></button>
                                 </div>
                             </div>
                             <form name="frmInfo" class="d-none" id="frmInfo">
@@ -200,56 +200,56 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <h4 class="mt-3">Reservation Detail: </h4>
+                                    <h4 class="mt-3">Rezervasyon Detayları: </h4>
                                     <hr>
                                     <div style="clear:both;"></div>
                                     <div class="table-responsive resultTable mt-4">
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Reservation Date: <span class="reservation-date"></span></p>
+                                                <p>Rezervasyon Tarihi: <span class="reservation-date"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
-                                                <p>Reservation Time: <span class="reservation-time"></span></p>
+                                                <p>Rezervasyon Saati: <span class="reservation-time"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Total Customer: <span class="total-customer"></span></p>
+                                                <p>Toplam Müşteri: <span class="total-customer"></span></p>
                                             </div>
                                             <div class="col-lg-3">
                                                 <p ></p>
                                             </div>
                                             <div class="col-lg-3">
-                                                <p>Therapist: <span class="therapist-name"></span></p>
+                                                <p>Terapist: <span class="therapist-name"></span></p>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Service: <span class="service-name"></span></p>
+                                                <p>Hizmet: <span class="service-name"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
-                                                <p>Service Cost: <span class="service-cost"></span></p>
+                                                <p>Hizmet Bedeli: <span class="service-cost"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <p>Source Of Booking: <span class="sob-name"></span></p>
+                                                <p>Rezervasyon Kaynağı: <span class="sob-name"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
-                                                <p>Payment Type: <span class="payment-type"></span></p>
+                                                <p>Ödeme Türü: <span class="payment-type"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
-                                        <button class="btn btn-primary mt-3 float-right" id="completeReservation">Complete Reservation <i class="fa fa-check"></i></button>
+                                        <button class="btn btn-primary mt-3 float-right" id="completeReservation">Rezervasyonu Tamamla <i class="fa fa-check"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -262,10 +262,10 @@
                         </div>
                     </div>
                     <div class="step-footer">
-                        <button data-direction="prev" class="step-btn"><i class="fa fa-arrow-left"></i> Previous</button>
-                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="next-step">Next <i class="fa fa-arrow-right"></i></button>
-                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="saveTreatmentPlan">Save and Next <i class="fa fa-arrow-right"></i></button>
-                        <button data-direction="finish" class="step-btn d-none">Finish</button>
+                        <button data-direction="prev" class="step-btn"><i class="fa fa-arrow-left"></i> Geri</button>
+                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="next-step">İleri <i class="fa fa-arrow-right"></i></button>
+                        <button data-direction="next" class="step-btn btn btn-primary float-right d-none" id="saveTreatmentPlan">Kaydet ve İlerle <i class="fa fa-arrow-right"></i></button>
+                        <button data-direction="finish" class="step-btn d-none">Tamamla</button>
                     </div>
                 </div>
             </div>
@@ -314,27 +314,27 @@
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="customerName">Customer Name</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name" required>
+                                <label for="customerName">Müşteri Adı</label>
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="customerSurname">Customer Surname</label>
-                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Enter Customer Surname">
+                                <label for="customerSurname">Müşteri Soyadı</label>
+                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Müşteri Soyadı">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="phone_get">Customer Phone</label>
-                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Enter Customer Phone">
+                                <label for="phone_get">Müşteri Telefon Numarası</label>
+                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası">
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="customerCountry">Country</label>
+                                <label for="customerCountry">Ülke</label>
                                 <select class="form-control" name="customerCountry" id="country">
                                     <option></option>
                                     <option value="United Kingdom">United Kingdom</option>
@@ -590,14 +590,14 @@
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="customerEmail">Customer Email</label>
-                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
+                                <label for="customerEmail">Email Adresi</label>
+                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Save <i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Kaydet <i class="fa fa-check"></i></button>
                         </div>
                     </div>
                 </form>                

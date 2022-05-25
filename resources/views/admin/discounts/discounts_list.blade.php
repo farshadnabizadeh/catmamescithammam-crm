@@ -10,18 +10,18 @@
              <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Discounts</li>
+                    <li class="breadcrumb-item active" aria-current="page">İndirimler</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Discounts Lists</h2>
+                            <h2>İndirimler</h2>
                         </div>
                         <div class="col-lg-6">
                             @can('create discount')
-                            <button data-toggle="modal" data-target="#serviceModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Discount</button>
+                            <button data-toggle="modal" data-target="#serviceModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni İndirim</button>
                             @endcan
                         </div>
                     </div>

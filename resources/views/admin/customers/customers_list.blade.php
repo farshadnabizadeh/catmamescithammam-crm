@@ -17,11 +17,11 @@
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Customers Lists</h2>
+                            <h2>Müşteriler</h2>
                         </div>
                         <div class="col-lg-6">
                             @can('create customers')
-                            <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Customer</button>
+                            <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Müşteri</button>
                             @endcan
                         </div>
                     </div>
@@ -31,11 +31,11 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Customer Name</th>
-                                <th scope="col">Customer Surname</th>
-                                <th scope="col">Customer Phone</th>
-                                <th scope="col">Customer Country</th>
-                                <th scope="col">Customer Email</th>
+                                <th scope="col">Müşteri Adı</th>
+                                <th scope="col">Müşteri Soyadı</th>
+                                <th scope="col">Telefon Numarası</th>
+                                <th scope="col">Ülkesi</th>
+                                <th scope="col">Email Adresi</th>
                             </tr>
                         </thead>
                         @foreach ($customers as $customer)

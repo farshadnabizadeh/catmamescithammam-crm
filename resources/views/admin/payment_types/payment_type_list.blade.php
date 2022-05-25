@@ -10,18 +10,18 @@
          <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
                <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-               <li class="breadcrumb-item active" aria-current="page">Payments</li>
+               <li class="breadcrumb-item active" aria-current="page">Ödeme Türleri</li>
             </ol>
          </nav>
          <div class="card p-3 mt-3">
             <div class="card-title">
                <div class="row">
                   <div class="col-lg-6">
-                     <h2>Payment Type Lists</h2>
+                     <h2>Ödeme Türleri</h2>
                   </div>
                   <div class="col-lg-6">
                      @can('create payment type')
-                     <button data-toggle="modal" data-target="#createPaymentTypeModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Payment Type</button>
+                     <button data-toggle="modal" data-target="#createPaymentTypeModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Ödeme Türleri</button>
                      @endcan
                   </div>
                </div>
@@ -31,7 +31,7 @@
                   <thead class="thead-light">
                      <tr>
                         <th scope="col">Operation</th>
-                        <th scope="col">Payment Type</th>
+                        <th scope="col">Ödeme Türü</th>
                      </tr>
                   </thead>
                   @foreach ($payment_types as $payment_type)

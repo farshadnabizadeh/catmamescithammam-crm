@@ -29,7 +29,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 mt-3">
-                            <h2 class="text-white">Reservation Calendar</h2>
+                            <h2 class="text-white">Rezervasyon Takvimi</h2>
                             <hr>
                             <div class="card card-primary">
                                 <div class="card-body p-0">

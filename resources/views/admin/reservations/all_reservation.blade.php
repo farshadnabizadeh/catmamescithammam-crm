@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
-            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
+            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <div class="row">
@@ -20,7 +20,6 @@
                             @endcan
                         </div>
                     </div>
-                   
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="dataTable">
@@ -28,14 +27,14 @@
                             <tr>
                                 <th scope="col">Operation</th>
                                 <th scope="col">ID</th>
-                                <th scope="col">Reservation Date</th>
-                                <th scope="col">Reservation Time</th>
-                                <th scope="col">Customer Name</th>
+                                <th scope="col">Rezervasyon Tarihi</th>
+                                <th scope="col">Rezervasyon Saati</th>
+                                <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Total Customer</th>
-                                <th scope="col">Payment Type</th>
-                                <th scope="col">Service Name</th>
-                                <th scope="col">Service Cost</th>
-                                <th scope="col">Therapist</th>
+                                <th scope="col">Ödeme Türü</th>
+                                <th scope="col">Hizmet Adı</th>
+                                <th scope="col">Hizmet Bedeli</th>
+                                <th scope="col">Terapist</th>
                             </tr>
                         </thead>
                         @foreach ($listAllByDates as $listAllByDate)
@@ -44,9 +43,9 @@
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> Cancel</a></li>
-                                            <li><a href="{{ url('/operationbydate/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
-                                            <li><a href="{{ url('/definitions/treatmentplans/download/'.$listAllByDate->tId) }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> Download</a></li>
+                                            <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> İptal Et</a></li>
+                                            <li><a href="{{ url('/operationbydate/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ url('/definitions/treatmentplans/download/'.$listAllByDate->tId) }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -68,47 +67,4 @@
     </div>
 </div>
  
-<div class="modal fade" id="ticketReceived" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Ticket</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form method="POST">
-                @csrf
-                <input type="hidden" id="current_treatment_plan_id">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="treatmentPlanName">Arrival Date</label>
-                            <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" autocomplete="off" placeholder="Enter Arrival Date">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="departureDate">Departure Date</label>
-                            <input type="text" class="form-control" id="departureDate" name="departureDate" placeholder="Enter Departure Date">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="operationDate">Operation Date</label>
-                            <input type="text" class="form-control" id="operationDate" name="operationDate" placeholder="Enter Operation Date">
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary float-right mt-3" id="updateTicket">Save <i class="fa fa-check"></i></button>
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-</div>
-
 @endsection

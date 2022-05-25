@@ -166,14 +166,14 @@ var app = (function() {
 
     $("#colorpicker").spectrum();
     $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
-    $("#serviceCurrency").select2({ placeholder: "Select Currency", dropdownAutoWidth: true, allowClear: true });
-    $("#serviceId").select2({ placeholder: "Select Service", dropdownAutoWidth: true, allowClear: true });
-    $("#therapistId").select2({ placeholder: "Select Therapist", dropdownAutoWidth: true, allowClear: true });
+    $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#serviceId").select2({ placeholder: "Hizmet Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#therapistId").select2({ placeholder: "Terapist Seç", dropdownAutoWidth: true, allowClear: true });
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
-    $("#discountId").select2({ placeholder: "Select Discount", dropdownAutoWidth: true, allowClear: true });
-    $("#country").select2({ placeholder: "Select a Country", dropdownAutoWidth: true, allowClear: true });
+    $("#discountId").select2({ placeholder: "İndirim Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#country").select2({ placeholder: "Ülke Seç", dropdownAutoWidth: true, allowClear: true });
     $("#sobId").select2({ placeholder: "Select a Sob", dropdownAutoWidth: true, allowClear: true });
-    $("#paymentType").select2({ placeholder: "Select a Payment Type", dropdownAutoWidth: true, allowClear: true });
+    $("#paymentType").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -658,21 +658,13 @@ function getDiscountDetail() {
 function addCustomertoReservationModal() {
     try {
         $('#addCustomertoReservationSave').on('click', function(){
-            var customerId = $('#customerId').children("option:selected").val();
-            var customerName = $('#customerId').children("option:selected").text();
-            if (customerId == ""){
-                swal({ icon: 'error', title: 'Please fill in all fields!', text: '' });
+            var customerName = $("#addCustomerModal").find('#customerName').val();
+            var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
+            if (customerName == "" || customerSurname == ""){
+                swal({ icon: 'error', title: 'Lütfen boşlukları doldurun!', text: '' });
             }
             else {
-                var rowId = customerId;
-                var markup = "<tr class='reservation' id='" + customerId + "'>" +
-                    "<td id=" + customerId + ">" + customerName + "</td>" +
-                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn float-right'><i class='fa fa-window-close'></i> Remove</button></td>" +
-                "</tr>";
-
                 $("#next-step").trigger("click");
-                $('#customerTableReservation tbody').append(markup);
-                $('#customerTableReservation').trigger('rowAddOrRemove');
                 $('.add-reservation-close').trigger('click');
             }
         });

@@ -19,7 +19,7 @@
             </a>
             <div class="dropdown-menu  dropdown-menu-right ">
               <div class="dropdown-header noti-title">
-                <h6 class="text-overflow m-0">Welcome, {{auth()->user()->name}}</h6>
+                <h6 class="text-overflow m-0">Hoşgeldiniz, {{auth()->user()->name}}</h6>
                 <hr>
               </div>
               <a href="#!" class="dropdown-item">

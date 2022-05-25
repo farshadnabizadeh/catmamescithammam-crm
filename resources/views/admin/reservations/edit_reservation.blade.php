@@ -7,15 +7,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
+            <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
             <div class="card p-5 mt-3">
                 <div class="card-title">
-                    <h2>Edit Reservation</h2>
-                    <p class="float-right last-user">Last Operation User: {{ $reservation->user->name }}</p>
+                    <h2>Rezervasyonu Güncelle</h2>
+                    <p class="float-right last-user">Ekleyen Kullanıcı: {{ $reservation->user->name }}</p>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <h2 class="mt-5 sub-table-title">Customers</h2>
+                        <h2 class="mt-5 sub-table-title">Müşteriler</h2>
                     </div>
                     <div class="col-lg-6">
                         <button class="btn btn-danger float-right mt-5" data-toggle="modal" data-target="#addCustomer"><i class="fa fa-plus" aria-hidden="true"></i> Add New Customer</button>
@@ -50,13 +50,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="arrivalDate">Reservation Date</label>
+                                <label for="arrivalDate">Rezervasyon Tarihi</label>
                                 <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Reservation Date" value="{{ $reservation->reservation_date }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="reservationTime">Reservation Time</label>
+                                <label for="reservationTime">Rezervasyon Saati</label>
                                 <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" maxlength="5" onkeypress="timeFormat(this)" value="{{ $reservation->reservation_time }}">
                             </div>
                         </div>
