@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use App\Models\ReservationCustomer;
+use App\Models\ReservationService;
+use App\Models\ReservationTherapist;
 use App\Models\Service;
 use App\Models\PaymentType;
 use App\Models\Source;
@@ -65,12 +67,9 @@ class ReservationController extends Controller
             $newReservation->reservation_time = $request->input('arrivalTime');
             $newReservation->total_customer = $request->input('totalCustomer');
             $newReservation->customer_id = $request->input('customerId');
-            $newReservation->service_id	= $request->input('serviceId');
             $newReservation->service_currency = $request->input('serviceCurrency');
             $newReservation->service_cost = $request->input('serviceCost');
             $newReservation->service_commission = $request->input('serviceComission');
-            $newReservation->therapist_id = $request->input('therapistId');
-            $newReservation->payment_type_id = $request->input('paymentType');
             $newReservation->discount_id = $request->input('discountId');
             $newReservation->source_id = $request->input('sourceId');
 
@@ -95,8 +94,54 @@ class ReservationController extends Controller
             $user = auth()->user();
 
             $newData = new ReservationCustomer();
-            $newData->reservation_id = $request->input('reservation_id');
+            $newData->reservation_id = $request->input('reservationId');
             $newData->customer_id = $request->input('customer_id');
+            $newData->user_id = $user->id;
+
+            if ($newData->save()) {
+                return response(true, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addServicetoReservation(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $newData = new ReservationService();
+            $newData->reservation_id = $request->input('reservationId');
+            $newData->service_id = $request->input('serviceId');
+            $newData->piece = $request->input('piece');
+            $newData->user_id = $user->id;
+
+            if ($newData->save()) {
+                return response(true, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addTherapisttoReservation(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $newData = new ReservationTherapist();
+            $newData->reservation_id = $request->input('reservationId');
+            $newData->therapist_id = $request->input('therapistId');
+            $newData->piece = $request->input('piece');
             $newData->user_id = $user->id;
 
             if ($newData->save()) {
@@ -119,12 +164,9 @@ class ReservationController extends Controller
             $tpStatus = $request->input('ps');
 
             $arrivalsA = DB::table('reservations')
-                ->select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'payment_types.*', 'services.*', 'therapists.*', 'customers.customer_name as Cname')
+                ->select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'customers.customer_name as Cname')
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
                 ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
-                ->leftJoin('services', 'reservations.service_id', '=', 'services.id')
-                ->leftJoin('payment_types', 'reservations.payment_type_id', '=', 'payment_types.id')
                 // ->whereNull('deleted_at')
                 ->whereDate('reservations.reservation_date', '=', $searchDate)
                 ->orderBy('reservation_date');
@@ -156,7 +198,6 @@ class ReservationController extends Controller
 
             $calendarCount = Reservation::select('reservations.reservation_date as date', 'sources.id as sId', 'sources.source_color', 'sources.source_name', DB::raw('count(source_name) as countR'))
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-            ->leftJoin('therapists', 'reservations.therapist_id', '=', 'therapists.id')
             ->whereNull('reservations.deleted_at')
             ->whereNotNull('reservations.source_id')
             // ->whereMonth('treatment_plans.created_date', Carbon::now()->month)

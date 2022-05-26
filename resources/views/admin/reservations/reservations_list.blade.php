@@ -33,10 +33,7 @@
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Müşteri Sayısı</th>
-                                <th scope="col">Ödeme Türü</th>
-                                <th scope="col">Hizmet Adı</th>
                                 <th scope="col">Hizmet Bedeli</th>
-                                <th scope="col">Terapist</th>
                             </tr>
                         </thead>
                         @foreach ($reservations as $reservation)
@@ -54,10 +51,7 @@
                             <td>{{ $reservation->reservation_time }}</td>
                             <td>{{ $reservation->customer->customer_name }} {{ $reservation->customer->customer_surname }}</td>
                             <td>{{ $reservation->total_customer }}</td>
-                            <td>{{ $reservation->paymentType->payment_type_name }}</td>
-                            <td>{{ $reservation->service->service_name }}</td>
                             <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
-                            <td>{{ $reservation->therapist->therapist_name }}</td>
                         </tr>
                         @endforeach
                     </table>

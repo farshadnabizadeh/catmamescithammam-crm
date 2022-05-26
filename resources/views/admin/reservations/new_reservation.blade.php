@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
                                     <div class="card p-3 mt-3">
-                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseCustomerModal">Choose Customer From the list <i class="fa fa-user"></i></button>
+                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseCustomerModal">Kayıtlı Müşterilerden Seç <i class="fa fa-user"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -63,13 +63,13 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="arrivalDate">Rezervasyon Tarihi</label>
-                                                    <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Rezervasyon Tarihi" autocomplete="off" required>
+                                                    <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Rezervasyon Tarihi" autocomplete="off" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="arrivalTime">Rezervasyon Saati</label>
-                                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
+                                                    <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,22 +77,9 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="totalCustomer">Toplam Müşteri</label>
-                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Toplam Müşteri" required>
+                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" required>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="therapistId">Terapist</label>
-                                                    <select id="therapistId" name="therapistId" class="form-control">
-                                                        <option></option>
-                                                        @foreach ($therapists as $therapist)
-                                                        <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="sobId">Rezervasyon Kaynağı</label>
@@ -105,7 +92,33 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary float-right" id="reservationSave">Next <i class="fa fa-arrow-right"></i></button>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addService">Bakım Ekle</button>
+                                                    <table class="table table-bordered mt-3" id="serviceTable">
+                                                        <tr>
+                                                            <th>Bakım</th>
+                                                            <th>Adeti</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTherapist">Terapist Ekle</button>
+                                                    <table class="table table-bordered mt-3" id="therapistTable">
+                                                        <tr>
+                                                            <th>Terapist</th>
+                                                            <th>İş</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary float-right" id="reservationSave">İleri <i class="fa fa-arrow-right"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -122,13 +135,8 @@
                             <div class="row">
                                 <div class="col-lg-6 mt-3">
                                     <div class="form-group">
-                                        <label for="serviceId">Hizmet</label>
-                                        <select id="serviceId" name="serviceId" class="form-control" required>
-                                            <option></option>
-                                            @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">{{ $service->service_name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="serviceCost">Toplam Hizmet Bedeli</label>
+                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Toplam Hizmet Bedeli">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 mt-3">
@@ -147,27 +155,8 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="serviceCost">Hizmet Bedeli</label>
-                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Hizmet Bedeli">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
                                         <label for="serviceComission">Service Comission</label>
-                                        <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="paymentType">Ödeme Türleri</label>
-                                        <select id="paymentType" name="paymentType" class="form-control">
-                                            <option></option>
-                                            @foreach ($payment_types as $payment_type)
-                                            <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Service Comission">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -179,6 +168,20 @@
                                             <option value="{{ $discount->id }}">{{ $discount->discount_name }} | %{{ $discount->discount_percentage }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPaymentType">Ödeme Türü Ekle</button>
+                                        <table class="table table-bordered mt-3" id="paymentTypeTable">
+                                            <tr>
+                                                <th>Ödeme Türü</th>
+                                                <th>Ücreti</th>
+                                                <th></th>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +287,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                
                 <table class="table table-bordered" id="customerTableReservation">
                     <tr>
                         <th>Customer Name</th>
@@ -293,7 +295,111 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addService" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bakım Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <label for="serviceId">Bakım</label>
+                        <select id="serviceId" class="form-control">
+                            <option></option>
+                            @foreach ($services as $service)
+                            <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="customerNumber">Kaç Kişi</label>
+                        <input type="number" class="form-control" id="customerNumber">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right mt-3" id="createService">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addTherapist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Terapist Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <label for="therapistId">Terapist</label>
+                        <select id="therapistId" name="therapistId" class="form-control">
+                            <option></option>
+                            @foreach ($therapists as $therapist)
+                            <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="is">Kaç İş</label>
+                        <input type="number" class="form-control" name="is" id="is">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right mt-3" id="createTherapist">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addPaymentType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ödeme Türü Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="paymentType">Ödeme Türü</label>
+                            <select id="paymentType" class="form-control">
+                                <option></option>
+                                @foreach ($payment_types as $payment_type)
+                                <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="paymentPrice">Ücreti</label>
+                        <input type="number" class="form-control" id="paymentPrice">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right mt-3" id="createPaymentType">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>
@@ -603,7 +709,7 @@
                 </form>                
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>
@@ -613,7 +719,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Choose Customer From the List</h4>
+                <h4 class="modal-title">Kayıtlı Müşteriler</h4>
                 <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
                 </button>
@@ -627,12 +733,12 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th scope="col">Operation</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Surname</th>
-                                            <th scope="col">Phone</th>
-                                            <th scope="col">Country</th>
+                                            <th scope="col">Adı</th>
+                                            <th scope="col">Soyadı</th>
+                                            <th scope="col">Telefon</th>
+                                            <th scope="col">Ülke</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col">Note</th>
+                                            <th scope="col">Not</th>
                                         </tr>
                                     </thead>
                                     @foreach ($customers as $customer)
@@ -655,7 +761,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>

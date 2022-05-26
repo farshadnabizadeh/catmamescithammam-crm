@@ -224,9 +224,10 @@ table.table-bordered.dataTable th:last-child {
 table.table-bordered.dataTable tbody td,
 table.table-bordered.dataTable tbody th {
     border-bottom-width: 0;
-    font-weight: 100;
-    font-family: 'Gotham Rounded Medium';
+    font-weight: 600;
+    font-family: var(--font-montserrat);
     border-bottom: 1px solid #eee !important;
+    border-left: 1px solid #eee !important;
     border-right: 1px solid #eee !important
 }
 

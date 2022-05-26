@@ -31,10 +31,7 @@
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Total Customer</th>
-                                <th scope="col">Ödeme Türü</th>
-                                <th scope="col">Hizmet Adı</th>
                                 <th scope="col">Hizmet Bedeli</th>
-                                <th scope="col">Terapist</th>
                             </tr>
                         </thead>
                         @foreach ($listAllByDates as $listAllByDate)
@@ -54,10 +51,7 @@
                                 <td>{{ $listAllByDate->reservation_time }}</td>
                                 <td><a href="{{ url('/definitions/customers/edit/'.$listAllByDate->customer_id) }}">{{ $listAllByDate->Cname }}</a></td>
                                 <td>{{ $listAllByDate->total_customer }}</td>
-                                <td>{{ $listAllByDate->payment_type_name }}</td>
-                                <td>{{ $listAllByDate->service_name }}</td>
                                 <td>{{ $listAllByDate->service_cost }} {{ $listAllByDate->service_currency }}</td>
-                                <td>{{ $listAllByDate->therapist_name }}</td>
                             </tr>
                         @endforeach
                     </table>

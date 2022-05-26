@@ -8,41 +8,52 @@
     <div class="row">
         <div class="col-md-12">
             <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
-            <div class="card p-5 mt-3">
+            <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Rezervasyonu Güncelle</h2>
                     <p class="float-right last-user">Ekleyen Kullanıcı: {{ $reservation->user->name }}</p>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <h2 class="mt-5 sub-table-title">Müşteriler</h2>
+                        <h3 class="mt-3 sub-table-title">Hizmetler</h3>
+                        <div class="dt-responsive table-responsive mb-5">
+                            <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                                <tr>
+                                    <th>Bakım</th>
+                                    <th>Adeti</th>
+                                </tr>
+                                <tbody>
+                                    @foreach($reservation->subServices as $subService)
+                                    <tr>
+                                        <td>{{ $subService->service_name }}</td>
+                                        <td>{{ $subService->piece }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-lg-6">
-                        <button class="btn btn-danger float-right mt-5" data-toggle="modal" data-target="#addCustomer"><i class="fa fa-plus" aria-hidden="true"></i> Add New Customer</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 dt-responsive table-responsive mb-5">
-                        <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Customer Surname</th>
-                                <th>Customer Phone</th>
-                                <th>Customer Country</th>
-                                <th>Customer Email</th>
-                            </tr>
-                            <tbody>
-                                @foreach($reservation->subCustomers as $subCustomer)
+                        <h3 class="mt-3 sub-table-title">Terapistler</h3>
+                        <div class="dt-responsive table-responsive mb-5">
+                            <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                                 <tr>
-                                    <td>{{ $subCustomer->customer_name }}</td>
-                                    <td>{{ $subCustomer->customer_surname }}</td>
-                                    <td>{{ $subCustomer->customer_phone }}</td>
-                                    <td>{{ $subCustomer->customer_country }}</td>
-                                    <td>{{ $subCustomer->customer_email }}</td>
+                                    <th>Terapist</th>
+                                    <th>Adeti</th>
                                 </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    @foreach($reservation->subTherapists as $subTherapist)
+                                    <tr>
+                                        <td>{{ $subTherapist->therapist_name }}</td>
+                                        <td>{{ $subTherapist->piece }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        {{-- <button class="btn btn-danger float-right mt-5" data-toggle="modal" data-target="#addCustomer"><i class="fa fa-plus" aria-hidden="true"></i> Add New Customer</button> --}}
                     </div>
                 </div>
                 <form action="{{ url('/definitions/reservations/update/'.$reservation->id) }}" method="POST">
@@ -64,26 +75,21 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="totalCustomer">Total Customer</label>
+                                <label for="totalCustomer">Toplam Müşteri</label>
                                 <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Total Customer" value="{{ $reservation->total_customer }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceId">Service</label>
-                                <select id="serviceId" name="serviceId" class="form-control" required>
-                                    <option value="{{ $reservation->service->id }}">{{ $reservation->service->service_name }}</option>
-                                    @foreach ($services as $service)
-                                    <option value="{{ $service->id }}">{{ $service->service_name }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="serviceCost">Toplam Hizmet Bedeli</label>
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" value="{{ $reservation->service_cost }}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCurrency">Service Currency</label>
+                                <label for="serviceCurrency">Para Birimi</label>
                                 <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
                                     <option value="{{ $reservation->service_currency }}" @selected(true)>{{ $reservation->service_currency }}</option>
                                     <option value="EUR">EURO</option>
@@ -95,31 +101,21 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCost">Service Cost</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" value="{{ $reservation->service_cost }}">
+                                <label for="serviceComission">Service Comission</label>
+                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission" value="{{ $reservation->service_comission }}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceComission">Service Comission</label>
-                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission" value="{{ $reservation->service_comission }}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="therapistId">Therapist</label>
+                                <label for="therapistId">Terapist</label>
                                 <select id="therapistId" name="therapistId" class="form-control">
-                                    <option value="{{ $reservation->therapist->id }}" @selected(true)>{{ $reservation->therapist->therapist_name }}</option>
-                                    @foreach ($therapists as $therapist)
-                                    <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success mt-5 float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

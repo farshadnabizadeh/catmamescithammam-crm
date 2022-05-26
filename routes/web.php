@@ -84,6 +84,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/reservations/edit/{id}', 'ReservationController@edit')->middleware(['middleware' => 'permission:edit reservation']);
     Route::POST('definitions/reservations/update/{id}', 'ReservationController@update')->middleware(['middleware' => 'permission:edit reservation']);
     Route::POST('definitions/reservations/addCustomertoReservation', 'ReservationController@addCustomertoReservation');
+    Route::POST('definitions/reservations/addPaymentTypetoReservation', 'ReservationController@addPaymentTypetoReservation');
+    Route::POST('definitions/reservations/addServicetoReservation', 'ReservationController@addServicetoReservation');
+    Route::POST('definitions/reservations/addTherapisttoReservation', 'ReservationController@addTherapisttoReservation');
     Route::GET('reservationbydate', 'ReservationController@allReservationByDate')->middleware(['middleware' => 'permission:show reservation']);
     Route::GET('definitions/reservations/destroy/{id}', 'ReservationController@destroy')->middleware(['middleware' => 'permission:delete reservation']);
     //Reservations end

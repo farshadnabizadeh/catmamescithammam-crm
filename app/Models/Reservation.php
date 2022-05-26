@@ -43,6 +43,18 @@ class Reservation extends Model
             ->selectRaw('customers.*, reservations_customers.*');
     }
 
+    public function subServices()
+    {
+        return $this->belongsToMany(Service::class, 'reservations_services', 'reservation_id', 'service_id')
+            ->selectRaw('services.*, reservations_services.*');
+    }
+
+    public function subTherapists()
+    {
+        return $this->belongsToMany(Therapist::class, 'reservations_therapists', 'reservation_id', 'therapist_id')
+            ->selectRaw('therapists.*, reservations_therapists.*');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
