@@ -30,7 +30,7 @@
                                 <th scope="col">Rezervasyon Tarihi</th>
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
-                                <th scope="col">Total Customer</th>
+                                <th scope="col">Toplam Müşteri</th>
                                 <th scope="col">Hizmet Bedeli</th>
                             </tr>
                         </thead>
@@ -40,8 +40,8 @@
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> İptal Et</a></li>
-                                            <li><a href="{{ url('/operationbydate/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            {{-- <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> İptal Et</a></li> --}}
+                                            <li><a href="{{ url('/definitions/reservations/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                             <li><a href="{{ url('/definitions/treatmentplans/download/'.$listAllByDate->tId) }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
                                         </ul>
                                     </div>

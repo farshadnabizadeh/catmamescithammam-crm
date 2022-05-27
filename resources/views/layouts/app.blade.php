@@ -29,7 +29,7 @@
 
     @if (session('message'))
         <script type="text/javascript">
-            swal({ icon: 'success', title: 'Success!', text: '{{ session('message') }}', });
+            swal({ icon: 'success', title: 'Başarılı!', text: '{{ session('message') }}', });
         </script>
     @endif
 

@@ -27,9 +27,13 @@
                                     @foreach($reservation->subPaymentTypes as $subPaymentType)
                                     <tr>
                                         <td>{{ $subPaymentType->payment_type_name }}</td>
-                                        <td>{{ $subPaymentType->payment_price }}</td>
+                                        <td>{{ $subPaymentType->payment_price }} {{ $reservation->service_currency }}</td>
                                     </tr>
                                     @endforeach
+                                    <tr>
+                                        <td>Toplam:</td>
+                                        <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -82,13 +86,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="arrivalDate">Rezervasyon Tarihi</label>
-                                <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Enter Reservation Date" value="{{ $reservation->reservation_date }}" required>
+                                <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Rezervasyon Tarihi" value="{{ $reservation->reservation_date }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="reservationTime">Rezervasyon Saati</label>
-                                <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Enter Reservation Time" maxlength="5" onkeypress="timeFormat(this)" value="{{ $reservation->reservation_time }}">
+                                <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" value="{{ $reservation->reservation_time }}">
                             </div>
                         </div>
                     </div>
@@ -96,13 +100,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="totalCustomer">Toplam Müşteri</label>
-                                <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Enter Total Customer" value="{{ $reservation->total_customer }}" required>
+                                <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" value="{{ $reservation->total_customer }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCost">Toplam Hizmet Bedeli</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" value="{{ $reservation->service_cost }}">
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Toplam Hizmet Bedeli" value="{{ $reservation->service_cost }}">
                             </div>
                         </div>
                     </div>
@@ -121,8 +125,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceComission">Service Comission</label>
-                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Enter Service Comission" value="{{ $reservation->service_comission }}">
+                                <label for="serviceComission">Komisyon</label>
+                                <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Komisyon" value="{{ $reservation->service_comission }}">
                             </div>
                         </div>
                     </div>

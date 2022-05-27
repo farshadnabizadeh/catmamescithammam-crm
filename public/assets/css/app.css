@@ -41,7 +41,7 @@
     --lighter: #e9ecef;
     --primary: #5e72e4;
     --secondary: #f7fafc;
-    --third:#2d80a9;
+    --third:#511124;
     --opacity-blue:#eaf2f6;
     --success: #2dce89;
     --info: #11cdef;
@@ -753,6 +753,23 @@ summary
     height: 1100px
 }
 
+.img-cover {
+    padding: 0px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.img-cover img {
+    width: 100%;
+    height: 202px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.img-cover.img-cover_other img {
+    height: 250px;
+}
+
 .treatmentPlanCard .treatmentplan-table th {
     background-color: var(--third);
     color: #fff;
@@ -946,8 +963,12 @@ summary
     color:var(--dark)
 }
 
+.flag-img {
+    width: 20px
+}
+
 .patientInfo {
-    background-color: var(--opacity-blue);
+    background-color: #efefef;
     color:var(--dark)
 }
 

@@ -41,6 +41,12 @@
                 </div>
             </div>
         </main>
+        
+        @if (session('message'))
+            <script type="text/javascript">
+                swal({ icon: 'success', title: 'Success!', text: '{{ session('message') }}', });
+            </script>
+        @endif
 
         <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

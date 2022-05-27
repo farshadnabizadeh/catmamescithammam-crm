@@ -28,7 +28,7 @@ class ReservationController extends Controller
     public function index()
     {
         try {
-            $reservations = Reservation::all();
+            $reservations = Reservation::orderBy('reservation_date', 'desc')->get();
             $services = Service::orderBy('service_name', 'asc')->get();
             $sources = Source::orderBy('source_name', 'asc')->get();
             $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
@@ -73,6 +73,7 @@ class ReservationController extends Controller
             $newReservation->service_commission = $request->input('serviceComission');
             $newReservation->discount_id = $request->input('discountId');
             $newReservation->source_id = $request->input('sourceId');
+            $newReservation->reservation_note = $request->input('reservationNote');
 
             $newReservation->user_id = auth()->user()->id;
             $result = $newReservation->save();
@@ -207,7 +208,7 @@ class ReservationController extends Controller
                 $datePrmtr = $datePrmtr . "  -  " . $tpStatus;
             }
            
-            $data = array('listAllByDates' => $listAllByDates, 'tableTitle' => 'All Reservations By ' . $datePrmtr);
+            $data = array('listAllByDates' => $listAllByDates, 'tableTitle' => $datePrmtr . ' Tarihindeki Tüm Rezervasyonlar');
             return view('admin.reservations.all_reservation')->with($data);
         }
         catch (\Throwable $th) {
@@ -252,10 +253,46 @@ class ReservationController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['reservation_date'] = $request->input('arrivalDate');
+            $temp['reservation_time'] = $request->input('arrivalTime');
+            $temp['total_customer'] = $request->input('totalCustomer');
+            $temp['service_cost'] = $request->input('serviceCost');
+            $temp['service_currency'] = $request->input('serviceCurrency');
+            $temp['service_commission'] = $request->input('serviceComission');
+
+            if ($updateSelectedData = Reservation::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/reservations/calendar')->with('message', 'Rezervasyon Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function download($id)
+    {
+        try {
+            $reservation = Reservation::find($id);
+            $data = array('reservation' => $reservation);
+            return view('admin.reservations.download_reservation')->with($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function destroy($id){
         try {
             Reservation::find($id)->delete();
-            return redirect('definitions/reservations')->with('message', 'Reservation Deleted Successfully!');
+            return redirect('definitions/reservations')->with('message', 'Rezervasyon Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

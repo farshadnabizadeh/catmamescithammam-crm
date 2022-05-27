@@ -897,12 +897,13 @@ function completeReservation() {
                     var arrivalTime = $("#tab2").find('#arrivalTime').val();
                     var totalCustomer = $("#tab2").find('#totalCustomer').val();
                     var sourceId = $('#tab2').find("#sobId").children("option:selected").val();
+                    var reservationNote = $('#tab2').find("#note").val();
 
                     var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").val();
                     var serviceCost = $("#tab3").find("#serviceCost").val();
                     var serviceComission = $('#tab3').find("#serviceComission").val();
                     var discountId = $('#tab3').find("#discountId").children("option:selected").val();
-                    addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId);
+                    addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote);
 
                     //Services
                     $("#serviceTable").find("tbody tr").each(function (i) {
@@ -934,7 +935,7 @@ function completeReservation() {
     catch (error) { }
 }
 
-function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId){
+function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote){
     try {
         $.ajaxSetup({
             headers: {
@@ -953,7 +954,8 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, ser
                 'serviceCost': serviceCost,
                 'serviceComission': serviceComission,
                 'discountId': discountId,
-                'sourceId': sourceId
+                'sourceId': sourceId,
+                'reservationNote': reservationNote
             },
             async: false,
             dataType: 'json',

@@ -74,13 +74,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="totalCustomer">Toplam Müşteri</label>
                                                     <input type="number" class="form-control" maxlength="2" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" required>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="sobId">Rezervasyon Kaynağı</label>
                                                     <select id="sobId" name="sobId" class="form-control">
@@ -89,6 +89,12 @@
                                                         <option value="{{ $source->id }}">{{ $source->source_name }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="sobId">Rezervasyon Notu</label>
+                                                    <textarea class="form-control" id="note"></textarea>
                                                 </div>
                                             </div>
                                         </div>
