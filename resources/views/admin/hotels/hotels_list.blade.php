@@ -10,14 +10,14 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Hotels</li>
+                    <li class="breadcrumb-item active" aria-current="page">Otel Listesi</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Hotels Lists</h2>
+                            <h2>Otel Listesi</h2>
                         </div>
                         <div class="col-lg-6">
                             @can('create hotel')
@@ -31,9 +31,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Hotel Name</th>
-                                <th scope="col">Hotel Phone</th>
-                                <th scope="col">Hotel Staff</th>
+                                <th scope="col">Otel Adı</th>
+                                <th scope="col">Otel Numarası</th>
+                                <th scope="col">Otel Görevlisi</th>
                                 <th scope="col">Hotel Person Account Number</th>
                                 <th scope="col">Amount Shipped</th>
                             </tr>
@@ -119,7 +119,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>

@@ -11,9 +11,29 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Rezervasyonu Güncelle</h2>
-                    <p class="float-right last-user">Ekleyen Kullanıcı: {{ $reservation->user->name }}</p>
+                    <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $reservation->user->name }}</p>
+                    <hr>
                 </div>
                 <div class="row">
+                    <div class="col-lg-6">
+                        <h3 class="mt-3 sub-table-title">Ödeme Türleri</h3>
+                        <div class="dt-responsive table-responsive mb-5">
+                            <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                                <tr>
+                                    <th>Ödeme Türü</th>
+                                    <th>Ücret</th>
+                                </tr>
+                                <tbody>
+                                    @foreach($reservation->subPaymentTypes as $subPaymentType)
+                                    <tr>
+                                        <td>{{ $subPaymentType->payment_type_name }}</td>
+                                        <td>{{ $subPaymentType->payment_price }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="col-lg-6">
                         <h3 class="mt-3 sub-table-title">Hizmetler</h3>
                         <div class="dt-responsive table-responsive mb-5">
@@ -34,7 +54,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <h3 class="mt-3 sub-table-title">Terapistler</h3>
+                        <h3 class="sub-table-title">Terapistler</h3>
                         <div class="dt-responsive table-responsive mb-5">
                             <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                                 <tr>
@@ -106,15 +126,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="therapistId">Terapist</label>
-                                <select id="therapistId" name="therapistId" class="form-control">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-success mt-5 float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
@@ -152,7 +163,7 @@
             </form>
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
          </div>
       </div>
    </div>

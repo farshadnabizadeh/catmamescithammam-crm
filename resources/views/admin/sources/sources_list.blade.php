@@ -10,14 +10,14 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Source Of Bookings</li>
+                    <li class="breadcrumb-item active" aria-current="page">Rezervasyon Kaynakları</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Source Of Booking Lists</h2>
+                            <h2>Rezervasyon Kaynakları</h2>
                         </div>
                         <div class="col-lg-6">
                             @can('create sources')
@@ -31,8 +31,8 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Source Name</th>
-                                <th scope="col">Source Color</th>
+                                <th scope="col">Kaynak Adı</th>
+                                <th scope="col">Kaynak Rengi</th>
                             </tr>
                         </thead>
                         @foreach ($sources as $source)
@@ -91,7 +91,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>

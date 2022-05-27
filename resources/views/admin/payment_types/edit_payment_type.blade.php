@@ -4,7 +4,7 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h3>Edit Payment Type</h3>
-                    <p class="float-right last-user">Last Operation User: {{ $payment_type->user->name }}</p>
+                    <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $payment_type->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/payment_types/update/'.$payment_type->id) }}" method="POST">
                     @csrf

@@ -4,7 +4,7 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h3>Edit Discount</h3>
-                    <p class="float-right last-user">Last Operation User: {{ $discount->user->name }}</p>
+                    <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $discount->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/discounts/update/'.$discount->id) }}" method="POST">
                     @csrf

@@ -4,7 +4,7 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Edit Therapist</h2>
-                    <p class="float-right last-user">Last Operation User: {{ $therapist->user->name }}</p>
+                    <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $therapist->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/therapists/update/'.$therapist->id) }}" method="POST">
                     @csrf

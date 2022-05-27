@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\ReservationCustomer;
 use App\Models\ReservationService;
 use App\Models\ReservationTherapist;
+use App\Models\ReservationPaymentType;
 use App\Models\Service;
 use App\Models\PaymentType;
 use App\Models\Source;
@@ -142,6 +143,29 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->therapist_id = $request->input('therapistId');
             $newData->piece = $request->input('piece');
+            $newData->user_id = $user->id;
+
+            if ($newData->save()) {
+                return response(true, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addPaymentTypetoReservation(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $newData = new ReservationPaymentType();
+            $newData->reservation_id = $request->input('reservationId');
+            $newData->payment_type_id = $request->input('paymentTypeId');
+            $newData->payment_price = $request->input('paymentPrice');
             $newData->user_id = $user->id;
 
             if ($newData->save()) {

@@ -55,6 +55,12 @@ class Reservation extends Model
             ->selectRaw('therapists.*, reservations_therapists.*');
     }
 
+    public function subPaymentTypes()
+    {
+        return $this->belongsToMany(PaymentType::class, 'reservations_payments_types', 'reservation_id', 'payment_type_id')
+            ->selectRaw('payment_types.*, reservations_payments_types.*');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

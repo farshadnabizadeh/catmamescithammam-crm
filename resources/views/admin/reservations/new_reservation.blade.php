@@ -77,7 +77,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="totalCustomer">Toplam Müşteri</label>
-                                                    <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" required>
+                                                    <input type="number" class="form-control" maxlength="2" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -392,8 +392,8 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <label for="paymentPrice">Ücreti</label>
-                        <input type="number" class="form-control" id="paymentPrice">
+                        <label for="paymentPrice">Alınan Ücret</label>
+                        <input type="number" class="form-control" id="paymentPrice" placeholder="Alınan Ücret">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary float-right mt-3" id="createPaymentType">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>

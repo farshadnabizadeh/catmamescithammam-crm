@@ -1,5 +1,8 @@
 var reservationID;
 var customerID;
+var totalCost = [];
+var servicePieces = [];
+var total;
 
 var HIDDEN_URL = {
     RESERVATION: '/definitions/reservations',
@@ -12,23 +15,28 @@ var HIDDEN_URL = {
 }
 
 function dashboard() {
-    new Chart(document.getElementById("pie-chart"), {
-        type: 'pie',
-        data: {
-            labels: ["Doctors", "Sales", "Customers", "Treatments"],
-            datasets: [{
-                label: "Population (millions)",
-                backgroundColor: ["#11cdef", "#8e5ea2", "#11cdef", "#11cdef"],
-                data: [2478, 5267, 734, 784]
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: ''
+    try {
+        new Chart(document.getElementById("pie-chart"), {
+            type: 'pie',
+            data: {
+                labels: ["Doctors", "Sales", "Customers", "Treatments"],
+                datasets: [{
+                    label: "Population (millions)",
+                    backgroundColor: ["#11cdef", "#8e5ea2", "#11cdef", "#11cdef"],
+                    data: [2478, 5267, 734, 784]
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: ''
+                }
             }
-        }
-    });
+        });  
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 function voucherPdf() {
@@ -612,7 +620,6 @@ function getServiceDetail() {
                             else if (!data.isNull) {
                                 let serviceCost = data.service_cost;
                                 let serviceCurrency = data.service_currency;
-                                $("#serviceCost").val(serviceCost);
                                 $("#serviceCurrency > option").each(function () {
                                     if (this.value == serviceCurrency) $(this).attr("selected", true); $(this).trigger("change");
                                 });
@@ -754,7 +761,7 @@ function createPaymentTypeOperation() {
             var paymentTypeName = $("#addPaymentType").find('#paymentType').children("option:selected").text();
             var paymentPrice = $("#addPaymentType").find('#paymentPrice').val();
 
-            if (serviceId == "" || customerNumber == "") {
+            if (paymentTypeId == "" || paymentPrice == "") {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
@@ -765,7 +772,7 @@ function createPaymentTypeOperation() {
                     "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Kaldır</button></td>" +
                     "</tr>";
 
-                $("#addService").find('#customerNumber').val("");
+                $("#addPaymentType").find('#paymentPrice').val("");
                 $('#paymentTypeTable tbody').append(markup);
                 $('#paymentTypeTable').trigger('rowAddOrRemove');
             }
@@ -787,8 +794,41 @@ function addReservationOperation() {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
+                $("#serviceTable").find("tbody tr.service").each(function (i) {
+                    var $tds = $(this).find('td');
+                    serviceId = $tds.attr("id");
+                    serviceName = $tds.eq(0).text();
+                    service_piece = $tds.eq(1).text();
+                    servicePieces.push(service_piece);
+                    $.ajax({
+                        url: '/getService/' + serviceId,
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response) {
+                                $.each(response, function (key, value) {
+                                    var data = value;
+                                    if (data == null) {
+                                    }
+                                    else if (!data.isNull) {
+                                        let serviceCost = data.service_cost;
+                                        totalCost = [];
+                                        setTimeout(() => {
+                                            totalCost.push(serviceCost);
+                                            console.log(totalCost);
+                                            $(".service-name").text(serviceName);
+                                            total = totalCost.reduce(function (r, a, i) { return r + a * servicePieces[i] }, 0);
+                                            $("#serviceCost").val(total);
+                                        }, 1000);
+                                    }
+                                });
+                            }
+                        },
+                        
+                        error: function () { },
+                    });
+                });
                 $("#next-step").trigger("click");
-                // addReservation(arrivalDate, arrivalTime, totalCustomer, serviceId, serviceCurrency, serviceCost, serviceComission, therapistId);
             }
         });
 
@@ -796,7 +836,7 @@ function addReservationOperation() {
             var arrivalDate = $("#tab2").find('#arrivalDate').val();
             var arrivalTime = $("#tab2").find('#arrivalTime').val();
             var totalCustomer = $("#tab2").find('#totalCustomer').val();
-;
+
             var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").text();
             var serviceCost = $("#tab3").find("#serviceCost").val();
             var serviceComission = $("#tab3").find("#serviceComission").val();
@@ -811,7 +851,21 @@ function addReservationOperation() {
                 $(".total-customer").text(totalCustomer);
                 // $(".therapist-name").text(therapistName);
 
-                // $(".service-name").text(serviceName);
+                
+                //Services
+                $("#serviceTable").find("tbody tr").each(function (i) {
+                    var $tds = $(this).find('td');
+                    serviceName = $tds.eq(0).text();
+                    $(".service-name").text(serviceName);
+                });
+
+                //Therapists
+                $("#therapistTable").find("tbody tr").each(function (i) {
+                    var $tds = $(this).find('td');
+                    therapistName = $tds.eq(0).text();
+                    $(".therapist-name").text(therapistName);
+                });
+
                 $(".service-cost").text(serviceCost + " " + serviceCurrency);
                 $(".sob-name").text(sourceName);
                 // $(".payment-type").text(paymentType);
@@ -865,6 +919,14 @@ function completeReservation() {
                         piece = $tds.eq(1).text();
                         addTherapisttoReservation(reservationID, therapistId, piece);
                     });
+
+                    //Payment Types
+                    $("#paymentTypeTable").find("tbody tr").each(function (i) {
+                        var $tds = $(this).find('td');
+                        paymentTypeId = $tds.attr("id");
+                        paymentPrice = $tds.eq(1).text();
+                        addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
+                    });
                 }, 500);
             }
         });
@@ -897,7 +959,7 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, ser
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Reservation Added Successfully!', timer: 1000 });
+                    swal({ icon: 'success', title: 'Success!', text: 'Rezervasyon Başarıyla Eklendi!', timer: 1000 });
                     reservationID = response;
                     setTimeout(() => {
                         window.location.href = "/definitions/reservations/calendar";
@@ -912,7 +974,7 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, ser
     }
 }
 
-function addPaymentTypetoReservation(reservationID, therapistId, piece) {
+function addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice) {
     try {
         $.ajaxSetup({
             headers: {
@@ -920,18 +982,18 @@ function addPaymentTypetoReservation(reservationID, therapistId, piece) {
             }
         });
         $.ajax({
-            url: '/definitions/reservations/addTherapisttoReservation',
+            url: '/definitions/reservations/addPaymentTypetoReservation',
             type: 'POST',
             data: {
                 'reservationId': reservationID,
-                'therapist_id': therapistId,
-                'piece': piece
+                'paymentTypeId': paymentTypeId,
+                'paymentPrice': paymentPrice
             },
             async: false,
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Chronic Illnesses Added Successfully!', timer: 1000 });
+                    swal({ icon: 'success', title: 'Success!', text: 'Ödeme Türleri Başarıyla Eklendi!', timer: 1000 });
                 }
             },
 

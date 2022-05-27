@@ -29,9 +29,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
-                                <th scope="col">Name Surname</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Country</th>
+                                <th scope="col">Adı Soyadı</th>
+                                <th scope="col">Numarası</th>
+                                <th scope="col">Ülkesi</th>
                                 <th scope="col">Email</th>
                             </tr>
                         </thead>
@@ -351,7 +351,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>

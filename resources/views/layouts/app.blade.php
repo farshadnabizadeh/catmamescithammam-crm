@@ -49,6 +49,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/glightbox.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/Chart.extension.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/fullcalendar-5.11.0.js') }}"></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/daterangepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/clockpicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/select2.min.js') }}"></script>
