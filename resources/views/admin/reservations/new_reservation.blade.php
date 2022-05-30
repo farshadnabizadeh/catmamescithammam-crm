@@ -93,8 +93,8 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label for="sobId">Rezervasyon Notu</label>
-                                                    <textarea class="form-control" id="note"></textarea>
+                                                    <label for="note">Rezervasyon Notu</label>
+                                                    <textarea class="form-control" id="note" placeholder="Rezervasyon Notu"></textarea>
                                                 </div>
                                             </div>
                                         </div>

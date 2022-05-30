@@ -41,7 +41,7 @@
                         <tr>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit discount')
                                         <li><a href="{{ url('/definitions/discounts/edit/'.$discount->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

@@ -7,7 +7,7 @@
     <div class="header-body">
     <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-            <h6 class="h2 text-white d-inline-block mb-0 item-text font-weight-600">Dashboard </h6>
+            <h6 class="h2 text-white d-inline-block mb-0 item-text font-weight-600">Arayüz </h6>
         </div>
     </div>
     <div class="row">
@@ -135,7 +135,7 @@
             <div class="card-header border-0">
                <div class="row align-items-center">
                   <div class="col">
-                     <h3 class="mb-0">General Summary</h3>
+                     <h3 class="mb-0">Genel Özet</h3>
                   </div>
                </div>
             </div>

@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Edit Therapist</h2>
+                    <h2>Terapist Güncelle</h2>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $therapist->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/therapists/update/'.$therapist->id) }}" method="POST">
@@ -11,12 +11,12 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="therapistName">Therapist Name</label>
-                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Enter Therapist Name" value="{{ $therapist->therapist_name }}" required>
+                                <label for="therapistName">Terapist Adı</label>
+                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Terapist Adı" value="{{ $therapist->therapist_name }}" required>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

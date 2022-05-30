@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h3>Edit Hotel</h3>
+                    <h3>Oteli Güncelle</h3>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $hotel->user->name }}</p>
                 </div>
                 <form action="{{ url('/definitions/hotels/update/'.$hotel->id) }}" method="POST">
@@ -11,14 +11,14 @@
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
-                                <label for="hotelName">Hotel Name</label>
-                                <input type="text" class="form-control" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="{{ $hotel->hotel_name }}" required>
+                                <label for="hotelName">Otel Adı</label>
+                                <input type="text" class="form-control" id="hotelName" name="hotelName" placeholder="Otel Adı" value="{{ $hotel->hotel_name }}" required>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
-                                <label for="hotelPhone">Hotel Phone</label>
-                                <input type="text" class="form-control" id="hotelPhone" name="hotelPhone" placeholder="Enter Hotel Phone" value="{{ $hotel->hotel_phone }}">
+                                <label for="hotelPhone">Otel Telefon Numarası</label>
+                                <input type="text" class="form-control" id="hotelPhone" name="hotelPhone" placeholder="Otel Telefon Numarası" value="{{ $hotel->hotel_phone }}">
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-primary float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

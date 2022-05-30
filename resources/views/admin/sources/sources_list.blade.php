@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-lg-6">
                             @can('create sources')
-                            <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Source Of Booking</button>
+                            <button data-toggle="modal" data-target="#customerModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon Kaynağı Ekle</button>
                             @endcan
                         </div>
                     </div>
@@ -39,13 +39,13 @@
                         <tr>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit sources')
-                                        <li><a href="{{ url('/definitions/sources/edit/'.$source->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        <li><a href="{{ url('/definitions/sources/edit/'.$source->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete sources')
-                                        <li><a href="{{ url('/definitions/sources/destroy/'.$source->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        <li><a href="{{ url('/definitions/sources/destroy/'.$source->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -65,7 +65,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Source Of Booking</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Rezervasyon Kaynağı Ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -76,18 +76,18 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceName">Source Name</label>
-                                <input type="text" class="form-control" id="sourceName" name="sourceName" placeholder="Enter Source Name" required>
+                                <label for="sourceName">Kaynak Adı</label>
+                                <input type="text" class="form-control" id="sourceName" name="sourceName" placeholder="Kaynak Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceColor">Source Color</label>
-                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="sourceColor" placeholder="Enter Source Color">
+                                <label for="sourceColor">Kaynak Rengi</label>
+                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="sourceColor" placeholder="Kaynak Rengi">
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

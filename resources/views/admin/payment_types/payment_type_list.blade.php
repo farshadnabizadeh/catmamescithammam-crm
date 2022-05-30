@@ -21,7 +21,7 @@
                   </div>
                   <div class="col-lg-6">
                      @can('create payment type')
-                     <button data-toggle="modal" data-target="#createPaymentTypeModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Ödeme Türleri</button>
+                     <button data-toggle="modal" data-target="#createPaymentTypeModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Ödeme Türü</button>
                      @endcan
                   </div>
                </div>
@@ -38,13 +38,13 @@
                   <tr>
                      <td>
                         <div class="dropdown">
-                           <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                           <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                            <ul class="dropdown-menu">
                               @can('edit payment type')
-                              <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                              <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                               @endcan
                               @can('delete payment type')
-                              <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                              <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                               @endcan
                            </ul>
                         </div>
@@ -74,18 +74,18 @@
                <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
-                        <label for="paymentTypeName">Payment Type Name</label>
-                        <input type="text" class="form-control" id="paymentTypeName" name="paymentTypeName" placeholder="Enter Payment Type Name" required>
+                        <label for="paymentTypeName">Ödeme Türü Adı</label>
+                        <input type="text" class="form-control" id="paymentTypeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" required>
                      </div>
                   </div>
                   <div class="col-lg-6">
                      <div class="form-group">
-                        <label for="note">Note</label>
-                        <input type="text" class="form-control" id="note" name="note" placeholder="Enter Note">
+                        <label for="note">Not</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="Not">
                      </div>
                   </div>
                </div>
-               <button type="submit" class="btn btn-success float-right">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+               <button type="submit" class="btn btn-success float-right">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
             </form>
          </div>
          <div class="modal-footer">

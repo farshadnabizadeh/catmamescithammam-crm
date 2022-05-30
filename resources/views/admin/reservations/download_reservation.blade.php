@@ -11,7 +11,6 @@
       <link rel="dns-prefetch" href="//fonts.gstatic.com">
       <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-      <link type="text/css" href="{{ asset('assets/css/gijgo.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/datepicker.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/grid.css') }}" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
@@ -58,7 +57,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-6">
-                                                <button class="btn btn-primary float-right" onclick="treatmentPlanPdf();"><i class="fa fa-download"></i> Download PDF</button>
+                                                <button class="btn btn-primary float-right" onclick="voucherPdf();"><i class="fa fa-download"></i> Download PDF</button>
                                             </div>
                                         </div>
                                     </div>
@@ -71,21 +70,16 @@
                                                         <div class="newBorder2">
                                                             <div class="row">
                                                                 <div class="col-lg-12">
-                                                                    <img class="logo_page2" src="{{ asset('assets/img/ceyhun-logo.png') }}">
+                                                                    <img class="logo_page2" src="{{ asset('assets/img/catmamescitlogosiyah.png') }}">
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-4 patientInfo">
-                                                                    <h2 class="patient-information-title">PATIENT<br> INFORMATION</h2>
+                                                                    <h2 class="patient-information-title">CUSTOMER<br> INFORMATION</h2>
                                                                     <br>
                                                                     <p><span>Name, Surname:</span> <b id="patient-name-pdf">{{ $reservation->customer->customer_name }}</b></p>
-                                                                    <p><span>BMI:</span> <b></b></p>
-                                                                    <p><span>Chronic Illnesses:</span> </p>
-                                                                    <p><span>Surgical History:</span> </p>
-                                                                    <p><span>Allergies:</span> </p>
-                                                                    <p><span>Medications:</span> </p>
-                                                                    <p><span>Alcohol:</span> <b> </b></p>
-                                                                    <p><span>Smoking:</span> <b></b></p>
+                                                                    <p><span>Phone Number:</span> <b>{{ $reservation->customer->customer_phone }}</b></p>
+                                                                    <p><span>Country:</span> <b>{{ $reservation->customer->customer_country }}</b></p>
                                                                     {{-- <p>Gender: <b>{{ $reservation->patient->gender }}</b></p> --}}
                                                                     <br>
                                                                     <br>
@@ -102,36 +96,38 @@
                                                                     <p><span>Phone:</span> <b></b></p>
                                                                 </div>
                                                                 <div class="col-8 bg-white">
-                                                                    <h1 class="treatment-plan-title">TREATMENT PLAN</h1>
+                                                                    <h1 class="treatment-plan-title">RESERVATION SUMMARY</h1>
                                                                     <p class="treatment-name">
                                                                         
                                                                     </p>
                                                                     <table class="table table-bordered treatmentplan-table">
                                                                         <thead>
                                                                             <tr>
-                                                                            <th>Price:</th>
-                                                                            <th>Duration of Stay</th>
-                                                                            <th>Hospitalization</th>
+                                                                                <th>Care:</th>
+                                                                                <th>Piece</th>
+                                                                                <th>Price</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
+                                                                            @foreach($reservation->subServices as $subService)
                                                                             <tr>
-                                                                            <td class="text-center">
-                                                                               
-                                                                            </td>
-                                                                            <td class="text-center">
-                                                                                <span class="nights-text">Nights</span>
-                                                                            </td>
-                                                                            <td class="text-center">
-                                                                                <span class="night-text">Night</span>
-                                                                            </td>
+                                                                                <td class="text-center">
+                                                                                    {{ $subService->service_name }}
+                                                                                </td>
+                                                                                <td class="text-center">
+                                                                                    <span class="nights-text">{{ $subService->piece }}</span>
+                                                                                </td>
+                                                                                <td class="text-center">
+                                                                                    {{ $subService->service_cost }} {{ $subService->service_currency }}
+                                                                                </td>
                                                                             </tr>
+                                                                            @endforeach
                                                                         </tbody>
                                                                     </table>
-                                                                    {{-- <div class="d-flex flex-row justify-content-end divTotalStatus">
-                                                                        <div class="totalStatus">Total Status</div>
-                                                                        <div class="box"><p>£ 3500</p></div>
-                                                                    </div> --}}
+                                                                    <div class="d-flex flex-row justify-content-end divTotalStatus">
+                                                                        <div class="totalStatus">Total Status:</div>
+                                                                        <div class="box"><p class="total-cost">{{ $reservation->service_cost }} {{ $reservation->service_currency }}</p></div>
+                                                                    </div>
                                                                     <div class="row">
                                                                         <div class="col text-center changes text-white">
                                                                             <p class="thicker"></p>
@@ -164,25 +160,25 @@
                                                                     <div class="row">
                                                                         <div class="col includeText2">
                                                                             <p><i class="fa fa-caret-right iconsFa"></i> <span>Charges for extended inpatient hospital stays:</span></p>
-                                                                            {{-- <p><i class="fa fa-caret-right iconsFa"></i> <span>The protein shake and large spectrum vitamin supplements</span></p> --}}
                                                                             <p><i class="fa fa-caret-right iconsFa"></i> <span>Your arrival and departure flights</span></p>
                                                                             <p><i class="fa fa-caret-right iconsFa"></i> <span>Your personal expenses</span></p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row" style="margin-top: 10px;">
                                                                         <div class="col-12">
-                                                                            <h3 class="titleBeforeAfter">BEFORE - AFTER</h3>
+                                                                            <h3 class="titleBeforeAfter">PHOTOS</h3>
                                                                         </div>
                                                                     </div>
+                                                                    <hr>
                                                                     <div class="row">
                                                                         <div class="col-6" style="padding-right: 0">
                                                                             <div class="img-cover">
-                                                                            <img src="{{ asset('assets/img/gallery-1.jpg') }}">
+                                                                                <img src="{{ asset('assets/img/1.jpg') }}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-6" style="padding-left: 0">
                                                                             <div class="img-cover">
-                                                                            <img src="{{ asset('assets/img/gallery-2.jpg') }}">
+                                                                                <img src="{{ asset('assets/img/2.jpg') }}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -195,87 +191,56 @@
                                                         <div class="row">
                                                             <div class="newBorder3">
                                                                 <div class="row">
-                                                                <div class="col-lg-6">
-                                                                    <img class="logo_page3_1" src="{{ asset('assets/img/ceyhun-logo.png') }}">
-                                                                </div>
-                                                                <div class="col-lg-6">
-                                                                    <img class="logo_page3_2" src="{{ asset('assets/img/arpanu-logo.png') }}">
-                                                                </div>
-                                                                </div>
-                                                                {{-- <div class="row">
-                                                                <div class="col-lg-12 titleTravel">
-                                                                    <h1>TRAVEL INFORMATION</h1>
-                                                                </div>
-                                                                </div> --}}
-                                                                <div class="row">
-                                                                {{-- <div class="col-lg-12">
-                                                                    <table class="table tableTravelInfo">
-                                                                        <tbody class="tableTravel">
-                                                                            <tr>
-                                                                            <th class="tableColor" scope="col">FLIGHT – Arrival/Departure (dates, time)</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th scope="col">Number of Arriving Guests</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th class="tableColor" scope="col">Number of Arriving Guests</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th scope="row">Number of Arriving Guests</th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th class="tableColor" scope="col">Accommodation/Length of Stay </th>
-                                                                            </tr>
-                                                                            <tr>
-                                                                            <th scope="col">Translation & Assistance</th>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div> --}}
+                                                                    <div class="col-lg-6">
+                                                                        <img class="logo_page3_1" src="{{ asset('assets/img/ceyhun-logo.png') }}">
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <img class="logo_page3_2" src="{{ asset('assets/img/arpanu-logo.png') }}">
+                                                                    </div>
                                                                 </div>
                                                                 <div class="row section-service-photos" style="margin-top: 30px;">
-                                                                <div class="col-12" style="margin-bottom: 20px;">
-                                                                    <h2 class="titlePhotos">PHOTOS</h2>
-                                                                    <div class="subTitle">Your Hotel</div>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/hotel-service-1.jpg') }}">
+                                                                    <div class="col-12" style="margin-bottom: 20px;">
+                                                                        <h2 class="titlePhotos">PHOTOS</h2>
+                                                                        <div class="subTitle">Your Hammam</div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6" style="padding-left: 0">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/hotel-service-2.jpg') }}">
+                                                                    <div class="col-6">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/hotel-service-1.jpg') }}">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 mt-3">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/hotel-service-3.jpg') }}">
+                                                                    <div class="col-6" style="padding-left: 0">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/hotel-service-2.jpg') }}">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-6 mt-3" style="padding-left: 0">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/hotel-service-4.jpg') }}">
+                                                                    <div class="col-6 mt-3">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/hotel-service-3.jpg') }}">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-12" style="margin-bottom: 20px; margin-top: 20px;">
-                                                                    <div class="subTitle">Your Transportation</div>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/vip-service-1.jpg') }}">
+                                                                    <div class="col-6 mt-3" style="padding-left: 0">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/hotel-service-4.jpg') }}">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/vip-service-2.jpg') }}">
+                                                                    <div class="col-12" style="margin-bottom: 20px; margin-top: 20px;">
+                                                                        <div class="subTitle">Your Transportation</div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <div class="img-cover">
-                                                                        <img src="{{ asset('assets/img/vip-service-3.jpg') }}">
+                                                                    <div class="col-4">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/vip-service-1.jpg') }}">
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                    <div class="col-4">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/vip-service-2.jpg') }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <div class="img-cover">
+                                                                            <img src="{{ asset('assets/img/vip-service-3.jpg') }}">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-12 text-center importantText">
@@ -308,7 +273,6 @@
         </main>
 
         <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/js.cookie.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/chart.min.js') }}"></script>
@@ -327,10 +291,10 @@
         <script type="text/javascript" src="{{ asset('assets/js/html2pdf.bundle.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/intlTelInput.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/datatable.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/js/jscolor.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/js/spectrum.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/jquery-steps.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/extension-btns-custom.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/js/gijgo.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/js/clockpicker.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/moment.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/daterangepicker.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/js/rest_api.js') }}"></script>

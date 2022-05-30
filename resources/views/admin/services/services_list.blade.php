@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-lg-6">
                             @can('create services')
-                            <button data-toggle="modal" data-target="#serviceModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Service</button>
+                            <button data-toggle="modal" data-target="#serviceModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Hizmet Ekle</button>
                             @endcan
                         </div>
                     </div>
@@ -43,10 +43,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit services')
-                                        <li><a href="{{ url('/definitions/services/edit/'.$service->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        <li><a href="{{ url('/definitions/services/edit/'.$service->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete services')
-                                        <li><a href="{{ url('/definitions/services/destroy/'.$service->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        <li><a href="{{ url('/definitions/services/destroy/'.$service->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -67,7 +67,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Service</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Hizmet Ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -78,13 +78,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceName">Service Name</label>
-                                <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Enter Service Name" required>
+                                <label for="serviceName">Hizmet Adı</label>
+                                <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Hizmet Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCurrency">Service Currency</label>
+                                <label for="serviceCurrency">Hizmet Para Birimi</label>
                                 <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
                                     <option></option>
                                     <option value="EUR">EURO</option>
@@ -96,12 +96,12 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCost">Service Cost</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Enter Service Cost" required>
+                                <label for="serviceCost">Hizmet Ücreti</label>
+                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Hizmet Ücreti" required>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

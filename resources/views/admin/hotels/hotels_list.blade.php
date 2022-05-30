@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Otel Listesi</li>
                 </ol>
             </nav>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-lg-6">
                             @can('create hotel')
-                            <button data-toggle="modal" data-target="#hotelModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> New Hotel</button>
+                            <button data-toggle="modal" data-target="#hotelModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Otel Ekle</button>
                             @endcan
                         </div>
                     </div>
@@ -42,13 +42,13 @@
                         <tr>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit hotel')
-                                        <li><a href="{{ url('/definitions/hotels/edit/'.$hotel->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                                        <li><a href="{{ url('/definitions/hotels/edit/'.$hotel->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete hotel')
-                                        <li><a href="{{ url('/definitions/hotels/destroy/'.$hotel->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                                        <li><a href="{{ url('/definitions/hotels/destroy/'.$hotel->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -71,7 +71,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Hotel</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Otel Ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -82,14 +82,14 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="hotelName">Hotel Name</label>
-                                <input type="text" class="form-control" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" required>
+                                <label for="hotelName">Otel Adı</label>
+                                <input type="text" class="form-control" id="hotelName" name="hotelName" placeholder="Otel Adı" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="hotelPhone">Hotel Phone</label>
-                                <input type="text" class="form-control" id="hotelPhone" name="hotelPhone" placeholder="Enter Hotel Phone">
+                                <label for="hotelPhone">Otel Telefon Numarası</label>
+                                <input type="text" class="form-control" id="hotelPhone" name="hotelPhone" placeholder="Otel Telefon Numarası">
                             </div>
                         </div>
                     </div>
