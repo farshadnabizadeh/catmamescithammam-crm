@@ -47,7 +47,7 @@
                                     </div>
                                 </td>
                                 <td>{{ date('ymd', strtotime($listAllByDate->date)) }}{{ $listAllByDate->customer_id }}{{ $listAllByDate->id }}</td>
-                                <td>{{ $listAllByDate->reservation_date }}</td>
+                                <td> {{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
                                 <td>{{ $listAllByDate->reservation_time }}</td>
                                 <td><a href="{{ url('/definitions/customers/edit/'.$listAllByDate->customer_id) }}">{{ $listAllByDate->Cname }}</a></td>
                                 <td>{{ $listAllByDate->total_customer }}</td>

@@ -482,7 +482,13 @@ caption
 }
 
 .subTitle {
-    font-family: var(--font-montserrat);
+    background-color: var(--third);
+        display: inline-block;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: bold;
+        color: white;
+        font-family: var(--font-montserrat)
 }
 
 .subTable {
@@ -726,16 +732,16 @@ summary
 
 .page2 .logo_page2 {
     position: absolute;
-    width: 120px;
+    width: 100px;
     right: 18px;
     top: 6px;
     z-index: 2
 }
 
-.page3 .logo_page3 {
+.page3 .logo_page3_2 {
     float: right;
-    width: 130px;
-    margin-top: 12px
+    width: 141px;
+    margin-top: 10px;
 }
 
 .page4 .logo_page4 {
@@ -751,10 +757,6 @@ summary
 
 .page5 p {
     font-size: 12px
-}
-
-.pageRow2 {
-    height: 1100px
 }
 
 .img-cover {
@@ -861,7 +863,6 @@ summary
     position: relative;
     border: 10px solid var(--third);
     width: 1200px;
-    height: 990px;
     margin-top: 30px
 }
 
@@ -956,7 +957,7 @@ summary
 .patient-information-title{
     font-family: var(--font-montserrat);
     font-weight: bold;
-    font-size: 16px !important;
+    font-size: 15px !important;
     color: var(--dark);
     padding-top: 38px
 }
@@ -964,9 +965,10 @@ summary
 .doctor-notes-title {
     font-family: var(--font-montserrat);
     font-weight: bold;
-    font-size: 16px !important;
+    font-size: 15px !important;
     color:var(--dark)
 }
+
 .doctor-notes-title p{
     font-family: var(--font-montserrat);
     color:var(--dark)
@@ -974,7 +976,8 @@ summary
 
 .contact-title{
     font-family: var(--font-montserrat);
-    color:var(--dark)
+    color:var(--dark);
+    font-size: 15px
 }
 
 .flag-img {
@@ -1135,7 +1138,7 @@ summary
     color:var(--darker);
     font-size: 18px;
     font-weight: bold;
-    margin-top: -20px;
+    margin-top: 20px;
     margin-bottom: 13px;
     font-family: var(--font-montserrat)
 }
