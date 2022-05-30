@@ -40,7 +40,7 @@
                         <tr>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlemler <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit services')
                                         <li><a href="{{ url('/definitions/services/edit/'.$service->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
