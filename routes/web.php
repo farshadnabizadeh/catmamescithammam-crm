@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::POST('definitions/discounts/update/{id}', 'DiscountController@update')->middleware(['middleware' => 'permission:edit discount']);
     Route::GET('definitions/discounts/destroy/{id}', 'DiscountController@destroy')->middleware(['middleware' => 'permission:delete discount']);
     //api
-    Route::GET('getDiscount/{id}', 'DiscountController@getDiscount');
+    Route::GET('getDiscount/{id}', 'DiscountController@getDiscount')->middleware(['middleware' => 'permission:show discount']);
     //Discounts end
 
     //Report

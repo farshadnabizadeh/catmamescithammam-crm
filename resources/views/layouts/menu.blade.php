@@ -115,6 +115,7 @@
                             </li>
                         </ul>
                     </li>
+                    @can('show users')
                     <li class="nav-item {{ request()->is('users*') || request()->is('definitions/reports*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-user text-primary"></i>
@@ -122,29 +123,24 @@
                             <i class="fa fa-caret-right sub-icon"></i>
                         </a>
                         <ul class="nav-item_sub">
-                            @can('show users')
                             <li>
                                 <a class="{{ request()->is('roles*') ? 'active' : '' }}" href="{{ url('/roles'); }}">
                                     <span>Roller</span>
                                 </a>
                             </li>
-                            @endcan
-                            @can('show users')
                             <li>
                                 <a class="{{ request()->is('definitions/reports*') ? 'active' : '' }}" href="{{ url('definitions/reports'); }}">
                                     <span>Raporlar</span>
                                 </a>
                             </li>
-                            @endcan
-                            @can('show users')
                             <li>
                                 <a class="{{ request()->is('definitions/users*') ? 'active' : '' }}" href="{{ url('/definitions/users'); }}">
                                     <span>Tüm Kullanıcılar</span>
                                 </a>
                             </li>
-                            @endcan
                         </ul>
                     </li>
+                    @endcan
                 </ul>
                 <hr class="my-3">
             </div>

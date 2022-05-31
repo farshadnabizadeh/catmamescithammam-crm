@@ -7,7 +7,7 @@
       <meta name="robots" content="noindex">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <meta http-equiv="X-UA-Compatible" content="IE=7">
-      <title>Catma Mescit Hammam | Download Reservation Detail</title>
+      <title>Catma Mescit Hammam | Download Reservation Summary</title>
       <link rel="dns-prefetch" href="//fonts.gstatic.com">
       <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
@@ -43,16 +43,17 @@
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown"><img class="flag-img" src="{{ asset('assets/img/flags/en.png') }}"> English <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/de/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/de.png') }}"> Deutsch</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/it/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/it.png') }}"> Italian</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/fr/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/fr.png') }}"> French</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/es/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/es.png') }}"> Spanish</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/ru/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ru.png') }}"> Russian</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/pl/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pl.png') }}"> Polish</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/pt/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pt.png') }}"> Portuguese</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/ar/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ar.png') }}"> Arabic</a></li>
+                                                    <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown"><img class="flag-img" src="{{ asset('assets/img/flags/de.png') }}"> Almanca <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu language-dropdown">
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=en') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/en.png') }}"> İngilizce</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=fr') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/fr.png') }}"> Fransızca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=it') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/it.png') }}"> İtalyanca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=es') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/es.png') }}"> İspanyolca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=ru') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ru.png') }}"> Rusça</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=pl') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pl.png') }}"> Lehçe</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=pt') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pt.png') }}"> Portekizce</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=tr') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/tr.png') }}"> Türkçe</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=ar') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ar.png') }}"> Arapça</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -77,20 +78,20 @@
                                                                 <div class="col-3 patientInfo">
                                                                     <h2 class="patient-information-title">CUSTOMER<br> INFORMATION</h2>
                                                                     <br>
-                                                                    <p><span>Name, Surname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name . ' ' . $reservation->customer->customer_surname }}</b></p>
-                                                                    <p><span>Phone Number:</span><br> <b>{{ $reservation->customer->customer_phone }}</b></p>
-                                                                    <p><span>Country:</span><br> <b>{{ $reservation->customer->customer_country }}</b></p>
+                                                                    <p><span>Name, Nachname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name . ' ' . $reservation->customer->customer_surname }}</b></p>
+                                                                    <p><span>Telefonnummer:</span><br> <b>{{ $reservation->customer->customer_phone }}</b></p>
+                                                                    <p><span>Land:</span><br> <b>{{ $reservation->customer->customer_country }}</b></p>
                                                                     {{-- <p>Gender: <b>{{ $reservation->patient->gender }}</b></p> --}}
                                                                     <br>
                                                                     <br>
-                                                                    <h2 class="contact-title">CONTACT</h2>
+                                                                    <h2 class="contact-title">KONTAKT</h2>
                                                                     <br>
-                                                                    <p><span>Contact Name:</span><br> <b>Enes</b></p>
-                                                                    <p><span>Phone: </span><br> <b>+90 542 619 05 86</b></p>
+                                                                    <p><span>Name der Kontaktperson:</span><br> <b>Enes</b></p>
+                                                                    <p><span>Telefon: </span><br> <b>+90 542 619 05 86</b></p>
                                                                     <br>                                                                    
                                                                 </div>
                                                                 <div class="col-9 bg-white">
-                                                                    <h1 class="treatment-plan-title">RESERVATION SUMMARY</h1>
+                                                                    <h1 class="treatment-plan-title">RESERVIERUNGSÜBERSICHT</h1>
                                                                     <p class="treatment-name">
                                                                     </p>
                                                                     <table class="table table-bordered treatmentplan-table">
@@ -128,8 +129,8 @@
                                                                     </div>
                                                                     <div class="row section-service-photos">
                                                                         <div class="col-12" style="margin-bottom: 20px;">
-                                                                            <h2 class="titlePhotos">PHOTOS</h2>
-                                                                            <div class="subTitle">Your Hammam</div>
+                                                                            <h2 class="titlePhotos">FOTOS</h2>
+                                                                            <div class="subTitle">Ihr Hammam</div>
                                                                         </div>
                                                                         <div class="col-6">
                                                                             <div class="img-cover">
@@ -166,17 +167,17 @@
                                                             </div>
                                                             <div class="row mt-3">
                                                                 <div class="col-lg-12 text-center importantText">
-                                                                    <p>IMPORTANT</p>
+                                                                    <p>WICHTIG</p>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12 text-center infoText">
-                                                                    <p>If your travel plans change please inform us <b>48 hours</b> prior your reservation date</p>
+                                                                    <p>Sollten sich Ihre Reisepläne ändern, informieren Sie uns bitte <b>48 Stunden</b> vor dem Reservierungsdatum.</p>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12 text-center infoText">
-                                                                    <p style="margin-bottom: 20px">We are here <b> 24/7 </b> to do our best to help you.</p>
+                                                                    <p style="margin-bottom: 20px">Wir sind <b> 24/7 </b> für Sie da und tun unser Bestes, um Ihnen zu helfen.</p>
                                                                 </div>
                                                             </div>
                                                         </div>

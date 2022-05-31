@@ -750,7 +750,7 @@
                                     @foreach ($customers as $customer)
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name }}"><i class="fa fa-check"></i> Choose</button>
+                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name }}"><i class="fa fa-check"></i> Seç</button>
                                         </td>
                                         <td>{{ $customer->customer_name }}</td>
                                         <td>{{ $customer->customer_surname }}</td>

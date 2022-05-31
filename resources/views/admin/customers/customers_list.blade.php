@@ -9,8 +9,8 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Customers</li>
+                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Müşteriler</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
@@ -82,27 +82,27 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerName">Customer Name</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name" required>
+                                <label for="customerName">Müşteri Adı</label>
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerSurname">Customer Surname</label>
-                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Enter Customer Surname">
+                                <label for="customerSurname">Müşteri Soyadı</label>
+                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Müşteri Soyadı">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="phone_get">Customer Phone</label>
-                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Enter Customer Phone">
+                                <label for="phone_get">Müşteri Telefon Numarası</label>
+                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerCountry">Country</label>
+                                <label for="customerCountry">Ülkesi</label>
                                 <select class="form-control" name="customerCountry" id="country">
                                     <option></option>
                                     <option value="United Kingdom">United Kingdom</option>
@@ -358,12 +358,12 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerEmail">Customer Email</label>
-                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
+                                <label for="customerEmail">Email Adresi</label>
+                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi">
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Save <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

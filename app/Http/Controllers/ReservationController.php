@@ -277,12 +277,46 @@ class ReservationController extends Controller
         }
     }
 
-    public function download($id)
+    public function download(Request $request, $id)
     {
         try {
             $reservation = Reservation::find($id);
             $data = array('reservation' => $reservation);
-            return view('admin.reservations.download_reservation')->with($data);
+
+            $lang = $request->input('lang');
+
+            switch ($lang) {
+            case "en":
+                return view('admin.reservations.languages.download_en')->with($data);
+                break;
+            case "de":
+                return view('admin.reservations.languages.download_de')->with($data);
+                break;
+            case "fr":
+                return view('admin.reservations.languages.download_fr')->with($data);
+                break;
+            case "it":
+                return view('admin.reservations.languages.download_it')->with($data);
+                break;
+            case "es":
+                return view('admin.reservations.languages.download_es')->with($data);
+                break;
+            case "tr":
+                return view('admin.reservations.languages.download_tr')->with($data);
+                break;
+            case "ru":
+                return view('admin.reservations.languages.download_ru')->with($data);
+                break;
+            case "pl":
+                return view('admin.reservations.languages.download_pl')->with($data);
+                break;
+            case "pt":
+                return view('admin.reservations.languages.download_tr')->with($data);
+                break;
+            case "ar":
+                return view('admin.reservations.languages.download_tr')->with($data);
+                break;
+            }
         }
         catch (\Throwable $th) {
             throw $th;

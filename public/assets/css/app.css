@@ -981,7 +981,8 @@ summary
 }
 
 .flag-img {
-    width: 20px
+    width: 20px;
+    margin-right: 6px
 }
 
 .patientInfo {
@@ -5567,6 +5568,13 @@ input[type='button'].btn-block
     background-color: #fff;
     background-clip: padding-box;
     box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .1);
+}
+
+.language-dropdown a {
+    font-size: 13px;
+    width: 150px;
+    padding-left: 10px;
+    text-align: left
 }
 
 .dropdown-menu-left

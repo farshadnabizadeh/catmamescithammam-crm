@@ -7,17 +7,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
+            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Edit Role</h2>
+                    <h2>Rolü Güncelle</h2>
                 </div>
                 <form action="{{ url('/roles/update/'.$role->id) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Role Name</label>
+                                <label for="name">Rol Adı</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}" autofocus required>
                             </div>
                         </div>

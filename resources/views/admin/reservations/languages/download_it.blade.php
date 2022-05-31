@@ -7,7 +7,7 @@
       <meta name="robots" content="noindex">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <meta http-equiv="X-UA-Compatible" content="IE=7">
-      <title>Catma Mescit Hammam | Download Reservation Detail</title>
+      <title>Catma Mescit Hammam | Download Reservation Summary</title>
       <link rel="dns-prefetch" href="//fonts.gstatic.com">
       <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
@@ -43,16 +43,16 @@
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown"><img class="flag-img" src="{{ asset('assets/img/flags/en.png') }}"> English <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/de/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/de.png') }}"> Deutsch</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/it/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/it.png') }}"> Italian</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/fr/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/fr.png') }}"> French</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/es/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/es.png') }}"> Spanish</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/ru/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ru.png') }}"> Russian</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/pl/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pl.png') }}"> Polish</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/pt/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pt.png') }}"> Portuguese</a></li>
-                                                        <li><a href="{{ url('/definitions/treatmentplans/download/ar/'.$reservation->id) }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ar.png') }}"> Arabic</a></li>
+                                                    <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown"><img class="flag-img" src="{{ asset('assets/img/flags/it.png') }}"> İtalyanca <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu language-dropdown">
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=en') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/en.png') }}"> İngilizce</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=de') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/de.png') }}"> Almanca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=fr') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/fr.png') }}"> Fransızca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=es') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/es.png') }}"> İspanyolca</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=ru') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ru.png') }}"> Rusça</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=en') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pl.png') }}"> Lehçe</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=pt') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/pt.png') }}"> Portekizce</a></li>
+                                                        <li><a href="{{ url('/definitions/reservations/download/'.$reservation->id.'?lang=ar') }}" class="btn btn-primary"><img class="flag-img" src="{{ asset('assets/img/flags/ar.png') }}"> Arapça</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -171,7 +171,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12 text-center infoText">
-                                                                    <p>If your travel plans change please inform us <b>48 hours</b> prior your reservation date</p>
+                                                                    <p>If your travel plans change please inform us <b>48 hours</b> prior your arrival date</p>
                                                                 </div>
                                                             </div>
                                                             <div class="row">

@@ -48,32 +48,25 @@ function voucherPdf() {
         let year = date_ob.getFullYear();
         var now_date = (date + "." + month + "." + year);
 
-        let roomType = $("#roomType").children("option:selected").val();
-        if (roomType == "") {
-            swal({
-                icon: 'error',
-                title: 'Please fill in the blanks',
-                text: ''
-            });
-        } else {
-            html2pdf().from(elem).set({
-                margin: 0,
-                filename: 'treatmentplan-' + now_date + '.pdf',
-                html2canvas: {
-                    scale: 2,
-                    y: -2
-                },
-                jsPDF: {
-                    orientation: 'portrait',
-                    unit: 'in',
-                    format: 'letter',
-                    compressPDF: true
-                }
-            }).save();
-        }
-    } catch (error) {
+        html2pdf().from(elem).set({
+            margin: 0,
+            filename: 'treatmentplan-' + now_date + '.pdf',
+            html2canvas: {
+                scale: 2,
+                y: -2
+            },
+            jsPDF: {
+                orientation: 'portrait',
+                unit: 'in',
+                format: 'letter',
+                compressPDF: true
+            }
+        }).save();
+    }
+    catch (error) {
         console.info(error);
-    } finally {}
+    }
+    finally {}
 }
 
 function timeFormat(timeInput) {

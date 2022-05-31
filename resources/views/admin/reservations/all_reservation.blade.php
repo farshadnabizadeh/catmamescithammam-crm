@@ -38,11 +38,11 @@
                             <tr>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
+                                        <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             {{-- <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> İptal Et</a></li> --}}
                                             <li><a href="{{ url('/definitions/reservations/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                            <li><a href="{{ url('/definitions/treatmentplans/download/'.$listAllByDate->tId) }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
+                                            <li><a href="{{ url('/definitions/reservations/download/'.$listAllByDate->tId) }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
                                         </ul>
                                     </div>
                                 </td>

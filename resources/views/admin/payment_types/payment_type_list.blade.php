@@ -9,7 +9,7 @@
       <div class="col-md-12 table-responsive">
          <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
-               <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+               <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
                <li class="breadcrumb-item active" aria-current="page">Ödeme Türleri</li>
             </ol>
          </nav>
