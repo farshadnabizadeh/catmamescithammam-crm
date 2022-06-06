@@ -546,6 +546,12 @@ textarea
     line-height: 14px !important
 }
 
+.update-page-btn {
+    position: fixed !important;
+    right: 40px;
+    bottom: 50px
+}
+
 .edit-btn {
     font-size: 12px !important;
     height: 34px;
@@ -6865,9 +6871,9 @@ input[type='button'].btn-block
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link
 {
-    color: #525f7f;
-    border-color: #dee2e6 #dee2e6 #f8f9fe;
-    background-color: #f8f9fe;
+    color: #fff;
+    border-color: #511124;
+    background-color: #511124
 }
 .nav-tabs .dropdown-menu
 {
