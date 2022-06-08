@@ -253,6 +253,17 @@ class ReservationController extends Controller
         }
     }
 
+    public function editPaymentType($id)
+    {
+        try {
+            $reservation_payment_type = ReservationPaymentType::where('id','=', $id)->first();
+            return view('admin.reservations.edit_payment_type', ['reservation_payment_type' => $reservation_payment_type]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {

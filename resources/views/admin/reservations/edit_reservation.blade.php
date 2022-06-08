@@ -87,12 +87,16 @@
                                     <tr>
                                         <th>Ödeme Türü</th>
                                         <th>Ücret</th>
+                                        <th>Operation</th>
                                     </tr>
                                     <tbody>
                                         @foreach($reservation->subPaymentTypes as $subPaymentType)
                                         <tr>
                                             <td>{{ $subPaymentType->payment_type_name }}</td>
                                             <td>{{ $subPaymentType->payment_price }} {{ $reservation->service_currency }}</td>
+                                            <td>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Edit</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                         <tr>
