@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-xl-4 col-md-4">
             <a href="{{ url('/definitions/reports?set=total') }}">
-                <div class="info-box bg-danger mt-3">
+                <div class="info-box mt-3">
                     <span class="info-box-icon bg-primary"><i class="fa fa-calendar"></i></span>
-                    <div class="info-box-content"><span class="info-box-text text-white">Toplam</span></div>
+                    <div class="info-box-content"><span class="info-box-text">Toplam</span></div>
                 </div>
             </a>
         </div>
@@ -26,10 +26,10 @@
         </div>
         <div class="col-xl-4 col-md-4">
             <a href="{{ url('/definitions/reports?set=week') }}">
-                <div class="info-box mt-3">
+                <div class="info-box bg-danger mt-3">
                     <span class="info-box-icon bg-primary"><i class="fa fa-calendar"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Bu Hafta</span>
+                        <span class="info-box-text text-white">Bu Hafta</span>
                     </div>
                 </div>
             </a>
@@ -50,7 +50,7 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Toplam</h2>
-                    {{ $total }}
+                    {{ $week }}
                     <hr>
                 </div>
             </div>
@@ -68,10 +68,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($therapistAll as $therapist)
+                        @foreach($therapistWeek as $therapist)
                         <tr>
-                            <td>{{$therapist->therapist_name}}</td>
-                            <td>{{$therapist->aCount}}</td>
+                            <td>{{ $therapist->therapist_name }}</td>
+                            <td>{{ $therapist->aCount }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -91,10 +91,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($serviceAll as $service)
+                        @foreach($serviceWeek as $service)
                         <tr>
-                            <td>{{$service->service_name}}</td>
-                            <td>{{$service->aCount}}</td>
+                            <td>{{ $service->service_name }}</td>
+                            <td>{{ $service->aCount }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -103,8 +103,5 @@
         </div>
     </div>
 </div>
-
-
-
 
 @endsection

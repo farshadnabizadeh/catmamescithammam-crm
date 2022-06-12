@@ -95,7 +95,7 @@
                                             <td>{{ $subPaymentType->payment_type_name }}</td>
                                             <td>{{ $subPaymentType->payment_price }} {{ $reservation->service_currency }}</td>
                                             <td>
-                                                <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Edit</a>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                             </td>
                                         </tr>
                                         @endforeach

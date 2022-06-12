@@ -547,6 +547,7 @@ textarea
 }
 
 .update-page-btn {
+    z-index: 3;
     position: fixed !important;
     right: 40px;
     bottom: 50px

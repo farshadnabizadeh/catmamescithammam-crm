@@ -207,7 +207,7 @@ class ReservationController extends Controller
             if (!empty($tpStatus)) {
                 $datePrmtr = $datePrmtr . "  -  " . $tpStatus;
             }
-           
+
             $data = array('listAllByDates' => $listAllByDates, 'tableTitle' => $datePrmtr . ' Tarihindeki Tüm Rezervasyonlar');
             return view('admin.reservations.all_reservation')->with($data);
         }
@@ -257,7 +257,8 @@ class ReservationController extends Controller
     {
         try {
             $reservation_payment_type = ReservationPaymentType::where('id','=', $id)->first();
-            return view('admin.reservations.edit_payment_type', ['reservation_payment_type' => $reservation_payment_type]);
+            $payment_types = PaymentType::all();
+            return view('admin.reservations.edit_payment_type', ['reservation_payment_type' => $reservation_payment_type, 'payment_types' => $payment_types]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -276,8 +277,28 @@ class ReservationController extends Controller
             $temp['service_currency'] = $request->input('serviceCurrency');
             $temp['service_commission'] = $request->input('serviceComission');
 
-            if ($updateSelectedData = Reservation::where('id', '=', $id)->update($temp)) {
+            if (Reservation::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/reservations/calendar')->with('message', 'Rezervasyon Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function updatePaymentType(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['payment_type_id'] = $request->input('paymentTypeId');
+            $temp['payment_price'] = $request->input('paymentPrice');
+
+            if (ReservationPaymentType::where('id', '=', $id)->update($temp)) {
+                return back()->with('message', 'Ödeme Türü Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());

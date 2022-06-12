@@ -96,6 +96,20 @@
                             @endcan
                         </ul>
                     </li>
+                    <li class="nav-item {{ request()->is('definitions/reports*') ? 'active' : '' }}">
+                        <a class="nav-link" href="javascript:;">
+                            <i class="fa fa-file-text text-primary"></i>
+                            <span class="nav-link-text">Raporlar</span>
+                            <i class="fa fa-caret-right sub-icon"></i>
+                        </a>
+                        <ul class="nav-item_sub">
+                            <li>
+                                <a class="{{ request()->is('definitions/reports*') ? 'active' : '' }}" href="{{ url('definitions/reports?set=total'); }}">
+                                    <span>Rezervasyon Raporu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-check text-primary"></i>
@@ -116,7 +130,7 @@
                         </ul>
                     </li>
                     @can('show users')
-                    <li class="nav-item {{ request()->is('users*') || request()->is('definitions/reports*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('users*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-user text-primary"></i>
                             <span class="nav-link-text">Kullanıcılar</span>
@@ -126,11 +140,6 @@
                             <li>
                                 <a class="{{ request()->is('roles*') ? 'active' : '' }}" href="{{ url('/roles'); }}">
                                     <span>Roller</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('definitions/reports*') ? 'active' : '' }}" href="{{ url('definitions/reports'); }}">
-                                    <span>Raporlar</span>
                                 </a>
                             </li>
                             <li>

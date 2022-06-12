@@ -36,7 +36,7 @@ class TherapistController extends Controller
             $result = $newTherapist->save();
 
             if ($result) {
-                return redirect('/definitions/therapists')->with('message', 'Therapist Added Successfully!');
+                return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -65,7 +65,7 @@ class TherapistController extends Controller
         $temp['therapist_name'] = $request->input('therapistName');
 
         if ($updateSelectedData = Therapist::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/therapists')->with('message', 'Therapist Updated Successfully!');
+            return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Güncellendi!');
         }
         else {
             return back()->withInput($request->input());
@@ -75,7 +75,7 @@ class TherapistController extends Controller
     public function destroy($id){
         try {
             Therapist::find($id)->delete();
-            return redirect('definitions/therapists')->with('message', 'Therapist Deleted Successfully!');
+            return redirect('definitions/therapists')->with('message', 'Terapist Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

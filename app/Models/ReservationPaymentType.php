@@ -10,4 +10,9 @@ class ReservationPaymentType extends Model
     use HasFactory;
 
     protected $table = 'reservations_payments_types';
+
+    public function paymentType()
+    {
+        return $this->belongsTo(PaymentType::class, 'payment_type_id');
+    }
 }

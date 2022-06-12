@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Ödeme Türünü Güncelle</h2>
+                    <h2>Hizmeti Güncelle</h2>
                 </div>
                 <form action="{{ url('/definitions/reservations/paymenttype/update/'.$reservation_payment_type->id) }}" method="POST">
                     @csrf

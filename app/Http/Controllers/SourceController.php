@@ -37,7 +37,7 @@ class SourceController extends Controller
             $result = $newSource->save();
 
             if ($result) {
-                return redirect('/definitions/sources')->with('message', 'Source Added Successfully!');
+                return redirect('/definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -66,7 +66,7 @@ class SourceController extends Controller
             $temp['source_color'] = $request->input('sourceColor');
 
             if ($updateSelectedData = Source::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/sources')->with('message', 'Source Updated Successfully!');
+                return redirect('/definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -79,8 +79,8 @@ class SourceController extends Controller
 
     public function destroy($id){
         try {
-            $sources = Source::where('id', '=', $id)->delete();
-            return redirect('definitions/sources')->with('message', 'Source Deleted Successfully!');
+            Source::where('id', '=', $id)->delete();
+            return redirect('definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;
