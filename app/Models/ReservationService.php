@@ -10,4 +10,9 @@ class ReservationService extends Model
     use HasFactory;
 
     protected $table = 'reservations_services';
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }

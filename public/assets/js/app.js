@@ -32,7 +32,7 @@ function dashboard() {
                     text: ''
                 }
             }
-        });  
+        });
     }
     catch (error) {
         console.log(error);
@@ -817,7 +817,7 @@ function addReservationOperation() {
                                 });
                             }
                         },
-                        
+
                         error: function () { },
                     });
                 });
@@ -844,7 +844,7 @@ function addReservationOperation() {
                 $(".total-customer").text(totalCustomer);
                 // $(".therapist-name").text(therapistName);
 
-                
+
                 //Services
                 $("#serviceTable").find("tbody tr").each(function (i) {
                     var $tds = $(this).find('td');

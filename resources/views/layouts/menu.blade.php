@@ -23,7 +23,7 @@
                     </li>
                     @endcan
                     @can('show reservation')
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->is('definitions/reservations/calendar*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-calendar text-primary"></i>
                             <span class="nav-link-text">Takvimler</span>
@@ -31,7 +31,7 @@
                         </a>
                         <ul class="nav-item_sub">
                             <li>
-                                <a class="" href="{{ url('/definitions/reservations/calendar') }}">
+                                <a class="{{ request()->is('definitions/reservations/calendar*') ? 'active' : '' }}" href="{{ url('/definitions/reservations/calendar') }}">
                                     <span>Rezervasyon Takvimi</span>
                                 </a>
                             </li>
@@ -110,7 +110,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-check text-primary"></i>
                             <span class="nav-link-text">Rezervasyonlar</span>
@@ -123,7 +123,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/reservations*') ? 'active' : '' }}" href="{{ url('/definitions/reservations') }}">
+                                <a class="{{ request()->is('definitions/reservations') ? 'active' : '' }}" href="{{ url('/definitions/reservations') }}">
                                     <span>Rezervasyon Listesi</span>
                                 </a>
                             </li>

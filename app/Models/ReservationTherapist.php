@@ -10,4 +10,9 @@ class ReservationTherapist extends Model
     use HasFactory;
 
     protected $table = 'reservations_therapists';
+
+    public function therapist()
+    {
+        return $this->belongsTo(Therapist::class, 'therapist_id');
+    }
 }

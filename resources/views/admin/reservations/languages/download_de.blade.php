@@ -76,7 +76,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-3 patientInfo">
-                                                                    <h2 class="patient-information-title">CUSTOMER<br> INFORMATION</h2>
+                                                                    <h2 class="patient-information-title">KUNDENINFORMATIONEN</h2>
                                                                     <br>
                                                                     <p><span>Name, Nachname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name . ' ' . $reservation->customer->customer_surname }}</b></p>
                                                                     <p><span>Telefonnummer:</span><br> <b>{{ $reservation->customer->customer_phone }}</b></p>
@@ -88,7 +88,7 @@
                                                                     <br>
                                                                     <p><span>Name der Kontaktperson:</span><br> <b>Enes</b></p>
                                                                     <p><span>Telefon: </span><br> <b>+90 542 619 05 86</b></p>
-                                                                    <br>                                                                    
+                                                                    <br>
                                                                 </div>
                                                                 <div class="col-9 bg-white">
                                                                     <h1 class="treatment-plan-title">RESERVIERUNGSÜBERSICHT</h1>
@@ -99,7 +99,7 @@
                                                                             <tr>
                                                                                 <th>Care:</th>
                                                                                 <th>Piece</th>
-                                                                                <th>Price</th>
+                                                                                <th>Preis:</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -112,7 +112,7 @@
                                                                                     <span class="nights-text">{{ $subService->piece }}</span>
                                                                                 </td>
                                                                                 <td class="text-center">
-                                                                                    {{ $subService->service_cost }} {{ $subService->service_currency }}
+                                                                                    {{ $subService->service_cost * $subService->piece }} {{ $subService->service_currency }}
                                                                                 </td>
                                                                             </tr>
                                                                             @endforeach

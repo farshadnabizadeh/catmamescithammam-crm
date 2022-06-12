@@ -3,18 +3,18 @@
         <div class="col-md-12">
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Hizmeti Güncelle</h2>
+                    <h2>Terapist Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/reservations/service/update/'.$reservation_service->id) }}" method="POST">
+                <form action="{{ url('/definitions/reservations/therapist/update/'.$reservation_therapist->id) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceId">Hizmet</label>
-                                <select class="form-control" name="serviceId" id="serviceId">
-                                    <option value="{{ $reservation_service->service->id }}" selected>{{ $reservation_service->service->service_name }}</option>
-                                    @foreach ($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                <label for="therapistId">Terapist</label>
+                                <select class="form-control" name="therapistId" id="therapistId">
+                                    <option value="{{ $reservation_therapist->therapist->id }}" selected>{{ $reservation_therapist->therapist->therapist_name }}</option>
+                                    @foreach ($therapists as $therapist)
+                                        <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -22,7 +22,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="piece">Adeti</label>
-                                <input type="number" class="form-control" id="piece" name="piece" placeholder="Adet" value="{{ $reservation_service->piece }}" required>
+                                <input type="number" class="form-control" id="piece" name="piece" placeholder="Adet" value="{{ $reservation_therapist->piece }}" required>
                             </div>
                         </div>
                     </div>

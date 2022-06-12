@@ -88,7 +88,7 @@
                                                                     <br>
                                                                     <p><span>Contact Name:</span><br> <b>Enes</b></p>
                                                                     <p><span>Phone: </span><br> <b>+90 542 619 05 86</b></p>
-                                                                    <br>                                                                    
+                                                                    <br>
                                                                 </div>
                                                                 <div class="col-9 bg-white">
                                                                     <h1 class="treatment-plan-title">RESERVATION SUMMARY</h1>
@@ -112,7 +112,7 @@
                                                                                     <span class="nights-text">{{ $subService->piece }}</span>
                                                                                 </td>
                                                                                 <td class="text-center">
-                                                                                    {{ $subService->service_cost }} {{ $subService->service_currency }}
+                                                                                    {{ $subService->service_cost * $subService->piece }} {{ $subService->service_currency }}
                                                                                 </td>
                                                                             </tr>
                                                                             @endforeach

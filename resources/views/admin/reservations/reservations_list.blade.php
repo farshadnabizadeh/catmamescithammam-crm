@@ -26,7 +26,7 @@
                 </div>
                 <div class="dt-responsive table-responsive">
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                        <thead class="thead-light"> 
+                        <thead class="thead-light">
                             <tr>
                                 <th scope="col">Operation</th>
                                 <th scope="col">Rezervasyon Tarihi</th>
@@ -34,6 +34,7 @@
                                 <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Müşteri Sayısı</th>
                                 <th scope="col">Hizmet Bedeli</th>
+                                <th scope="col">Kaynak</th>
                             </tr>
                         </thead>
                         @foreach ($reservations as $reservation)
@@ -53,6 +54,7 @@
                             <td>{{ $reservation->customer->customer_name }} {{ $reservation->customer->customer_surname }}</td>
                             <td>{{ $reservation->total_customer }}</td>
                             <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
+                            <td style="color: #fff; background-color: {{ $reservation->sob->source_color }}">{{ $reservation->sob->source_name }}</td>
                         </tr>
                         @endforeach
                     </table>

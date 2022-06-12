@@ -245,8 +245,9 @@ class ReservationController extends Controller
             $reservation = Reservation::where('id','=', $id)->first();
             $services = Service::all();
             $therapists = Therapist::all();
-            $customers = Customer::orderBy('customer_name', 'asc')->get();
-            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'customers' => $customers]);
+            $payment_types = PaymentType::all();
+
+            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -259,6 +260,30 @@ class ReservationController extends Controller
             $reservation_payment_type = ReservationPaymentType::where('id','=', $id)->first();
             $payment_types = PaymentType::all();
             return view('admin.reservations.edit_payment_type', ['reservation_payment_type' => $reservation_payment_type, 'payment_types' => $payment_types]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function editService($id)
+    {
+        try {
+            $reservation_service = ReservationService::where('id','=', $id)->first();
+            $services = Service::all();
+            return view('admin.reservations.edit_service', ['reservation_service' => $reservation_service, 'services' => $services]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function editTherapist($id)
+    {
+        try {
+            $reservation_therapist = ReservationTherapist::where('id','=', $id)->first();
+            $therapists = Therapist::all();
+            return view('admin.reservations.edit_therapist', ['reservation_therapist' => $reservation_therapist, 'therapists' => $therapists]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -303,6 +328,76 @@ class ReservationController extends Controller
             else {
                 return back()->withInput($request->input());
             }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function updateService(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['service_id'] = $request->input('serviceId');
+            $temp['piece'] = $request->input('piece');
+
+            if (ReservationService::where('id', '=', $id)->update($temp)) {
+                return back()->with('message', 'Hizmet Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function updateTherapist(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['therapist_id'] = $request->input('therapistId');
+            $temp['piece'] = $request->input('piece');
+
+            if (ReservationTherapist::where('id', '=', $id)->update($temp)) {
+                return back()->with('message', 'Terapist Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function destroyPaymentType($id){
+        try {
+            ReservationPaymentType::find($id)->delete();
+            return back()->with('message', 'Ödeme Türü Başarıyla Silindi!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function destroyService($id){
+        try {
+            ReservationService::find($id)->delete();
+            return back()->with('message', 'Hizmet Başarıyla Silindi!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function destroyTherapist($id){
+        try {
+            ReservationTherapist::find($id)->delete();
+            return back()->with('message', 'Terapist Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;
