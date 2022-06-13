@@ -130,7 +130,6 @@ var dtSearchInit = function() {
     $('#filterMedicalDepartment').change(function() {
         dtSearchAction($(this), 2)
     });
-
 };
 
 dtSearchAction = function(selector, columnId) {
@@ -162,17 +161,20 @@ var app = (function() {
     clockPicker();
     datePicker();
     addCustomertoReservationModal();
-    //therapist
-    createTherapistOperation();
-    //therapist end
+    //payment type
+    addPaymentTypeOperation();
+    createPaymentTypeOperation();
+    //payment type end
 
     //service
     createServiceOperation();
+    addServiceOperation();
     //service end
 
-    //payment type
-    createPaymentTypeOperation();
-    //payment type end
+    //therapist
+    createTherapistOperation();
+    addTherapistOperation();
+    //therapist end
 
     addReservationOperation();
     addcustomerReservation();
@@ -691,27 +693,27 @@ function addCustomertoReservationModal() {
     }
 }
 
-function createTherapistOperation(){
+function createPaymentTypeOperation() {
     try {
-        $('#createTherapist').on('click', function () {
-            var therapistId = $("#addTherapist").find('#therapistId').children("option:selected").val();
-            var therapistName = $("#addTherapist").find('#therapistId').children("option:selected").text();
-            var is = $("#addTherapist").find('#is').val();
+        $('#createPaymentType').on('click', function () {
+            var paymentTypeId = $("#addPaymentType").find('#paymentType').children("option:selected").val();
+            var paymentTypeName = $("#addPaymentType").find('#paymentType').children("option:selected").text();
+            var paymentPrice = $("#addPaymentType").find('#paymentPrice').val();
 
-            if (therapistId == "" || is == "") {
+            if (paymentTypeId == "" || paymentPrice == "") {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
-                var rowId = therapistId;
-                var markup = "<tr class='therapist' id='" + rowId + "'>" +
-                    "<td id='" + rowId + "'>" + therapistName + "</td>" +
-                    "<td>" + is + "</td>" +
+                var rowId = paymentTypeId;
+                var markup = "<tr class='service' id='" + rowId + "'>" +
+                    "<td id='" + rowId + "'>" + paymentTypeName + "</td>" +
+                    "<td>" + paymentPrice + "</td>" +
                     "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Kaldır</button></td>" +
                     "</tr>";
 
-                $("#addTherapist").find('#is').val("");
-                $('#therapistTable tbody').append(markup);
-                $('#therapistTable').trigger('rowAddOrRemove');
+                $("#addPaymentType").find('#paymentPrice').val("");
+                $('#paymentTypeTable tbody').append(markup);
+                $('#paymentTypeTable').trigger('rowAddOrRemove');
             }
         });
     } catch (error) {
@@ -719,7 +721,7 @@ function createTherapistOperation(){
     }
 }
 
-function createServiceOperation(){
+function createServiceOperation() {
     try {
         $('#createService').on('click', function () {
             var serviceId = $("#addService").find('#serviceId').children("option:selected").val();
@@ -747,27 +749,27 @@ function createServiceOperation(){
     }
 }
 
-function createPaymentTypeOperation() {
+function createTherapistOperation(){
     try {
-        $('#createPaymentType').on('click', function () {
-            var paymentTypeId = $("#addPaymentType").find('#paymentType').children("option:selected").val();
-            var paymentTypeName = $("#addPaymentType").find('#paymentType').children("option:selected").text();
-            var paymentPrice = $("#addPaymentType").find('#paymentPrice').val();
+        $('#createTherapist').on('click', function () {
+            var therapistId = $("#addTherapist").find('#therapistId').children("option:selected").val();
+            var therapistName = $("#addTherapist").find('#therapistId').children("option:selected").text();
+            var is = $("#addTherapist").find('#is').val();
 
-            if (paymentTypeId == "" || paymentPrice == "") {
+            if (therapistId == "" || is == "") {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
-                var rowId = paymentTypeId;
-                var markup = "<tr class='service' id='" + rowId + "'>" +
-                    "<td id='" + rowId + "'>" + paymentTypeName + "</td>" +
-                    "<td>" + paymentPrice + "</td>" +
+                var rowId = therapistId;
+                var markup = "<tr class='therapist' id='" + rowId + "'>" +
+                    "<td id='" + rowId + "'>" + therapistName + "</td>" +
+                    "<td>" + is + "</td>" +
                     "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Kaldır</button></td>" +
                     "</tr>";
 
-                $("#addPaymentType").find('#paymentPrice').val("");
-                $('#paymentTypeTable tbody').append(markup);
-                $('#paymentTypeTable').trigger('rowAddOrRemove');
+                $("#addTherapist").find('#is').val("");
+                $('#therapistTable tbody').append(markup);
+                $('#therapistTable').trigger('rowAddOrRemove');
             }
         });
     } catch (error) {
@@ -844,7 +846,6 @@ function addReservationOperation() {
                 $(".total-customer").text(totalCustomer);
                 // $(".therapist-name").text(therapistName);
 
-
                 //Services
                 $("#serviceTable").find("tbody tr").each(function (i) {
                     var $tds = $(this).find('td');
@@ -898,6 +899,14 @@ function completeReservation() {
                     var discountId = $('#tab3').find("#discountId").children("option:selected").val();
                     addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote);
 
+                    //Payment Types
+                    $("#paymentTypeTable").find("tbody tr").each(function (i) {
+                        var $tds = $(this).find('td');
+                        paymentTypeId = $tds.attr("id");
+                        paymentPrice = $tds.eq(1).text();
+                        addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
+                    });
+
                     //Services
                     $("#serviceTable").find("tbody tr").each(function (i) {
                         var $tds = $(this).find('td');
@@ -912,14 +921,6 @@ function completeReservation() {
                         therapistId = $tds.attr("id");
                         piece = $tds.eq(1).text();
                         addTherapisttoReservation(reservationID, therapistId, piece);
-                    });
-
-                    //Payment Types
-                    $("#paymentTypeTable").find("tbody tr").each(function (i) {
-                        var $tds = $(this).find('td');
-                        paymentTypeId = $tds.attr("id");
-                        paymentPrice = $tds.eq(1).text();
-                        addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
                     });
                 }, 500);
             }
@@ -1086,6 +1087,72 @@ function addCustomer(customerName, customerSurname, customerPhone, customerCount
             },
 
             error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addPaymentTypeOperation() {
+    try {
+        $('#addPaymentTypetoReservationSave').on('click', function () {
+            var reservationID = $("#addPaymentTypeModal").find('#reservation_id').val();
+            var paymentTypeId = $("#addPaymentTypeModal").find('#paymentType').children("option:selected").val();
+            var paymentPrice = $("#addPaymentTypeModal").find('#paymentPrice').val();
+            if (paymentType == "" || paymentPrice == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Ödeme Türü Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addServiceOperation() {
+    try {
+        $('#addServicetoReservationSave').on('click', function () {
+            var reservationID = $("#addServiceModal").find('#reservation_id').val();
+            var serviceId = $("#addServiceModal").find('#serviceId').children("option:selected").val();
+            var piece = $("#addServiceModal").find('#piece').val();
+            if (serviceId == "" || piece == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addServicetoReservation(reservationID, serviceId, piece);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Hizmet Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addTherapistOperation() {
+    try {
+        $('#addTherapisttoReservationSave').on('click', function () {
+            var reservationID = $("#addTherapistModal").find('#reservation_id').val();
+            var therapistId = $("#addTherapistModal").find('#therapistId').children("option:selected").val();
+            var piece = $("#addTherapistModal").find('#piece').val();
+            if (serviceId == "" || piece == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addTherapisttoReservation(reservationID, therapistId, piece);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Terapist Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
         });
     } catch (error) {
         console.log(error);

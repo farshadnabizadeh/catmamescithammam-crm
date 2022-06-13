@@ -16,13 +16,13 @@
                 </div>
                 <ul class="nav nav-tabs d-flex" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Ödeme Türleri</a>
+                        <a class="nav-link active" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Ödeme Türleri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="medication-tab" data-toggle="tab" href="#medication" role="tab" aria-controls="medication" aria-selected="false">Hizmetler</a>
+                        <a class="nav-link" id="medication-tab" data-toggle="tab" href="#medication" role="tab" aria-controls="medication" aria-selected="false">Hizmetler @if(!$hasService) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="allergie-tab" data-toggle="tab" href="#allergie" role="tab" aria-controls="allergie" aria-selected="false">Terapistler</a>
+                        <a class="nav-link" id="allergie-tab" data-toggle="tab" href="#allergie" role="tab" aria-controls="allergie" aria-selected="false">Terapistler @if(!$hasTherapist) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -58,10 +58,10 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="medication" role="tabpanel" aria-labelledby="medication-tab">
-                        <div class="card h-100 mt-3">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <h3 class="d-flex align-items-center mb-3">Hizmetler</h3>
-                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#newMedicalHistoryModal"><i class="fa fa-plus"></i> Hizmet Ekle</button>
+                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addServiceModal"><i class="fa fa-plus"></i> Hizmet Ekle</button>
                                 <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                                     <tr>
                                         <th>Bakım</th>
@@ -85,10 +85,10 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="allergie" role="tabpanel" aria-labelledby="allergie-tab">
-                        <div class="card h-100 mt-3">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <h3 class="d-flex align-items-center mb-3">Terapistler</h3>
-                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#newAllergieModal"><i class="fa fa-plus"></i> Terapist Ekle</button>
+                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addTherapistModal"><i class="fa fa-plus"></i> Terapist Ekle</button>
                                 <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                                     <tr>
                                         <th>Terapist</th>
@@ -197,11 +197,95 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label for="paymentPrice">Ücret</label>
-                            <input type="text" class="form-control" id="paymentPrice">
+                            <input type="text" class="form-control" placeholder="Ücret" id="paymentPrice">
                         </div>
                     </div>
                </div>
                <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Yeni Hizmet Ekle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form method="POST">
+                @csrf
+                <input type="hidden" id="reservation_id" value="{{ $reservation->id }}">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="serviceId">Hizmet</label>
+                            <select class="form-control" id="serviceId" name="serviceId" required>
+                                <option></option>
+                                @foreach ($services as $service)
+                                <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="piece">Hizmet Adeti</label>
+                            <input type="text" class="form-control" id="piece" placeholder="Hizmet Adeti">
+                        </div>
+                    </div>
+               </div>
+               <button type="button" class="btn btn-success float-right" id="addServicetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="addTherapistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Yeni Terapist Ekle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form method="POST">
+                @csrf
+                <input type="hidden" id="reservation_id" value="{{ $reservation->id }}">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="therapistId">Terapist</label>
+                            <select class="form-control" id="therapistId" name="therapistId" required>
+                                <option></option>
+                                @foreach ($therapists as $therapist)
+                                <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="piece">Kaç İş</label>
+                            <input type="text" class="form-control" id="piece">
+                        </div>
+                    </div>
+               </div>
+               <button type="button" class="btn btn-success float-right" id="addTherapisttoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
             </form>
          </div>
          <div class="modal-footer">

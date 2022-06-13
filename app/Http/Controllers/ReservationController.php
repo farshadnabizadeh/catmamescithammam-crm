@@ -247,7 +247,19 @@ class ReservationController extends Controller
             $therapists = Therapist::all();
             $payment_types = PaymentType::all();
 
-            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types]);
+            $reservation_payment_type = ReservationPaymentType::where('reservations_payments_types.reservation_id', '=', $id);
+            $hasPaymentType = false;
+            $hasPaymentType = $reservation_payment_type->get()->count() > 0 ? true : false;
+
+            $reservation_service = ReservationService::where('reservations_services.reservation_id', '=', $id);
+            $hasService = false;
+            $hasService = $reservation_service->get()->count() > 0 ? true : false;
+
+            $reservation_therapist = ReservationTherapist::where('reservations_therapists.reservation_id', '=', $id);
+            $hasTherapist = false;
+            $hasTherapist = $reservation_therapist->get()->count() > 0 ? true : false;
+
+            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist]);
         }
         catch (\Throwable $th) {
             throw $th;
