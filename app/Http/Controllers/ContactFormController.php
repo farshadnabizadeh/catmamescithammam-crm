@@ -18,7 +18,7 @@ class ContactFormController extends Controller
     public function index()
     {
         try {
-            $contact_forms = ContactForm::orderBy('name_surname', 'asc')->get();
+            $contact_forms = ContactForm::orderBy('created_at', 'desc')->get();
             $data = array('contact_forms' => $contact_forms);
             return view('admin.contactforms.contactforms_list')->with($data);
         }
@@ -69,7 +69,7 @@ class ContactFormController extends Controller
             $temp['email'] = $request->input('email');
 
             if ($updateSelectedData = ContactForm::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/contactforms')->with('message', 'Contact Form Updated Successfully!');
+                return redirect('/definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -83,7 +83,7 @@ class ContactFormController extends Controller
     public function destroy($id){
         try {
             ContactForm::find($id)->delete();
-            return redirect('definitions/contactforms')->with('message', 'Contact Form Deleted Successfully!');
+            return redirect('definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

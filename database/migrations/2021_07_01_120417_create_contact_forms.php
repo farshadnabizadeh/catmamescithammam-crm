@@ -19,6 +19,7 @@ class CreateContactForms extends Migration
             $table->string('phone')->nullable();
             $table->string('country')->nullable();
             $table->string('email')->nullable();
+            $table->string('status')->nullable();
             $table->softDeletes();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
