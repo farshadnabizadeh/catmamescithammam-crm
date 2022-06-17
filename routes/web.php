@@ -52,6 +52,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/customers/destroy/{id}', 'CustomersController@destroy')->middleware(['middleware' => 'permission:delete customers']);
     //Customers end
 
+    //Booking Forms
+    Route::GET('definitions/bookings', 'BookingFormController@index')->middleware(['middleware' => 'permission:show contactform']);
+    Route::POST('definitions/bookings/store', 'BookingFormController@store')->middleware(['middleware' => 'permission:create contactform']);
+    Route::GET('definitions/bookings/edit/{id}', 'BookingFormController@edit')->middleware(['middleware' => 'permission:edit contactform']);
+    Route::POST('definitions/bookings/update/{id}', 'BookingFormController@update')->middleware(['middleware' => 'permission:edit contactform']);
+    Route::GET('definitions/bookings/destroy/{id}', 'BookingFormController@destroy')->middleware(['middleware' => 'permission:delete contactform']);
+    //Booking Forms end
+
     //Contact Forms
     Route::GET('definitions/contactforms', 'ContactFormController@index')->middleware(['middleware' => 'permission:show contactform']);
     Route::POST('definitions/contactforms/store', 'ContactFormController@store')->middleware(['middleware' => 'permission:create contactform']);

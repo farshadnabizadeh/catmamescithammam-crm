@@ -127,6 +127,11 @@
                                     <span>Rezervasyon Listesi</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="{{ request()->is('definitions/bookings') ? 'active' : '' }}" href="{{ url('/definitions/bookings') }}">
+                                    <span>Rezervasyon Formları</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @can('show users')

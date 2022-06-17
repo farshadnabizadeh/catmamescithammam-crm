@@ -10,17 +10,17 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">İletişim Formları</li>
+                    <li class="breadcrumb-item active" aria-current="page">Rezervasyon Formları</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>İletişim Formları</h2>
+                            <h2>Rezervasyon Formları</h2>
                         </div>
                         <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#contactFormModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni İletişim Formu</button>
+                            <button data-toggle="modal" data-target="#contactFormModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon Formu</button>
                         </div>
                     </div>
                 </div>
@@ -29,29 +29,39 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">İşlem</th>
+                                <th scope="col">Rezervasyon Tarihi</th>
+                                <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Adı Soyadı</th>
-                                <th scope="col">Numarası</th>
+                                <th scope="col">Telefon Numarası</th>
                                 <th scope="col">Ülkesi</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Masaj Paketi</th>
+                                <th scope="col">Hamam Paketi</th>
+                                <th scope="col">Erkek Kişi Sayısı</th>
+                                <th scope="col">Kadın Kişi Sayısı</th>
                                 <th scope="col">Gün</th>
                             </tr>
                         </thead>
-                        @foreach ($contact_forms as $contact_form)
+                        @foreach ($booking_forms as $booking_form)
                         <tr>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/definitions/contactforms/edit/'.$contact_form->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                        <li><a href="{{ url('/definitions/contactforms/destroy/'.$contact_form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                        <li><a href="{{ url('/definitions/bookings/edit/'.$booking_form->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ url('/definitions/bookings/destroy/'.$booking_form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $contact_form->name_surname }}</td>
-                            <td>{{ $contact_form->phone }}</td>
-                            <td>{{ $contact_form->country }}</td>
-                            <td>{{ $contact_form->email }}</td>
-                            <td>{{ $contact_form->created_at->format('d M') }}</td>
+                            <td>{{ $booking_form->reservation_date }}</td>
+                            <td>{{ $booking_form->reservation_time }}</td>
+                            <td>{{ $booking_form->name_surname }}</td>
+                            <td>{{ $booking_form->phone }}</td>
+                            <td>{{ $booking_form->country }}</td>
+                            <td>{{ $booking_form->massage_package }}</td>
+                            <td>{{ $booking_form->hammam_package }}</td>
+                            <td>{{ $booking_form->male_pax }}</td>
+                            <td>{{ $booking_form->female_pax }}</td>
+                            <td>{{ $booking_form->created_at->format('d M') }}</td>
                         </tr>
                         @endforeach
                     </table>

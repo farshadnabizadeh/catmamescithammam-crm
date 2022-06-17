@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
-class ContactForm extends Model
+class BookingForm extends Model
 {
     use SoftDeletes;
-    protected $table = 'contact_forms';
-
+    protected $table = 'booking_forms';
 }
