@@ -10,8 +10,7 @@ var HIDDEN_URL = {
     SERVICES: '/definitions/services',
     SOURCES: '/definitions/sources',
     USER: '/definitions/users',
-    HOME: '/home',
-    FORM: '/definitions/forms'
+    HOME: '/home'
 }
 
 function dashboard() {
@@ -19,7 +18,7 @@ function dashboard() {
         new Chart(document.getElementById("pie-chart"), {
             type: 'pie',
             data: {
-                labels: ["Doctors", "Sales", "Customers", "Treatments"],
+                labels: ["test", "test", "test", "test"],
                 datasets: [{
                     label: "Population (millions)",
                     backgroundColor: ["#11cdef", "#8e5ea2", "#11cdef", "#11cdef"],
@@ -176,6 +175,14 @@ var app = (function() {
     addTherapistOperation();
     //therapist end
 
+    //booking forms
+    bookingFormStatusBtn();
+    //booking forms end
+    
+    //contact forms
+    contactFormStatusBtn();
+    //contact forms end
+
     addReservationOperation();
     addcustomerReservation();
 
@@ -252,10 +259,15 @@ var Layout = (function() {
         $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
         $("#tableData").dataTable({ paging: true, pageLength: 25 });
 
-        $('label.tree-toggler').click(function() {
-            $(this).parent().children('ul.tree').toggle(300);
+        $(".booking-status-btn").on("click", function(){
+            var dataId = $(this).attr("data-id");
+            $("#booking_form_id").val(dataId);
         });
 
+        $(".contact-status-btn").on("click", function () {
+            var dataId = $(this).attr("data-id");
+            $("#contact_form_id").val(dataId);
+        });
     });
 
     if ($(window).width() < 1200) {
@@ -267,55 +279,6 @@ var Layout = (function() {
             }
         });
     }
-
-    $("body").on("click", "[data-action]", function(e) {
-
-        e.preventDefault();
-
-        var $this = $(this);
-        var action = $this.data('action');
-        var target = $this.data('target');
-
-        switch (action) {
-            case 'sidenav-pin':
-                pinSidenav();
-                break;
-
-            case 'sidenav-unpin':
-                unpinSidenav();
-                break;
-
-            case 'search-show':
-                target = $this.data('target');
-                $('body').removeClass('g-navbar-search-show').addClass('g-navbar-search-showing');
-
-                setTimeout(function() {
-                    $('body').removeClass('g-navbar-search-showing').addClass('g-navbar-search-show');
-                }, 150);
-
-                setTimeout(function() {
-                    $('body').addClass('g-navbar-search-shown');
-                }, 300)
-                break;
-
-            case 'search-close':
-                target = $this.data('target');
-                $('body').removeClass('g-navbar-search-shown');
-
-                setTimeout(function() {
-                    $('body').removeClass('g-navbar-search-show').addClass('g-navbar-search-hiding');
-                }, 150);
-
-                setTimeout(function() {
-                    $('body').removeClass('g-navbar-search-hiding').addClass('g-navbar-search-hidden');
-                }, 300);
-
-                setTimeout(function() {
-                    $('body').removeClass('g-navbar-search-hidden');
-                }, 500);
-                break;
-        }
-    });
 
     $('.sidenav').on('mouseenter', function() {
         if (!$('body').hasClass('g-sidenav-pinned')) {
@@ -485,6 +448,90 @@ function deleteTableRow(id) {
         console.log(error);
     }
     finally { }
+}
+
+function bookingFormStatusBtn() {
+    try {
+        $("#bookingBtn").on("click", function () {
+            var bookingFormId = $("#booking_form_id").val();
+            var status = "1";
+            changeBookingFormStatus(bookingFormId, status);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+function changeBookingFormStatus(bookingFormId, status) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/definitions/bookings/change/' + bookingFormId + '',
+            type: 'POST',
+            data: {
+                'status': status
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                swal({ icon: 'success', title: 'Durum Başarıyla Güncellendi!', text: '' });
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    } finally { }
+}
+
+function contactFormStatusBtn(){
+    try {
+        $("#contactBtn").on("click", function () {
+            var contactFormId = $("#contact_form_id").val();
+            var status = "1";
+            changeContactFormStatus(contactFormId, status);
+        }); 
+    }
+    catch (error) {
+        console.log(error);   
+    }
+}
+
+function changeContactFormStatus(contactFormId, status) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/definitions/contactforms/change/' + contactFormId + '',
+            type: 'POST',
+            data: {
+                'status': status
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                swal({ icon: 'success', title: 'Durum Başarıyla Güncellendi!', text: '' });
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    } finally { }
 }
 
 function datePicker(){

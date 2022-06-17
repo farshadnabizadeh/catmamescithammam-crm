@@ -19,9 +19,6 @@
                         <div class="col-lg-6">
                             <h2>İletişim Formları</h2>
                         </div>
-                        <div class="col-lg-6">
-                            <button data-toggle="modal" data-target="#contactFormModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni İletişim Formu</button>
-                        </div>
                     </div>
                 </div>
                 <div class="dt-responsive table-responsive">
@@ -29,11 +26,12 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">İşlem</th>
+                                <th scope="col">Durum</th>
                                 <th scope="col">Adı Soyadı</th>
                                 <th scope="col">Numarası</th>
                                 <th scope="col">Ülkesi</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Gün</th>
+                                <th scope="col">Dakika</th>
                             </tr>
                         </thead>
                         @foreach ($contact_forms as $contact_form)
@@ -42,20 +40,49 @@
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
+                                        <li><a data-toggle="modal" data-target="#statusModal" class="btn btn-success text-white edit-btn contact-status-btn" data-id="{{ $contact_form->id }}"><i class="fa fa-check"></i> Durum</a></li>
                                         <li><a href="{{ url('/definitions/contactforms/edit/'.$contact_form->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         <li><a href="{{ url('/definitions/contactforms/destroy/'.$contact_form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                     </ul>
                                 </div>
                             </td>
+                            <td class="text-white" style="@if($contact_form->status == 1) background-color: #45c305; @else background-color: red; @endif">@if($contact_form->status == 1) İletişime Geçildi @else İletişime Geçilmedi @endif</td>
                             <td>{{ $contact_form->name_surname }}</td>
                             <td>{{ $contact_form->phone }}</td>
                             <td>{{ $contact_form->country }}</td>
                             <td>{{ $contact_form->email }}</td>
-                            <td>{{ $contact_form->created_at->format('d M') }}</td>
+                            <td>{{ now()->diffInMinutes($contact_form->created_at) }}</td>
                         </tr>
                         @endforeach
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">İletişim Durumu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <input type="hidden" id="contact_form_id" value="">
+                            <p>Müşteri ile iletişime geçildi mi?</p>
+                            <button class="btn btn-success" id="contactBtn">İletişime Geçildi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>

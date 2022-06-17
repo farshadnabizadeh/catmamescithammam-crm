@@ -85,6 +85,23 @@ class BookingFormController extends Controller
         }
     }
 
+    public function changeStatus(Request $request, $id)
+    {
+        try {
+            $temp['status'] = $request->input('status');
+
+            if ($updateSelectedData = BookingForm::where('id', '=', $id)->update($temp)) {
+                return response(200);
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function destroy($id){
         try {
             ContactForm::find($id)->delete();

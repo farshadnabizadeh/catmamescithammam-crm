@@ -110,7 +110,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') || request()->is('definitions/bookings') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-check text-primary"></i>
                             <span class="nav-link-text">Rezervasyonlar</span>

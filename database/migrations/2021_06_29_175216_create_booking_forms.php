@@ -24,6 +24,7 @@ class CreateBookingForms extends Migration
             $table->string('hammam_package')->nullable();
             $table->string('male_pax')->nullable();
             $table->string('female_pax')->nullable();
+            $table->string('status')->nullable();
             $table->softDeletes();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
