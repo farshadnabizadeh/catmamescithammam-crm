@@ -22757,7 +22757,7 @@ textarea[resize='horizontal']
     overflow-y: auto;
 
     width: 100%;
-    max-width: 275px;
+    max-width: 250px;
     padding-right: 0;
     padding-left: 0;
 }

@@ -46,14 +46,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12 col-12 col-md-12 col-xs-12">
-            <div class="card p-4 mt-3">
-                <div class="card-title">
-                    <h2>Toplam</h2>
-                    {{ $month }}
-                </div>
-            </div>
-        </div>
         <div class="col-lg-6">
             <div class="card p-3">
                 <div class="card-title">

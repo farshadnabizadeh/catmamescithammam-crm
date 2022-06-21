@@ -176,7 +176,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12 text-center infoText">
-                                                                    <p style="margin-bottom: 20px">We are here <b> 24/7 </b> to do our best to help you.</p>
+                                                                    <p style="margin-bottom: 20px">We are here <b> 09:00 / 23:00 </b> to do our best to help you.</p>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -153,6 +153,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Report
     Route::GET('definitions/reports', 'ReportController@index');
+    Route::GET('definitions/reports/payments', 'ReportController@index');
     //Report end
 
 });

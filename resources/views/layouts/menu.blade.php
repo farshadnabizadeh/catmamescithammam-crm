@@ -108,6 +108,11 @@
                                     <span>Rezervasyon Raporu</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="{{ request()->is('definitions/reports/payments*') ? 'active' : '' }}" href="{{ url('definitions/reports/payments?set=total'); }}">
+                                    <span>Ciro Raporu</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') || request()->is('definitions/bookings') ? 'active' : '' }}">

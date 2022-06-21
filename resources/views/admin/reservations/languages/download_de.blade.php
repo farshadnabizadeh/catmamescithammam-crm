@@ -177,7 +177,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12 text-center infoText">
-                                                                    <p style="margin-bottom: 20px">Wir sind <b> 24/7 </b> für Sie da und tun unser Bestes, um Ihnen zu helfen.</p>
+                                                                    <p style="margin-bottom: 20px">Wir sind <b> 09:00 / 23:00 </b> für Sie da und tun unser Bestes, um Ihnen zu helfen.</p>
                                                                 </div>
                                                             </div>
                                                         </div>

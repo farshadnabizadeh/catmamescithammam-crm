@@ -449,6 +449,7 @@
                                 <label for="customerCountry">Ülke</label>
                                 <select class="form-control" name="customerCountry" id="country">
                                     <option></option>
+                                    <option value="Türkiye">Türkiye</option>
                                     <option value="United Kingdom">United Kingdom</option>
                                     <option value="Germany">Germany</option>
                                     <option value="France">France</option>
@@ -673,7 +674,6 @@
                                     <option value="Tonga">Tonga</option>
                                     <option value="Trinidad & Tobago">Trinidad & Tobago</option>
                                     <option value="Tunisia">Tunisia</option>
-                                    <option value="Turkey">Turkey</option>
                                     <option value="Turkmenistan">Turkmenistan</option>
                                     <option value="Turks & Caicos Is">Turks & Caicos Is</option>
                                     <option value="Tuvalu">Tuvalu</option>

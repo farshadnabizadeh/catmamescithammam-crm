@@ -30,7 +30,7 @@
                <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                   <thead class="thead-light">
                      <tr>
-                        <th scope="col">Operation</th>
+                        <th scope="col">İşlem</th>
                         <th scope="col">Ödeme Türü</th>
                      </tr>
                   </thead>
@@ -43,9 +43,9 @@
                               @can('edit payment type')
                               <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                               @endcan
-                              @can('delete payment type')
+                              {{-- @can('delete payment type')
                               <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                              @endcan
+                              @endcan --}}
                            </ul>
                         </div>
                      </td>

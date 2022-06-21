@@ -1002,7 +1002,7 @@ function addReservation(arrivalDate, arrivalTime, totalCustomer, customerID, ser
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Rezervasyon Başarıyla Eklendi!', timer: 1000 });
+                    swal({ icon: 'success', title: 'Başarılı!', text: 'Rezervasyon Başarıyla Eklendi!', timer: 1000 });
                     reservationID = response;
                     setTimeout(() => {
                         window.location.href = "/definitions/reservations/calendar";
@@ -1036,7 +1036,7 @@ function addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice)
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    swal({ icon: 'success', title: 'Success!', text: 'Ödeme Türleri Başarıyla Eklendi!', timer: 1000 });
+                    swal({ icon: 'success', title: 'Başarılı!', text: 'Ödeme Türleri Başarıyla Eklendi!', timer: 1000 });
                 }
             },
 
@@ -1128,7 +1128,7 @@ function addCustomer(customerName, customerSurname, customerPhone, customerCount
             dataType: 'json',
             success: function (response) {
                 if (response) {
-                    // swal({ icon: 'success', title: 'Success!', text: 'Customer Added Successfully!', timer: 1000 });
+                    // swal({ icon: 'success', title: 'Başarılı!', text: 'Customer Added Successfully!', timer: 1000 });
                     customerID = response;
                 }
             },
