@@ -50,7 +50,7 @@
                                         @endforeach
                                         <tr>
                                             <td>Toplam:</td>
-                                            <td>{{ $reservation->service_cost }} {{ $reservation->service_currency }}</td>
+                                            <td>{{ $totalPayment }} {{ $reservation->service_currency }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -137,14 +137,6 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCost">Toplam Hizmet Bedeli</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Toplam Hizmet Bedeli" value="{{ $reservation->service_cost }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
                                 <label for="serviceCurrency">Para Birimi</label>
                                 <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
                                     <option value="{{ $reservation->service_currency }}" @selected(true)>{{ $reservation->service_currency }}</option>
@@ -155,6 +147,8 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceComission">Komisyon</label>

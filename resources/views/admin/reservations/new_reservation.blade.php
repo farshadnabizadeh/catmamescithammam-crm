@@ -139,26 +139,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 mt-3">
-                                    <div class="form-group">
-                                        <label for="serviceCost">Toplam Hizmet Bedeli</label>
-                                        <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Toplam Hizmet Bedeli">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mt-3">
-                                    <div class="form-group">
-                                        <label for="serviceCurrency">Para Birimi</label>
-                                        <select id="serviceCurrency" name="serviceCurrency" class="form-control">
-                                            <option></option>
-                                            <option value="EUR">EURO</option>
-                                            <option value="USD">USD</option>
-                                            <option value="GBP">GBP</option>
-                                            <option value="TL">TL</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="serviceComission">Service Comission</label>

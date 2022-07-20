@@ -92,8 +92,7 @@
                                                                 </div>
                                                                 <div class="col-9 bg-white">
                                                                     <h1 class="treatment-plan-title">RESERVATION SUMMARY</h1>
-                                                                    <p class="treatment-name">
-                                                                    </p>
+                                                                    <p class="treatment-name"></p>
                                                                     <table class="table table-bordered treatmentplan-table">
                                                                         <thead>
                                                                             <tr>
@@ -112,6 +111,7 @@
                                                                                     <span class="nights-text">{{ $subService->piece }}</span>
                                                                                 </td>
                                                                                 <td class="text-center">
+                                                                                    
                                                                                     {{ $subService->service_cost * $subService->piece }} {{ $subService->service_currency }}
                                                                                 </td>
                                                                             </tr>
@@ -120,7 +120,7 @@
                                                                     </table>
                                                                     <div class="d-flex flex-row justify-content-end divTotalStatus">
                                                                         <div class="totalStatus">Total Status:</div>
-                                                                        <div class="box"><p class="total-cost">{{ $reservation->service_cost }} {{ $reservation->service_currency }}</p></div>
+                                                                        <div class="box"><p class="total-cost">{{ $total }} {{ $reservation->service_currency }}</p></div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col text-center changes text-white">

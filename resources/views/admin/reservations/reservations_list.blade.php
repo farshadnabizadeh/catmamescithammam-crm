@@ -28,7 +28,7 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
+                                <th scope="col">İşlem</th>
                                 <th scope="col">Rezervasyon Tarihi</th>
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>

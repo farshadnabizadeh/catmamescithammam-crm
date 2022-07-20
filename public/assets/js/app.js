@@ -154,7 +154,6 @@ var app = (function() {
 
     reservationStep();
     getCustomerId();
-    getServiceDetail();
     getDiscountDetail();
     completeReservation();
     clockPicker();
@@ -550,6 +549,28 @@ function datePicker(){
             minDate: moment().add(1, 'days'),
             maxDate: moment().add(359, 'days'),
         });
+
+        $('#startDate').daterangepicker({
+            "autoApply": true,
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": true,
+            locale: {
+                firstDay: 1,
+                format: userFormat
+            },
+        });
+
+        $('#endDate').daterangepicker({
+            "autoApply": true,
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": true,
+            locale: {
+                firstDay: 1,
+                format: userFormat
+            },
+        });
     }
     catch (error) {
         console.log(error);
@@ -642,42 +663,6 @@ function getCustomerId() {
     catch (error) {
         console.log(error);
     }
-}
-
-function getServiceDetail() {
-    try {
-        $("#serviceId").on("change", function () {
-            var selectedId = $(this).children("option:selected").val();
-            $.ajax({
-                url: '/getService/' + selectedId,
-                type: 'get',
-                dataType: 'json',
-                success: function (response) {
-                    if (response) {
-                        $.each(response, function (key, value) {
-                            var data = value;
-                            if (data == null) {
-                                swal({ icon: 'info', title: 'This patient does not have an arrival reservation!', text: '' });
-                            }
-                            else if (!data.isNull) {
-                                let serviceCost = data.service_cost;
-                                let serviceCurrency = data.service_currency;
-                                $("#serviceCurrency > option").each(function () {
-                                    if (this.value == serviceCurrency) $(this).attr("selected", true); $(this).trigger("change");
-                                });
-                            }
-                        });
-                    }
-                },
-
-                error: function () { },
-            });
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-    finally { }
 }
 
 function getDiscountDetail() {
@@ -836,40 +821,6 @@ function addReservationOperation() {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
-                $("#serviceTable").find("tbody tr.service").each(function (i) {
-                    var $tds = $(this).find('td');
-                    serviceId = $tds.attr("id");
-                    serviceName = $tds.eq(0).text();
-                    service_piece = $tds.eq(1).text();
-                    servicePieces.push(service_piece);
-                    $.ajax({
-                        url: '/getService/' + serviceId,
-                        type: 'get',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response) {
-                                $.each(response, function (key, value) {
-                                    var data = value;
-                                    if (data == null) {
-                                    }
-                                    else if (!data.isNull) {
-                                        let serviceCost = data.service_cost;
-                                        totalCost = [];
-                                        setTimeout(() => {
-                                            totalCost.push(serviceCost);
-                                            console.log(totalCost);
-                                            $(".service-name").text(serviceName);
-                                            total = totalCost.reduce(function (r, a, i) { return r + a * servicePieces[i] }, 0);
-                                            $("#serviceCost").val(total);
-                                        }, 1000);
-                                    }
-                                });
-                            }
-                        },
-
-                        error: function () { },
-                    });
-                });
                 $("#next-step").trigger("click");
             }
         });
@@ -879,48 +830,41 @@ function addReservationOperation() {
             var arrivalTime = $("#tab2").find('#arrivalTime').val();
             var totalCustomer = $("#tab2").find('#totalCustomer').val();
 
-            var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").text();
-            var serviceCost = $("#tab3").find("#serviceCost").val();
             var serviceComission = $("#tab3").find("#serviceComission").val();
             var sourceName = $("#tab2").find("#sobId").children("option:selected").text();
 
-            if(serviceCurrency == "" || serviceCost == ""){
-                swal({ icon: 'error', title: 'Error!', text: 'Please fill in the blanks!', timer: 1000 });
-            }
-            else {
-                $(".reservation-date").text(arrivalDate);
-                $(".reservation-time").text(arrivalTime);
-                $(".total-customer").text(totalCustomer);
-                // $(".therapist-name").text(therapistName);
+            $(".reservation-date").text(arrivalDate);
+            $(".reservation-time").text(arrivalTime);
+            $(".total-customer").text(totalCustomer);
+            // $(".therapist-name").text(therapistName);
 
-                //Services
-                $("#serviceTable").find("tbody tr").each(function (i) {
-                    var $tds = $(this).find('td');
-                    serviceName = $tds.eq(0).text();
-                    $(".service-name").text(serviceName);
-                });
+            //Services
+            $("#serviceTable").find("tbody tr").each(function (i) {
+                var $tds = $(this).find('td');
+                serviceName = $tds.eq(0).text();
+                $(".service-name").text(serviceName);
+            });
 
-                //Therapists
-                $("#therapistTable").find("tbody tr").each(function (i) {
-                    var $tds = $(this).find('td');
-                    therapistName = $tds.eq(0).text();
-                    $(".therapist-name").text(therapistName);
-                });
+            //Therapists
+            $("#therapistTable").find("tbody tr").each(function (i) {
+                var $tds = $(this).find('td');
+                therapistName = $tds.eq(0).text();
+                $(".therapist-name").text(therapistName);
+            });
 
-                $(".service-cost").text(serviceCost + " " + serviceCurrency);
-                $(".sob-name").text(sourceName);
-                // $(".payment-type").text(paymentType);
-                $("#next-step").trigger("click");
-                if (customerID == undefined) {
-                    var customerName = $("#addCustomerModal").find('#customerName').val();
-                    var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
-                    var customerPhone = $("#addCustomerModal").find('#phone_get').val();
-                    var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
-                    var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
-                    setTimeout(() => {
-                        addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
-                    }, 500);
-                }
+            $(".service-cost").text(serviceCost + " " + serviceCurrency);
+            $(".sob-name").text(sourceName);
+            // $(".payment-type").text(paymentType);
+            $("#next-step").trigger("click");
+            if (customerID == undefined) {
+                var customerName = $("#addCustomerModal").find('#customerName').val();
+                var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
+                var customerPhone = $("#addCustomerModal").find('#phone_get').val();
+                var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
+                var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
+                setTimeout(() => {
+                    addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
+                }, 500);
             }
         });
     } catch (error) {

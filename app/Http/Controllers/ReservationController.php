@@ -15,6 +15,7 @@ use App\Models\Discount;
 use App\Models\Customer;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -259,7 +260,14 @@ class ReservationController extends Controller
             $hasTherapist = false;
             $hasTherapist = $reservation_therapist->get()->count() > 0 ? true : false;
 
-            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist]);
+            $totalPrice = [];
+
+            foreach($reservation->subPaymentTypes as $subPaymentType) {
+                array_push($totalPrice, $subPaymentType->payment_price);
+            }
+            $totalPayment = array_sum($totalPrice);
+
+            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -420,9 +428,14 @@ class ReservationController extends Controller
     {
         try {
             $reservation = Reservation::find($id);
-            $data = array('reservation' => $reservation);
-
             $lang = $request->input('lang');
+            $totalPrice = [];
+            foreach ($reservation->subServices as $subService) {
+                array_push($totalPrice, $subService->service_cost * $subService->piece);
+            }
+            $total = array_sum($totalPrice);
+
+            $data = array('reservation' => $reservation, 'total' => $total);
 
             switch ($lang) {
             case "en":
