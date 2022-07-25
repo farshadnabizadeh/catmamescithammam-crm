@@ -100,7 +100,8 @@ table.dataTable thead>tr>th.sorting,
 table.dataTable thead>tr>th.sorting_asc,
 table.dataTable thead>tr>th.sorting_desc {
     padding-right: 30px;
-    color: #000;
+    background-color: #511124;
+    color: #fff;
     font-family: var(--font-montserrat);
     font-weight: 600;
     font-size: 11px

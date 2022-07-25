@@ -546,7 +546,7 @@ function datePicker(){
                 firstDay: 1,
                 format: userFormat
             },
-            minDate: moment().add(1, 'days'),
+            minDate: moment().add(0, 'days'),
             maxDate: moment().add(359, 'days'),
         });
 

@@ -7,7 +7,7 @@
       <meta name="robots" content="noindex">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <meta http-equiv="X-UA-Compatible" content="IE=7">
-      <title>Catma Mescit Hammam | Reservation Calendar</title>
+      <title>Catma Mescit Hammam | Rezervasyon Takvimi</title>
       <link rel="dns-prefetch" href="//fonts.gstatic.com">
       <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
@@ -44,7 +44,7 @@
         
         @if (session('message'))
             <script type="text/javascript">
-                swal({ icon: 'success', title: 'Success!', text: '{{ session('message') }}', });
+                swal({ icon: 'success', title: 'Başarılı!', text: '{{ session('message') }}', });
             </script>
         @endif
 
@@ -85,7 +85,7 @@
                         right: 'dayGridMonth, timeGridWeek, timeGridDay, listMonth'
                     },
                     firstDay: 1,
-                    locale: "en",
+                    locale: "tr",
                     buttonIcons: true,
                     weekNumbers: false,
                     navLinks: true,
