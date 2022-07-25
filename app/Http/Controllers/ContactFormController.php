@@ -7,7 +7,6 @@ use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 class ContactFormController extends Controller
 {
     public function __construct()

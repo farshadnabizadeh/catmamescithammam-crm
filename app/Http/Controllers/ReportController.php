@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\ReservationPaymentType;
+use App\Models\Therapist;
+use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -18,58 +20,49 @@ class ReportController extends Controller
     {
         try {
 
-            $total = DB::table('reservations_payments_types')->sum("payment_price");
+            $total = ReservationPaymentType::sum("payment_price");
 
-            $month = DB::table('reservations_payments_types')
-                ->whereMonth('created_at', Carbon::now()->month)
+            $month = ReservationPaymentType::whereMonth('created_at', Carbon::now()->month)
                 ->sum("payment_price");
 
-            $week = DB::table('reservations_payments_types')
-                ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            $week = ReservationPaymentType::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
                 ->sum("payment_price");
 
-            $today = DB::table('reservations_payments_types')
-                ->where('created_at', '>=', Carbon::now())
+            $today = ReservationPaymentType::where('created_at', '>=', Carbon::now())
                 ->sum("payment_price");
 
-            $therapistAll = DB::table("therapists")
-                ->select("therapists.therapist_name",
+            $therapistAll = Therapist::select("therapists.therapist_name",
                     DB::raw("(SELECT count(*) FROM reservations_therapists a
                         WHERE a.therapist_id = therapists.id
                         ) as aCount"))
                 ->get();
 
-            $therapistMonth = DB::table("therapists")
-                ->select("therapists.therapist_name",
+            $therapistMonth = Therapist::select("therapists.therapist_name",
                     DB::raw("(SELECT count(*) FROM reservations_therapists a
                         WHERE a.therapist_id = therapists.id and MONTH(created_at) =  MONTH(CURRENT_DATE())
                         ) as aCount"))
                 ->get();
 
-            $therapistWeek = DB::table("therapists")
-                ->select("therapists.therapist_name",
+            $therapistWeek = Therapist::select("therapists.therapist_name",
                     DB::raw("(SELECT count(*) FROM reservations_therapists a
                         WHERE a.therapist_id = therapists.id and YEARWEEK(`created_at`, 1) = YEARWEEK(CURDATE(), 1)
                         ) as aCount"))
                 ->get();
 
             //service
-            $serviceAll = DB::table("services")
-                ->select("services.service_name",
+            $serviceAll = Service::select("services.service_name",
                     DB::raw("(SELECT count(*) FROM reservations_services a
                         WHERE a.service_id = services.id
                         ) as aCount"))
                 ->get();
 
-            $serviceMonth = DB::table("services")
-                ->select("services.service_name",
+            $serviceMonth = Service::select("services.service_name",
                     DB::raw("(SELECT count(*) FROM reservations_services a
                         WHERE a.service_id = services.id and MONTH(created_at) =  MONTH(CURRENT_DATE())
                         ) as aCount"))
                 ->get();
 
-            $serviceWeek = DB::table("services")
-                ->select("services.service_name",
+            $serviceWeek = Service::select("services.service_name",
                     DB::raw("(SELECT count(*) FROM reservations_services a
                         WHERE a.service_id = services.id and YEARWEEK(`created_at`, 1) = YEARWEEK(CURDATE(), 1)
                         ) as aCount"))
@@ -117,43 +110,35 @@ class ReportController extends Controller
             $end = $request->input('endDate');
 
             //
-            $cashTl = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '5')
+            $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $cashEur = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '6')
+            $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $cashUsd = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '7')
+            $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $cashPound = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '8')
+            $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $ykbTl = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '9')
+            $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $ziraatTl = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '10')
+            $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 
-            $ziraatEuro = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '11')
+            $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
                 
-            $ziraatDolar = DB::table('reservations_payments_types')
-                ->where('reservations_payments_types.payment_type_id', '12')
+            $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
 

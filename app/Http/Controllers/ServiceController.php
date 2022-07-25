@@ -52,9 +52,7 @@ class ServiceController extends Controller
     public function getService($id)
     {
         try {
-            $services = DB::table('services')
-            ->select('services.*')
-            ->where('id', '=', $id)
+            $services = Service::where('id', '=', $id)
             ->first();
 
             return response()->json([$services], 200);

@@ -24,10 +24,7 @@
                             <a href="#tab2"><span class="number">2</span> Rezervasyon Detayları</a>
                         </li>
                         <li>
-                            <a href="#tab3"><span class="number">3</span> Ödeme Detayları</a>
-                        </li>
-                        <li>
-                            <a href="#tab4"><span class="number">4</span> Rezervasyon Özeti</a>
+                            <a href="#tab3"><span class="number">3</span> Rezervasyon Özeti</a>
                         </li>
                     </ul>
                     <div class="step-content">
@@ -133,56 +130,8 @@
                             <input type="text" name="txtLastName" required>
                             </form>
                         </div>
-                        <div class="step-tab-panel" id="tab3">
-                            <div class="progress mt-3">
-                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="75" style="width: 75%">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="serviceComission">Service Comission</label>
-                                        <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Service Comission">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="discountId">İndirim</label>
-                                        <select id="discountId" name="discountId" onchange="getDiscountDetail(this)" class="form-control">
-                                            <option></option>
-                                            @foreach ($discounts as $discount)
-                                            <option value="{{ $discount->id }}">{{ $discount->discount_name }} | %{{ $discount->discount_percentage }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPaymentType">Ödeme Türü Ekle</button>
-                                        <table class="table table-bordered mt-3" id="paymentTypeTable">
-                                            <tr>
-                                                <th>Ödeme Türü</th>
-                                                <th>Ücreti</th>
-                                                <th></th>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary float-right mb-5 save-fix-btn" id="saveOtherDataBtn">İleri <i class="fa fa-arrow-right"></i></button>
-                                </div>
-                            </div>
-                            <form name="frmInfo" class="d-none" id="frmInfo">
-                            <input type="text" name="txtFirstName" required>
-                            <input type="text" name="txtLastName" required>
-                            </form>
-                        </div>
 
-                        <div class="step-tab-panel" id="tab4">
+                        <div class="step-tab-panel" id="tab3">
                             <div class="progress mt-3">
                                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                 </div>

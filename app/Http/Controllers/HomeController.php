@@ -22,10 +22,10 @@ class HomeController extends Controller
         try {
             $lastCustomers = Customer::latest()->take(5)->get();
 
-            $customerCount = Customer::all()->count();
-            $hotelCount = Hotel::all()->count();
-            $serviceCount = Service::all()->count();
-            $therapistCount = Therapist::all()->count();
+            $customerCount = Customer::count();
+            $hotelCount = Hotel::count();
+            $serviceCount = Service::count();
+            $therapistCount = Therapist::count();
 
             $userID = Auth::user()->id;
             $user = auth()->user();

@@ -52,10 +52,7 @@ class DiscountController extends Controller
     public function getDiscount($id)
     {
         try {
-            $discounts = DB::table('discounts')
-            ->select('discounts.*')
-            ->where('id', '=', $id)
-            ->first();
+            $discounts = Discount::where('id', '=', $id)->first();
 
             return response()->json([$discounts], 200);
         }
