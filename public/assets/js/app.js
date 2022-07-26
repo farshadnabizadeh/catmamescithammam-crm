@@ -186,7 +186,7 @@ var app = (function() {
     addcustomerReservation();
 
     $("#colorpicker").spectrum();
-    $("#departmentId").select2({ placeholder: "Select Medical Department", dropdownAutoWidth: true, allowClear: true });
+    $("#formStatusId").select2({ placeholder: "Form Durumunu Seçiniz", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Hizmet Seç", dropdownAutoWidth: true, allowClear: true });
     $("#therapistId").select2({ placeholder: "Terapist Seç", dropdownAutoWidth: true, allowClear: true });
@@ -710,9 +710,8 @@ function getDiscountDetail() {
 function addCustomertoReservationModal() {
     try {
         $('#addCustomertoReservationSave').on('click', function(){
-            var customerName = $("#addCustomerModal").find('#customerName').val();
-            var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
-            if (customerName == "" || customerSurname == ""){
+            var customerNameSurname = $("#addCustomerModal").find('#customerNameSurname').val();
+            if (customerNameSurname == ""){
                 swal({ icon: 'error', title: 'Lütfen boşlukları doldurun!', text: '' });
             }
             else {
@@ -842,13 +841,12 @@ function addReservationOperation() {
                 $("#next-step").trigger("click");
                 // $(".payment-type").text(paymentType);
                 if (customerID == undefined) {
-                    var customerName = $("#addCustomerModal").find('#customerName').val();
-                    var customerSurname = $("#addCustomerModal").find('#customerSurname').val();
+                    var customerNameSurname = $("#addCustomerModal").find('#customerNameSurname').val();
                     var customerPhone = $("#addCustomerModal").find('#phone_get').val();
                     var customerCountry = $("#addCustomerModal").find('#country').children("option:selected").val();
                     var customerEmail = $("#addCustomerModal").find('#customerEmail').val();
                     setTimeout(() => {
-                        addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail);
+                        addCustomer(customerNameSurname, customerPhone, customerCountry, customerEmail);
                     }, 500);
                 }
             }
@@ -1038,7 +1036,7 @@ function addTherapisttoReservation(reservationID, therapistId, piece) {
     }
 }
 
-function addCustomer(customerName, customerSurname, customerPhone, customerCountry, customerEmail) {
+function addCustomer(customerNameSurname, customerPhone, customerCountry, customerEmail) {
     try {
         $.ajaxSetup({
             headers: {
@@ -1049,8 +1047,7 @@ function addCustomer(customerName, customerSurname, customerPhone, customerCount
             url: '/definitions/customers/save',
             type: 'POST',
             data: {
-                'customerName': customerName,
-                'customerSurname': customerSurname,
+                'customerNameSurname': customerNameSurname,
                 'customerPhone': customerPhone,
                 'customerCountry': customerCountry,
                 'customerEmail': customerEmail

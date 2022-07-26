@@ -355,24 +355,18 @@
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="customerName">Müşteri Adı</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" required>
+                                <label for="customerNameSurname">Müşteri Adı Soyadı</label>
+                                <input type="text" class="form-control" id="customerNameSurname" name="customerNameSurname" placeholder="Müşteri Adı Soyadı" required>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-12">
-                            <div class="form-group">
-                                <label for="customerSurname">Müşteri Soyadı</label>
-                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Müşteri Soyadı">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="phone_get">Müşteri Telefon Numarası</label>
                                 <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası">
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerCountry">Ülke</label>
@@ -627,8 +621,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="customerEmail">Email Adresi</label>
@@ -668,8 +660,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th scope="col">Operation</th>
-                                            <th scope="col">Adı</th>
-                                            <th scope="col">Soyadı</th>
+                                            <th scope="col">Adı Soyadı</th>
                                             <th scope="col">Telefon</th>
                                             <th scope="col">Ülke</th>
                                             <th scope="col">Email</th>
@@ -679,10 +670,9 @@
                                     @foreach ($customers as $customer)
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name }}"><i class="fa fa-check"></i> Seç</button>
+                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name_surname }}"><i class="fa fa-check"></i> Seç</button>
                                         </td>
-                                        <td>{{ $customer->customer_name }}</td>
-                                        <td>{{ $customer->customer_surname }}</td>
+                                        <td>{{ $customer->customer_name_surname }}</td>
                                         <td>{{ $customer->customer_phone }}</td>
                                         <td>{{ $customer->customer_country }}</td>
                                         <td>{{ $customer->customer_email }}</td>

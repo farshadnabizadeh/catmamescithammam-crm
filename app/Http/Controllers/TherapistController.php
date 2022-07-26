@@ -64,7 +64,7 @@ class TherapistController extends Controller
 
         $temp['therapist_name'] = $request->input('therapistName');
 
-        if ($updateSelectedData = Therapist::where('id', '=', $id)->update($temp)) {
+        if (Therapist::where('id', '=', $id)->update($temp)) {
             return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Güncellendi!');
         }
         else {

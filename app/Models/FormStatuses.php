@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class ContactForm extends Model
+class FormStatuses extends Model
 {
     use SoftDeletes;
-    protected $table = 'contact_forms';
+    protected $table = 'form_statuses';
 
-    public function formStatus()
+    public function user()
     {
-        return $this->belongsTo(FormStatuses::class, 'form_status_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
+
 }

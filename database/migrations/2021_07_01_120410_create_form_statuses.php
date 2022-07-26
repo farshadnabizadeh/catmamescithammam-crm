@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSources extends Migration
+class CreateFormStatuses extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSources extends Migration
      */
     public function up()
     {
-        Schema::create('sources', function (Blueprint $table) {
+        Schema::create('form_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('source_name');
-            $table->string('source_color');
+            $table->string('status_name');
+            $table->string('status_color');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateSources extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sources');
+        Schema::dropIfExists('form_statuses');
     }
 }

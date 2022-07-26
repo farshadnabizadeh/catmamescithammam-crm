@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Hotel;
 use App\Models\ContactForm;
 use App\Models\Service;
+use App\Models\Reservation;
 use App\Models\Therapist;
 use Auth;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            $lastCustomers = Customer::latest()->take(5)->get();
+            $lastReservations = Reservation::latest()->take(5)->get();
 
             $customerCount = Customer::count();
             $hotelCount = Hotel::count();
@@ -30,7 +31,7 @@ class HomeController extends Controller
             $userID = Auth::user()->id;
             $user = auth()->user();
 
-            $dashboard = array('lastCustomers' => $lastCustomers, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount);
+            $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount);
 
             return view('home')->with($dashboard);
         }

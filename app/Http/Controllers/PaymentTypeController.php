@@ -86,8 +86,8 @@ class PaymentTypeController extends Controller
             $temp['payment_type_name'] = $request->input('paymentTypeName');
             $temp['note'] = $request->input('note');
 
-            if ($updateSelectedData = PaymentType::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/payment_types')->with('message', 'Payment Type Updated Successfully!');
+            if (PaymentType::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/payment_types')->with('message', 'Ödeme Türü Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -101,7 +101,7 @@ class PaymentTypeController extends Controller
     public function destroy($id){
         try {
             PaymentType::find($id)->delete();
-            return redirect('definitions/payment_types')->with('message', 'Payment Type Deleted Successfully!');
+            return redirect('definitions/payment_types')->with('message', 'Ödeme Türü Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

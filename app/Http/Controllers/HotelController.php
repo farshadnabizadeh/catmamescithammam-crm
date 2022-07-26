@@ -76,7 +76,7 @@ class HotelController extends Controller
             $temp['hotel_person_account_number'] = $request->input('hotelPersonAccountNumber');
             $temp['hotel_person_send_amount'] = $request->input('hotelPersonSendAmount');
 
-            if ($updateSelectedData = Hotel::where('id', '=', $id)->update($temp)) {
+            if (Hotel::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/hotels')->with('message', 'Hotel Updated Successfully!');
             }
             else {

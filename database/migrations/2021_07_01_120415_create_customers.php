@@ -15,18 +15,16 @@ class CreateCustomers extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('customer_name');
-            $table->string('customer_surname')->nullable();
+            $table->string('customer_name_surname');
             $table->string('customer_phone')->nullable();
             $table->string('customer_country')->nullable();
             $table->string('customer_email')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
+            $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *

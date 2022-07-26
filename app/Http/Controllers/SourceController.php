@@ -65,7 +65,7 @@ class SourceController extends Controller
             $temp['source_name'] = $request->input('sourceName');
             $temp['source_color'] = $request->input('sourceColor');
 
-            if ($updateSelectedData = Source::where('id', '=', $id)->update($temp)) {
+            if (Source::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Güncellendi!');
             }
             else {

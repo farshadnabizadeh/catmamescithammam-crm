@@ -83,7 +83,7 @@ class ServiceController extends Controller
             $temp['service_currency'] = $request->input('serviceCurrency');
             $temp['service_cost'] = $request->input('serviceCost');
 
-            if ($updateSelectedData = Service::where('id', '=', $id)->update($temp)) {
+            if (Service::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/services')->with('message', 'Service Updated Successfully!');
             }
             else {

@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h2>Permissions</h2>
+                            <h2>Yetkiler</h2>
                         </div>
                         <div class="col-12">
                             <hr>
@@ -40,7 +40,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success mt-5 float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

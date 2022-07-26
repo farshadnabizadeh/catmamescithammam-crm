@@ -13,11 +13,11 @@
                   <div class="row pb-3">
                      <div class="col-lg-6">
                         <label for="startDate">Başlangıç Tarihi</label>
-                        <input type="text" class="form-control datepicker" id="startDate" name="startDate" placeholder="Başlangıç Tarihi" autocomplete="off" required>
+                        <input type="text" class="form-control datepicker" id="startDate" name="startDate" placeholder="Başlangıç Tarihi" value="{{ $start }}" autocomplete="off" required>
                      </div>
                      <div class="col-lg-6">
                         <label for="endDate">Bitiş Tarihi</label>
-                        <input type="text" class="form-control datepicker" id="endDate" name="endDate" placeholder="Bitiş Tarihi" autocomplete="off" required>
+                        <input type="text" class="form-control datepicker" id="endDate" name="endDate" placeholder="Bitiş Tarihi" autocomplete="off" value="{{ $end }}" required>
                      </div>
                      <div class="col-lg-12">
                         <button class="btn btn-success mt-3 float-right" type="submit">Raporu Al</button>

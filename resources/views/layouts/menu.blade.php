@@ -22,6 +22,27 @@
                         </a>
                     </li>
                     @endcan
+                    @can('show contactform')
+                    <li class="nav-item {{ request()->is('definitions/bookings*') || request()->is('definitions/contactforms*') ? 'active' : '' }}">
+                        <a class="nav-link" href="javascript:;">
+                            <i class="fa fa-wpforms text-primary"></i>
+                            <span class="nav-link-text">Formlar</span>
+                            <i class="fa fa-caret-right sub-icon"></i>
+                        </a>
+                        <ul class="nav-item_sub">
+                            <li>
+                                <a class="{{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms'); }}">
+                                    <span>İletişim Formları</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="{{ request()->is('definitions/bookings') ? 'active' : '' }}" href="{{ url('/definitions/bookings') }}">
+                                    <span>Rezervasyon Formları</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endcan
                     @can('show reservation')
                     <li class="nav-item {{ request()->is('definitions/reservations/calendar*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
@@ -38,17 +59,17 @@
                         </ul>
                     </li>
                     @endcan
-                    <li class="nav-item {{ request()->is('definitions/customers*') || request()->is('definitions/contactforms*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/customers*') || request()->is('definitions/formstatuses*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-tasks text-primary"></i>
                             <span class="nav-link-text">Tanımlamalar</span>
                             <i class="fa fa-caret-right sub-icon"></i>
                         </a>
                         <ul class="nav-item_sub">
-                            @can('show contactform')
+                            @can('show form statuses')
                             <li>
-                                <a class="{{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms'); }}">
-                                    <span>İletişim Formları</span>
+                                <a class="{{ request()->is('definitions/formstatuses*') ? 'active' : '' }}" href="{{ url('/definitions/formstatuses'); }}">
+                                    <span>Form Durumları</span>
                                 </a>
                             </li>
                             @endcan
@@ -115,7 +136,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') || request()->is('definitions/bookings') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-check text-primary"></i>
                             <span class="nav-link-text">Rezervasyonlar</span>
@@ -132,11 +153,7 @@
                                     <span>Rezervasyon Listesi</span>
                                 </a>
                             </li>
-                            <li>
-                                <a class="{{ request()->is('definitions/bookings') ? 'active' : '' }}" href="{{ url('/definitions/bookings') }}">
-                                    <span>Rezervasyon Formları</span>
-                                </a>
-                            </li>
+                            
                         </ul>
                     </li>
                     @can('show users')

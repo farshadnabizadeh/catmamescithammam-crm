@@ -8,6 +8,8 @@ use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Facades\DataTables;
 class CustomersController extends Controller
 {
     public function __construct()
@@ -15,13 +17,41 @@ class CustomersController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Builder $builder)
     {
         try {
-            $customers = Customer::orderBy('customer_name', 'asc')->get();
-            $sources = Source::orderBy('source_name', 'asc')->get();
-            $data = array('customers' => $customers, 'sources' => $sources);
-            return view('admin.customers.customers_list')->with($data);
+             if (request()->ajax()) {
+                $data = Customer::orderBy('created_at', 'desc');
+                return DataTables::of($data)
+                    ->editColumn('action', function ($item) {
+                            return '<div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="/definitions/customers/edit/'.$item->id.'" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                    </li>
+                                    <li>
+                                        <a href="/definitions/customers/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                    </li>
+                                </ul>
+                            </div>';
+                    })
+                    ->rawColumns(['action'])
+
+                    ->toJson();
+                };
+                $columns = [
+                    ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'customer_name_surname', 'name' => 'customer_name_surname', 'title' => 'Adı Soyadı'],
+                    ['data' => 'customer_phone', 'name' => 'customer_phone', 'title' => 'Telefon Numarası'],
+                    ['data' => 'customer_country', 'name' => 'customer_country', 'title' => 'Ülkesi'],
+                    ['data' => 'customer_email', 'name' => 'customer_email', 'title' => 'Email Adresi'],
+                ];
+                $html = $builder->columns($columns)->parameters([
+                    "pageLength" => 50
+                ]);
+
+            return view('admin.customers.customers_list', compact('html'));
         }
         catch (\Throwable $th) {
             throw $th;
@@ -32,8 +62,7 @@ class CustomersController extends Controller
     {
         try {
             $newCustomer = new Customer();
-            $newCustomer->customer_name = $request->input('customerName');
-            $newCustomer->customer_surname = $request->input('customerSurname');
+            $newCustomer->customer_name_surname = $request->input('customerNameSurname');
             $newCustomer->customer_phone = $request->input('customerPhone');
             $newCustomer->customer_country = $request->input('customerCountry');
             $newCustomer->customer_email = $request->input('customerEmail');
@@ -42,7 +71,7 @@ class CustomersController extends Controller
             $result = $newCustomer->save();
 
             if ($result){
-                return redirect('/definitions/customers')->with('message', 'Customer Added Successfully!');
+                return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -57,8 +86,7 @@ class CustomersController extends Controller
     {
         try {
             $newCustomer = new Customer();
-            $newCustomer->customer_name = $request->input('customerName');
-            $newCustomer->customer_surname = $request->input('customerSurname');
+            $newCustomer->customer_name_surname = $request->input('customerNameSurname');
             $newCustomer->customer_phone = $request->input('customerPhone');
             $newCustomer->customer_country = $request->input('customerCountry');
             $newCustomer->customer_email = $request->input('customerEmail');
@@ -96,13 +124,13 @@ class CustomersController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['customer_name'] = $request->input('customerName');
+            $temp['customer_name_surname'] = $request->input('customerNameSurname');
             $temp['customer_phone'] = $request->input('customerPhone');
             $temp['customer_country'] = $request->input('customerCountry');
             $temp['customer_email'] = $request->input('customerEmail');
 
-            if ($updateSelectedData = Customer::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/customers')->with('message', 'Customer Updated Successfully!');
+            if (Customer::where('id', '=', $id)->update($temp)) {
+                return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -116,7 +144,7 @@ class CustomersController extends Controller
     public function destroy($id){
         try {
             Customer::where('id', '=', $id)->delete();
-            return redirect('definitions/customers')->with('message', 'Customer Deleted Successfully!');
+            return redirect('definitions/customers')->with('message', 'Müşteri Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

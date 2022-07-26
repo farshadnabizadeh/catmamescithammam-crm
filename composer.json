@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laravelcollective/html": "^6.2",
-        "spatie/laravel-permission": "^5.1"
+        "spatie/laravel-permission": "^5.1",
+        "yajra/laravel-datatables-html": "^4.41"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

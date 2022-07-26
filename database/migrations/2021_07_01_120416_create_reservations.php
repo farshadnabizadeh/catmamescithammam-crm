@@ -32,11 +32,10 @@ class CreateReservations extends Migration
             $table->foreign('source_id')->references('id')
                 ->on('sources')
                 ->onDelete('cascade');
-            $table->string('reservation_note')->nullable();
+            $table->longText('reservation_note')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
+            $table->timestamps();
         });
     }
 

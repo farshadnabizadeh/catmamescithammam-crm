@@ -15,9 +15,10 @@ use App\Models\Discount;
 use App\Models\Customer;
 use App\Models\User;
 use Auth;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Facades\DataTables;
 
 class ReservationController extends Controller
 {
@@ -26,17 +27,58 @@ class ReservationController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Builder $builder)
     {
         try {
-            $reservations = Reservation::orderBy('reservation_date', 'desc')->get();
-            $services = Service::orderBy('service_name', 'asc')->get();
-            $sources = Source::orderBy('source_name', 'asc')->get();
-            $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
-            $customers = Customer::orderBy('customer_name', 'asc')->get();
-            $discounts = Discount::orderBy('discount_name', 'asc')->get();
-            $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts);
-            return view('admin.reservations.reservations_list')->with($data);
+            if (request()->ajax()) {
+                $data = Reservation::with('customer', 'source');
+                return DataTables::of($data)
+                    ->editColumn('action', function ($item) {
+                            return '<div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="/definitions/reservations/edit/'.$item->id.'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                    </li>
+                                    <li>
+                                        <a href="/definitions/reservations/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                    </li>
+                                    <li>
+                                        <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
+                                    </li>
+                                </ul>
+                            </div>';
+                    })
+                    ->editColumn('id', function ($item) {
+                        $action = date('ymd', strtotime($item->created_at)) . $item->id;
+                        return $action;
+                    })
+                    ->editColumn('source.source_name', function ($item) {
+                        return '<span class="badge text-white" style="background-color: '. $item->source->source_color .'">'. $item->source->source_name .'</span>';
+                    })
+                    ->editColumn('reservation_date', function ($item) {
+                        $action = date('d-m-Y', strtotime($item->reservation_date));
+                        return $action;
+                    })
+
+                    ->rawColumns(['action', 'id', 'source.source_name', 'reservation_date'])
+
+                    ->toJson();
+                };
+                $columns = [
+                    ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'id', 'name' => 'id', 'title' => 'id'],
+                    ['data' => 'source.source_name', 'name' => 'source.source_name', 'title' => 'Kaynak'],
+                    ['data' => 'reservation_date', 'name' => 'reservation_date', 'title' => 'Rezervasyon Tarihi'],
+                    ['data' => 'reservation_time', 'name' => 'reservation_time', 'title' => 'Rezervasyon Saati'],
+                    ['data' => 'customer.customer_name_surname', 'name' => 'customer.customer_name_surname', 'title' => 'Müşteri Adı'],
+                    ['data' => 'total_customer', 'name' => 'total_customer', 'title' => 'Kişi Sayısı'],
+                ];
+                $html = $builder->columns($columns)->parameters([
+                    "pageLength" => 50
+                ]);
+
+            return view('admin.reservations.reservations_list', compact('html'));
         }
         catch (\Throwable $th) {
             throw $th;
@@ -50,7 +92,7 @@ class ReservationController extends Controller
             $services = Service::orderBy('service_name', 'asc')->get();
             $sources = Source::orderBy('source_name', 'asc')->get();
             $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
-            $customers = Customer::orderBy('customer_name', 'asc')->get();
+            $customers = Customer::orderBy('customer_name_surname', 'asc')->get();
             $discounts = Discount::orderBy('discount_name', 'asc')->get();
             $payment_types = PaymentType::orderBy('payment_type_name', 'asc')->get();
             $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts, 'payment_types' => $payment_types);
@@ -64,23 +106,23 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         try {
-            $newReservation = new Reservation();
-            $newReservation->reservation_date = $request->input('arrivalDate');
-            $newReservation->reservation_time = $request->input('arrivalTime');
-            $newReservation->total_customer = $request->input('totalCustomer');
-            $newReservation->customer_id = $request->input('customerId');
-            $newReservation->service_currency = $request->input('serviceCurrency');
-            $newReservation->service_cost = $request->input('serviceCost');
-            $newReservation->service_commission = $request->input('serviceComission');
-            $newReservation->discount_id = $request->input('discountId');
-            $newReservation->source_id = $request->input('sourceId');
-            $newReservation->reservation_note = $request->input('reservationNote');
+            $newData = new Reservation();
+            $newData->reservation_date = $request->input('arrivalDate');
+            $newData->reservation_time = $request->input('arrivalTime');
+            $newData->total_customer = $request->input('totalCustomer');
+            $newData->customer_id = $request->input('customerId');
+            $newData->service_currency = $request->input('serviceCurrency');
+            $newData->service_cost = $request->input('serviceCost');
+            $newData->service_commission = $request->input('serviceComission');
+            $newData->discount_id = $request->input('discountId');
+            $newData->source_id = $request->input('sourceId');
+            $newData->reservation_note = $request->input('reservationNote');
 
-            $newReservation->user_id = auth()->user()->id;
-            $result = $newReservation->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result) {
-                return response($newReservation->id, 200);
+                return response($newData->id, 200);
             }
             else {
                 return response(false, 500);
@@ -189,8 +231,7 @@ class ReservationController extends Controller
             $searchDate = $request->input('s');
             $tpStatus = $request->input('ps');
 
-            $arrivalsA = DB::table('reservations')
-                ->select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'customers.customer_name as Cname')
+            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'customers.customer_name_surname as Cname')
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
                 // ->whereNull('deleted_at')

@@ -78,7 +78,7 @@
                                                                 <div class="col-3 patientInfo">
                                                                     <h2 class="patient-information-title">CUSTOMER<br> INFORMATION</h2>
                                                                     <br>
-                                                                    <p><span>Name, Surname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name . ' ' . $reservation->customer->customer_surname }}</b></p>
+                                                                    <p><span>Name, Surname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name_surname }}</b></p>
                                                                     <p><span>Phone Number:</span><br> <b>{{ $reservation->customer->customer_phone }}</b></p>
                                                                     <p><span>Country:</span><br> <b>{{ $reservation->customer->customer_country }}</b></p>
                                                                     {{-- <p>Gender: <b>{{ $reservation->patient->gender }}</b></p> --}}

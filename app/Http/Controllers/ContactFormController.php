@@ -7,6 +7,8 @@ use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Facades\DataTables;
 class ContactFormController extends Controller
 {
     public function __construct()
@@ -14,12 +16,64 @@ class ContactFormController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Builder $builder)
     {
         try {
-            $contact_forms = ContactForm::orderBy('created_at', 'desc')->get();
-            $data = array('contact_forms' => $contact_forms);
-            return view('admin.contactforms.contactforms_list')->with($data);
+            if (request()->ajax()) {
+                $data = ContactForm::with('formStatus')->orderBy('created_at', 'desc')->get();
+                return DataTables::of($data)
+                    ->editColumn('action', function ($item) {
+                        if($item->status == 1){
+                            return '<div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        
+                                    </li>
+                                </ul>
+                            </div>';
+                        }
+                        else {
+                            return '<div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a data-toggle="modal" data-target="#statusModal" class="btn btn-success text-white edit-btn booking-status-btn" data-id="'.$item->id.'"><i class="fa fa-check"></i> Durum</a>
+                                    </li>
+                                </ul>
+                            </div>';
+                        }
+                    })
+                    ->editColumn('id', function ($item) {
+                        $action = date('ymd', strtotime($item->created_at)) . $item->id;
+                        return $action;
+                    })
+                    ->editColumn('status', function ($item) {
+                        return '<span class="badge text-white" style="background-color: '. $item->formStatus->status_color .'">'. $item->formStatus->status_name .'</span>';
+                    })
+                    ->editColumn('created_at', function ($item) {
+                        $action = now()->diffInMinutes($item->created_at) . ' Dakika';
+                        return $action;
+                    })
+                    ->rawColumns(['action', 'id', 'status', 'created_at'])
+
+                    ->toJson();
+                };
+                $columns = [
+                    ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'id', 'name' => 'id', 'title' => 'id'],
+                    ['data' => 'status', 'name' => 'status', 'title' => 'Durum'],
+                    ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],
+                    ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon Numarası'],
+                    ['data' => 'country', 'name' => 'country', 'title' => 'Ülkesi'],
+                    ['data' => 'email', 'name' => 'email', 'title' => 'Email'],
+                    ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Sisteme Kayıt'],
+                ];
+                $html = $builder->columns($columns)->parameters([
+                    "pageLength" => 50
+                ]);
+
+            return view('admin.contactforms.contactforms_list', compact('html'));
         }
         catch (\Throwable $th) {
             throw $th;
@@ -67,7 +121,7 @@ class ContactFormController extends Controller
             $temp['country'] = $request->input('country');
             $temp['email'] = $request->input('email');
 
-            if ($updateSelectedData = ContactForm::where('id', '=', $id)->update($temp)) {
+            if (ContactForm::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Güncellendi!');
             }
             else {
@@ -84,7 +138,7 @@ class ContactFormController extends Controller
         try {
             $temp['status'] = $request->input('status');
 
-            if ($updateSelectedData = ContactForm::where('id', '=', $id)->update($temp)) {
+            if (ContactForm::where('id', '=', $id)->update($temp)) {
                 return response(200);
             }
             else {

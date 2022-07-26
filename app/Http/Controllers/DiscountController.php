@@ -83,7 +83,7 @@ class DiscountController extends Controller
             $temp['discount_percentage'] = $request->input('discountPercentage');
             $temp['note'] = $request->input('discountNote');
 
-            if ($updateSelectedData = Discount::where('id', '=', $id)->update($temp)) {
+            if (Discount::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/discounts')->with('message', 'Discount Updated Successfully!');
             }
             else {

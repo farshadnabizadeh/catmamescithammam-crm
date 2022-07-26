@@ -7,21 +7,21 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 table-responsive">
-            <nav aria-label="breadcrumb" class="mt-3">
+             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Rezervasyon Kaynakları</li>
+                    <li class="breadcrumb-item active" aria-current="page">Form Durumları</li>
                 </ol>
             </nav>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h2>Rezervasyon Kaynakları</h2>
+                            <h2>Form Durumları</h2>
                         </div>
                         <div class="col-lg-6">
-                            @can('create sources')
-                            <button data-toggle="modal" data-target="#sourceModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon Kaynağı Ekle</button>
+                            @can('create form statuses')
+                            <button data-toggle="modal" data-target="#statusModal" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Form Durumu</button>
                             @endcan
                         </div>
                     </div>
@@ -30,28 +30,28 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
-                                <th scope="col">Kaynak Adı</th>
-                                <th scope="col">Kaynak Rengi</th>
+                                <th scope="col">İşlemler</th>
+                                <th scope="col">Form Durum Adı</th>
+                                <th scope="col">Form Durum Rengi</th>
                             </tr>
                         </thead>
-                        @foreach ($sources as $source)
+                        @foreach ($form_statuses as $form_status)
                         <tr>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        @can('edit sources')
-                                        <li><a href="{{ url('/definitions/sources/edit/'.$source->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        @can('edit form statuses')
+                                        <li><a href="{{ url('/definitions/formstatuses/edit/'.$form_status->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
-                                        @can('delete sources')
-                                        <li><a href="{{ url('/definitions/sources/destroy/'.$source->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                        @can('delete form statuses')
+                                        <li><a href="{{ url('/definitions/formstatuses/destroy/'.$form_status->id) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $source->source_name }}</td>
-                            <td style="background-color: {{ $source->source_color }}"></td>
+                            <td>{{ $form_status->status_name }}</td>
+                            <td style="background-color: {{ $form_status->status_color }}"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -61,29 +61,29 @@
     </div>
 </div>
 
-<div class="modal fade" id="sourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Yeni Rezervasyon Kaynağı Ekle</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Form Durumu Ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/sources/store') }}" method="POST">
+                <form action="{{ url('/definitions/formstatuses/store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceName">Kaynak Adı</label>
-                                <input type="text" class="form-control" id="sourceName" name="sourceName" placeholder="Kaynak Adı" required>
+                                <label for="statusName">Durum Adı</label>
+                                <input type="text" class="form-control" id="statusName" name="statusName" placeholder="Durum Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceColor">Kaynak Rengi</label>
-                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="sourceColor" placeholder="Kaynak Rengi">
+                                <label for="sourceColor">Durum Rengi</label>
+                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="statusColor" placeholder="Durum Rengi">
                             </div>
                         </div>
                     </div>
@@ -96,5 +96,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection

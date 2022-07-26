@@ -32,7 +32,7 @@
                             <tr>
                                 <th scope="col">İşlemler</th>
                                 <th scope="col">İndirim Adı</th>
-                                <th scope="col">İndirim Code</th>
+                                <th scope="col">İndirim Kodu</th>
                                 <th scope="col">İndirim Yüzdesi</th>
                                 <th scope="col">Not</th>
                             </tr>

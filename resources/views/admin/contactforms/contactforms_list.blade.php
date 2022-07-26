@@ -22,39 +22,7 @@
                     </div>
                 </div>
                 <div class="dt-responsive table-responsive">
-                    <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">İşlem</th>
-                                <th scope="col">Durum</th>
-                                <th scope="col">Adı Soyadı</th>
-                                <th scope="col">Numarası</th>
-                                <th scope="col">Ülkesi</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Dakika</th>
-                            </tr>
-                        </thead>
-                        @foreach ($contact_forms as $contact_form)
-                        <tr>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-toggle="modal" data-target="#statusModal" class="btn btn-success text-white edit-btn contact-status-btn" data-id="{{ $contact_form->id }}"><i class="fa fa-check"></i> Durum</a></li>
-                                        <li><a href="{{ url('/definitions/contactforms/edit/'.$contact_form->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                        <li><a href="{{ url('/definitions/contactforms/destroy/'.$contact_form->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td class="text-white" style="@if($contact_form->status == 1) background-color: #45c305; @else background-color: red; @endif">@if($contact_form->status == 1) İletişime Geçildi @else İletişime Geçilmedi @endif</td>
-                            <td>{{ $contact_form->name_surname }}</td>
-                            <td>{{ $contact_form->phone }}</td>
-                            <td>{{ $contact_form->country }}</td>
-                            <td>{{ $contact_form->email }}</td>
-                            <td>{{ now()->diffInMinutes($contact_form->created_at) }}</td>
-                        </tr>
-                        @endforeach
-                    </table>
+                    {!! $html->table() !!}
                 </div>
             </div>
         </div>
@@ -385,5 +353,9 @@
         </div>
     </div>
 </div>
+
+@endsection
+@section('footer')
+{!! $html->scripts() !!}
 
 @endsection

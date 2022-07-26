@@ -29,7 +29,6 @@
                     <thead class="thead-light">
                         <tr>
                         <th scope="col">İşlemler</th>
-                        <th scope="col">Role ID</th>
                         <th scope="col">Rol Adı</th>
                         </tr>
                     </thead>
@@ -45,8 +44,7 @@
                                 </ul>
                             </div>
                         </td>
-                        <td>{{ $role->id}}</td>
-                        <td>{{ $role->name}}</td>
+                        <td>{{ $role->name }}</td>
                     </tr>
                     @endforeach
                </table>
@@ -56,57 +54,5 @@
     </div>
 </div>
 
-{{--
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Request Treatment</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="{{ url('/definitions/requestTreatments/store') }}" method="POST">
-                {{ csrf_field() }}
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="patient">Patient</label>
-                            <select class="form-control" id="patients" name="patientId" required>
-                                <option></option>
-                                @foreach ($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->name_surname }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="treatmentId">Treatment</label>
-                            <select class="form-control" id="treatmentId" name="treatmentId" required>
-                                <option></option>
-                                @foreach ($treatments as $treatment)
-                                <option value="{{ $treatment->id }}">{{ $treatment->treatment_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="note">Note</label>
-                            <textarea class="form-control" id="note" name="note" placeholder="Note"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
-        </div>
-      </div>
-    </div>
-</div> --}}
 
 @endsection

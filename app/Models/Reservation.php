@@ -27,7 +27,7 @@ class Reservation extends Model
         return $this->belongsTo(PaymentType::class, 'payment_type_id');
     }
 
-    public function sob()
+    public function source()
     {
         return $this->belongsTo(Source::class, 'source_id');
     }

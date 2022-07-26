@@ -123,6 +123,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/sources/destroy/{id}', 'SourceController@destroy')->middleware(['middleware' => 'permission:delete sources']);
     //Sources end
 
+    //Form Statuses
+    Route::GET('definitions/formstatuses', 'FormStatusesController@index')->middleware(['middleware' => 'permission:show form statuses']);
+    Route::POST('definitions/formstatuses/store', 'FormStatusesController@store')->middleware(['middleware' => 'permission:create form statuses']);
+    Route::GET('definitions/formstatuses/edit/{id}', 'FormStatusesController@edit')->middleware(['middleware' => 'permission:edit form statuses']);
+    Route::POST('definitions/formstatuses/update/{id}', 'FormStatusesController@update')->middleware(['middleware' => 'permission:edit form statuses']);
+    Route::GET('definitions/formstatuses/destroy/{id}', 'FormStatusesController@destroy')->middleware(['middleware' => 'permission:delete form statuses']);
+    //Form Statuses end
+
     //Services
     Route::GET('definitions/services', 'ServiceController@index')->middleware(['middleware' => 'permission:show services']);
     Route::POST('definitions/services/store', 'ServiceController@store')->middleware(['middleware' => 'permission:create services']);

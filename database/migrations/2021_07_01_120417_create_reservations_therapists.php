@@ -27,8 +27,8 @@ class CreateReservationsTherapists extends Migration
                 ->onDelete('cascade');
             $table->string('piece')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'))->nullable();
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

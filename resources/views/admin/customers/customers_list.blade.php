@@ -27,40 +27,7 @@
                     </div>
                 </div>
                 <div class="dt-responsive table-responsive">
-                    <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Operation</th>
-                                <th scope="col">Müşteri Adı</th>
-                                <th scope="col">Müşteri Soyadı</th>
-                                <th scope="col">Telefon Numarası</th>
-                                <th scope="col">Ülkesi</th>
-                                <th scope="col">Email Adresi</th>
-                            </tr>
-                        </thead>
-                        @foreach ($customers as $customer)
-                        <tr>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        @can('edit customers')
-                                        <li><a href="{{ url('/definitions/customers/edit/'.$customer->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                        @endcan
-                                        @can('delete customers')
-                                        <li><a href="{{ url('/definitions/customers/destroy/'.$customer->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                                        @endcan
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>{{ $customer->customer_name }}</td>
-                            <td>{{ $customer->customer_surname }}</td>
-                            <td>{{ $customer->customer_phone }}</td>
-                            <td>{{ $customer->customer_country }}</td>
-                            <td>{{ $customer->customer_email }}</td>
-                        </tr>
-                        @endforeach
-                    </table>
+                    {!! $html->table() !!}
                 </div>
             </div>
         </div>
@@ -82,24 +49,18 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="customerName">Müşteri Adı</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" required>
+                                <label for="customerName">Müşteri Adı Soyadı</label>
+                                <input type="text" class="form-control" id="customerName" name="customerNameSurname" placeholder="Müşteri Adı Soyadı" required>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="customerSurname">Müşteri Soyadı</label>
-                                <input type="text" class="form-control" id="customerSurname" name="customerSurname" placeholder="Müşteri Soyadı">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="phone_get">Müşteri Telefon Numarası</label>
                                 <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası">
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerCountry">Ülkesi</label>
@@ -354,8 +315,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerEmail">Email Adresi</label>
@@ -372,5 +331,9 @@
         </div>
     </div>
 </div>
+
+@endsection
+@section('footer')
+{!! $html->scripts() !!}
 
 @endsection

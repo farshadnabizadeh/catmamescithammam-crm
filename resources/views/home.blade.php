@@ -101,10 +101,10 @@
                 <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="mb-0">Son Girilen 5 Müşteri</h3>
+                        <h3 class="mb-0">Son Girilen 5 Rezervasyon</h3>
                     </div>
                     <div class="col text-right">
-                        <a href="{{ url('/definitions/customers') }}" class="btn btn-sm btn-danger">Tümünü Gör</a>
+                        <a href="{{ url('/definitions/reservations') }}" class="btn btn-sm btn-danger">Tümünü Gör</a>
                     </div>
                 </div>
                 </div>
@@ -112,17 +112,15 @@
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Phone Number</th>
-                            <th scope="col">Country</th>
+                            <th scope="col">Rezervasyon Tarihi</th>
+                            <th scope="col">Rezervasyon Saati</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($lastCustomers as $lastCustomer)
+                        @foreach ($lastReservations as $lastReservation)
                         <tr>
-                            <td>{{ $lastCustomer->customer_name }}</td>
-                            <td>{{ $lastCustomer->customer_phone }}</td>
-                            <td>{{ $lastCustomer->customer_country }}</td>
+                            <td>{{ $lastReservation->reservation_date }}</td>
+                            <td>{{ $lastReservation->reservation_time }}</td>
                         </tr>
                         @endforeach
                     </tbody>
