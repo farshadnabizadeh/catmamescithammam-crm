@@ -45,7 +45,6 @@
     <script type="text/javascript" src="{{ asset('assets/js/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery-scrollLock.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/Chart.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/glightbox.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/Chart.extension.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/fullcalendar-5.11.0.js') }}"></script>

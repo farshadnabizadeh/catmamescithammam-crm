@@ -19,8 +19,7 @@ class HotelController extends Controller
     {
         try {
             $hotels = Hotel::orderBy('hotel_name', 'asc')->get();
-            $sources = Source::orderBy('source_name', 'asc')->get();
-            $data = array('hotels' => $hotels, 'sources' => $sources);
+            $data = array('hotels' => $hotels);
             return view('admin.hotels.hotels_list')->with($data);
         }
         catch (\Throwable $th) {

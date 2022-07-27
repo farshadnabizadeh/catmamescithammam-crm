@@ -43,9 +43,17 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <input type="hidden" id="contact_form_id" value="">
-                            <p>Müşteri ile iletişime geçildi mi?</p>
-                            <button class="btn btn-success" id="contactBtn">İletişime Geçildi</button>
+                            <label for="formStatus">Form Durumu</label>
+                            <select name="formStatusId" id="formStatusId">
+                                <option></option>
+                                @foreach ($form_statuses as $form_status)
+                                    <option value="{{ $form_status->id }}">{{ $form_status->status_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <button class="btn btn-success float-right" id="contactBtn">Güncelle</button>
                     </div>
                 </div>
             </div>

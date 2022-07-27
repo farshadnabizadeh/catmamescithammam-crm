@@ -212,6 +212,22 @@ var app = (function() {
         },
     });
 
+    $(document).ready(function(){
+        $(".booking-status-btn").on("click", function(){
+            var dataId = this.id;
+            console.log(dataId);
+            $("#booking_form_id").val(dataId);
+        });
+
+        $(".contact-status-btn").on("click", function () {
+            var dataId = $(this).attr("data-id");
+            $("#contact_form_id").val(dataId);
+        });
+    });
+
+    $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
+    $("#tableData").dataTable({ paging: true, pageLength: 25 });
+
     $('.navbar-nav li a').on('click', function () {
         $(this).parent().toggleClass('active');
     });
@@ -252,22 +268,6 @@ var Layout = (function() {
             }
         });
     }
-
-    $(document).ready(function() {
-
-        $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
-        $("#tableData").dataTable({ paging: true, pageLength: 25 });
-
-        $(".booking-status-btn").on("click", function(){
-            var dataId = $(this).attr("data-id");
-            $("#booking_form_id").val(dataId);
-        });
-
-        $(".contact-status-btn").on("click", function () {
-            var dataId = $(this).attr("data-id");
-            $("#contact_form_id").val(dataId);
-        });
-    });
 
     if ($(window).width() < 1200) {
         $('body').removeClass('g-sidenav-hide').addClass('g-sidenav-hidden');
@@ -453,8 +453,8 @@ function bookingFormStatusBtn() {
     try {
         $("#bookingBtn").on("click", function () {
             var bookingFormId = $("#booking_form_id").val();
-            var status = "1";
-            changeBookingFormStatus(bookingFormId, status);
+            var formStatusId = $("#formStatusId").children("option:selected").val();
+            changeBookingFormStatus(bookingFormId, formStatusId);
         });
     }
     catch (error) {
@@ -462,7 +462,7 @@ function bookingFormStatusBtn() {
     }
 }
 
-function changeBookingFormStatus(bookingFormId, status) {
+function changeBookingFormStatus(bookingFormId, formStatusId) {
     try {
         $.ajaxSetup({
             headers: {
@@ -473,7 +473,7 @@ function changeBookingFormStatus(bookingFormId, status) {
             url: '/definitions/bookings/change/' + bookingFormId + '',
             type: 'POST',
             data: {
-                'status': status
+                'formStatusId': formStatusId
             },
             async: false,
             dataType: 'json',
@@ -495,8 +495,8 @@ function contactFormStatusBtn(){
     try {
         $("#contactBtn").on("click", function () {
             var contactFormId = $("#contact_form_id").val();
-            var status = "1";
-            changeContactFormStatus(contactFormId, status);
+            var formStatusId = $("#formStatusId").children("option:selected").val();
+            changeContactFormStatus(contactFormId, formStatusId);
         }); 
     }
     catch (error) {
@@ -504,7 +504,7 @@ function contactFormStatusBtn(){
     }
 }
 
-function changeContactFormStatus(contactFormId, status) {
+function changeContactFormStatus(contactFormId, formStatusId) {
     try {
         $.ajaxSetup({
             headers: {
@@ -515,7 +515,7 @@ function changeContactFormStatus(contactFormId, status) {
             url: '/definitions/contactforms/change/' + contactFormId + '',
             type: 'POST',
             data: {
-                'status': status
+                'formStatusId': formStatusId
             },
             async: false,
             dataType: 'json',

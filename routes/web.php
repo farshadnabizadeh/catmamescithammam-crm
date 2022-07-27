@@ -54,7 +54,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Booking Forms
     Route::GET('definitions/bookings', 'BookingFormController@index')->middleware(['middleware' => 'permission:show bookingform']);
-    Route::POST('definitions/bookings/store', 'BookingFormController@store')->middleware(['middleware' => 'permission:create bookingform']);
     Route::POST('definitions/bookings/change/{id}', 'BookingFormController@changeStatus')->middleware(['middleware' => 'permission:edit bookingform']);
     Route::GET('definitions/bookings/edit/{id}', 'BookingFormController@edit')->middleware(['middleware' => 'permission:edit bookingform']);
     Route::POST('definitions/bookings/update/{id}', 'BookingFormController@update')->middleware(['middleware' => 'permission:edit bookingform']);
@@ -63,7 +62,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Contact Forms
     Route::GET('definitions/contactforms', 'ContactFormController@index')->middleware(['middleware' => 'permission:show contactform']);
-    Route::POST('definitions/contactforms/store', 'ContactFormController@store')->middleware(['middleware' => 'permission:create contactform']);
     Route::POST('definitions/contactforms/change/{id}', 'ContactFormController@changeStatus')->middleware(['middleware' => 'permission:edit contactform']);
     Route::GET('definitions/contactforms/edit/{id}', 'ContactFormController@edit')->middleware(['middleware' => 'permission:edit contactform']);
     Route::POST('definitions/contactforms/update/{id}', 'ContactFormController@update')->middleware(['middleware' => 'permission:edit contactform']);

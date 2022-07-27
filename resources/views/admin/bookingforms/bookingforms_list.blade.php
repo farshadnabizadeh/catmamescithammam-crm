@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            <input type="hidden" id="booking_form_id" value="">
+                            <input type="hidden" id="booking_form_id">
                             <label for="formStatus">Form Durumu</label>
                             <select name="formStatusId" id="formStatusId">
                                 <option></option>

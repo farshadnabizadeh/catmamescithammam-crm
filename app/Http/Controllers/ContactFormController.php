@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactForm;
+use App\Models\FormStatuses;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Builder;
@@ -19,50 +21,43 @@ class ContactFormController extends Controller
     public function index(Builder $builder)
     {
         try {
+            $form_statuses = FormStatuses::all();
+
+            $data = array('form_statuses' => $form_statuses);
             if (request()->ajax()) {
-                $data = ContactForm::with('formStatus')->orderBy('created_at', 'desc')->get();
+                $data = ContactForm::with('status')->orderBy('created_at', 'desc')->get();
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
-                        if($item->status == 1){
                             return '<div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        
+                                    <a href="'.url()->current().'/edit/'.$item->id.'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
                                     </li>
                                 </ul>
                             </div>';
-                        }
-                        else {
-                            return '<div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a data-toggle="modal" data-target="#statusModal" class="btn btn-success text-white edit-btn booking-status-btn" data-id="'.$item->id.'"><i class="fa fa-check"></i> Durum</a>
-                                    </li>
-                                </ul>
-                            </div>';
-                        }
                     })
                     ->editColumn('id', function ($item) {
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
                         return $action;
                     })
-                    ->editColumn('status', function ($item) {
-                        return '<span class="badge text-white" style="background-color: '. $item->formStatus->status_color .'">'. $item->formStatus->status_name .'</span>';
+                    ->editColumn('status.status_name', function ($item) {
+                        if($item->form_status_id != NULL){
+                            return '<span class="badge text-white" style="background-color: '.$item->status->status_color.'">'.$item->status->status_name.'</span>';
+                        }
                     })
                     ->editColumn('created_at', function ($item) {
                         $action = now()->diffInMinutes($item->created_at) . ' Dakika';
                         return $action;
                     })
-                    ->rawColumns(['action', 'id', 'status', 'created_at'])
+                    ->rawColumns(['action', 'id', 'status.status_name', 'created_at'])
 
                     ->toJson();
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
                     ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-                    ['data' => 'status', 'name' => 'status', 'title' => 'Durum'],
+                    ['data' => 'status.status_name', 'name' => 'status.status_name', 'title' => 'Durum'],
                     ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],
                     ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon Numarası'],
                     ['data' => 'country', 'name' => 'country', 'title' => 'Ülkesi'],
@@ -73,29 +68,7 @@ class ContactFormController extends Controller
                     "pageLength" => 50
                 ]);
 
-            return view('admin.contactforms.contactforms_list', compact('html'));
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function store(Request $request)
-    {
-        try {
-            $newData = new ContactForm();
-            $newData->name_surname = $request->input('name_surname');
-            $newData->phone = $request->input('phone');
-            $newData->country = $request->input('country');
-            $newData->email = $request->input('email');
-            $result = $newData->save();
-
-            if ($result) {
-                return response($newData->id, 200);
-            }
-            else {
-                return response(false, 500);
-            }
+            return view('admin.contactforms.contactforms_list', compact('html'))->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -106,7 +79,9 @@ class ContactFormController extends Controller
     {
         try {
             $contact_form = ContactForm::where('id','=',$id)->first();
-            return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form]);
+            $form_statuses = FormStatuses::all();
+
+            return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form, 'form_statuses' => $form_statuses]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -136,10 +111,11 @@ class ContactFormController extends Controller
     public function changeStatus(Request $request, $id)
     {
         try {
-            $temp['status'] = $request->input('status');
+            $temp['form_status_id'] = $request->input('formStatusId');
+            $temp['answered_time'] = Carbon::now()->toDateTimeString();
 
             if (ContactForm::where('id', '=', $id)->update($temp)) {
-                return response(200);
+                return redirect('/definitions/contactforms')->with('message', 'Form Durumu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());

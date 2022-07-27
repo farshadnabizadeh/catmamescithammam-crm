@@ -12,7 +12,7 @@ class ContactForm extends Model
     use SoftDeletes;
     protected $table = 'contact_forms';
 
-    public function formStatus()
+    public function status()
     {
         return $this->belongsTo(FormStatuses::class, 'form_status_id');
     }

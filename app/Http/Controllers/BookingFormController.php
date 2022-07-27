@@ -6,6 +6,7 @@ use App\Models\BookingForm;
 use App\Models\FormStatuses;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Builder;
@@ -24,38 +25,27 @@ class BookingFormController extends Controller
 
             $data = array('form_statuses' => $form_statuses);
             if (request()->ajax()) {
-                $data = BookingForm::orderBy('created_at', 'desc')->get();
+                $data = BookingForm::with('status')->orderBy('created_at', 'desc')->get();
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
-                        if($item->status == 1){
-                            return '<div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li></li>
-                                </ul>
-                            </div>';
-                        }
-                        else {
-                            return '<div class="dropdown">
+                        return '
+                        <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a data-toggle="modal" data-target="#statusModal" class="btn btn-success text-white edit-btn booking-status-btn" data-id="'.$item->id.'"><i class="fa fa-check"></i> Durum</a>
+                                        <a href="'.url()->current().'/edit/'.$item->id.'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
                                     </li>
                                 </ul>
-                            </div>';
-                        }
+                            </div>
+                        ';
                     })
                     ->editColumn('id', function ($item) {
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
                         return $action;
                     })
-                    ->editColumn('status', function ($item) {
-                        if($item->status == 1){
-                            return '<span class="badge badge-success">İletişime Geçildi</span>';
-                        }
-                        else {
-                            return '<span class="badge badge-danger">İletişime Geçilmedi</span>';
+                    ->editColumn('status.status_name', function ($item) {
+                        if($item->form_status_id != NULL){
+                            return '<span class="badge text-white" style="background-color: '.$item->status->status_color.'">'.$item->status->status_name.'</span>';
                         }
                     })
                     ->editColumn('reservation_date', function ($item) {
@@ -66,14 +56,14 @@ class BookingFormController extends Controller
                         $action = now()->diffInMinutes($item->created_at);
                         return $action;
                     })
-                    ->rawColumns(['action', 'id', 'status', 'reservation_date', 'created_at'])
+                    ->rawColumns(['action', 'id', 'status.status_name', 'reservation_date', 'created_at'])
 
                     ->toJson();
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
                     ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-                    ['data' => 'status', 'name' => 'status', 'title' => 'Durum'],
+                    ['data' => 'status.status_name', 'name' => 'status.status_name', 'title' => 'Durum'],
                     ['data' => 'reservation_date', 'name' => 'reservation_date', 'title' => 'Rezervasyon Tarihi'],
                     ['data' => 'reservation_time', 'name' => 'reservation_time', 'title' => 'Rezervasyon Saati'],
                     ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],
@@ -96,38 +86,12 @@ class BookingFormController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
-        try {
-            $newData = new BookingForm();
-            $newData->reservation_date = $request->input('reservation_date');
-            $newData->reservation_time = $request->input('reservation_time');
-            $newData->name_surname = $request->input('name_surname');
-            $newData->phone = $request->input('phone');
-            $newData->country = $request->input('country');
-            $newData->massage_package = $request->input('massage_package');
-            $newData->hammam_package = $request->input('hammam_package');
-            $newData->male_pax = $request->input('male_pax');
-            $newData->female_pax = $request->input('female_pax');
-            $result = $newData->save();
-
-            if ($result) {
-                return response($newData->id, 200);
-            }
-            else {
-                return response(false, 500);
-            }
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
     public function edit($id)
     {
         try {
-            $contact_form = BookingForm::where('id','=',$id)->first();
-            return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form]);
+            $booking_form = BookingForm::where('id','=',$id)->first();
+            $form_statuses = FormStatuses::all();
+            return view('admin.bookingforms.edit_booking', ['booking_form' => $booking_form, 'form_statuses' => $form_statuses]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -143,7 +107,7 @@ class BookingFormController extends Controller
             $temp['email'] = $request->input('email');
 
             if (BookingForm::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Güncellendi!');
+                return redirect('/definitions/contactforms')->with('message', 'Rezervasyon Formu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -157,10 +121,11 @@ class BookingFormController extends Controller
     public function changeStatus(Request $request, $id)
     {
         try {
-            $temp['status'] = $request->input('status');
+            $temp['form_status_id'] = $request->input('formStatusId');
+            $temp['answered_time'] = Carbon::now()->toDateTimeString();
 
             if (BookingForm::where('id', '=', $id)->update($temp)) {
-                return response(200);
+                return redirect('definitions/bookings')->with('message', 'Form Durumu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -174,7 +139,7 @@ class BookingFormController extends Controller
     public function destroy($id){
         try {
             ContactForm::find($id)->delete();
-            return redirect('definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Silindi!');
+            return redirect('definitions/contactforms')->with('message', 'Rezervasyon Formu Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

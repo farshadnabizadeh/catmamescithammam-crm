@@ -10,4 +10,9 @@ class BookingForm extends Model
 {
     use SoftDeletes;
     protected $table = 'booking_forms';
+
+    public function status()
+    {
+        return $this->belongsTo(FormStatuses::class, 'form_status_id');
+    }
 }
