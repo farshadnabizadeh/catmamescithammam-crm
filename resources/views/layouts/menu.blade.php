@@ -134,6 +134,11 @@
                                     <span>Ciro Raporu</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="{{ request()->is('definitions/reports/comissions*') ? 'active' : '' }}" href="{{ url('definitions/reports/comissions?set=total'); }}">
+                                    <span>Komisyon Raporu</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item {{ request()->is('definitions/reservations/create*') || request()->is('definitions/reservations') ? 'active' : '' }}">

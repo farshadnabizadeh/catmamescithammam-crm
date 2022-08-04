@@ -80,7 +80,7 @@
 
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     headerToolbar: {
-                        left: 'prev,next today',
+                        left: 'prev, next today',
                         center: 'title',
                         right: 'dayGridMonth, timeGridWeek, timeGridDay, listMonth'
                     },
@@ -95,7 +95,7 @@
                         @foreach($listCountByMonth as $reservation)
                         {
                             title: '{{ $reservation->countR }} {{ $reservation->source_name }}',
-                            start: '{{ $reservation->date }}',
+                            start: '{{ $reservation->date }}T{{ $reservation->time }}',
                             description: '{{ $reservation->countR }} {{ $reservation->source_name }}',
                             end: '{{ $reservation->date }}',
                             color: '{{ $reservation->source_color }}',
@@ -104,6 +104,7 @@
                         },
                         @endforeach
                     ],
+                    timeFormat: 'H(:mm)'
                 });
                 calendar.render();
             });

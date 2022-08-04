@@ -150,4 +150,54 @@ class ReportController extends Controller
             throw $th;
         }
     }
+
+    public function comissionReport(Request $request)
+    {
+        try {
+
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
+
+            //
+            $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+                
+            $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
+                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->sum("payment_price");
+
+            $totalData = array('cashTl' => $cashTl, 'cashEur' => $cashEur, 'cashUsd' => $cashUsd, 'cashPound' => $cashPound, 'ykbTl' => $ykbTl, 'ziraatTl' => $ziraatTl, 'ziraatEuro' => $ziraatEuro, 'ziraatDolar' => $ziraatDolar, 'start' => $start, 'end' => $end);
+
+            return view('admin.reports.payment_report')->with($totalData);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+}
 }
