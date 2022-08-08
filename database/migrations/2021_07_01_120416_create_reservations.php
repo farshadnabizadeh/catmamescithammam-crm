@@ -22,9 +22,6 @@ class CreateReservations extends Migration
             $table->foreign('customer_id')->references('id')
                 ->on('customers')
                 ->onDelete('cascade');
-            $table->string('service_currency')->nullable();
-            $table->string('service_cost')->nullable();
-            $table->string('service_commission')->nullable();
             $table->integer('discount_id')->unsigned()->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')
                 ->onDelete('cascade');
@@ -32,6 +29,11 @@ class CreateReservations extends Migration
             $table->foreign('source_id')->references('id')
                 ->on('sources')
                 ->onDelete('cascade');
+            $table->integer('hotel_id')->unsigned()->nullable();
+            $table->foreign('hotel_id')->references('id')
+                ->on('hotels')
+                ->onDelete('cascade');
+            $table->string('hotel_commission')->nullable();
             $table->longText('reservation_note')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();

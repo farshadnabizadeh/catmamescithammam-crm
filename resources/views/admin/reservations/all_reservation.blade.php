@@ -25,13 +25,12 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="dataTable">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
-                                <th scope="col">ID</th>
+                                <th scope="col">İşlem</th>
                                 <th scope="col">Rezervasyon Tarihi</th>
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
-                                <th scope="col">Toplam Müşteri</th>
-                                <th scope="col">Hizmet Bedeli</th>
+                                <th scope="col">Kaynak</th>
+                                <th scope="col">Kişi Sayısı</th>
                             </tr>
                         </thead>
                         @foreach ($listAllByDates as $listAllByDate)
@@ -46,12 +45,11 @@
                                         </ul>
                                     </div>
                                 </td>
-                                <td>{{ date('ymd', strtotime($listAllByDate->date)) }}{{ $listAllByDate->customer_id }}{{ $listAllByDate->id }}</td>
-                                <td> {{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
                                 <td>{{ $listAllByDate->reservation_time }}</td>
                                 <td><a href="{{ url('/definitions/customers/edit/'.$listAllByDate->customer_id) }}">{{ $listAllByDate->Cname }}</a></td>
+                                <td class="text-white" style="background-color: {{ $listAllByDate->source_color }}">{{ $listAllByDate->source_name }}</td>
                                 <td>{{ $listAllByDate->total_customer }}</td>
-                                <td>{{ $listAllByDate->service_cost }} {{ $listAllByDate->service_currency }}</td>
                             </tr>
                         @endforeach
                     </table>

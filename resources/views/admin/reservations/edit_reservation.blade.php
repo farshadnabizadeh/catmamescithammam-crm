@@ -11,59 +11,111 @@
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <nav class="nav nav-borders">
-                        <a class="nav-link active ms-0" href="{{ url('') }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
-                        <a class="nav-link" href="{{ url('') }}"><i class="fa fa-money"></i> Ödeme Bilgileri</a>
-                        <a class="nav-link disabled" href="{{ url('') }}" aria-disabled="true">Doctor's Recommendations</a>
+                        <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
+                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri</a>
                     </nav>
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ url('/definitions/reservations/update/'.$reservation->id) }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="arrivalDate">Rezervasyon Tarihi</label>
-                                        <input type="text" class="form-control datepicker" id="arrivalDate" name="arrivalDate" placeholder="Rezervasyon Tarihi" value="{{ $reservation->reservation_date }}" required>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <form action="{{ url('/definitions/reservations/update/'.$reservation->id) }}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="arrivalDate">Rezervasyon Tarihi</label>
+                                                <input type="text" class="form-control datepicker" id="editArrivalDate" name="reservationDate" placeholder="Rezervasyon Tarihi" value="{{ $reservation->reservation_date }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="reservationTime">Rezervasyon Saati</label>
+                                                <input type="text" class="form-control" id="arrivalTime" name="reservationTime" placeholder="Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" value="{{ $reservation->reservation_time }}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="reservationTime">Rezervasyon Saati</label>
-                                        <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" placeholder="Rezervasyon Saati" maxlength="5" onkeypress="timeFormat(this)" value="{{ $reservation->reservation_time }}">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="totalCustomer">Toplam Müşteri</label>
+                                                <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" value="{{ $reservation->total_customer }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="sobId">Rezervasyon Kaynağı</label>
+                                                <select id="sobId" name="sourceId" class="form-control">
+                                                    <option value="{{ $reservation->source_id }}" selected>{{ $reservation->source->source_name }}</option>
+                                                    @foreach ($sources as $source)
+                                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="note">Rezervasyon Notu</label>
+                                                <textarea class="form-control" name="note" id="note" placeholder="Rezervasyon Notu">{{ $reservation->reservation_note }}</textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                    <button type="submit" class="btn btn-success mt-5 float-right update-page-btn">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
+                                </form>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="totalCustomer">Toplam Müşteri</label>
-                                        <input type="number" class="form-control" id="totalCustomer" name="totalCustomer" placeholder="Toplam Müşteri" value="{{ $reservation->total_customer }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="serviceCurrency">Para Birimi</label>
-                                        <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
-                                            <option value="{{ $reservation->service_currency }}" @selected(true)>{{ $reservation->service_currency }}</option>
-                                            <option value="EUR">EURO</option>
-                                            <option value="USD">USD</option>
-                                            <option value="GBP">GBP</option>
-                                            <option value="TL">TL</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h3 class="d-flex align-items-center mb-3">Hizmetler</h3>
+                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addServiceModal"><i class="fa fa-plus"></i> Hizmet Ekle</button>
+                                <table class="table table-striped table-bordered nowrap dataTable" id="tableServices">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Bakım</th>
+                                            <th scope="col">Adeti</th>
+                                            <th scope="col">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($reservation->subServices as $subService)
+                                        <tr>
+                                            <td>{{ $subService->service_name }}</td>
+                                            <td>{{ $subService->piece }}</td>
+                                            <td>
+                                                <a href="{{ url('/definitions/reservations/service/edit/'.$subService->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ url('/definitions/reservations/service/destroy/'.$subService->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="serviceComission">Komisyon</label>
-                                        <input type="number" class="form-control" id="serviceComission" name="serviceComission" placeholder="Komisyon" value="{{ $reservation->service_comission }}">
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h3 class="d-flex align-items-center mb-3">Terapistler</h3>
+                                <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addTherapistModal"><i class="fa fa-plus"></i> Terapist Ekle</button>
+                                <table class="table table-striped table-bordered nowrap dataTable" id="tableTherapist">
+                                    <tr>
+                                        <th>Terapist</th>
+                                        <th>Adeti</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                    <tbody>
+                                        @foreach($reservation->subTherapists as $subTherapist)
+                                        <tr>
+                                            <td>{{ $subTherapist->therapist_name }}</td>
+                                            <td>{{ $subTherapist->piece }}</td>
+                                            <td>
+                                                <a href="{{ url('/definitions/reservations/therapist/edit/'.$subTherapist->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ url('/definitions/reservations/therapist/destroy/'.$subTherapist->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <button type="submit" class="btn btn-success mt-5 float-right update-page-btn">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

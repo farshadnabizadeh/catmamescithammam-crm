@@ -13,6 +13,7 @@ use App\Models\Source;
 use App\Models\Therapist;
 use App\Models\Discount;
 use App\Models\Customer;
+use App\Models\Hotel;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class ReservationController extends Controller
     {
         try {
             if (request()->ajax()) {
-                $data = Reservation::with('customer', 'source');
+                $data = Reservation::with('customer', 'source')->orderBy('reservation_date', 'desc')->orderBy('reservation_time', 'desc');
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
                             return '<div class="dropdown">
@@ -281,13 +282,15 @@ class ReservationController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
             $reservation = Reservation::where('id','=', $id)->first();
             $services = Service::all();
             $therapists = Therapist::all();
             $payment_types = PaymentType::all();
+            $hotels = Hotel::all();
+            $sources = Source::all();
 
             $reservation_payment_type = ReservationPaymentType::where('reservations_payments_types.reservation_id', '=', $id);
             $hasPaymentType = false;
@@ -308,7 +311,17 @@ class ReservationController extends Controller
             }
             $totalPayment = array_sum($totalPrice);
 
-            return view('admin.reservations.edit_reservation', ['reservation' => $reservation, 'services' => $services, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment]);
+            $data = array('reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
+
+            $page = $request->input('page');
+
+            if($page == "payments"){
+                return view('admin.reservations.payment_reservation')->with($data);
+            }
+            else {
+                return view('admin.reservations.edit_reservation')->with($data);
+            }
+
         }
         catch (\Throwable $th) {
             throw $th;
@@ -356,12 +369,11 @@ class ReservationController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['reservation_date'] = $request->input('arrivalDate');
-            $temp['reservation_time'] = $request->input('arrivalTime');
+            $temp['reservation_date'] = $request->input('reservationDate');
+            $temp['reservation_time'] = $request->input('reservationTime');
             $temp['total_customer'] = $request->input('totalCustomer');
-            $temp['service_cost'] = $request->input('serviceCost');
-            $temp['service_currency'] = $request->input('serviceCurrency');
-            $temp['service_commission'] = $request->input('serviceComission');
+            $temp['source_id'] = $request->input('sourceId');
+            $temp['reservation_note'] = $request->input('note');
 
             if (Reservation::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/reservations/calendar')->with('message', 'Rezervasyon Başarıyla Güncellendi!');

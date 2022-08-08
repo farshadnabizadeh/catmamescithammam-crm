@@ -137,7 +137,7 @@ class ReportController extends Controller
             $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
-                
+
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
@@ -186,7 +186,7 @@ class ReportController extends Controller
             $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
-                
+
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
                 ->whereBetween('reservations_payments_types.created_at', [$start, $end])
                 ->sum("payment_price");
@@ -199,5 +199,4 @@ class ReportController extends Controller
             throw $th;
         }
     }
-}
 }

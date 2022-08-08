@@ -27,11 +27,11 @@ class HomeController extends Controller
             $hotelCount = Hotel::count();
             $serviceCount = Service::count();
             $therapistCount = Therapist::count();
+            $reservationCount = Reservation::count();
 
-            $userID = Auth::user()->id;
             $user = auth()->user();
 
-            $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount);
+            $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount, 'reservationCount' => $reservationCount);
 
             return view('home')->with($dashboard);
         }

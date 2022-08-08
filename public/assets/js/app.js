@@ -177,7 +177,7 @@ var app = (function() {
     //booking forms
     bookingFormStatusBtn();
     //booking forms end
-    
+
     //contact forms
     contactFormStatusBtn();
     //contact forms end
@@ -195,6 +195,7 @@ var app = (function() {
     $("#country").select2({ placeholder: "Ülke Seç", dropdownAutoWidth: true, allowClear: true });
     $("#sobId").select2({ placeholder: "Rezervasyon Kaynağı", dropdownAutoWidth: true, allowClear: true });
     $("#paymentType").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#hotelId").select2({ placeholder: "Otel Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -225,7 +226,8 @@ var app = (function() {
         });
     });
 
-    $("#tableCompleted").dataTable({ paging: true, pageLength: 25 });
+    $("#tableTherapist").dataTable({ paging: true, pageLength: 25 });
+    $("#tableServices").dataTable({ paging: true, pageLength: 25 });
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
 
     $('.navbar-nav li a').on('click', function () {
@@ -497,10 +499,10 @@ function contactFormStatusBtn(){
             var contactFormId = $("#contact_form_id").val();
             var formStatusId = $("#formStatusId").children("option:selected").val();
             changeContactFormStatus(contactFormId, formStatusId);
-        }); 
+        });
     }
     catch (error) {
-        console.log(error);   
+        console.log(error);
     }
 }
 
@@ -548,6 +550,17 @@ function datePicker(){
             },
             minDate: moment().add(0, 'days'),
             maxDate: moment().add(359, 'days'),
+        });
+
+        $('#editArrivalDate').daterangepicker({
+            "autoApply": true,
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": true,
+            locale: {
+                firstDay: 1,
+                format: userFormat
+            }
         });
 
         $('#startDate').daterangepicker({

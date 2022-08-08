@@ -158,7 +158,7 @@
                                     <span>Rezervasyon Listesi</span>
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </li>
                     @can('show users')
