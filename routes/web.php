@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/hotels/destroy/{id}', 'HotelController@destroy')->middleware(['middleware' => 'permission:delete hotel']);
     //Hotels end
 
-    //Payments
+    //Payments Types
     Route::GET('definitions/payment_types', 'PaymentTypeController@index')->middleware(['middleware' => 'permission:show payment type']);
     Route::POST('definitions/payment_types/store', 'PaymentTypeController@store')->middleware(['middleware' => 'permission:create payment type']);
     Route::GET('definitions/payment_types/edit/{id}', 'PaymentTypeController@edit')->middleware(['middleware' => 'permission:edit payment type']);

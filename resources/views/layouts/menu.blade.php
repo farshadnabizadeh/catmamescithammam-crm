@@ -59,7 +59,7 @@
                         </ul>
                     </li>
                     @endcan
-                    <li class="nav-item {{ request()->is('definitions/customers*') || request()->is('definitions/formstatuses*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/formstatuses*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-tasks text-primary"></i>
                             <span class="nav-link-text">Tanımlamalar</span>

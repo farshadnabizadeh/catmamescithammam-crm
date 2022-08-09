@@ -4,9 +4,10 @@
 
 @include('layouts.navbar')
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
+            <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
                     <h2>Müşteriyi Güncelle</h2>
@@ -18,7 +19,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerName">Müşteri Adı</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" value="{{ $customer->customer_name }}" required>
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" value="{{ $customer->customer_name_surname }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -38,7 +39,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerEmail">Email Adresi</label>
-                                <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi" value="{{ $customer->customer_email }}" required>
+                                <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi" value="{{ $customer->customer_email }}">
                             </div>
                         </div>
                     </div>

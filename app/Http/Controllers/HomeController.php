@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Hotel;
 use App\Models\ContactForm;
+use App\Models\BookingForm;
 use App\Models\Service;
 use App\Models\Reservation;
 use App\Models\Therapist;
@@ -21,6 +22,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
+
             $lastReservations = Reservation::latest()->take(5)->get();
 
             $customerCount = Customer::count();
@@ -28,10 +30,12 @@ class HomeController extends Controller
             $serviceCount = Service::count();
             $therapistCount = Therapist::count();
             $reservationCount = Reservation::count();
+            $contactFormCount = ContactForm::count();
+            $bookingFormCount = BookingForm::count();
 
             $user = auth()->user();
 
-            $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount, 'reservationCount' => $reservationCount);
+            $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount, 'reservationCount' => $reservationCount, 'contactFormCount' => $contactFormCount, 'bookingFormCount' => $bookingFormCount);
 
             return view('home')->with($dashboard);
         }
