@@ -7,7 +7,8 @@
 <div class="container-fluid">
    <div class="row mt-3">
       <div class="col-lg-12">
-         <div class="card">
+         <button class="btn btn-danger" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
+         <div class="card mt-3">
             <div class="card-body">
                <form action="" method="GET">
                   <div class="row pb-3">
@@ -33,7 +34,7 @@
       <div class="col-lg-12">
          <div class="card p-3">
             <div class="card-title">
-               <h2>Ciro Raporu | {{ $start }} & {{ $end }}</h2>
+               <h2>Ciro Raporu | {{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }}</h2>
                <hr>
             </div>
             <div class="card-body">
@@ -50,10 +51,7 @@
          </div>
       </div>
    </div>
-   <div class="container-xxl flex-grow-1 container-p-y">
 
-
-   </div>
 </div>
 
 @endsection

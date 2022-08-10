@@ -12,7 +12,7 @@
                 <div class="card-title">
                     <nav class="nav nav-borders o">
                         <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
-                        <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri</a>
+                        <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
                 </div>
                 <div class="card">
@@ -32,11 +32,13 @@
                                         <h3 class="d-flex align-items-center mb-3">Ödemeler</h3>
                                         <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addPaymentTypeModal"><i class="fa fa-plus"></i> Ödeme Türü Ekle</button>
                                             <table class="table dataTable" id="tableData">
-                                            <tr>
-                                                <th>Ödeme Türü</th>
-                                                <th>Ücret</th>
-                                                <th>İşlem</th>
-                                            </tr>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ödeme Türü</th>
+                                                        <th>Ücret</th>
+                                                        <th>İşlem</th>
+                                                    </tr>
+                                                </thead>
                                             <tbody>
                                                 @foreach($reservation->subPaymentTypes as $subPaymentType)
                                                 <tr>

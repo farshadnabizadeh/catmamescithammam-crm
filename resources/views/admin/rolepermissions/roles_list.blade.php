@@ -25,30 +25,30 @@
                     </div>
                 </div>
                 <div class="dt-responsive table-responsive">
-                <table class="table table-striped table-bordered nowrap dataTable" id="dataTable" data-table-source="" data-table-filter-target>
-                    <thead class="thead-light">
+                    <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">İşlemler</th>
+                                <th scope="col">Rol Adı</th>
+                            </tr>
+                        </thead>
+                        @foreach ($roles as $role)
                         <tr>
-                        <th scope="col">İşlemler</th>
-                        <th scope="col">Rol Adı</th>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ url('/roles/edit/'.$role->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ url('/roles/clone/'.$role->id) }}" class="btn btn-warning edit-btn"><i class="fa fa-clone"></i> Clone Role</a></li>
+                                        <li><a href="{{ url('/roles/delete/'.$role->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>{{ $role->name }}</td>
                         </tr>
-                    </thead>
-                    @foreach ($roles as $role)
-                    <tr>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/roles/edit/'.$role->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                    <li><a href="{{ url('/roles/clone/'.$role->id) }}" class="btn btn-warning edit-btn"><i class="fa fa-clone"></i> Clone Role</a></li>
-                                    <li><a href="{{ url('/roles/delete/'.$role->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>{{ $role->name }}</td>
-                    </tr>
-                    @endforeach
-               </table>
-            </div>
+                        @endforeach
+                </table>
+                </div>
             </div>
         </div>
     </div>

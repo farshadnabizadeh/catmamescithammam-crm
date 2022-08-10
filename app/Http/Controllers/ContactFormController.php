@@ -18,12 +18,15 @@ class ContactFormController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Builder $builder)
+    public function index(Request $request, Builder $builder)
     {
         try {
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
+
             $form_statuses = FormStatuses::all();
 
-            $data = array('form_statuses' => $form_statuses);
+            $data = array('form_statuses' => $form_statuses, 'start' => $start, 'end' => $end);
             if (request()->ajax()) {
                 $data = ContactForm::with('status')->orderBy('created_at', 'desc')->get();
                 return DataTables::of($data)

@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-md-12">
             <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
-            <div class="card p-4 mt-3">
+            <div class="card p-3 mt-3">
                 <div class="card-title">
                     <nav class="nav nav-borders">
                         <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
-                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri</a>
+                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
                 </div>
                 <div class="card">
@@ -68,12 +68,12 @@
                             <div class="card-body">
                                 <h3 class="d-flex align-items-center mb-3">Hizmetler</h3>
                                 <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addServiceModal"><i class="fa fa-plus"></i> Hizmet Ekle</button>
-                                <table class="table table-striped table-bordered nowrap dataTable" id="tableServices">
-                                    <thead class="thead-light">
+                                <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                                    <thead>
                                         <tr>
-                                            <th scope="col">Bakım</th>
-                                            <th scope="col">Adeti</th>
-                                            <th scope="col">İşlem</th>
+                                            <th>Bakım</th>
+                                            <th>Adeti</th>
+                                            <th>Islem</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -96,11 +96,13 @@
                                 <h3 class="d-flex align-items-center mb-3">Terapistler</h3>
                                 <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addTherapistModal"><i class="fa fa-plus"></i> Terapist Ekle</button>
                                 <table class="table table-striped table-bordered nowrap dataTable" id="tableTherapist">
-                                    <tr>
-                                        <th>Terapist</th>
-                                        <th>Adeti</th>
-                                        <th>İşlem</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Terapist</th>
+                                            <th>Adeti</th>
+                                            <th>Islem</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         @foreach($reservation->subTherapists as $subTherapist)
                                         <tr>

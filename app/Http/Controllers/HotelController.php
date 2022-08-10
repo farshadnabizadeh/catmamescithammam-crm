@@ -31,17 +31,16 @@ class HotelController extends Controller
     {
         try {
             $newHotel = new Hotel();
-            $newHotel->hotel_name = $request->input('hotelName');
-            $newHotel->hotel_phone = $request->input('hotelPhone');
-            $newHotel->hotel_person = $request->input('hotelPerson');
-            $newHotel->hotel_person_account_number = $request->input('hotelPersonAccountNumber');
-            $newHotel->hotel_person_send_amount = $request->input('hotelPersonSendAmount');
+            $newHotel->name = $request->input('hotelName');
+            $newHotel->phone = $request->input('hotelPhone');
+            $newHotel->person = $request->input('hotelPerson');
+            $newHotel->person_account_number = $request->input('hotelPersonAccountNumber');
 
             $newHotel->user_id = auth()->user()->id;
             $result = $newHotel->save();
 
             if ($result){
-                return redirect('/definitions/hotels')->with('message', 'Hotel Added Successfully!');
+                return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -76,7 +75,7 @@ class HotelController extends Controller
             $temp['hotel_person_send_amount'] = $request->input('hotelPersonSendAmount');
 
             if (Hotel::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/hotels')->with('message', 'Hotel Updated Successfully!');
+                return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -90,7 +89,7 @@ class HotelController extends Controller
     public function destroy($id){
         try {
             Hotel::where('id', '=', $id)->delete();
-            return redirect('definitions/hotels')->with('message', 'Hotel Deleted Successfully!');
+            return redirect('definitions/hotels')->with('message', 'Otel Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

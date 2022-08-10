@@ -13,6 +13,25 @@
                     <li class="breadcrumb-item active" aria-current="page">Rezervasyonlar</li>
                 </ol>
             </nav>
+            <div class="card">
+                <div class="card-body">
+                   <form action="" method="GET">
+                      <div class="row pb-3">
+                         <div class="col-lg-6">
+                            <label for="startDate">Başlangıç Tarihi</label>
+                            <input type="text" class="form-control datepicker" id="startDate" name="startDate" placeholder="Başlangıç Tarihi" value="{{ $start }}" autocomplete="off" required>
+                         </div>
+                         <div class="col-lg-6">
+                            <label for="endDate">Bitiş Tarihi</label>
+                            <input type="text" class="form-control datepicker" id="endDate" name="endDate" placeholder="Bitiş Tarihi" autocomplete="off" value="{{ $end }}" required>
+                         </div>
+                         <div class="col-lg-12">
+                            <button class="btn btn-success mt-3 float-right" type="submit">Rezervasyonları Listele <i class="fa fa-check"></i></button>
+                         </div>
+                      </div>
+                   </form>
+                </div>
+             </div>
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <div class="row">

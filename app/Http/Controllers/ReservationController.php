@@ -28,27 +28,32 @@ class ReservationController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Builder $builder)
+    public function index(Request $request, Builder $builder)
     {
         try {
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
+
+            $storages = array('start' => $start, 'end' => $end);
+
             if (request()->ajax()) {
-                $data = Reservation::with('customer', 'source')->orderBy('reservation_date', 'desc')->orderBy('reservation_time', 'desc');
+                $data = Reservation::with('customer', 'source')->orderBy('reservation_date', 'desc')->orderBy('reservation_time', 'desc')->whereBetween('reservations.reservation_date', [$start, $end]);
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
-                            return '<div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="/definitions/reservations/edit/'.$item->id.'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
-                                    </li>
-                                    <li>
-                                        <a href="/definitions/reservations/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
-                                    </li>
-                                    <li>
-                                        <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
-                                    </li>
-                                </ul>
-                            </div>';
+                        return '<div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/definitions/reservations/edit/'.$item->id.'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                </li>
+                                <li>
+                                    <a href="/definitions/reservations/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                </li>
+                                <li>
+                                    <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
+                                </li>
+                            </ul>
+                        </div>';
                     })
                     ->editColumn('id', function ($item) {
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
@@ -63,7 +68,6 @@ class ReservationController extends Controller
                     })
 
                     ->rawColumns(['action', 'id', 'source.source_name', 'reservation_date'])
-
                     ->toJson();
                 };
                 $columns = [
@@ -79,7 +83,7 @@ class ReservationController extends Controller
                     "pageLength" => 50
                 ]);
 
-            return view('admin.reservations.reservations_list', compact('html'));
+            return view('admin.reservations.reservations_list', compact('html'))->with($storages);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -293,6 +297,7 @@ class ReservationController extends Controller
             $sources = Source::all();
 
             $reservation_payment_type = ReservationPaymentType::where('reservations_payments_types.reservation_id', '=', $id);
+
             $hasPaymentType = false;
             $hasPaymentType = $reservation_payment_type->get()->count() > 0 ? true : false;
 

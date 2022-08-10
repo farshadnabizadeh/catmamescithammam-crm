@@ -20,82 +20,15 @@ class ReportController extends Controller
     {
         try {
 
-            $total = ReservationPaymentType::sum("payment_price");
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
 
-            $month = ReservationPaymentType::whereMonth('created_at', Carbon::now()->month)
-                ->sum("payment_price");
+            $therapistAll = Therapist::select("therapists.therapist_name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_therapists.created_at', [$start, $end])->get();
+            $serviceAll = Service::select("services.service_name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_services.created_at', [$start, $end])->get();
+    
+            $data = array('serviceAll' => $serviceAll, 'therapistAll' => $therapistAll, 'start' => $start, 'end' => $end);
+            return view('admin.reports.reservation_report')->with($data);
 
-            $week = ReservationPaymentType::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                ->sum("payment_price");
-
-            $today = ReservationPaymentType::where('created_at', '>=', Carbon::now())
-                ->sum("payment_price");
-
-            $therapistAll = Therapist::select("therapists.therapist_name",
-                    DB::raw("(SELECT count(*) FROM reservations_therapists a
-                        WHERE a.therapist_id = therapists.id
-                        ) as aCount"))
-                ->get();
-
-            $therapistMonth = Therapist::select("therapists.therapist_name",
-                    DB::raw("(SELECT count(*) FROM reservations_therapists a
-                        WHERE a.therapist_id = therapists.id and MONTH(created_at) =  MONTH(CURRENT_DATE())
-                        ) as aCount"))
-                ->get();
-
-            $therapistWeek = Therapist::select("therapists.therapist_name",
-                    DB::raw("(SELECT count(*) FROM reservations_therapists a
-                        WHERE a.therapist_id = therapists.id and YEARWEEK(`created_at`, 1) = YEARWEEK(CURDATE(), 1)
-                        ) as aCount"))
-                ->get();
-
-            //service
-            $serviceAll = Service::select("services.service_name",
-                    DB::raw("(SELECT count(*) FROM reservations_services a
-                        WHERE a.service_id = services.id
-                        ) as aCount"))
-                ->get();
-
-            $serviceMonth = Service::select("services.service_name",
-                    DB::raw("(SELECT count(*) FROM reservations_services a
-                        WHERE a.service_id = services.id and MONTH(created_at) =  MONTH(CURRENT_DATE())
-                        ) as aCount"))
-                ->get();
-
-            $serviceWeek = Service::select("services.service_name",
-                    DB::raw("(SELECT count(*) FROM reservations_services a
-                        WHERE a.service_id = services.id and YEARWEEK(`created_at`, 1) = YEARWEEK(CURDATE(), 1)
-                        ) as aCount"))
-                ->get();
-
-            /* $enes = DB::table("therapists")
-                ->select("therapists.therapist_name",
-                    DB::raw("(SELECT count(*) FROM reservations_therapists a
-                        WHERE a.therapist_id = therapists.id
-                        ) as aCount"))
-                ->get(); */
-
-            // $payment_types = ReservationPaymentType::get()->whereMonth('reservations_payments_types.created_at', Carbon::now()->month)->sum("payment_price");
-
-            $set = $request->input('set');
-
-            $data = array('total' => $total, 'month' => $month, 'week' => $week, 'today' => $today, 'serviceAll' => $serviceAll, 'serviceMonth' => $serviceMonth, 'serviceWeek' => $serviceWeek, 'therapistMonth' => $therapistMonth, 'therapistAll' => $therapistAll, 'therapistWeek' => $therapistWeek);
-
-            if($set == "total"){
-                return view('admin.reports.reports')->with($data);
-            }
-
-            else if($set == "month"){
-                return view('admin.reports.month_reports')->with($data);
-            }
-
-            else if($set == "week"){
-                return view('admin.reports.week_reports')->with($data);
-            }
-
-            else if($set == "today"){
-                return view('admin.reports.today_reports')->with($data);
-            }
         }
         catch (\Throwable $th) {
             throw $th;
@@ -111,35 +44,35 @@ class ReportController extends Controller
 
             //
             $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
-                ->whereBetween('reservations_payments_types.created_at', [$start, $end])
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
                 ->sum("payment_price");
 
             $totalData = array('cashTl' => $cashTl, 'cashEur' => $cashEur, 'cashUsd' => $cashUsd, 'cashPound' => $cashPound, 'ykbTl' => $ykbTl, 'ziraatTl' => $ziraatTl, 'ziraatEuro' => $ziraatEuro, 'ziraatDolar' => $ziraatDolar, 'start' => $start, 'end' => $end);

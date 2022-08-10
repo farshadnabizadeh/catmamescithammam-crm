@@ -59,7 +59,7 @@
                         </ul>
                     </li>
                     @endcan
-                    <li class="nav-item {{ request()->is('definitions/formstatuses*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/formstatuses*') || request()->is('definitions/guides*') || request()->is('definitions/discounts*') || request()->is('definitions/hotels*') || request()->is('definitions/payment_types*') || request()->is('definitions/sources*') || request()->is('definitions/services*') || request()->is('definitions/therapists*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-tasks text-primary"></i>
                             <span class="nav-link-text">Tanımlamalar</span>
@@ -101,6 +101,13 @@
                                 </a>
                             </li>
                             @endcan
+                            @can('show guides')
+                            <li>
+                                <a class="{{ request()->is('definitions/guides*') ? 'active' : '' }}" href="{{ url('/definitions/guides'); }}">
+                                    <span>Rehberler</span>
+                                </a>
+                            </li>
+                            @endcan
                             @can('show services')
                             <li>
                                 <a class="{{ request()->is('definitions/services*') ? 'active' : '' }}" href="{{ url('/definitions/services'); }}">
@@ -130,7 +137,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/reports/payments*') ? 'active' : '' }}" href="{{ url('definitions/reports/payments?set=total'); }}">
+                                <a class="{{ request()->is('definitions/reports/payments*') ? 'active' : '' }}" href="{{ url('definitions/reports/payments?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
                                     <span>Ciro Raporu</span>
                                 </a>
                             </li>
@@ -154,7 +161,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/reservations') ? 'active' : '' }}" href="{{ url('/definitions/reservations') }}">
+                                <a class="{{ request()->is('definitions/reservations') ? 'active' : '' }}" href="{{ url('/definitions/reservations?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
                                     <span>Rezervasyon Listesi</span>
                                 </a>
                             </li>
@@ -162,7 +169,7 @@
                         </ul>
                     </li>
                     @can('show users')
-                    <li class="nav-item {{ request()->is('users*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('definitions/users*') || request()->is('roles*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-user text-primary"></i>
                             <span class="nav-link-text">Kullanıcılar</span>

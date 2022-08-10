@@ -139,6 +139,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('getService/{id}', 'ServiceController@getService')->middleware(['middleware' => 'permission:show services']);
     //Services end
 
+    //Guides
+    Route::GET('definitions/guides', 'GuideController@index')->middleware(['middleware' => 'permission:show guides']);
+    Route::POST('definitions/guides/store', 'GuideController@store')->middleware(['middleware' => 'permission:create guides']);
+    Route::GET('definitions/guides/edit/{id}', 'GuideController@edit')->middleware(['middleware' => 'permission:edit guides']);
+    Route::POST('definitions/guides/update/{id}', 'GuideController@update')->middleware(['middleware' => 'permission:edit guides']);
+    Route::GET('definitions/guides/destroy/{id}', 'GuideController@destroy')->middleware(['middleware' => 'permission:delete guides']);
+    //Guides end
+    
     //Therapists
     Route::GET('definitions/therapists', 'TherapistController@index')->middleware(['middleware' => 'permission:show therapist']);
     Route::POST('definitions/therapists/store', 'TherapistController@store')->middleware(['middleware' => 'permission:create therapist']);
