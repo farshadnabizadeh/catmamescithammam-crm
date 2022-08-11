@@ -15,8 +15,8 @@ class CreateSources extends Migration
     {
         Schema::create('sources', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('source_name');
-            $table->string('source_color');
+            $table->string('name');
+            $table->string('color');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

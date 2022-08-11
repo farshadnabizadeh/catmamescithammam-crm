@@ -19,13 +19,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="statusName">Durum Adı</label>
-                                <input type="text" class="form-control" id="statusName" name="statusName" placeholder="Durum Adı" value="{{ $form_status->status_name }}" required>
+                                <input type="text" class="form-control" id="statusName" name="statusName" placeholder="Durum Adı" value="{{ $form_status->name }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="statusColor">Durum Rengi</label>
-                                <input type="text" class="form-control" id="colorpicker" name="statusColor" placeholder="Durum Rengi" value="{{ $form_status->status_color }}">
+                                <input type="text" class="form-control" id="colorpicker" name="statusColor" placeholder="Durum Rengi" value="{{ $form_status->color }}">
                             </div>
                         </div>
                     </div>

@@ -15,9 +15,9 @@ class CreateDiscounts extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('discount_name');
-            $table->string('discount_code')->nullable();
-            $table->string('discount_percentage')->nullable();
+            $table->string('name');
+            $table->string('code')->nullable();
+            $table->string('percentage')->nullable();
             $table->string('note')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();

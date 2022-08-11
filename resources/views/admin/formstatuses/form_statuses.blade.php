@@ -50,8 +50,8 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $form_status->status_name }}</td>
-                            <td style="background-color: {{ $form_status->status_color }}"></td>
+                            <td>{{ $form_status->name }}</td>
+                            <td style="background-color: {{ $form_status->color }}"></td>
                         </tr>
                         @endforeach
                     </table>

@@ -16,7 +16,7 @@ class DiscountController extends Controller
     public function index()
     {
         try {
-            $discounts = Discount::orderBy('discount_name', 'asc')->get();
+            $discounts = Discount::orderBy('name', 'asc')->get();
             $data = array('discounts' => $discounts);
             return view('admin.discounts.discounts_list')->with($data);   
         }
@@ -29,16 +29,16 @@ class DiscountController extends Controller
     {
         try {
             $newData = new Discount();
-            $newData->discount_name = $request->input('discountName');
-            $newData->discount_code = $request->input('discountCode');
-            $newData->discount_percentage = $request->input('discountPercentage');
+            $newData->name = $request->input('discountName');
+            $newData->code = $request->input('discountCode');
+            $newData->percentage = $request->input('discountPercentage');
             $newData->note = $request->input('discountNote');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/discounts')->with('message', 'Discount Added Successfully!');
+                return redirect('/definitions/discounts')->with('message', 'İndiirm Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -84,7 +84,7 @@ class DiscountController extends Controller
             $temp['note'] = $request->input('discountNote');
 
             if (Discount::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/discounts')->with('message', 'Discount Updated Successfully!');
+                return redirect('/definitions/discounts')->with('message', 'İndirim Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -97,8 +97,8 @@ class DiscountController extends Controller
 
     public function destroy($id){
         try {
-            $discounts = Discount::where('id', '=', $id)->delete();
-            return redirect('definitions/discounts')->with('message', 'Discount Deleted Successfully!');
+            Discount::where('id', '=', $id)->delete();
+            return redirect('definitions/discounts')->with('message', 'İndirim Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

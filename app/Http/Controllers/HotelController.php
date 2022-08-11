@@ -18,7 +18,7 @@ class HotelController extends Controller
     public function index()
     {
         try {
-            $hotels = Hotel::orderBy('hotel_name', 'asc')->get();
+            $hotels = Hotel::orderBy('name', 'asc')->get();
             $data = array('hotels' => $hotels);
             return view('admin.hotels.hotels_list')->with($data);
         }
@@ -68,11 +68,10 @@ class HotelController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['hotel_name'] = $request->input('hotelName');
-            $temp['hotel_phone'] = $request->input('hotelPhone');
-            $temp['hotel_person'] = $request->input('hotelPerson');
-            $temp['hotel_person_account_number'] = $request->input('hotelPersonAccountNumber');
-            $temp['hotel_person_send_amount'] = $request->input('hotelPersonSendAmount');
+            $temp['name'] = $request->input('hotelName');
+            $temp['phone'] = $request->input('hotelPhone');
+            $temp['person'] = $request->input('hotelPerson');
+            $temp['person_account_number'] = $request->input('hotelPersonAccountNumber');
 
             if (Hotel::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Güncellendi!');

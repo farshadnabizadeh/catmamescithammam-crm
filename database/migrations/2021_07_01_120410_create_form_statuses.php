@@ -15,8 +15,8 @@ class CreateFormStatuses extends Migration
     {
         Schema::create('form_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status_name');
-            $table->string('status_color');
+            $table->string('name');
+            $table->string('color');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

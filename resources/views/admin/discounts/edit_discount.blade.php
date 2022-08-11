@@ -12,21 +12,21 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="discountName">İndirim Adı</label>
-                                <input type="text" class="form-control" id="discountName" name="discountName" placeholder="İndirim Adı" value="{{ $discount->discount_name }}" required>
+                                <input type="text" class="form-control" id="discountName" name="discountName" placeholder="İndirim Adı" value="{{ $discount->name }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="discountCode">İndirim Kodu</label>
-                                <input type="text" class="form-control" id="discountCode" name="discountCode" placeholder="İndirim Kodu" value="{{ $discount->discount_code }}">
+                                <input type="text" class="form-control" id="discountCode" name="discountCode" placeholder="İndirim Kodu" value="{{ $discount->code }}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="discountPercentage">Discount Percentage</label>
-                                <input type="text" class="form-control" id="discountPercentage" name="discountPercentage" placeholder="Enter Discount Percentage" value="{{ $discount->discount_percentage }}">
+                                <label for="discountPercentage">İndirim Yüzdesi</label>
+                                <input type="text" class="form-control" id="discountPercentage" name="discountPercentage" placeholder="İndirim Yüzdesi" value="{{ $discount->percentage }}">
                             </div>
                         </div>
                         <div class="col-lg-6">

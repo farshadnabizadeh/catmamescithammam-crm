@@ -30,7 +30,7 @@ class TherapistController extends Controller
     {
         try {
             $newData = new Therapist();
-            $$newData->therapist_name = $request->input('therapistName');
+            $$newData->name = $request->input('therapistName');
             $$newData->user_id = auth()->user()->id;
 
             $result = $$newData->save();

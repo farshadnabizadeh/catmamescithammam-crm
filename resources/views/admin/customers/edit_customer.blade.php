@@ -19,13 +19,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerName">Müşteri Adı</label>
-                                <input type="text" class="form-control" id="customerName" name="customerNameSurname" placeholder="Müşteri Adı" value="{{ $customer->customer_name_surname }}" required>
+                                <input type="text" class="form-control" id="customerName" name="customerNameSurname" placeholder="Müşteri Adı" value="{{ $customer->name_surname }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerPhone">Müşteri Telefon Numarası</label>
-                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası" value="{{ $customer->customer_phone }}">
+                                <input type="text" class="form-control" id="phone_get" name="customerPhone" placeholder="Müşteri Telefon Numarası" value="{{ $customer->phone }}">
                             </div>
                         </div>
                     </div>
@@ -33,13 +33,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerCountry">Ülkesi</label>
-                                <input type="text" class="form-control" id="country_get" name="customerCountry" placeholder="Ülkesi" value="{{ $customer->customer_country }}" required>
+                                <input type="text" class="form-control" id="country_get" name="customerCountry" placeholder="Ülkesi" value="{{ $customer->country }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerEmail">Email Adresi</label>
-                                <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi" value="{{ $customer->customer_email }}">
+                                <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="Email Adresi" value="{{ $customer->email }}">
                             </div>
                         </div>
                     </div>

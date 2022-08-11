@@ -30,12 +30,11 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
-                                <th scope="col">Otel Adı</th>
-                                <th scope="col">Otel Numarası</th>
-                                <th scope="col">Otel Görevlisi</th>
-                                <th scope="col">Hotel Person Account Number</th>
-                                <th scope="col">Amount Shipped</th>
+                                <th scope="col">İşlem</th>
+                                <th scope="col">Adı</th>
+                                <th scope="col">Numarası</th>
+                                <th scope="col">Görevli Adı</th>
+                                <th scope="col">Banka Iban Numarası</th>
                             </tr>
                         </thead>
                         @foreach ($hotels as $hotel)
@@ -45,19 +44,18 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit hotel')
-                                        <li><a href="{{ url('/definitions/hotels/edit/'.$hotel->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ url('/definitions/hotels/edit/'.$hotel->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete hotel')
-                                        <li><a href="{{ url('/definitions/hotels/destroy/'.$hotel->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                            <li><a href="{{ url('/definitions/hotels/destroy/'.$hotel->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $hotel->hotel_name }}</td>
-                            <td>{{ $hotel->hotel_phone }}</td>
-                            <td>{{ $hotel->hotel_person }}</td>
-                            <td>{{ $hotel->hotel_person_account_number }}</td>
-                            <td>{{ $hotel->hotel_person_send_amount }}</td>
+                            <td>{{ $hotel->name }}</td>
+                            <td>{{ $hotel->phone }}</td>
+                            <td>{{ $hotel->person }}</td>
+                            <td>{{ $hotel->person_account_number }}</td>
                         </tr>
                         @endforeach
                     </table>

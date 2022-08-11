@@ -12,7 +12,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
                                 <label for="paymentTypeName">Ödeme Türü Adı</label>
-                                <input type="text" class="form-control" id="paymentTypeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" value="{{ $payment_type->payment_type_name }}" required>
+                                <input type="text" class="form-control" id="paymentTypeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" value="{{ $payment_type->type_name }}" required>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">

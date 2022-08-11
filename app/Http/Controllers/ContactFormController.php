@@ -44,23 +44,23 @@ class ContactFormController extends Controller
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
                         return $action;
                     })
-                    ->editColumn('status.status_name', function ($item) {
+                    ->editColumn('status.name', function ($item) {
                         if($item->form_status_id != NULL){
-                            return '<span class="badge text-white" style="background-color: '.$item->status->status_color.'">'.$item->status->status_name.'</span>';
+                            return '<span class="badge text-white" style="background-color: '.$item->status->color.'">'.$item->status->name.'</span>';
                         }
                     })
                     ->editColumn('created_at', function ($item) {
                         $action = now()->diffInMinutes($item->created_at) . ' Dakika';
                         return $action;
                     })
-                    ->rawColumns(['action', 'id', 'status.status_name', 'created_at'])
+                    ->rawColumns(['action', 'id', 'status.name', 'created_at'])
 
                     ->toJson();
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
                     ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-                    ['data' => 'status.status_name', 'name' => 'status.status_name', 'title' => 'Durum'],
+                    ['data' => 'status.name', 'name' => 'status.name', 'title' => 'Durum'],
                     ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],
                     ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon Numarası'],
                     ['data' => 'country', 'name' => 'country', 'title' => 'Ülkesi'],
@@ -118,7 +118,7 @@ class ContactFormController extends Controller
             $temp['answered_time'] = Carbon::now()->toDateTimeString();
 
             if (ContactForm::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/contactforms')->with('message', 'Form Durumu Başarıyla Güncellendi!');
+                return redirect('/definitions/contactforms')->with('message', 'İletişim Formu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());

@@ -15,7 +15,7 @@ class CreateTherapists extends Migration
     {
         Schema::create('therapists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('therapist_name');
+            $table->string('name');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

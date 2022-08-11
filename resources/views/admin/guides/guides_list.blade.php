@@ -44,10 +44,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlemler <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit guides')
-                                        <li><a href="{{ url('/definitions/guides/edit/'.$guide->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ url('/definitions/guides/edit/'.$guide->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete guides')
-                                        <li><a href="{{ url('/definitions/guides/destroy/'.$guide->id) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                            <li><a href="{{ url('/definitions/guides/destroy/'.$guide->id) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>

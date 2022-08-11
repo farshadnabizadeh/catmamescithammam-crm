@@ -17,7 +17,7 @@ class ServiceController extends Controller
     public function index()
     {
         try {
-            $services = Service::orderBy('service_name', 'asc')->get();
+            $services = Service::orderBy('name', 'asc')->get();
             $data = array('services' => $services);
             return view('admin.services.services_list')->with($data);
         }
@@ -30,9 +30,9 @@ class ServiceController extends Controller
     {
         try {
             $newData = new Service();
-            $newData->service_name = $request->input('serviceName');
-            $newData->service_currency = $request->input('serviceCurrency');
-            $newData->service_cost = $request->input('serviceCost');
+            $newData->name = $request->input('serviceName');
+            $newData->currency = $request->input('serviceCurrency');
+            $newData->cost = $request->input('serviceCost');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
@@ -79,9 +79,9 @@ class ServiceController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['service_name'] = $request->input('serviceName');
-            $temp['service_currency'] = $request->input('serviceCurrency');
-            $temp['service_cost'] = $request->input('serviceCost');
+            $temp['name'] = $request->input('serviceName');
+            $temp['currency'] = $request->input('serviceCurrency');
+            $temp['cost'] = $request->input('serviceCost');
 
             if (Service::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/services')->with('message', 'Hizmet Başarıyla Güncellendi!');

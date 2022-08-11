@@ -46,9 +46,9 @@ class BookingFormController extends Controller
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
                         return $action;
                     })
-                    ->editColumn('status.status_name', function ($item) {
+                    ->editColumn('status.name', function ($item) {
                         if($item->form_status_id != NULL){
-                            return '<span class="badge text-white" style="background-color: '.$item->status->status_color.'">'.$item->status->status_name.'</span>';
+                            return '<span class="badge text-white" style="background-color: '.$item->status->color.'">'.$item->status->name.'</span>';
                         }
                     })
                     ->editColumn('reservation_date', function ($item) {
@@ -59,14 +59,14 @@ class BookingFormController extends Controller
                         $action = now()->diffInMinutes($item->created_at);
                         return $action;
                     })
-                    ->rawColumns(['action', 'id', 'status.status_name', 'reservation_date', 'created_at'])
+                    ->rawColumns(['action', 'id', 'status.name', 'date', 'created_at'])
 
                     ->toJson();
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
                     ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-                    ['data' => 'status.status_name', 'name' => 'status.status_name', 'title' => 'Durum'],
+                    ['data' => 'status.name', 'name' => 'status.name', 'title' => 'Durum'],
                     ['data' => 'reservation_date', 'name' => 'reservation_date', 'title' => 'Rezervasyon Tarihi'],
                     ['data' => 'reservation_time', 'name' => 'reservation_time', 'title' => 'Rezervasyon Saati'],
                     ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],

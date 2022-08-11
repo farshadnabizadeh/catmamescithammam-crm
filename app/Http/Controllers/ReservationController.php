@@ -60,23 +60,23 @@ class ReservationController extends Controller
                         return $action;
                     })
                     ->editColumn('source.source_name', function ($item) {
-                        return '<span class="badge text-white" style="background-color: '. $item->source->source_color .'">'. $item->source->source_name .'</span>';
+                        return '<span class="badge text-white" style="background-color: '. $item->source->color .'">'. $item->source->name .'</span>';
                     })
                     ->editColumn('reservation_date', function ($item) {
                         $action = date('d-m-Y', strtotime($item->reservation_date));
                         return $action;
                     })
 
-                    ->rawColumns(['action', 'id', 'source.source_name', 'reservation_date'])
+                    ->rawColumns(['action', 'id', 'source.name', 'date'])
                     ->toJson();
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
                     ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-                    ['data' => 'source.source_name', 'name' => 'source.source_name', 'title' => 'Kaynak'],
+                    ['data' => 'source.name', 'name' => 'source.name', 'title' => 'Kaynak'],
                     ['data' => 'reservation_date', 'name' => 'reservation_date', 'title' => 'Rezervasyon Tarihi'],
                     ['data' => 'reservation_time', 'name' => 'reservation_time', 'title' => 'Rezervasyon Saati'],
-                    ['data' => 'customer.customer_name_surname', 'name' => 'customer.customer_name_surname', 'title' => 'Müşteri Adı'],
+                    ['data' => 'customer.name_surname', 'name' => 'customer.name_surname', 'title' => 'Müşteri Adı'],
                     ['data' => 'total_customer', 'name' => 'total_customer', 'title' => 'Kişi Sayısı'],
                 ];
                 $html = $builder->columns($columns)->parameters([
@@ -94,12 +94,12 @@ class ReservationController extends Controller
     {
         try {
             $reservations = Reservation::all();
-            $services = Service::orderBy('service_name', 'asc')->get();
-            $sources = Source::orderBy('source_name', 'asc')->get();
-            $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
-            $customers = Customer::orderBy('customer_name_surname', 'asc')->get();
-            $discounts = Discount::orderBy('discount_name', 'asc')->get();
-            $payment_types = PaymentType::orderBy('payment_type_name', 'asc')->get();
+            $services = Service::orderBy('name', 'asc')->get();
+            $sources = Source::orderBy('name', 'asc')->get();
+            $therapists = Therapist::orderBy('name', 'asc')->get();
+            $customers = Customer::orderBy('name_surname', 'asc')->get();
+            $discounts = Discount::orderBy('name', 'asc')->get();
+            $payment_types = PaymentType::orderBy('type_name', 'asc')->get();
             $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts, 'payment_types' => $payment_types);
             return view('admin.reservations.new_reservation')->with($data);
         }
@@ -116,9 +116,6 @@ class ReservationController extends Controller
             $newData->reservation_time = $request->input('arrivalTime');
             $newData->total_customer = $request->input('totalCustomer');
             $newData->customer_id = $request->input('customerId');
-            $newData->service_currency = $request->input('serviceCurrency');
-            $newData->service_cost = $request->input('serviceCost');
-            $newData->service_commission = $request->input('serviceComission');
             $newData->discount_id = $request->input('discountId');
             $newData->source_id = $request->input('sourceId');
             $newData->reservation_note = $request->input('reservationNote');
@@ -268,7 +265,7 @@ class ReservationController extends Controller
         try {
             $user = auth()->user();
 
-            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'sources.id as sId', 'sources.source_color', 'sources.source_name', DB::raw('count(source_name) as countR'))
+            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'sources.id as sId', 'sources.color', 'sources.name', DB::raw('count(name) as countR'))
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->whereNull('reservations.deleted_at')
             ->whereNotNull('reservations.source_id')

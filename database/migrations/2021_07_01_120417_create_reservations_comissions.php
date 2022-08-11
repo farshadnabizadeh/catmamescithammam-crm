@@ -20,12 +20,12 @@ class CreateReservationsComissions extends Migration
                 ->references('id')
                 ->on('reservations')
                 ->onDelete('cascade');
-            $table->integer('payment_type_id')->unsigned();
-            $table->foreign('payment_type_id')
-                ->references('id')
-                ->on('payment_types')
+            $table->integer('hotel_id')->unsigned()->nullable();
+            $table->foreign('hotel_id')->references('id')
+                ->on('hotels')
                 ->onDelete('cascade');
-            $table->string('payment_price')->nullable();
+            $table->string('comission_price')->nullable();
+            $table->string('comission_currency')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

@@ -23,8 +23,8 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $therapistAll = Therapist::select("therapists.therapist_name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_therapists.created_at', [$start, $end])->get();
-            $serviceAll = Service::select("services.service_name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_services.created_at', [$start, $end])->get();
+            $therapistAll = Therapist::select("therapists.name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_therapists.created_at', [$start, $end])->get();
+            $serviceAll = Service::select("services.name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->whereNull('deleted_at')->whereBetween('reservations_services.created_at', [$start, $end])->get();
     
             $data = array('serviceAll' => $serviceAll, 'therapistAll' => $therapistAll, 'start' => $start, 'end' => $end);
             return view('admin.reports.reservation_report')->with($data);

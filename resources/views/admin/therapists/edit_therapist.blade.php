@@ -12,7 +12,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="therapistName">Terapist Adı</label>
-                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Terapist Adı" value="{{ $therapist->therapist_name }}" required>
+                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Terapist Adı" value="{{ $therapist->name }}" required>
                             </div>
                         </div>
                     </div>

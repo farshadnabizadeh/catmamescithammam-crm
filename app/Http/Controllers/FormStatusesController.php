@@ -16,7 +16,7 @@ class FormStatusesController extends Controller
     public function index()
     {
         try {
-            $form_statuses = FormStatuses::orderBy('status_name', 'asc')->get();
+            $form_statuses = FormStatuses::orderBy('name', 'asc')->get();
             $data = array('form_statuses' => $form_statuses);
             return view('admin.formstatuses.form_statuses')->with($data);   
         }
@@ -29,8 +29,8 @@ class FormStatusesController extends Controller
     {
         try {
             $newData = new FormStatuses();
-            $newData->status_name = $request->input('statusName');
-            $newData->status_color = $request->input('statusColor');
+            $newData->name = $request->input('statusName');
+            $newData->color = $request->input('statusColor');
             $newData->user_id = auth()->user()->id;
 
             $result = $newData->save();
@@ -76,8 +76,8 @@ class FormStatusesController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['status_name'] = $request->input('statusName');
-            $temp['status_color'] = $request->input('statusColor');
+            $temp['name'] = $request->input('statusName');
+            $temp['color'] = $request->input('statusColor');
 
             if (FormStatuses::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/formstatuses')->with('message', 'Form Durumu Başarıyla Güncellendi!');

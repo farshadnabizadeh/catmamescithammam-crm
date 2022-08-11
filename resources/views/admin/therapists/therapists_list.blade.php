@@ -30,7 +30,7 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
+                                <th scope="col">İşlem</th>
                                 <th scope="col">Terapist Adı</th>
                             </tr>
                         </thead>
@@ -49,7 +49,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $therapist->therapist_name }}</td>
+                            <td>{{ $therapist->name }}</td>
                         </tr>
                         @endforeach
                     </table>

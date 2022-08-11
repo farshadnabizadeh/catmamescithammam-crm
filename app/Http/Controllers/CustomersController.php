@@ -42,10 +42,10 @@ class CustomersController extends Controller
                 };
                 $columns = [
                     ['data' => 'action', 'name' => 'action', 'title' => 'İşlem', 'orderable' => false, 'searchable' => false],
-                    ['data' => 'customer_name_surname', 'name' => 'customer_name_surname', 'title' => 'Adı Soyadı'],
-                    ['data' => 'customer_phone', 'name' => 'customer_phone', 'title' => 'Telefon Numarası'],
-                    ['data' => 'customer_country', 'name' => 'customer_country', 'title' => 'Ülkesi'],
-                    ['data' => 'customer_email', 'name' => 'customer_email', 'title' => 'Email Adresi'],
+                    ['data' => 'name_surname', 'name' => 'name_surname', 'title' => 'Adı Soyadı'],
+                    ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon Numarası'],
+                    ['data' => 'country', 'name' => 'country', 'title' => 'Ülkesi'],
+                    ['data' => 'email', 'name' => 'email', 'title' => 'Email Adresi'],
                 ];
                 $html = $builder->columns($columns)->parameters([
                     "pageLength" => 50
@@ -62,10 +62,10 @@ class CustomersController extends Controller
     {
         try {
             $newData = new Customer();
-            $newData->customer_name_surname = $request->input('customerNameSurname');
-            $newData->customer_phone = $request->input('customerPhone');
-            $newData->customer_country = $request->input('customerCountry');
-            $newData->customer_email = $request->input('customerEmail');
+            $newData->name_surname = $request->input('customerNameSurname');
+            $newData->phone = $request->input('customerPhone');
+            $newData->country = $request->input('customerCountry');
+            $newData->email = $request->input('customerEmail');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
@@ -86,10 +86,10 @@ class CustomersController extends Controller
     {
         try {
             $newData = new Customer();
-            $newData->customer_name_surname = $request->input('customerNameSurname');
-            $newData->customer_phone = $request->input('customerPhone');
-            $newData->customer_country = $request->input('customerCountry');
-            $newData->customer_email = $request->input('customerEmail');
+            $newData->name_surname = $request->input('customerNameSurname');
+            $newData->phone = $request->input('customerPhone');
+            $newData->country = $request->input('customerCountry');
+            $newData->email = $request->input('customerEmail');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
@@ -110,9 +110,8 @@ class CustomersController extends Controller
     {
         try {
             $customer = Customer::where('id','=',$id)->first();
-            $sources = Source::orderBy('source_name', 'asc')->get();
 
-            return view('admin.customers.edit_customer', ['customer' => $customer, 'sources' => $sources, 'customer' => $customer]);
+            return view('admin.customers.edit_customer', ['customer' => $customer]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -124,10 +123,10 @@ class CustomersController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['customer_name_surname'] = $request->input('customerNameSurname');
-            $temp['customer_phone'] = $request->input('customerPhone');
-            $temp['customer_country'] = $request->input('customerCountry');
-            $temp['customer_email'] = $request->input('customerEmail');
+            $temp['name_surname'] = $request->input('customerNameSurname');
+            $temp['phone'] = $request->input('customerPhone');
+            $temp['country'] = $request->input('customerCountry');
+            $temp['email'] = $request->input('customerEmail');
 
             if (Customer::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Güncellendi!');

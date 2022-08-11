@@ -12,14 +12,14 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceName">Hizmet Adı</label>
-                                <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Hizmet Adı" value="{{ $service->service_name }}" required>
+                                <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Hizmet Adı" value="{{ $service->name }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCurrency">Hizmet Para Birimi</label>
                                 <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
-                                    <option value="{{ $service->service_currency }}" @selected(true)>{{ $service->service_currency }}</option>
+                                    <option value="{{ $service->currency }}" @selected(true)>{{ $service->currency }}</option>
                                     <option value="EUR">EURO</option>
                                     <option value="USD">USD</option>
                                     <option value="GBP">GBP</option>
@@ -30,7 +30,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="serviceCost">Hizmet Ücreti</label>
-                                <input type="text" class="form-control" id="serviceCost" name="serviceCost" placeholder="Hizmet Ücreti" value="{{ $service->service_cost }}" required>
+                                <input type="text" class="form-control" id="serviceCost" name="serviceCost" placeholder="Hizmet Ücreti" value="{{ $service->cost }}" required>
                             </div>
                         </div>
                     </div>

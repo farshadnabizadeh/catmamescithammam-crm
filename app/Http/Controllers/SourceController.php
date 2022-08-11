@@ -17,7 +17,7 @@ class SourceController extends Controller
     public function index()
     {
         try {
-            $sources = Source::orderBy('source_name', 'asc')->get();
+            $sources = Source::orderBy('name', 'asc')->get();
             $data = array('sources' => $sources);
             return view('admin.sources.sources_list')->with($data);
         }
@@ -30,8 +30,8 @@ class SourceController extends Controller
     {
         try {
             $newData = new Source();
-            $newData->source_name = $request->input('sourceName');
-            $newData->source_color = $request->input('sourceColor');
+            $newData->name = $request->input('sourceName');
+            $newData->color = $request->input('sourceColor');
             $newData->user_id = auth()->user()->id;
 
             $result = $newData->save();
@@ -62,8 +62,8 @@ class SourceController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $temp['source_name'] = $request->input('sourceName');
-            $temp['source_color'] = $request->input('sourceColor');
+            $temp['name'] = $request->input('sourceName');
+            $temp['color'] = $request->input('sourceColor');
 
             if (Source::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Güncellendi!');

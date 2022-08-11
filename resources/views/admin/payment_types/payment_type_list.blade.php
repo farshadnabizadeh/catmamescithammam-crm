@@ -32,6 +32,7 @@
                      <tr>
                         <th scope="col">İşlem</th>
                         <th scope="col">Ödeme Türü</th>
+                        <th scope="col">Not</th>
                      </tr>
                   </thead>
                   @foreach ($payment_types as $payment_type)
@@ -49,7 +50,8 @@
                            </ul>
                         </div>
                      </td>
-                     <td>{{ $payment_type->payment_type_name }}</td>
+                     <td>{{ $payment_type->type_name }}</td>
+                     <td>{{ $payment_type->note }}</td>
                   </tr>
                   @endforeach
                </table>
@@ -58,7 +60,7 @@
       </div>
    </div>
 </div>
-   
+
 <div class="modal fade" id="createPaymentTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">

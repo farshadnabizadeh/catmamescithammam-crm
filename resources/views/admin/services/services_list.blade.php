@@ -51,9 +51,9 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $service->service_name }}</td>
-                            <td>{{ $service->service_currency }}</td>
-                            <td>{{ $service->service_cost }}</td>
+                            <td>{{ $service->name }}</td>
+                            <td>{{ $service->currency }}</td>
+                            <td>{{ $service->cost }}</td>
                         </tr>
                         @endforeach
                     </table>

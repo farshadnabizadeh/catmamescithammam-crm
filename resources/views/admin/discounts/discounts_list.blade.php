@@ -52,9 +52,9 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $discount->discount_name }}</td>
-                            <td>{{ $discount->discount_code }}</td>
-                            <td>{{ $discount->discount_percentage }}</td>
+                            <td>{{ $discount->name }}</td>
+                            <td>{{ $discount->code }}</td>
+                            <td>{{ $discount->percentage }}</td>
                             <td>{{ $discount->note }}</td>
                         </tr>
                         @endforeach

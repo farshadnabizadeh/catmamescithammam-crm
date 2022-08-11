@@ -50,8 +50,8 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>{{ $source->source_name }}</td>
-                            <td style="background-color: {{ $source->source_color }}"></td>
+                            <td>{{ $source->name }}</td>
+                            <td style="background-color: {{ $source->color }}"></td>
                         </tr>
                         @endforeach
                     </table>
