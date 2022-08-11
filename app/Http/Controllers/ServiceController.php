@@ -29,16 +29,16 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         try {
-            $newService = new Service();
-            $newService->service_name = $request->input('serviceName');
-            $newService->service_currency = $request->input('serviceCurrency');
-            $newService->service_cost = $request->input('serviceCost');
+            $newData = new Service();
+            $newData->service_name = $request->input('serviceName');
+            $newData->service_currency = $request->input('serviceCurrency');
+            $newData->service_cost = $request->input('serviceCost');
 
-            $newService->user_id = auth()->user()->id;
-            $result = $newService->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result) {
-                return redirect('/definitions/services')->with('message', 'Service Added Successfully!');
+                return redirect('/definitions/services')->with('message', 'Hizmet Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -84,7 +84,7 @@ class ServiceController extends Controller
             $temp['service_cost'] = $request->input('serviceCost');
 
             if (Service::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/services')->with('message', 'Service Updated Successfully!');
+                return redirect('/definitions/services')->with('message', 'Hizmet Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -97,8 +97,8 @@ class ServiceController extends Controller
 
     public function destroy($id){
         try {
-            $services = Service::where('id', '=', $id)->delete();
-            return redirect('definitions/services')->with('message', 'Service Deleted Successfully!');
+            Service::where('id', '=', $id)->delete();
+            return redirect('definitions/services')->with('message', 'Hizmet Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

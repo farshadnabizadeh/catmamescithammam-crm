@@ -68,6 +68,36 @@ function voucherPdf() {
     finally {}
 }
 
+function paymentReportPdf() {
+    try {
+        var elem = document.getElementById('root');
+        let date_ob = new Date();
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        let year = date_ob.getFullYear();
+        var now_date = (date + "." + month + "." + year);
+
+        html2pdf().from(elem).set({
+            margin: 0,
+            filename: 'Ciro Raporu-' + now_date + '.pdf',
+            html2canvas: {
+                scale: 2,
+                y: -2
+            },
+            jsPDF: {
+                orientation: 'portrait',
+                unit: 'in',
+                format: 'letter',
+                compressPDF: true
+            }
+        }).save();
+    }
+    catch (error) {
+        console.info(error);
+    }
+    finally {}
+}
+
 function timeFormat(timeInput) {
     try {
         validTime = timeInput.value;

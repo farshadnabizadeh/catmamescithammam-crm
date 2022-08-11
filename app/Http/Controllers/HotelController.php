@@ -30,14 +30,14 @@ class HotelController extends Controller
     public function store(Request $request)
     {
         try {
-            $newHotel = new Hotel();
-            $newHotel->name = $request->input('hotelName');
-            $newHotel->phone = $request->input('hotelPhone');
-            $newHotel->person = $request->input('hotelPerson');
-            $newHotel->person_account_number = $request->input('hotelPersonAccountNumber');
+            $newData = new Hotel();
+            $newData->name = $request->input('hotelName');
+            $newData->phone = $request->input('hotelPhone');
+            $newData->person = $request->input('hotelPerson');
+            $newData->person_account_number = $request->input('hotelPersonAccountNumber');
 
-            $newHotel->user_id = auth()->user()->id;
-            $result = $newHotel->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result){
                 return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Kaydedildi!');

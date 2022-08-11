@@ -171,16 +171,12 @@
                                             </div>
                                             <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
-                                                <p>Hizmet Bedeli: <span class="service-cost"></span></p>
+                                                <p>Rezervasyon Kaynağı: <span class="sob-name"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-lg-3">
-                                                <p>Rezervasyon Kaynağı: <span class="sob-name"></span></p>
-                                            </div>
-                                            <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
                                                 <p>Ödeme Türü: <span class="payment-type"></span></p>
                                             </div>

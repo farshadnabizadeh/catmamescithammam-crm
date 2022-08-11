@@ -18,14 +18,17 @@ class BookingFormController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Builder $builder)
+    public function index(Request $request, Builder $builder)
     {
         try {
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
+
             $form_statuses = FormStatuses::all();
 
-            $data = array('form_statuses' => $form_statuses);
+            $data = array('form_statuses' => $form_statuses, 'start' => $start, 'end' => $end);
             if (request()->ajax()) {
-                $data = BookingForm::with('status')->orderBy('created_at', 'desc')->get();
+                $data = BookingForm::with('status')->orderBy('created_at', 'desc')->whereBetween('booking_forms.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
                         return '

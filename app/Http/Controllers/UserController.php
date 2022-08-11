@@ -48,13 +48,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $newUser = new User;
-            $newUser->name = $request->input('userName');
-            $newUser->email = $request->input('userEmail');
-            $newUser->password = bcrypt($request->input('userPassword'));
+            $newData = new User;
+            $newData->name = $request->input('userName');
+            $newData->email = $request->input('userEmail');
+            $newData->password = bcrypt($request->input('userPassword'));
 
-            if ($newUser->save()) {
-                $newUser->assignRole($request->input('roles'));
+            if ($newData->save()) {
+                $newData->assignRole($request->input('roles'));
                 return redirect('definitions/users')->with('message', 'New Users Added Successfully!');
             }
             else {

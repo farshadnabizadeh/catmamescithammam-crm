@@ -61,14 +61,14 @@ class CustomersController extends Controller
     public function store(Request $request)
     {
         try {
-            $newCustomer = new Customer();
-            $newCustomer->customer_name_surname = $request->input('customerNameSurname');
-            $newCustomer->customer_phone = $request->input('customerPhone');
-            $newCustomer->customer_country = $request->input('customerCountry');
-            $newCustomer->customer_email = $request->input('customerEmail');
+            $newData = new Customer();
+            $newData->customer_name_surname = $request->input('customerNameSurname');
+            $newData->customer_phone = $request->input('customerPhone');
+            $newData->customer_country = $request->input('customerCountry');
+            $newData->customer_email = $request->input('customerEmail');
 
-            $newCustomer->user_id = auth()->user()->id;
-            $result = $newCustomer->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result){
                 return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Kaydedildi!');
@@ -85,17 +85,17 @@ class CustomersController extends Controller
     public function save(Request $request)
     {
         try {
-            $newCustomer = new Customer();
-            $newCustomer->customer_name_surname = $request->input('customerNameSurname');
-            $newCustomer->customer_phone = $request->input('customerPhone');
-            $newCustomer->customer_country = $request->input('customerCountry');
-            $newCustomer->customer_email = $request->input('customerEmail');
+            $newData = new Customer();
+            $newData->customer_name_surname = $request->input('customerNameSurname');
+            $newData->customer_phone = $request->input('customerPhone');
+            $newData->customer_country = $request->input('customerCountry');
+            $newData->customer_email = $request->input('customerEmail');
 
-            $newCustomer->user_id = auth()->user()->id;
-            $result = $newCustomer->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result) {
-                return response($newCustomer->id, 200);
+                return response($newData->id, 200);
             }
             else {
                 return response(false, 500);

@@ -29,11 +29,11 @@ class TherapistController extends Controller
     public function store(Request $request)
     {
         try {
-            $newTherapist = new Therapist();
-            $newTherapist->therapist_name = $request->input('therapistName');
-            $newTherapist->user_id = auth()->user()->id;
+            $newData = new Therapist();
+            $$newData->therapist_name = $request->input('therapistName');
+            $$newData->user_id = auth()->user()->id;
 
-            $result = $newTherapist->save();
+            $result = $$newData->save();
 
             if ($result) {
                 return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Eklendi!');

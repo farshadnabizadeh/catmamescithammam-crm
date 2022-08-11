@@ -19,7 +19,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="customerName">Müşteri Adı</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Müşteri Adı" value="{{ $customer->customer_name_surname }}" required>
+                                <input type="text" class="form-control" id="customerName" name="customerNameSurname" placeholder="Müşteri Adı" value="{{ $customer->customer_name_surname }}" required>
                             </div>
                         </div>
                         <div class="col-lg-6">

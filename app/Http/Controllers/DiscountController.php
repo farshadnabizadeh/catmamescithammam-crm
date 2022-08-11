@@ -28,14 +28,14 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         try {
-            $newDiscount = new Discount();
-            $newDiscount->discount_name = $request->input('discountName');
-            $newDiscount->discount_code = $request->input('discountCode');
-            $newDiscount->discount_percentage = $request->input('discountPercentage');
-            $newDiscount->note = $request->input('discountNote');
+            $newData = new Discount();
+            $newData->discount_name = $request->input('discountName');
+            $newData->discount_code = $request->input('discountCode');
+            $newData->discount_percentage = $request->input('discountPercentage');
+            $newData->note = $request->input('discountNote');
 
-            $newDiscount->user_id = auth()->user()->id;
-            $result = $newDiscount->save();
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
 
             if ($result){
                 return redirect('/definitions/discounts')->with('message', 'Discount Added Successfully!');

@@ -31,12 +31,12 @@
                         </a>
                         <ul class="nav-item_sub">
                             <li>
-                                <a class="{{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms'); }}">
+                                <a class="{{ request()->is('definitions/contactforms*') ? 'active' : '' }}" href="{{ url('/definitions/contactforms?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
                                     <span>İletişim Formları</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/bookings') ? 'active' : '' }}" href="{{ url('/definitions/bookings') }}">
+                                <a class="{{ request()->is('definitions/bookings') ? 'active' : '' }}" href="{{ url('/definitions/bookings?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
                                     <span>Rezervasyon Formları</span>
                                 </a>
                             </li>

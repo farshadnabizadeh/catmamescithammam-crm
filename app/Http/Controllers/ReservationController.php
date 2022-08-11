@@ -536,7 +536,7 @@ class ReservationController extends Controller
     public function destroy($id){
         try {
             Reservation::find($id)->delete();
-            return redirect('definitions/reservations')->with('message', 'Rezervasyon Başarıyla Silindi!');
+            return back()->with('message', 'Rezervasyon Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

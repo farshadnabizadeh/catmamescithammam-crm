@@ -29,12 +29,12 @@ class SourceController extends Controller
     public function store(Request $request)
     {
         try {
-            $newSource = new Source();
-            $newSource->source_name = $request->input('sourceName');
-            $newSource->source_color = $request->input('sourceColor');
-            $newSource->user_id = auth()->user()->id;
+            $newData = new Source();
+            $newData->source_name = $request->input('sourceName');
+            $newData->source_color = $request->input('sourceColor');
+            $newData->user_id = auth()->user()->id;
 
-            $result = $newSource->save();
+            $result = $newData->save();
 
             if ($result) {
                 return redirect('/definitions/sources')->with('message', 'Rezervasyon Kaynağı Başarıyla Eklendi!');
