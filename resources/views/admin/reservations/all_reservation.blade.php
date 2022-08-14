@@ -48,7 +48,7 @@
                                 <td>{{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
                                 <td>{{ $listAllByDate->reservation_time }}</td>
                                 <td><a href="{{ url('/definitions/customers/edit/'.$listAllByDate->customer_id) }}">{{ $listAllByDate->Cname }}</a></td>
-                                <td class="text-white" style="background-color: {{ $listAllByDate->source_color }}">{{ $listAllByDate->source_name }}</td>
+                                <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }}</td>
                                 <td>{{ $listAllByDate->total_customer }}</td>
                             </tr>
                         @endforeach

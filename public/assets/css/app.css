@@ -190,7 +190,8 @@ blockquote
 b,
 strong
 {
-    font-weight: bolder;
+    color: #000;
+    font-weight: bolder
 }
 
 small
@@ -415,6 +416,12 @@ caption
 
 .new-btn {
     margin-top: -47px
+}
+
+.download-report-btn {
+    position: absolute !important;
+    right: 10px;
+    top: 25px
 }
 
 .add-new-btn {

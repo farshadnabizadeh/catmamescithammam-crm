@@ -233,7 +233,7 @@ class ReservationController extends Controller
             $searchDate = $request->input('s');
             $tpStatus = $request->input('ps');
 
-            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.source_color', 'sources.source_name', 'customers.customer_name_surname as Cname')
+            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.color', 'sources.name', 'customers.name_surname as Cname')
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
                 // ->whereNull('deleted_at')
@@ -287,8 +287,8 @@ class ReservationController extends Controller
     {
         try {
             $reservation = Reservation::where('id','=', $id)->first();
-            $services = Service::all();
-            $therapists = Therapist::all();
+            $services = Service::orderBy('name', 'asc')->get();
+            $therapists = Therapist::orderBy('name', 'asc')->get();
             $payment_types = PaymentType::all();
             $hotels = Hotel::all();
             $sources = Source::all();
@@ -346,7 +346,7 @@ class ReservationController extends Controller
     {
         try {
             $reservation_service = ReservationService::where('id','=', $id)->first();
-            $services = Service::all();
+            $services = Service::orderBy('name', 'asc')->get();
             return view('admin.reservations.edit_service', ['reservation_service' => $reservation_service, 'services' => $services]);
         }
         catch (\Throwable $th) {
@@ -358,7 +358,7 @@ class ReservationController extends Controller
     {
         try {
             $reservation_therapist = ReservationTherapist::where('id','=', $id)->first();
-            $therapists = Therapist::all();
+            $therapists = Therapist::orderBy('name', 'asc')->get();
             return view('admin.reservations.edit_therapist', ['reservation_therapist' => $reservation_therapist, 'therapists' => $therapists]);
         }
         catch (\Throwable $th) {
@@ -486,7 +486,7 @@ class ReservationController extends Controller
             $lang = $request->input('lang');
             $totalPrice = [];
             foreach ($reservation->subServices as $subService) {
-                array_push($totalPrice, $subService->service_cost * $subService->piece);
+                array_push($totalPrice, $subService->cost * $subService->piece);
             }
             $total = array_sum($totalPrice);
 

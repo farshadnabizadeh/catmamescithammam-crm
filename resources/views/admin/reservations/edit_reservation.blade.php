@@ -46,9 +46,9 @@
                                             <div class="form-group">
                                                 <label for="sobId">Rezervasyon Kaynağı</label>
                                                 <select id="sobId" name="sourceId" class="form-control">
-                                                    <option value="{{ $reservation->source_id }}" selected>{{ $reservation->source->source_name }}</option>
+                                                    <option value="{{ $reservation->source_id }}" selected>{{ $reservation->source->name }}</option>
                                                     @foreach ($sources as $source)
-                                                    <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                                                    <option value="{{ $source->id }}">{{ $source->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -79,7 +79,7 @@
                                     <tbody>
                                         @foreach($reservation->subServices as $subService)
                                         <tr>
-                                            <td>{{ $subService->service_name }}</td>
+                                            <td>{{ $subService->name }}</td>
                                             <td>{{ $subService->piece }}</td>
                                             <td>
                                                 <a href="{{ url('/definitions/reservations/service/edit/'.$subService->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
@@ -106,7 +106,7 @@
                                     <tbody>
                                         @foreach($reservation->subTherapists as $subTherapist)
                                         <tr>
-                                            <td>{{ $subTherapist->therapist_name }}</td>
+                                            <td>{{ $subTherapist->name }}</td>
                                             <td>{{ $subTherapist->piece }}</td>
                                             <td>
                                                 <a href="{{ url('/definitions/reservations/therapist/edit/'.$subTherapist->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
@@ -187,7 +187,7 @@
                             <select class="form-control" id="serviceId" name="serviceId" required>
                                 <option></option>
                                 @foreach ($services as $service)
-                                <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                <option value="{{ $service->id }}">{{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -229,7 +229,7 @@
                             <select class="form-control" id="therapistId" name="therapistId" required>
                                 <option></option>
                                 @foreach ($therapists as $therapist)
-                                <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                                <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
                                 @endforeach
                             </select>
                         </div>

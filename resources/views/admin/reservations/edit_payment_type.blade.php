@@ -12,9 +12,9 @@
                             <div class="form-group">
                                 <label for="paymentTypeId">Ödeme Türü</label>
                                 <select class="form-control" name="paymentTypeId" id="paymentTypeId">
-                                    <option value="{{ $reservation_payment_type->paymentType->id }}" selected>{{ $reservation_payment_type->paymentType->payment_type_name }}</option>
+                                    <option value="{{ $reservation_payment_type->paymentType->id }}" selected>{{ $reservation_payment_type->paymentType->type_name }}</option>
                                     @foreach ($payment_types as $payment_type)
-                                        <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
+                                        <option value="{{ $payment_type->id }}">{{ $payment_type->type_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

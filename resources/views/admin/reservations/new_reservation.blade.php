@@ -83,7 +83,7 @@
                                                     <select id="sobId" name="sobId" class="form-control">
                                                         <option></option>
                                                         @foreach ($sources as $source)
-                                                        <option value="{{ $source->id }}">{{ $source->source_name }}</option>
+                                                        <option value="{{ $source->id }}">{{ $source->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -248,7 +248,7 @@
                         <select id="serviceId" class="form-control">
                             <option></option>
                             @foreach ($services as $service)
-                            <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                            <option value="{{ $service->id }}">{{ $service->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -282,7 +282,7 @@
                         <select id="therapistId" name="therapistId" class="form-control">
                             <option></option>
                             @foreach ($therapists as $therapist)
-                            <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                            <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -629,7 +629,7 @@
                             <button type="button" class="btn btn-success float-right" id="addCustomertoReservationSave">Kaydet <i class="fa fa-check"></i></button>
                         </div>
                     </div>
-                </form>                
+                </form>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
@@ -668,10 +668,10 @@
                                         <td>
                                             <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name_surname }}"><i class="fa fa-check"></i> Seç</button>
                                         </td>
-                                        <td>{{ $customer->customer_name_surname }}</td>
-                                        <td>{{ $customer->customer_phone }}</td>
-                                        <td>{{ $customer->customer_country }}</td>
-                                        <td>{{ $customer->customer_email }}</td>
+                                        <td>{{ $customer->name_surname }}</td>
+                                        <td>{{ $customer->phone }}</td>
+                                        <td>{{ $customer->country }}</td>
+                                        <td>{{ $customer->email }}</td>
                                         <td>{{ $customer->note }}</td>
                                     </tr>
                                     @endforeach

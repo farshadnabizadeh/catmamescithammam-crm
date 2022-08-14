@@ -12,9 +12,9 @@
                             <div class="form-group">
                                 <label for="therapistId">Terapist</label>
                                 <select class="form-control" name="therapistId" id="therapistId">
-                                    <option value="{{ $reservation_therapist->therapist->id }}" selected>{{ $reservation_therapist->therapist->therapist_name }}</option>
+                                    <option value="{{ $reservation_therapist->therapist->id }}" selected>{{ $reservation_therapist->therapist->name }}</option>
                                     @foreach ($therapists as $therapist)
-                                        <option value="{{ $therapist->id }}">{{ $therapist->therapist_name }}</option>
+                                        <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -98,8 +98,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="not">Not</label>
-                                <input type="text" class="form-control" id="not" name="not" placeholder="Not">
+                                <label for="note">Not</label>
+                                <input type="text" class="form-control" id="note" name="note" placeholder="Not">
                             </div>
                         </div>
                     </div>

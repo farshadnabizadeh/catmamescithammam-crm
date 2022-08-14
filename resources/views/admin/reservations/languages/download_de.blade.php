@@ -78,15 +78,15 @@
                                                                 <div class="col-3 patientInfo">
                                                                     <h2 class="patient-information-title">KUNDENINFORMATIONEN</h2>
                                                                     <br>
-                                                                    <p><span>Name, Nachname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->customer_name_surname }}</b></p>
-                                                                    <p><span>Telefonnummer:</span><br> <b>{{ $reservation->customer->customer_phone }}</b></p>
-                                                                    <p><span>Land:</span><br> <b>{{ $reservation->customer->customer_country }}</b></p>
+                                                                    <p><span>Name, Nachname:</span><br> <b id="patient-name-pdf">{{ $reservation->customer->name_surname }}</b></p>
+                                                                    <p><span>Telefonnummer:</span><br> <b>{{ $reservation->customer->phone }}</b></p>
+                                                                    <p><span>Land:</span><br> <b>{{ $reservation->customer->country }}</b></p>
                                                                     {{-- <p>Gender: <b>{{ $reservation->patient->gender }}</b></p> --}}
                                                                     <br>
                                                                     <br>
                                                                     <h2 class="contact-title">KONTAKT</h2>
                                                                     <br>
-                                                                    <p><span>Name der Kontaktperson:</span><br> <b>Enes</b></p>
+                                                                    <p><span>Name der Kontaktperson:</span><br> <b>Catma Mescit Hammam</b></p>
                                                                     <p><span>Telefon: </span><br> <b>+90 542 619 05 86</b></p>
                                                                     <br>
                                                                 </div>
@@ -106,13 +106,13 @@
                                                                             @foreach($reservation->subServices as $subService)
                                                                             <tr>
                                                                                 <td class="text-center">
-                                                                                    {{ $subService->service_name }}
+                                                                                    {{ $subService->name }}
                                                                                 </td>
                                                                                 <td class="text-center">
                                                                                     <span class="nights-text">{{ $subService->piece }}</span>
                                                                                 </td>
                                                                                 <td class="text-center">
-                                                                                    {{ $subService->service_cost * $subService->piece }} {{ $subService->service_currency }}
+                                                                                    {{ $subService->cost * $subService->piece }} {{ $subService->currency }}
                                                                                 </td>
                                                                             </tr>
                                                                             @endforeach
@@ -120,7 +120,7 @@
                                                                     </table>
                                                                     <div class="d-flex flex-row justify-content-end divTotalStatus">
                                                                         <div class="totalStatus">Total Status:</div>
-                                                                        <div class="box"><p class="total-cost">{{ $reservation->service_cost }} {{ $reservation->service_currency }}</p></div>
+                                                                        <div class="box"><p class="total-cost">{{ $reservation->cost }} {{ $reservation->currency }}</p></div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col text-center changes text-white">

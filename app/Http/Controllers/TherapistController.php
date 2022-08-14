@@ -17,7 +17,7 @@ class TherapistController extends Controller
     public function index()
     {
         try {
-            $therapists = Therapist::orderBy('therapist_name', 'asc')->get();
+            $therapists = Therapist::orderBy('name', 'asc')->get();
             $data = array('therapists' => $therapists);
             return view('admin.therapists.therapists_list')->with($data);
         }

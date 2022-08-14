@@ -41,7 +41,7 @@
                 </div>
             </div>
         </main>
-        
+
         @if (session('message'))
             <script type="text/javascript">
                 swal({ icon: 'success', title: 'Başarılı!', text: '{{ session('message') }}', });
@@ -94,11 +94,11 @@
                     events: [
                         @foreach($listCountByMonth as $reservation)
                         {
-                            title: '{{ $reservation->countR }} {{ $reservation->source_name }}',
+                            title: '{{ $reservation->countR }} {{ $reservation->name }}',
                             start: '{{ $reservation->date }}T{{ $reservation->time }}',
-                            description: '{{ $reservation->countR }} {{ $reservation->source_name }}',
+                            description: '{{ $reservation->countR }} {{ $reservation->name }}',
                             end: '{{ $reservation->date }}',
-                            color: '{{ $reservation->source_color }}',
+                            color: '{{ $reservation->color }}',
                             url: '{{ url('/reservationbydate?s='.$reservation->date) }}',
                             textColor: '#fff',
                         },

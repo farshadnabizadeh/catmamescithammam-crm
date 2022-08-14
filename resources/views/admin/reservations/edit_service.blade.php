@@ -12,9 +12,9 @@
                             <div class="form-group">
                                 <label for="serviceId">Hizmet</label>
                                 <select class="form-control" name="serviceId" id="serviceId">
-                                    <option value="{{ $reservation_service->service->id }}" selected>{{ $reservation_service->service->service_name }}</option>
+                                    <option value="{{ $reservation_service->service->id }}" selected>{{ $reservation_service->service->name }}</option>
                                     @foreach ($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                        <option value="{{ $service->id }}">{{ $service->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

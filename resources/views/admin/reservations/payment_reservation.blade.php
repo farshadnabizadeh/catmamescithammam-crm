@@ -10,7 +10,7 @@
             <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
             <div class="card p-3 mt-3">
                 <div class="card-title">
-                    <nav class="nav nav-borders o">
+                    <nav class="nav nav-borders">
                         <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
                         <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
@@ -42,8 +42,8 @@
                                             <tbody>
                                                 @foreach($reservation->subPaymentTypes as $subPaymentType)
                                                 <tr>
-                                                    <td>{{ $subPaymentType->payment_type_name }}</td>
-                                                    <td>{{ $subPaymentType->payment_price }} {{ $reservation->service_currency }}</td>
+                                                    <td>{{ $subPaymentType->type_name }}</td>
+                                                    <td>{{ $subPaymentType->payment_price }} {{ $reservation->currency }}</td>
                                                     <td>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
@@ -52,7 +52,7 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>Toplam:</td>
-                                                    <td>{{ $totalPayment }} {{ $reservation->service_currency }}</td>
+                                                    <td>{{ $totalPayment }} {{ $reservation->currency }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -98,7 +98,7 @@
                                     <select class="form-control" id="paymentType" name="paymentType" required>
                                         <option></option>
                                         @foreach ($payment_types as $payment_type)
-                                        <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
+                                        <option value="{{ $payment_type->id }}">{{ $payment_type->type_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
