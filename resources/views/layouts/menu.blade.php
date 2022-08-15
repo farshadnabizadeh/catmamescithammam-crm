@@ -132,7 +132,7 @@
                         </a>
                         <ul class="nav-item_sub">
                             <li>
-                                <a class="{{ request()->is('definitions/reports*') ? 'active' : '' }}" href="{{ url('definitions/reports?set=total'); }}">
+                                <a class="{{ request()->is('definitions/reports/reservations*') ? 'active' : '' }}" href="{{ url('/definitions/reports/reservations?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
                                     <span>Rezervasyon Raporu</span>
                                 </a>
                             </li>

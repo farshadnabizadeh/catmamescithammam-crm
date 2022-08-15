@@ -45,7 +45,7 @@
                     <tbody>
                         @foreach($therapistAll as $therapist)
                         <tr>
-                            <td>{{ $therapist->therapist_name }}</td>
+                            <td>{{ $therapist->name }}</td>
                             <td>{{ $therapist->aCount }}</td>
                         </tr>
                         @endforeach
@@ -68,7 +68,7 @@
                     <tbody>
                         @foreach($serviceAll as $service)
                         <tr>
-                            <td>{{ $service->service_name }}</td>
+                            <td>{{ $service->name }}</td>
                             <td>{{ $service->aCount }}</td>
                         </tr>
                         @endforeach

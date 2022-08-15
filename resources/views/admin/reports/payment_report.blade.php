@@ -35,8 +35,8 @@
          <div id="root">
             <div class="card p-3">
                 <div class="card-header">
+                   <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
                     <h2>Ciro Raporu | {{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }}</h2>
-                    <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
                 </div>
                 <div class="card-body">
                     <div class="row">

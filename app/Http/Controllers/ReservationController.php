@@ -59,7 +59,7 @@ class ReservationController extends Controller
                         $action = date('ymd', strtotime($item->created_at)) . $item->id;
                         return $action;
                     })
-                    ->editColumn('source.source_name', function ($item) {
+                    ->editColumn('source.name', function ($item) {
                         return '<span class="badge text-white" style="background-color: '. $item->source->color .'">'. $item->source->name .'</span>';
                     })
                     ->editColumn('reservation_date', function ($item) {

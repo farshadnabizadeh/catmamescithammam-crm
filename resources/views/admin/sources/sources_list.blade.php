@@ -30,7 +30,7 @@
                     <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Operation</th>
+                                <th scope="col">İşlem</th>
                                 <th scope="col">Kaynak Adı</th>
                                 <th scope="col">Kaynak Rengi</th>
                             </tr>
