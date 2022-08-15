@@ -19,9 +19,9 @@
                             <div class="form-group">
                                 <label for="formStatusId">Form Durumu</label>
                                 <select name="formStatusId" id="formStatusId">
-                                    <option value="{{ $contact_form->form_status_id }}" selected>{{ $contact_form->status->status_name }}</option>
+                                    <option value="{{ $contact_form->form_status_id }}" selected>{{ $contact_form->status->name }}</option>
                                     @foreach ($form_statuses as $form_status)
-                                    <option value="{{ $form_status->id }}">{{ $form_status->status_name }}</option>
+                                    <option value="{{ $form_status->id }}">{{ $form_status->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
