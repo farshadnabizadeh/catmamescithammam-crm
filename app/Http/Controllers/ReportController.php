@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use App\Models\ReservationPaymentType;
 use App\Models\Therapist;
 use App\Models\Service;
+use App\Models\Source;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -28,6 +30,23 @@ class ReportController extends Controller
 
             $data = array('serviceAll' => $serviceAll, 'therapistAll' => $therapistAll, 'start' => $start, 'end' => $end);
             return view('admin.reports.reservation_report')->with($data);
+
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function sourceReport(Request $request)
+    {
+        try {
+
+            $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))
+                // ->where('treatment_plans.user_id', '=', $user->id)
+                ->get();
+
+            // return view('admin.reports.report', array('data' => $data));
+            return json_encode($data);
 
         }
         catch (\Throwable $th) {

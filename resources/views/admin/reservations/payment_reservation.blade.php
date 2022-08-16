@@ -17,16 +17,8 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <ul class="nav nav-tabs d-flex" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Ödemeler @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="medication-tab" data-toggle="tab" href="#medication" role="tab" aria-controls="medication" aria-selected="false">Komisyonlar </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                        <div class="row">
+                            <div class="col-lg-6">
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <h3 class="d-flex align-items-center mb-3">Ödemeler</h3>
@@ -43,7 +35,7 @@
                                                 @foreach($reservation->subPaymentTypes as $subPaymentType)
                                                 <tr>
                                                     <td>{{ $subPaymentType->type_name }}</td>
-                                                    <td>{{ $subPaymentType->payment_price }} {{ $reservation->currency }}</td>
+                                                    <td>{{ number_format($subPaymentType->payment_price) }}</td>
                                                     <td>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
@@ -52,22 +44,43 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>Toplam:</td>
-                                                    <td>{{ $totalPayment }} {{ $reservation->currency }}</td>
+                                                    <td>{{ number_format($totalPayment) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="medication" role="tabpanel" aria-labelledby="medication-tab">
+                            <div class="col-lg-6">
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <h3 class="d-flex align-items-center mb-3">Komisyonlar</h3>
-                                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addServiceModal"><i class="fa fa-plus"></i> Hizmet Ekle</button>
-                                        <div class="col-lg-12 mt-3">
-                                            <h4>Otel Adı: </h4>
-                                            <h4>Verilen Komisyon: </h4>
-                                        </div>
+                                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addComissionModal"><i class="fa fa-plus"></i> Komisyon Ekle</button>
+                                            <table class="table dataTable" id="tableData">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ödeme Türü</th>
+                                                        <th>Ücret</th>
+                                                        <th>İşlem</th>
+                                                    </tr>
+                                                </thead>
+                                            <tbody>
+                                                @foreach($reservation->subPaymentTypes as $subPaymentType)
+                                                <tr>
+                                                    <td>{{ $subPaymentType->type_name }}</td>
+                                                    <td>{{ number_format($subPaymentType->payment_price) }}</td>
+                                                    <td>
+                                                        <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                        <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                <tr>
+                                                    <td>Toplam:</td>
+                                                    <td>{{ number_format($totalPayment) }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -79,6 +92,48 @@
     </div>
 
     <div class="modal fade" id="addPaymentTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yeni Ödeme Türü Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        @csrf
+                        <input type="hidden" id="reservation_id" value="{{ $reservation->id }}">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="paymentType">Ödeme Türü</label>
+                                    <select class="form-control" id="paymentType" name="paymentType" required>
+                                        <option></option>
+                                        @foreach ($payment_types as $payment_type)
+                                        <option value="{{ $payment_type->id }}">{{ $payment_type->type_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="paymentPrice">Ücret</label>
+                                    <input type="text" class="form-control" placeholder="Ücret" id="paymentPrice">
+                                </div>
+                            </div>
+                    </div>
+                    <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addComissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

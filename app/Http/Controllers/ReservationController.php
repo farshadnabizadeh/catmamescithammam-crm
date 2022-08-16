@@ -15,6 +15,8 @@ use App\Models\Discount;
 use App\Models\Customer;
 use App\Models\Hotel;
 use App\Models\User;
+use App\Mail\NotificationMail;
+use Mail;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +39,7 @@ class ReservationController extends Controller
             $storages = array('start' => $start, 'end' => $end);
 
             if (request()->ajax()) {
-                $data = Reservation::with('customer', 'source')->orderBy('reservation_date', 'desc')->orderBy('reservation_time', 'desc')->whereBetween('reservations.reservation_date', [$start, $end]);
+                $data = Reservation::with('customer', 'source')->orderBy('reservation_date', 'desc')->orderBy('reservation_time', 'asc')->whereBetween('reservations.reservation_date', [$start, $end]);
                 return DataTables::of($data)
                     ->editColumn('action', function ($item) {
                         return '<div class="dropdown">
@@ -122,6 +124,12 @@ class ReservationController extends Controller
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
+
+            $body = [
+                'newID' => $newData->id
+            ];
+
+            Mail::to(['enesdemir12@outlook.com.tr'])->send(new NotificationMail($body));
 
             if ($result) {
                 return response($newData->id, 200);

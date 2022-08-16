@@ -192,14 +192,14 @@
         </div>
         <div class="col-lg-6">
          <div class="card">
-            <div class="card-header border-0">
+            <div class="card-header border-0" style="padding: 0; padding-top: 10px">
                <div class="row align-items-center">
                   <div class="col">
-                     <h3 class="mb-0">Genel Özet</h3>
+                     <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
                   </div>
                </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="padding: 0">
                <canvas id="pie-chart" width="800" height="450"></canvas>
             </div>
          </div>

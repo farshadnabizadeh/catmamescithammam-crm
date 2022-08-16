@@ -3,6 +3,9 @@ var customerID;
 var totalCost = [];
 var servicePieces = [];
 var total;
+var statusNames = [];
+var colors = [];
+var counts = [];
 
 var HIDDEN_URL = {
     RESERVATION: '/definitions/reservations',
@@ -15,23 +18,25 @@ var HIDDEN_URL = {
 
 function dashboard() {
     try {
-        new Chart(document.getElementById("pie-chart"), {
-            type: 'pie',
-            data: {
-                labels: ["test", "test", "test", "test"],
-                datasets: [{
-                    label: "Population (millions)",
-                    backgroundColor: ["#11cdef", "#8e5ea2", "#11cdef", "#11cdef"],
-                    data: [2478, 5267, 734, 784]
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: ''
+        setTimeout(() => {
+            new Chart(document.getElementById("pie-chart"), {
+                type: 'pie',
+                data: {
+                    labels: statusNames,
+                    datasets: [{
+                        label: "Population (millions)",
+                        backgroundColor: colors,
+                        data: counts
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: ''
+                    }
                 }
-            }
-        });
+            });
+        }, 1000);
     }
     catch (error) {
         console.log(error);
@@ -180,6 +185,24 @@ var app = (function() {
         select2Init();
         dataTableInit();
         dtSearchInit();
+    });
+
+    $.ajax({
+        url: '/definitions/reports/sourceReport',
+        type: 'get',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                $.each(response, function (key, value) {
+                    statusNames.push(value.name);
+                    colors.push(value.color);
+                    counts.push(value.aCount);
+                });
+            }
+        },
+
+        error: function () {
+        },
     });
 
     reservationStep();
