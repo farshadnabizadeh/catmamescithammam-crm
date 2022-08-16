@@ -32,33 +32,84 @@
 
    <div class="row">
       <div class="col-lg-12">
+         <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
+      </div>
+      <div class="col-lg-12">
          <div id="root">
-            <div class="card p-3">
-                <div class="card-header">
-                   <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
-                    <h2>Ciro Raporu | {{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }}</h2>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <p>CASH TL: <b>₺ {{ number_format($cashTl, 2) }}</b></p>
-                            <p>CASH EURO: <b>€ {{ number_format($cashEur, 2) }}</b></p>
-                            <p>CASH DOLAR: <b>$ {{ number_format($cashUsd, 2) }}</b></p>
-                            <p>CASH POUND: <b>£ {{ number_format($cashPound, 2) }}</b></p>
+            <div class="card">
+                  <div class="card-header">
+                     <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
+                  </div>
+                  <div class="card-body" style="padding: 0; padding-top: 10px">
+                     <div class="row">
+                           <div class="col-lg-4">
+                              <p>CASH TL:</p>
+                           </div>
+                           <div class="col-lg-2">
+                              <b>₺ {{ number_format($cashTl, 2) }}</b>
+                           </div>
+                           <div class="col-lg-4">
+                              <p>YKB KK TL:</p>
+                           </div>
+                           <div class="col-lg-2">
+                              <b>₺ {{ number_format($ykbTl, 2) }}</b>
+                           </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-4">
+                           <p>CASH EURO:</p>
                         </div>
-                        <div class="col-lg-6">
-                            <p>YKB KK TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></p>
-                            <p>ZİRAAT KK TL: <b>₺ {{ number_format($ziraatTl, 2) }}</b></p>
-                            <p>ZİRAAT KK EURO: <b>€ {{ number_format($ziraatEuro, 2) }}</b></p>
-                            <p>ZİRAAT KK DOLAR: <b>$ {{ number_format($ziraatDolar, 2) }}</b></p>
-                            <p>VIATOR EURO: <b>€ {{ number_format($viatorEuro, 2) }}</b></p>
+                        <div class="col-lg-2">
+                           <b>€ {{ number_format($cashEur, 2) }}</b>
                         </div>
-                    </div>
-                </div>
+                        <div class="col-lg-4">
+                           <p>ZİRAAT KK TL:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>₺ {{ number_format($ziraatTl, 2) }}</b>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-4">
+                           <p>CASH DOLAR:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>$ {{ number_format($cashUsd, 2) }}</b>
+                        </div>
+                        <div class="col-lg-4">
+                           <p>ZİRAAT KK EURO:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>€ {{ number_format($ziraatEuro, 2) }}</b>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-4">
+                           <p>CASH POUND:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>£ {{ number_format($cashPound, 2) }}</b>
+                        </div>
+                        <div class="col-lg-4">
+                           <p>ZİRAAT KK DOLAR:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>$ {{ number_format($ziraatDolar, 2) }}</b>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-4">
+                           <p>VIATOR EURO:</p>
+                        </div>
+                        <div class="col-lg-2">
+                           <b>€ {{ number_format($viatorEuro, 2) }}</b>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
    </div>
-</div>
 
 @endsection

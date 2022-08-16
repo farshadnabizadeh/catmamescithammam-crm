@@ -191,7 +191,8 @@ b,
 strong
 {
     color: #000;
-    font-weight: bolder
+    font-weight: bolder;
+    font-family: var(--font-montserrat)
 }
 
 small
@@ -419,9 +420,7 @@ caption
 }
 
 .download-report-btn {
-    position: absolute !important;
-    right: 10px;
-    top: 25px
+    bottom: 10px
 }
 
 .add-new-btn {
