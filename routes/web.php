@@ -10,7 +10,7 @@ Route::GET('/', function () {
     return view('auth.login');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::GET('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
@@ -166,10 +166,11 @@ Route::group(['middleware' => ['auth']], function(){
     //Discounts end
 
     //Report
-    Route::GET('definitions/reports/reservations', 'ReportController@index');
-    Route::GET('definitions/reports/payments', 'ReportController@paymentReport');
-    Route::GET('definitions/reports/comissions', 'ReportController@comissionReport');
-    Route::GET('definitions/reports/sourceReport', 'ReportController@sourceReport');
+    Route::GET('reports/reservations', 'ReportController@index');
+    Route::GET('reservationReport', 'ReportController@reservationReport');
+    Route::GET('reports/payments', 'ReportController@paymentReport');
+    Route::GET('reports/comissions', 'ReportController@comissionReport');
+    Route::GET('reports/sourceReport', 'ReportController@sourceReport');
     //Report end
 
 });

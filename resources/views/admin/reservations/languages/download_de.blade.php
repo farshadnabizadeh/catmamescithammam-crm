@@ -97,8 +97,8 @@
                                                                     <table class="table table-bordered treatmentplan-table">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Care:</th>
-                                                                                <th>Piece</th>
+                                                                                <th>Pflege:</th>
+                                                                                <th>Stück</th>
                                                                                 <th>Preis:</th>
                                                                             </tr>
                                                                         </thead>
@@ -119,8 +119,8 @@
                                                                         </tbody>
                                                                     </table>
                                                                     <div class="d-flex flex-row justify-content-end divTotalStatus">
-                                                                        <div class="totalStatus">Total Status:</div>
-                                                                        <div class="box"><p class="total-cost">{{ $reservation->cost }} {{ $reservation->currency }}</p></div>
+                                                                        <div class="totalStatus">Gesamtstatus:</div>
+                                                                        <div class="box"><p class="total-cost">{{ $total }} {{ $subService->currency }}</p></div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col text-center changes text-white">

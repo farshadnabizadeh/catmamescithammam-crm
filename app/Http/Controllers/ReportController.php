@@ -41,13 +41,22 @@ class ReportController extends Controller
     {
         try {
 
-            $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))
-                // ->where('treatment_plans.user_id', '=', $user->id)
-                ->get();
+            $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))->get();
 
-            // return view('admin.reports.report', array('data' => $data));
             return json_encode($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
+    public function reservationReport(Request $request)
+    {
+        try {
+
+            $data = Service::select("services.name", \DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->get();
+
+            return json_encode($data);
         }
         catch (\Throwable $th) {
             throw $th;

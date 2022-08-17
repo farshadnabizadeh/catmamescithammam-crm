@@ -36,6 +36,24 @@ function dashboard() {
                     }
                 }
             });
+
+            new Chart(document.getElementById("services-chart"), {
+                type: 'pie',
+                data: {
+                    labels: statusNames,
+                    datasets: [{
+                        label: "Population (millions)",
+                        backgroundColor: colors,
+                        data: counts
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: ''
+                    }
+                }
+            });
         }, 1000);
     }
     catch (error) {
@@ -54,7 +72,7 @@ function voucherPdf() {
 
         html2pdf().from(elem).set({
             margin: 0,
-            filename: 'treatmentplan-' + now_date + '.pdf',
+            filename: 'Care Plan-' + now_date + '.pdf',
             html2canvas: {
                 scale: 2,
                 y: -2
@@ -188,7 +206,7 @@ var app = (function() {
     });
 
     $.ajax({
-        url: '/definitions/reports/sourceReport',
+        url: '/reports/sourceReport',
         type: 'get',
         dataType: 'json',
         success: function (response) {

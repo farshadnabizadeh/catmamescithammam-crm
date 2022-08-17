@@ -111,7 +111,6 @@
                                                                                     <span class="nights-text">{{ $subService->piece }}</span>
                                                                                 </td>
                                                                                 <td class="text-center">
-
                                                                                     {{ $subService->cost * $subService->piece }} {{ $subService->currency }}
                                                                                 </td>
                                                                             </tr>

@@ -160,50 +160,32 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header border-0">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h3 class="mb-0">Son Girilen 5 Rezervasyon</h3>
-                    </div>
-                    <div class="col text-right">
-                        <a href="{{ url('/definitions/reservations') }}" class="btn btn-sm btn-danger">Tümünü Gör</a>
+                <div class="card-header border-0" style="padding: 0; padding-top: 10px">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
+                        </div>
                     </div>
                 </div>
-                </div>
-                <div class="table-responsive">
-                <table class="table align-items-center table-flush">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Rezervasyon Tarihi</th>
-                            <th scope="col">Rezervasyon Saati</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($lastReservations as $lastReservation)
-                        <tr>
-                            <td>{{ $lastReservation->reservation_date }}</td>
-                            <td>{{ $lastReservation->reservation_time }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="card-body" style="padding: 0">
+                    <canvas id="pie-chart" width="800" height="450"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
-         <div class="card">
-            <div class="card-header border-0" style="padding: 0; padding-top: 10px">
-               <div class="row align-items-center">
-                  <div class="col">
-                     <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
-                  </div>
-               </div>
+            <div class="card">
+                <div class="card-header border-0" style="padding: 0; padding-top: 10px">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 0">
+                    <canvas id="services-chart" width="800" height="450"></canvas>
+                </div>
             </div>
-            <div class="card-body" style="padding: 0">
-               <canvas id="pie-chart" width="800" height="450"></canvas>
-            </div>
-         </div>
-      </div>
+        </div>
     </div>
 </div>
 

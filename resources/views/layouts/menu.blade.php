@@ -124,7 +124,7 @@
                             @endcan
                         </ul>
                     </li>
-                    <li class="nav-item {{ request()->is('definitions/reports*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('reports*') ? 'active' : '' }}">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-file-text text-primary"></i>
                             <span class="nav-link-text">Raporlar</span>
@@ -132,17 +132,17 @@
                         </a>
                         <ul class="nav-item_sub">
                             <li>
-                                <a class="{{ request()->is('definitions/reports/reservations*') ? 'active' : '' }}" href="{{ url('/definitions/reports/reservations?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
+                                <a class="{{ request()->is('reports/reservations*') ? 'active' : '' }}" href="{{ url('reports/reservations?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
                                     <span>Rezervasyon Raporu</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/reports/payments*') ? 'active' : '' }}" href="{{ url('definitions/reports/payments?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
+                                <a class="{{ request()->is('reports/payments*') ? 'active' : '' }}" href="{{ url('reports/payments?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
                                     <span>Ciro Raporu</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('definitions/reports/comissions*') ? 'active' : '' }}" href="{{ url('definitions/reports/comissions?set=total'); }}">
+                                <a class="{{ request()->is('reports/comissions*') ? 'active' : '' }}" href="{{ url('reports/comissions?set=total'); }}">
                                     <span>Komisyon Raporu</span>
                                 </a>
                             </li>
