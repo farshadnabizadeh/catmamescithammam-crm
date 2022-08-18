@@ -3,9 +3,14 @@ var customerID;
 var totalCost = [];
 var servicePieces = [];
 var total;
-var statusNames = [];
-var colors = [];
-var counts = [];
+//source reports
+var sourceNames = [];
+var sourceColors = [];
+var sourceCounts = [];
+//service reports
+var serviceNames = [];
+var serviceColors = [];
+var serviceCounts = [];
 
 var HIDDEN_URL = {
     RESERVATION: '/definitions/reservations',
@@ -19,14 +24,14 @@ var HIDDEN_URL = {
 function dashboard() {
     try {
         setTimeout(() => {
-            new Chart(document.getElementById("pie-chart"), {
-                type: 'pie',
+            new Chart(document.getElementById("source-chart"), {
+                type: 'bar',
                 data: {
-                    labels: statusNames,
+                    labels: sourceNames,
                     datasets: [{
-                        label: "Population (millions)",
-                        backgroundColor: colors,
-                        data: counts
+                        label: "Rezervasyon Kaynak Özetleri",
+                        backgroundColor: sourceColors,
+                        data: sourceCounts
                     }]
                 },
                 options: {
@@ -38,13 +43,13 @@ function dashboard() {
             });
 
             new Chart(document.getElementById("services-chart"), {
-                type: 'pie',
+                type: 'bar',
                 data: {
-                    labels: statusNames,
+                    labels: serviceNames,
                     datasets: [{
-                        label: "Population (millions)",
-                        backgroundColor: colors,
-                        data: counts
+                        label: "Hizmet Özetleri",
+                        backgroundColor: serviceColors,
+                        data: serviceCounts
                     }]
                 },
                 options: {
@@ -212,9 +217,27 @@ var app = (function() {
         success: function (response) {
             if (response) {
                 $.each(response, function (key, value) {
-                    statusNames.push(value.name);
-                    colors.push(value.color);
-                    counts.push(value.aCount);
+                    sourceNames.push(value.name);
+                    sourceColors.push(value.color);
+                    sourceCounts.push(value.aCount);
+                });
+            }
+        },
+
+        error: function () {
+        },
+    });
+
+    $.ajax({
+        url: '/reports/serviceReport',
+        type: 'get',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                $.each(response, function (key, value) {
+                    serviceNames.push(value.name);
+                    serviceColors.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                    serviceCounts.push(value.aCount);
                 });
             }
         },

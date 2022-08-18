@@ -72,28 +72,25 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="container-fluid">
     <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header border-0" style="padding: 0; padding-top: 10px">
+                    <div class="row align-items-center">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Müşteriler</h5>
-                            <hr>
-                            <a href="{{ url('/definitions/customers') }}">
-                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-user"></i>
-                            </div>
+                            <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
                         </div>
                     </div>
                 </div>
+                <div class="card-body" style="padding: 0">
+                    <canvas id="source-chart" width="800" height="450"></canvas>
+                </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-lg-4">
             <div class="card card-stats">
                 <div class="card-body">
                     <div class="row">
@@ -112,8 +109,24 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-dashboard-card">Müşteriler</h5>
+                            <hr>
+                            <a href="{{ url('/definitions/customers') }}">
+                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card card-stats">
                 <div class="card-body">
                     <div class="row">
@@ -132,8 +145,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
             <div class="card card-stats">
                 <div class="card-body">
                     <div class="row">
@@ -153,31 +164,12 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-header border-0" style="padding: 0; padding-top: 10px">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" style="padding: 0">
-                    <canvas id="pie-chart" width="800" height="450"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header border-0" style="padding: 0; padding-top: 10px">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Rezervasyon Kaynak Özetleri</h3>
+                            <h3 class="mb-0">Hizmet Özetleri</h3>
                         </div>
                     </div>
                 </div>
