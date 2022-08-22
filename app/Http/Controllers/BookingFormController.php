@@ -24,9 +24,12 @@ class BookingFormController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $form_statuses = FormStatuses::all();
+            $noContactCount = BookingForm::where('booking_forms.form_status_id', '=', 1)->count();
+            $noCallBackCount = BookingForm::where('booking_forms.form_status_id', '=', 2)->count();
+            $contactedCount = BookingForm::where('booking_forms.form_status_id', '=', 3)->count();
+            $unknownCount = BookingForm::where('booking_forms.form_status_id', '=', 4)->count();
 
-            $data = array('form_statuses' => $form_statuses, 'start' => $start, 'end' => $end);
+            $data = array('start' => $start, 'end' => $end, 'noContactCount' => $noContactCount, 'noCallBackCount' => $noCallBackCount, 'contactedCount' => $contactedCount, 'unknownCount' => $unknownCount);
             if (request()->ajax()) {
                 $data = BookingForm::with('status')->orderBy('created_at', 'desc')->whereBetween('booking_forms.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
                 return DataTables::of($data)

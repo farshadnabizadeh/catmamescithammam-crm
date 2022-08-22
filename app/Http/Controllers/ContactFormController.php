@@ -24,9 +24,12 @@ class ContactFormController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $form_statuses = FormStatuses::all();
+            $noContactCount = ContactForm::where('form_status_id', '=', 1)->count();
+            $noCallBackCount = ContactForm::where('form_status_id', '=', 2)->count();
+            $contactedCount = ContactForm::where('form_status_id', '=', 3)->count();
+            $unknownCount = ContactForm::where('form_status_id', '=', 4)->count();
 
-            $data = array('form_statuses' => $form_statuses, 'start' => $start, 'end' => $end);
+            $data = array('start' => $start, 'end' => $end, 'noContactCount' => $noContactCount, 'noCallBackCount' => $noCallBackCount, 'contactedCount' => $contactedCount, 'unknownCount' => $unknownCount);
             if (request()->ajax()) {
                 $data = ContactForm::with('status')->orderBy('created_at', 'desc')->whereBetween('contact_forms.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
                 return DataTables::of($data)
