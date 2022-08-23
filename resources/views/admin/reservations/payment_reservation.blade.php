@@ -35,7 +35,7 @@
                                                 @foreach($reservation->subPaymentTypes as $subPaymentType)
                                                 <tr>
                                                     <td>{{ $subPaymentType->type_name }}</td>
-                                                    <td>{{ number_format($subPaymentType->payment_price) }}</td>
+                                                    <td>{{ $subPaymentType->payment_price }}</td>
                                                     <td>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
@@ -44,7 +44,7 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>Toplam:</td>
-                                                    <td>{{ number_format($totalPayment) }}</td>
+                                                    <td>{{ number_format($totalPayment, 2) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -68,7 +68,7 @@
                                                 @foreach($reservation->subPaymentTypes as $subPaymentType)
                                                 <tr>
                                                     <td>{{ $subPaymentType->type_name }}</td>
-                                                    <td>{{ number_format($subPaymentType->payment_price) }}</td>
+                                                    <td>{{ $subPaymentType->payment_price }}</td>
                                                     <td>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                         <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
@@ -77,7 +77,7 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>Toplam:</td>
-                                                    <td>{{ number_format($totalPayment) }}</td>
+                                                    <td>{{ number_format($totalPayment, 2) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -97,7 +97,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Yeni Ödeme Türü Ekle</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -122,8 +122,8 @@
                                     <input type="text" class="form-control" placeholder="Ücret" id="paymentPrice">
                                 </div>
                             </div>
-                    </div>
-                    <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+                        </div>
+                        <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -164,7 +164,7 @@
                                     <input type="text" class="form-control" placeholder="Ücret" id="paymentPrice">
                                 </div>
                             </div>
-                    </div>
+                        </div>
                     <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                     </form>
                 </div>

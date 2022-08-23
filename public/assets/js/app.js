@@ -7,6 +7,10 @@ var total;
 var sourceNames = [];
 var sourceColors = [];
 var sourceCounts = [];
+//therapist reports
+var therapistNames = [];
+var therapistColors = [];
+var therapistCounts = [];
 //service reports
 var serviceNames = [];
 var serviceColors = [];
@@ -32,6 +36,24 @@ function dashboard() {
                         label: "Rezervasyon Kaynak Özetleri",
                         backgroundColor: sourceColors,
                         data: sourceCounts
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: ''
+                    }
+                }
+            });
+
+            new Chart(document.getElementById("therapist-chart"), {
+                type: 'bar',
+                data: {
+                    labels: therapistNames,
+                    datasets: [{
+                        label: "Terapist Özetleri",
+                        backgroundColor: therapistColors,
+                        data: therapistCounts
                     }]
                 },
                 options: {
@@ -226,6 +248,23 @@ var app = (function() {
 
         error: function () {
         },
+    });
+
+    $.ajax({
+        url: '/reports/therapistReport',
+        type: 'get',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                $.each(response, function (key, value) {
+                    therapistNames.push(value.name);
+                    therapistColors.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                    therapistCounts.push(value.aCount);
+                });
+            }
+        },
+
+        error: function () { },
     });
 
     $.ajax({

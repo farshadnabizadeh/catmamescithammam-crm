@@ -27,8 +27,8 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $therapistAll = Therapist::select("therapists.name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
-            $serviceAll = Service::select("services.name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
+            $therapistAll = Therapist::select("name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as tCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->orderBy('tCount', 'ASC')->get();
+            $serviceAll = Service::select("name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as sCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
 
             $data = array('serviceAll' => $serviceAll, 'therapistAll' => $therapistAll, 'start' => $start, 'end' => $end);
             return view('admin.reports.reservation_report')->with($data);
@@ -44,6 +44,19 @@ class ReportController extends Controller
         try {
 
             $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))->get();
+
+            return json_encode($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function therapistReport(Request $request)
+    {
+        try {
+
+            $data = Therapist::select("therapists.*", \DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->get();
 
             return json_encode($data);
         }

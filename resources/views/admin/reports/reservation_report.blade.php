@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-6">
             <div class="card p-3">
@@ -46,7 +47,7 @@
                         @foreach($therapistAll as $therapist)
                         <tr>
                             <td>{{ $therapist->name }}</td>
-                            <td>{{ $therapist->aCount }}</td>
+                            <td>{{ $therapist->tCount }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -69,7 +70,7 @@
                         @foreach($serviceAll as $service)
                         <tr>
                             <td>{{ $service->name }}</td>
-                            <td>{{ $service->aCount }}</td>
+                            <td>{{ $service->sCount }}</td>
                         </tr>
                         @endforeach
                     </tbody>

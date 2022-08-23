@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 @section('content')
+
 @include('layouts.navbar')
 
 <div class="header bg-primary pb-6">
@@ -76,7 +78,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-header border-0" style="padding: 0; padding-top: 10px">
                     <div class="row align-items-center">
@@ -90,81 +92,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header border-0" style="padding: 0; padding-top: 10px">
+                    <div class="row align-items-center">
                         <div class="col">
-                            <h5 class="card-title text-dashboard-card">Oteller</h5>
-                            <hr>
-                            <a href="{{ url('/definitions/hotels') }}">
-                                <span class="h2 mb-0 count-card">{{ $hotelCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-hospital-o"></i>
-                            </div>
+                            <h3 class="mb-0">Terapist Özetleri</h3>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-dashboard-card">Müşteriler</h5>
-                            <hr>
-                            <a href="{{ url('/definitions/customers') }}">
-                                <span class="h2 mb-0 count-card">{{ $customerCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-dashboard-card">Hizmetler</h5>
-                            <hr>
-                            <a href="{{ url('/definitions/services') }}">
-                                <span class="h2 mb-0 count-card">{{ $serviceCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-sun-o"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-dashboard-card">Terapistler</h5>
-                            <hr>
-                            <a href="{{ url('/definitions/therapists') }}">
-                                <span class="h2 mb-0 count-card">{{ $therapistCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-users"></i>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-body" style="padding: 0">
+                    <canvas id="therapist-chart" width="800" height="450"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-0" style="padding: 0; padding-top: 10px">
                     <div class="row align-items-center">

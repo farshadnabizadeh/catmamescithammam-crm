@@ -170,6 +170,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('reports/payments', 'ReportController@paymentReport');
     Route::GET('reports/comissions', 'ReportController@comissionReport');
     Route::GET('reports/serviceReport', 'ReportController@serviceReport');
+    Route::GET('reports/therapistReport', 'ReportController@therapistReport');
     Route::GET('reports/sourceReport', 'ReportController@sourceReport');
     //Report end
 
