@@ -142,7 +142,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="{{ request()->is('reports/comissions*') ? 'active' : '' }}" href="{{ url('reports/comissions?set=total'); }}">
+                                <a class="{{ request()->is('reports/comissions*') ? 'active' : '' }}" href="{{ url('reports/comissions?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
                                     <span>Komisyon Raporu</span>
                                 </a>
                             </li>

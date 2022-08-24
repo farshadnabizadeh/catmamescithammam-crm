@@ -24,6 +24,10 @@ class CreateReservationsComissions extends Migration
             $table->foreign('hotel_id')->references('id')
                 ->on('hotels')
                 ->onDelete('cascade');
+            $table->integer('guide_id')->unsigned()->nullable();
+            $table->foreign('guide_id')->references('id')
+                ->on('guides')
+                ->onDelete('cascade');
             $table->string('comission_price')->nullable();
             $table->string('comission_currency')->nullable();
             $table->integer('user_id')->unsigned();

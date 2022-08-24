@@ -362,6 +362,7 @@ var app = (function() {
     $("#tableTherapist").dataTable({ paging: true, pageLength: 25 });
     $("#tableServices").dataTable({ paging: true, pageLength: 25 });
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
+    $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
 
     $('.navbar-nav li a').on('click', function () {
         $(this).parent().toggleClass('active');

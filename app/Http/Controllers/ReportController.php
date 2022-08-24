@@ -9,6 +9,7 @@ use App\Models\ReservationComission;
 use App\Models\Therapist;
 use App\Models\Service;
 use App\Models\Source;
+use App\Models\Guide;
 use App\Models\Hotel;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,33 @@ class ReportController extends Controller
             $data = Therapist::select("therapists.*", \DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->get();
 
             return json_encode($data);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function comissionReport(Request $request)
+    {
+        try {
+
+            $start = $request->input('startDate');
+            $end = $request->input('endDate');
+
+            $hotelComissions = \DB::table("users")->select("hotels.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.hotel_id = hotels.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
+            $guideComissions = \DB::table("users")->select("guides.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.guide_id = guides.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
+
+            /* $hotelComissions = Hotel::select("hotels.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.hotel_id = hotels.id) as aCount"))
+            ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->get();
+
+            $guideComissions = Guide::select("guides.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.guide_id = guides.id) as aCount"))
+            ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->get(); */
+
+            $data = array('hotelComissions' => $hotelComissions, 'guideComissions' => $guideComissions, 'start' => $start, 'end' => $end);
+
+            return view('admin.reports.comission_report')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -130,19 +158,5 @@ class ReportController extends Controller
             throw $th;
         }
     }
-
-    public function comissionReport(Request $request)
-    {
-        try {
-
-            $hotelComissions = ReservationComission::select("reservations_comissions.*", \DB::raw("(SELECT count(*) FROM reservations_comissions a WHERE a.hotel_id = hotels.id)"))->sum("comission_price");
-
-            $data = array('hotelComissions' => $hotelComissions);
-
-            return view('admin.reports.comission_report')->with($data);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+    
 }

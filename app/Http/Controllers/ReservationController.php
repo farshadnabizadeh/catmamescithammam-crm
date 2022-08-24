@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\ReservationCustomer;
 use App\Models\ReservationService;
 use App\Models\ReservationTherapist;
+use App\Models\ReservationComission;
 use App\Models\ReservationPaymentType;
 use App\Models\Service;
 use App\Models\PaymentType;
@@ -197,6 +198,31 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->therapist_id = $request->input('therapistId');
             $newData->piece = $request->input('piece');
+            $newData->user_id = $user->id;
+
+            if ($newData->save()) {
+                return response(true, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addComissiontoReservation(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $newData = new ReservationComission();
+            $newData->reservation_id = $request->input('reservationId');
+            $newData->hotel_id = $request->input('hotelId');
+            $newData->guide_id = $request->input('guideId');
+            $newData->comission_price = $request->input('comission_price');
+            $newData->comission_currency = "TL";
             $newData->user_id = $user->id;
 
             if ($newData->save()) {
