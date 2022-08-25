@@ -32,15 +32,13 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
-        </div>
-        <div class="col-lg-12">
             <div id="root">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card p-3">
                             <div class="card-title">
                                 <h2>Otel Komisyon Raporu</h2>
+                                <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
                             </div>
                             <div class="card-body" style="padding: 0; padding-top: 10px">
                                 <div class="col-lg-12">
@@ -55,7 +53,7 @@
                                             @foreach($hotelComissions as $hotelComission)
                                             <tr>
                                                 <td>{{ $hotelComission->name }}</td>
-                                                <td>{{ $hotelComission->aCount . ' TL' }}</td>
+                                                <td>{{ $hotelComission->totalPrice . ' TL' }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -82,7 +80,7 @@
                                             @foreach($guideComissions as $guideComission)
                                             <tr>
                                                 <td>{{ $guideComission->name }}</td>
-                                                <td>{{ $guideComission->aCount . ' TL' }}</td>
+                                                <td>{{ $guideComission->totalPrice . ' TL' }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

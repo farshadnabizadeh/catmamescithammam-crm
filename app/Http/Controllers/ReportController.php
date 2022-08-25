@@ -73,16 +73,19 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $hotelComissions = \DB::table("users")->select("hotels.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.hotel_id = hotels.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
-            $guideComissions = \DB::table("users")->select("guides.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.guide_id = guides.id) as aCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
-
-            /* $hotelComissions = Hotel::select("hotels.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.hotel_id = hotels.id) as aCount"))
+            $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
+            ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
             ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->whereNull('reservations_comissions.guide_id')
+            ->groupBy('hotel_id')
             ->get();
 
-            $guideComissions = Guide::select("guides.*", \DB::raw("(SELECT sum(comission_price) FROM reservations_comissions a WHERE a.guide_id = guides.id) as aCount"))
+            $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
+            ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
             ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->get(); */
+            ->whereNull('reservations_comissions.hotel_id')
+            ->groupBy('guide_id')
+            ->get();
 
             $data = array('hotelComissions' => $hotelComissions, 'guideComissions' => $guideComissions, 'start' => $start, 'end' => $end);
 
