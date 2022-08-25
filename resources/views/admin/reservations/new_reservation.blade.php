@@ -90,6 +90,14 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
+                                                    <label class="changeName"></label>
+                                                    <select id="general" class="form-control">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
                                                     <label for="note">Rezervasyon Notu</label>
                                                     <textarea class="form-control" id="note" placeholder="Rezervasyon Notu"></textarea>
                                                 </div>

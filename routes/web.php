@@ -68,12 +68,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/contactforms/destroy/{id}', 'ContactFormController@destroy')->middleware(['middleware' => 'permission:delete contactform']);
     //Contact Forms end
 
+    //Comissions
+    Route::POST('addComissiontoReservation', 'ReservationController@addComissiontoReservation');
+
     //Hotels
     Route::GET('definitions/hotels', 'HotelController@index')->middleware(['middleware' => 'permission:show hotel']);
     Route::POST('definitions/hotels/store', 'HotelController@store')->middleware(['middleware' => 'permission:create hotel']);
     Route::GET('definitions/hotels/edit/{id}', 'HotelController@edit')->middleware(['middleware' => 'permission:edit hotel']);
     Route::POST('definitions/hotels/update/{id}', 'HotelController@update')->middleware(['middleware' => 'permission:edit hotel']);
     Route::GET('definitions/hotels/destroy/{id}', 'HotelController@destroy')->middleware(['middleware' => 'permission:delete hotel']);
+    Route::GET('getHotels', 'HotelController@getHotels')->middleware(['middleware' => 'permission:show hotel']);
     //Hotels end
 
     //Payments Types
@@ -150,6 +154,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/guides/edit/{id}', 'GuideController@edit')->middleware(['middleware' => 'permission:edit guides']);
     Route::POST('definitions/guides/update/{id}', 'GuideController@update')->middleware(['middleware' => 'permission:edit guides']);
     Route::GET('definitions/guides/destroy/{id}', 'GuideController@destroy')->middleware(['middleware' => 'permission:delete guides']);
+    Route::GET('getGuides', 'GuideController@getGuides')->middleware(['middleware' => 'permission:show guides']);
     //Guides end
     
     //Therapists
@@ -171,7 +176,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Discounts end
 
     //Report
-    Route::GET('reports/reservations', 'ReportController@index');
+    Route::GET('reports/reservations', 'ReportController@reservationReport');
     Route::GET('reports/payments', 'ReportController@paymentReport');
     Route::GET('reports/comissions', 'ReportController@comissionReport');
     Route::GET('reports/serviceReport', 'ReportController@serviceReport');

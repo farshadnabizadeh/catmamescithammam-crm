@@ -319,6 +319,7 @@ var app = (function() {
     addcustomerReservation();
 
     $("#colorpicker").spectrum();
+    $("#general").select2({ placeholder: "", dropdownAutoWidth: true, allowClear: true });
     $("#formStatusId").select2({ placeholder: "Form Durumunu Seçiniz", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Hizmet Seç", dropdownAutoWidth: true, allowClear: true });
@@ -347,6 +348,51 @@ var app = (function() {
     });
 
     $(document).ready(function(){
+
+        $("#sobId").on("change", function(){
+            var selectedSobId = $(this).children("option:selected").val();
+            //hotel
+            if(selectedSobId == 3){
+                $(".changeName").text("Otel");
+                $("#general").empty();
+                $.ajax({
+                    url: '/getHotels',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response) {
+                            $.each(response, function (key, value) {
+                                $("#general").append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        }
+                    },
+            
+                    error: function () {
+                    },
+                });
+            }
+            //guide
+            else if(selectedSobId == 10){
+                $(".changeName").text("Rehber");
+                $("#general").empty();
+                $.ajax({
+                    url: '/getGuides',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response) {
+                            $.each(response, function (key, value) {
+                                $("#general").append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        }
+                    },
+            
+                    error: function () {
+                    },
+                });
+            }
+        });
+
         $(".booking-status-btn").on("click", function(){
             var dataId = this.id;
             console.log(dataId);
@@ -1173,6 +1219,38 @@ function addTherapisttoReservation(reservationID, therapistId, piece) {
             success: function (response) {
                 if (response) {
                     swal({ icon: 'success', title: 'Başarılı!', text: 'Terapist Başarıyla Eklendi!', timer: 1000 });
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addComission(hotelId, guideId, comissionPrice) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/addComissiontoReservation',
+            type: 'POST',
+            data: {
+                'reservationId': reservationID,
+                'hotelId': hotelId,
+                'guideId': guideId,
+                'comissionPrice': comissionPrice
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    // swal({ icon: 'success', title: 'Başarılı!', text: 'Customer Added Successfully!', timer: 1000 });
+                    customerID = response;
                 }
             },
 

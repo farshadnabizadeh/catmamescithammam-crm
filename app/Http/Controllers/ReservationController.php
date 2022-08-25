@@ -211,7 +211,7 @@ class ReservationController extends Controller
             throw $th;
         }
     }
-
+    
     public function addComissiontoReservation(Request $request)
     {
         try {
@@ -221,7 +221,7 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->hotel_id = $request->input('hotelId');
             $newData->guide_id = $request->input('guideId');
-            $newData->comission_price = $request->input('comission_price');
+            $newData->comission_price = $request->input('comissionPrice');
             $newData->comission_currency = "TL";
             $newData->user_id = $user->id;
 

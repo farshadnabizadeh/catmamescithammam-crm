@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\ReservationPaymentType;
 use App\Models\ReservationComission;
+use App\Models\ReservationTherapist;
+use App\Models\ReservationService;
 use App\Models\Therapist;
 use App\Models\Service;
 use App\Models\Source;
@@ -21,17 +23,26 @@ class ReportController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    public function reservationReport(Request $request)
     {
         try {
 
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $therapistAll = Therapist::select("name", DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as tCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->orderBy('tCount', 'ASC')->get();
-            $serviceAll = Service::select("name", DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as sCount"))->whereBetween('created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
+            $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
+            ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
+            ->whereBetween('reservations_therapists.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->groupBy('therapist_id')
+            ->get();
 
-            $data = array('serviceAll' => $serviceAll, 'therapistAll' => $therapistAll, 'start' => $start, 'end' => $end);
+            $serviceAll = ReservationService::select('services.*', DB::raw('service_id, sum(piece) as serviceCount'))
+            ->leftJoin('services', 'reservations_services.service_id', '=', 'services.id')
+            ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->groupBy('service_id')
+            ->get();
+
+            $data = array('therapistAll' => $therapistAll, 'serviceAll' => $serviceAll, 'start' => $start, 'end' => $end);
             return view('admin.reports.reservation_report')->with($data);
 
         }
@@ -57,7 +68,7 @@ class ReportController extends Controller
     {
         try {
 
-            $data = Therapist::select("therapists.*", \DB::raw("(SELECT count(*) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->get();
+            $data = Therapist::select("therapists.*", \DB::raw("(SELECT sum(piece) FROM reservations_therapists a WHERE a.therapist_id = therapists.id) as aCount"))->get();
 
             return json_encode($data);
         }

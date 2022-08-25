@@ -25,6 +25,24 @@ class GuideController extends Controller
         }
     }
 
+    public function getGuides()
+    {
+        try {
+            $guides = Guide::all();
+
+            $output = [];
+            foreach ($guides as $guide) {
+                $output[$guide->id] = $guide->name;
+            }
+
+            return json_encode($output);
+
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(Request $request)
     {
         try {

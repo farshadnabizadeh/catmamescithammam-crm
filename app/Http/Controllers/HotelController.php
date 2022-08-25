@@ -27,6 +27,23 @@ class HotelController extends Controller
         }
     }
 
+    public function getHotels()
+    {
+        try {
+            $hotels = Hotel::all();
+
+            $output = [];
+            foreach ($hotels as $hotel) {
+                $output[$hotel->id] = $hotel->name;
+            }
+
+            return json_encode($output);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function store(Request $request)
     {
         try {

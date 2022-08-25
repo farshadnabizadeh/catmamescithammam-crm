@@ -17,74 +17,33 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h3 class="d-flex align-items-center mb-3">Ödemeler</h3>
-                                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addPaymentTypeModal"><i class="fa fa-plus"></i> Ödeme Türü Ekle</button>
-                                            <table class="table dataTable" id="tableData">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Ödeme Türü</th>
-                                                        <th>Ücret</th>
-                                                        <th>İşlem</th>
-                                                    </tr>
-                                                </thead>
-                                            <tbody>
-                                                @foreach($reservation->subPaymentTypes as $subPaymentType)
-                                                <tr>
-                                                    <td>{{ $subPaymentType->type_name }}</td>
-                                                    <td>{{ $subPaymentType->payment_price }}</td>
-                                                    <td>
-                                                        <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                                        <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td>Toplam:</td>
-                                                    <td>{{ number_format($totalPayment, 2) }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h3 class="d-flex align-items-center mb-3">Komisyonlar</h3>
-                                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addComissionModal"><i class="fa fa-plus"></i> Komisyon Ekle</button>
-                                            <table class="table dataTable" id="tableData">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Ödeme Türü</th>
-                                                        <th>Ücret</th>
-                                                        <th>İşlem</th>
-                                                    </tr>
-                                                </thead>
-                                            <tbody>
-                                                @foreach($reservation->subPaymentTypes as $subPaymentType)
-                                                <tr>
-                                                    <td>{{ $subPaymentType->type_name }}</td>
-                                                    <td>{{ $subPaymentType->payment_price }}</td>
-                                                    <td>
-                                                        <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                                        <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td>Toplam:</td>
-                                                    <td>{{ number_format($totalPayment, 2) }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="d-flex align-items-center mb-3">Ödemeler</h3>
+                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addPaymentTypeModal"><i class="fa fa-plus"></i> Ödeme Türü Ekle</button>
+                            <table class="table dataTable" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Ödeme Türü</th>
+                                        <th>Ücret</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                                @foreach($reservation->subPaymentTypes as $subPaymentType)
+                                <tr>
+                                    <td>{{ $subPaymentType->type_name }}</td>
+                                    <td>{{ $subPaymentType->payment_price }}</td>
+                                    <td>
+                                        <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                        <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td>Toplam:</td>
+                                    <td>{{ number_format($totalPayment, 2) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
