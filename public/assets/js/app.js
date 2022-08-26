@@ -355,6 +355,8 @@ var app = (function() {
             if(selectedSobId == 3){
                 $(".changeName").text("Otel");
                 $("#general").empty();
+                $("#general").attr('name', 'hotelId');
+                $(".comissionReport").removeClass("d-none");
                 $.ajax({
                     url: '/getHotels',
                     type: 'get',
@@ -375,6 +377,7 @@ var app = (function() {
             else if(selectedSobId == 10){
                 $(".changeName").text("Rehber");
                 $("#general").empty();
+                $("#general").attr('name', 'guideId');
                 $.ajax({
                     url: '/getGuides',
                     type: 'get',
@@ -1091,6 +1094,17 @@ function completeReservation() {
                         piece = $tds.eq(1).text();
                         addTherapisttoReservation(reservationID, therapistId, piece);
                     });
+
+                    var hotelId = $('[name="hotelId"]').children("option:selected").val();
+                    var guideId = $('[name="guideId"]').children("option:selected").val();
+                    var comissionPrice = $('#comissionPrice').val();
+
+                    if(comissionPrice == ""){
+                    }
+                    else {
+                        addComission(hotelId, guideId, comissionPrice);
+                    }
+
                 }, 500);
             }
         });
