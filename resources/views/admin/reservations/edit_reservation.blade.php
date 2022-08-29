@@ -13,6 +13,7 @@
                     <nav class="nav nav-borders">
                         <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
                         <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
+                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=comissions') }}"><i class="fa fa-percent"></i> Komisyon @if(!$hasComission) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
                 </div>
                 <div class="card">

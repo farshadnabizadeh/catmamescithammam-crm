@@ -356,7 +356,7 @@ var app = (function() {
                 $(".changeName").text("Otel");
                 $("#general").empty();
                 $("#general").attr('name', 'hotelId');
-                $(".comissionReport").removeClass("d-none");
+                $(".hide-section").show(300);
                 $.ajax({
                     url: '/getHotels',
                     type: 'get',
@@ -378,6 +378,7 @@ var app = (function() {
                 $(".changeName").text("Rehber");
                 $("#general").empty();
                 $("#general").attr('name', 'guideId');
+                $(".hide-section").show(300);
                 $.ajax({
                     url: '/getGuides',
                     type: 'get',
@@ -393,6 +394,9 @@ var app = (function() {
                     error: function () {
                     },
                 });
+            }
+            else {
+                $(".hide-section").hide(300);
             }
         });
 

@@ -96,14 +96,12 @@ class ReservationController extends Controller
     public function create()
     {
         try {
-            $reservations = Reservation::all();
             $services = Service::orderBy('name', 'asc')->get();
             $sources = Source::orderBy('name', 'asc')->get();
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $customers = Customer::orderBy('name_surname', 'asc')->get();
-            $discounts = Discount::orderBy('name', 'asc')->get();
             $payment_types = PaymentType::orderBy('type_name', 'asc')->get();
-            $data = array('reservations' => $reservations, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'discounts' => $discounts, 'payment_types' => $payment_types);
+            $data = array('services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'payment_types' => $payment_types);
             return view('admin.reservations.new_reservation')->with($data);
         }
         catch (\Throwable $th) {
@@ -332,6 +330,11 @@ class ReservationController extends Controller
             $hasPaymentType = false;
             $hasPaymentType = $reservation_payment_type->get()->count() > 0 ? true : false;
 
+            $reservation_comission = ReservationComission::where('reservations_comissions.reservation_id', '=', $id);
+
+            $hasComission = false;
+            $hasComission = $reservation_comission->get()->count() > 0 ? true : false;
+
             $reservation_service = ReservationService::where('reservations_services.reservation_id', '=', $id);
             $hasService = false;
             $hasService = $reservation_service->get()->count() > 0 ? true : false;
@@ -347,12 +350,15 @@ class ReservationController extends Controller
             }
             $totalPayment = array_sum($totalPrice);
 
-            $data = array('reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
+            $data = array('reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
 
             $page = $request->input('page');
 
             if($page == "payments"){
                 return view('admin.reservations.payment_reservation')->with($data);
+            }
+            else if($page == "comissions"){
+                return view('admin.reservations.comission_reservation')->with($data);
             }
             else {
                 return view('admin.reservations.edit_reservation')->with($data);

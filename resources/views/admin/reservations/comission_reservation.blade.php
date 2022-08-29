@@ -12,39 +12,62 @@
                 <div class="card-title">
                     <nav class="nav nav-borders">
                         <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
-                        <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
-                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=comissions') }}"><i class="fa fa-percent"></i> Komisyon @if(!$hasComission) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
+                        <a class="nav-link" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=payments') }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
+                        <a class="nav-link active ms-0" href="{{ url('/definitions/reservations/edit/'.$reservation->id.'?page=comissions') }}"><i class="fa fa-percent"></i> Komisyon @if(!$hasComission) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="d-flex align-items-center mb-3">Ödemeler</h3>
-                        <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addPaymentTypeModal"><i class="fa fa-plus"></i> Ödeme Türü Ekle</button>
-                            <table class="table dataTable" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>Ödeme Türü</th>
-                                        <th>Ücret</th>
-                                        <th>İşlem</th>
-                                    </tr>
-                                </thead>
-                            <tbody>
-                                @foreach($reservation->subPaymentTypes as $subPaymentType)
-                                <tr>
-                                    <td>{{ $subPaymentType->type_name }}</td>
-                                    <td>{{ $subPaymentType->payment_price }}</td>
-                                    <td>
-                                        <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subPaymentType->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                        <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subPaymentType->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td>Toplam:</td>
-                                    <td>{{ number_format($totalPayment, 2) }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3 class="d-flex align-items-center mb-3">Otel Komisyonu</h3>
+                                    <table class="table dataTable" id="dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Otel</th>
+                                                <th>Ücret</th>
+                                                <th>İşlem</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        @foreach($reservation->subHotelComissions as $subHotelComission)
+                                        <tr>
+                                            <td>{{ $subHotelComission->name }}</td>
+                                            <td>{{ $subHotelComission->comission_price . ' ' . $subHotelComission->comission_currency }}</td>
+                                            <td>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subHotelComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subHotelComission->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <h3 class="d-flex align-items-center mb-3">Rehber Komisyonu</h3>
+                                    <table class="table dataTable" id="tableData">
+                                        <thead>
+                                            <tr>
+                                                <th>Rehber</th>
+                                                <th>Ücret</th>
+                                                <th>İşlem</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        @foreach($reservation->subGuideComissions as $subGuideComission)
+                                        <tr>
+                                            <td>{{ $subGuideComission->name }}</td>
+                                            <td>{{ $subGuideComission->comission_price . ' ' . $subGuideComission->comission_currency }}</td>
+                                            <td>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subGuideComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subGuideComission->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

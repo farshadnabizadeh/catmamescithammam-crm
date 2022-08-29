@@ -88,7 +88,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-2 hide-section">
                                                 <div class="form-group">
                                                     <label class="changeName"></label>
                                                     <select id="general" class="form-control">
@@ -96,7 +96,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-2 hide-section">
                                                 <div class="form-group">
                                                     <label for="comissionPrice">Komisyon Ücreti</label>
                                                     <input type="text" id="comissionPrice" class="form-control" placeholder="Komisyon Ücreti">
@@ -674,7 +674,6 @@
                                             <th scope="col">Telefon</th>
                                             <th scope="col">Ülke</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col">Not</th>
                                         </tr>
                                     </thead>
                                     @foreach ($customers as $customer)
@@ -686,7 +685,6 @@
                                         <td>{{ $customer->phone }}</td>
                                         <td>{{ $customer->country }}</td>
                                         <td>{{ $customer->email }}</td>
-                                        <td>{{ $customer->note }}</td>
                                     </tr>
                                     @endforeach
                                 </table>

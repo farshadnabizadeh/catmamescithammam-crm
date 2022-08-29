@@ -61,6 +61,18 @@ class Reservation extends Model
             ->selectRaw('payment_types.*, reservations_payments_types.*');
     }
 
+    public function subHotelComissions()
+    {
+        return $this->belongsToMany(Hotel::class, 'reservations_comissions', 'reservation_id', 'hotel_id')
+            ->selectRaw('hotels.*, reservations_comissions.*');
+    }
+
+    public function subGuideComissions()
+    {
+        return $this->belongsToMany(Guide::class, 'reservations_comissions', 'reservation_id', 'guide_id')
+            ->selectRaw('guides.*, reservations_comissions.*');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
