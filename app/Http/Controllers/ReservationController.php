@@ -219,7 +219,6 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->hotel_id = $request->input('hotelId');
             $newData->guide_id = $request->input('guideId');
-            $newData->comission_price = $request->input('comissionPrice');
             $newData->comission_currency = "TL";
             $newData->user_id = $user->id;
 
@@ -395,6 +394,33 @@ class ReservationController extends Controller
     }
 
     public function editTherapist($id)
+    {
+        try {
+            $reservation_therapist = ReservationTherapist::where('id','=', $id)->first();
+            $therapists = Therapist::orderBy('name', 'asc')->get();
+            return view('admin.reservations.edit_therapist', ['reservation_therapist' => $reservation_therapist, 'therapists' => $therapists]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function editHotelComission($id)
+    {
+        try {
+            $hotel_comission = ReservationComission::where('id','=', $id)
+            ->whereNull('reservations_comissions.guide_id')
+            ->first();
+
+            $hotels = Hotel::orderBy('name', 'asc')->get();
+            return view('admin.reservations.edit_hotel_comission', ['hotel_comission' => $hotel_comission, 'hotels' => $hotels]);
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function editGuideComission($id)
     {
         try {
             $reservation_therapist = ReservationTherapist::where('id','=', $id)->first();

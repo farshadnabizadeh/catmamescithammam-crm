@@ -33,7 +33,7 @@
                                         @foreach($reservation->subHotelComissions as $subHotelComission)
                                         <tr>
                                             <td>{{ $subHotelComission->name }}</td>
-                                            <td>{{ $subHotelComission->comission_price . ' ' . $subHotelComission->comission_currency }}</td>
+                                            <td>{{ number_format($subHotelComission->comission_price, 2) . ' ' . $subHotelComission->comission_currency }}</td>
                                             <td>
                                                 <a href="{{ url('/definitions/reservations/paymenttype/edit/'.$subHotelComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                 <a href="{{ url('/definitions/reservations/paymenttype/destroy/'.$subHotelComission->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>

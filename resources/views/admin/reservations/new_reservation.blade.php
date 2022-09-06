@@ -88,18 +88,12 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2 hide-section">
+                                            <div class="col-lg-4 hide-section">
                                                 <div class="form-group">
                                                     <label class="changeName"></label>
                                                     <select id="general" class="form-control">
                                                         <option></option>
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 hide-section">
-                                                <div class="form-group">
-                                                    <label for="comissionPrice">Komisyon Ücreti</label>
-                                                    <input type="text" id="comissionPrice" class="form-control" placeholder="Komisyon Ücreti">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">

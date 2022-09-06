@@ -1101,14 +1101,8 @@ function completeReservation() {
 
                     var hotelId = $('[name="hotelId"]').children("option:selected").val();
                     var guideId = $('[name="guideId"]').children("option:selected").val();
-                    var comissionPrice = $('#comissionPrice').val();
 
-                    if(comissionPrice == ""){
-                    }
-                    else {
-                        addComission(hotelId, guideId, comissionPrice);
-                    }
-
+                    addComission(hotelId, guideId);
                 }, 500);
             }
         });
@@ -1247,7 +1241,7 @@ function addTherapisttoReservation(reservationID, therapistId, piece) {
     }
 }
 
-function addComission(hotelId, guideId, comissionPrice) {
+function addComission(hotelId, guideId) {
     try {
         $.ajaxSetup({
             headers: {
@@ -1260,8 +1254,7 @@ function addComission(hotelId, guideId, comissionPrice) {
             data: {
                 'reservationId': reservationID,
                 'hotelId': hotelId,
-                'guideId': guideId,
-                'comissionPrice': comissionPrice
+                'guideId': guideId
             },
             async: false,
             dataType: 'json',
