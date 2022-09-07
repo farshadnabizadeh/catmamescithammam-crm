@@ -15,6 +15,7 @@ use App\Models\Therapist;
 use App\Models\Discount;
 use App\Models\Customer;
 use App\Models\Hotel;
+use App\Models\Guide;
 use App\Models\User;
 use App\Mail\NotificationMail;
 use Mail;
@@ -423,9 +424,12 @@ class ReservationController extends Controller
     public function editGuideComission($id)
     {
         try {
-            $reservation_therapist = ReservationTherapist::where('id','=', $id)->first();
-            $therapists = Therapist::orderBy('name', 'asc')->get();
-            return view('admin.reservations.edit_therapist', ['reservation_therapist' => $reservation_therapist, 'therapists' => $therapists]);
+            $guide_comission = ReservationComission::where('id','=', $id)
+            ->whereNull('reservations_comissions.hotel_id')
+            ->first();
+
+            $guides = Guide::orderBy('name', 'asc')->get();
+            return view('admin.reservations.edit_guide_comission', ['guide_comission' => $guide_comission, 'guides' => $guides]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -515,6 +519,46 @@ class ReservationController extends Controller
         }
     }
 
+    public function updateHotelComission(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['hotel_id'] = $request->input('hotelId');
+            $temp['comission_price'] = $request->input('comissionPrice');
+
+            if (ReservationComission::where('id', '=', $id)->update($temp)) {
+                return back()->with('message', 'Komisyon Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function updateGuideComission(Request $request, $id)
+    {
+        try {
+            $user = auth()->user();
+
+            $temp['guide_id'] = $request->input('guideId');
+            $temp['comission_price'] = $request->input('comissionPrice');
+
+            if (ReservationComission::where('id', '=', $id)->update($temp)) {
+                return back()->with('message', 'Komisyon Başarıyla Güncellendi!');
+            }
+            else {
+                return back()->withInput($request->input());
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function destroyPaymentType($id){
         try {
             ReservationPaymentType::find($id)->delete();
@@ -536,6 +580,16 @@ class ReservationController extends Controller
     }
 
     public function destroyTherapist($id){
+        try {
+            ReservationTherapist::find($id)->delete();
+            return back()->with('message', 'Terapist Başarıyla Silindi!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function destroyHotelComission($id){
         try {
             ReservationTherapist::find($id)->delete();
             return back()->with('message', 'Terapist Başarıyla Silindi!');

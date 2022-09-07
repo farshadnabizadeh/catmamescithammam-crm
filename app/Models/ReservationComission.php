@@ -12,4 +12,13 @@ class ReservationComission extends Model
     use SoftDeletes;
     protected $table = 'reservations_comissions';
 
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class, 'hotel_id');
+    }
+    
+    public function guide()
+    {
+        return $this->belongsTo(Guide::class, 'guide_id');
+    }
 }
