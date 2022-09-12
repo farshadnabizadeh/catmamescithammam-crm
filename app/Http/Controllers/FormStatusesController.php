@@ -76,8 +76,8 @@ class FormStatusesController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['name'] = $request->input('statusName');
-            $temp['color'] = $request->input('statusColor');
+            $temp['name'] = $request->input('name');
+            $temp['color'] = $request->input('color');
 
             if (FormStatuses::where('id', '=', $id)->update($temp)) {
                 return redirect('/definitions/formstatuses')->with('message', 'Form Durumu Başarıyla Güncellendi!');

@@ -77,7 +77,7 @@
                   <div class="col-lg-6">
                      <div class="form-group">
                         <label for="paymentTypeName">Ödeme Türü Adı</label>
-                        <input type="text" class="form-control" id="paymentTypeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" required>
+                        <input type="text" class="form-control" id="typeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" required>
                      </div>
                   </div>
                   <div class="col-lg-6">

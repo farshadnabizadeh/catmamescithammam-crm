@@ -30,7 +30,7 @@ class PaymentTypeController extends Controller
     {
         try {
             $newData = new PaymentType();
-            $newData->type_name = $request->input('paymentTypeName');
+            $newData->type_name = $request->input('name');
             $newData->note = $request->input('note');
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
@@ -83,7 +83,7 @@ class PaymentTypeController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $temp['type_name'] = $request->input('paymentTypeName');
+            $temp['type_name'] = $request->input('name');
             $temp['note'] = $request->input('note');
 
             if (PaymentType::where('id', '=', $id)->update($temp)) {
