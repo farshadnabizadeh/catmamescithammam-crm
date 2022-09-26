@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Otel Listesi</li>
                 </ol>
             </nav>
@@ -44,10 +44,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit hotel')
-                                            <li><a href="{{ url('/definitions/hotels/edit/'.$hotel->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ route('hotel.edit', ['id' => $hotel->id]) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete hotel')
-                                            <li><a href="{{ url('/definitions/hotels/destroy/'.$hotel->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                            <li><a href="{{ route('hotel.destroy', ['id' => $hotel->id]) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -75,41 +75,41 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/hotels/store') }}" method="POST">
+                <form action="{{ route('hotel.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="hotelName">Otel Adı</label>
-                                <input type="text" class="form-control" id="hotelName" name="hotelName" placeholder="Otel Adı" required>
+                                <label for="name">Otel Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Otel Adı" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="hotelPhone">Otel Telefon Numarası</label>
-                                <input type="text" class="form-control" id="hotelPhone" name="hotelPhone" placeholder="Otel Telefon Numarası">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="hotelPerson">Hotel Person</label>
-                                <input type="text" class="form-control" id="hotelPerson" name="hotelPerson" placeholder="Enter Hotel Person">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="hotelPersonAccountNumber">Hotel Person Account Number</label>
-                                <input type="text" class="form-control" id="hotelPersonAccountNumber" name="hotelPersonAccountNumber" placeholder="Enter Hotel Person Account Number">
+                                <label for="phone">Otel Telefon Numarası</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Otel Telefon Numarası">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="hotelPersonSendAmount">Hotel Person Send Amount</label>
-                                <input type="number" class="form-control" id="hotelPersonSendAmount" name="hotelPersonSendAmount" placeholder="Enter Hotel Person Send Amount">
+                                <label for="person">Hotel Person</label>
+                                <input type="text" class="form-control" id="person" name="person" placeholder="Enter Hotel Person">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="personAccountNumber">Hotel Person Account Number</label>
+                                <input type="text" class="form-control" id="personAccountNumber" name="personAccountNumber" placeholder="Enter Hotel Person Account Number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="personSendAmount">Hotel Person Send Amount</label>
+                                <input type="number" class="form-control" id="personSendAmount" name="personSendAmount" placeholder="Enter Hotel Person Send Amount">
                             </div>
                         </div>
                     </div>

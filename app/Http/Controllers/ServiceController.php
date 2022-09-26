@@ -30,15 +30,15 @@ class ServiceController extends Controller
     {
         try {
             $newData = new Service();
-            $newData->name = $request->input('serviceName');
-            $newData->currency = $request->input('serviceCurrency');
-            $newData->cost = $request->input('serviceCost');
+            $newData->name = $request->input('name');
+            $newData->currency = $request->input('currency');
+            $newData->cost = $request->input('cost');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result) {
-                return redirect('/definitions/services')->with('message', 'Hizmet Başarıyla Eklendi!');
+                return redirect()->route('service.index')->with('message', 'Hizmet Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -79,12 +79,12 @@ class ServiceController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['name'] = $request->input('serviceName');
-            $temp['currency'] = $request->input('serviceCurrency');
-            $temp['cost'] = $request->input('serviceCost');
+            $temp['name'] = $request->input('name');
+            $temp['currency'] = $request->input('currency');
+            $temp['cost'] = $request->input('cost');
 
             if (Service::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/services')->with('message', 'Hizmet Başarıyla Güncellendi!');
+                return redirect()->route('service.index')->with('message', 'Hizmet Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -98,7 +98,7 @@ class ServiceController extends Controller
     public function destroy($id){
         try {
             Service::where('id', '=', $id)->delete();
-            return redirect('definitions/services')->with('message', 'Hizmet Başarıyla Silindi!');
+            return redirect()->route('service.index')->with('message', 'Hizmet Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

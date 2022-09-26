@@ -411,6 +411,17 @@ var app = (function() {
             $("#contact_form_id").val(dataId);
         });
     });
+    
+    var pageurl = window.location.href;
+    $(".nav-item_sub li a").each(function(){
+        if ($(this).attr("href") == pageurl || $(this).attr("href") == '')
+        $(this).addClass("active");
+    });
+
+    $(".nav-item_sub li a").each(function(){
+        if ($(this).attr("href") == pageurl || $(this).attr("href") == '')
+        $(this).parents(':eq(2)').addClass("active");
+    });
 
     $("#tableTherapist").dataTable({ paging: true, pageLength: 25 });
     $("#tableServices").dataTable({ paging: true, pageLength: 25 });

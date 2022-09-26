@@ -6,7 +6,7 @@
                     <h2>Rehberi Güncelle</h2>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $guide->user->name }}</p>
                 </div>
-                <form action="{{ url('/definitions/guides/update/'.$guide->id) }}" method="POST">
+                <form action="{{ route('guide.update', ['id' => $guide->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

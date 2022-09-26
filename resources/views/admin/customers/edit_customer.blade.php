@@ -13,7 +13,7 @@
                     <h2>Müşteriyi Güncelle</h2>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $customer->user->name }}</p>
                 </div>
-                <form action="{{ url('/definitions/customers/update/'.$customer->id) }}" method="POST">
+                <form action="{{ route('customer.update', ['id' => $customer->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

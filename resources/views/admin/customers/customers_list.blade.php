@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Müşteriler</li>
                 </ol>
             </nav>
@@ -44,7 +44,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/customers/store') }}" method="POST">
+                <form action="{{ route('customer.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

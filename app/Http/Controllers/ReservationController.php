@@ -48,10 +48,10 @@ class ReservationController extends Controller
                             <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/definitions/reservations/edit/'.$item->id.'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                    <a href="'.route('reservation.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
                                 </li>
                                 <li>
-                                    <a href="/definitions/reservations/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                    <a href="'.route('reservation.destroy', ['id' => $item->id]).'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
                                 </li>
                                 <li>
                                     <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>

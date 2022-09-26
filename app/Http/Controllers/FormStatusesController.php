@@ -29,8 +29,8 @@ class FormStatusesController extends Controller
     {
         try {
             $newData = new FormStatuses();
-            $newData->name = $request->input('statusName');
-            $newData->color = $request->input('statusColor');
+            $newData->name = $request->input('name');
+            $newData->color = $request->input('color');
             $newData->user_id = auth()->user()->id;
 
             $result = $newData->save();

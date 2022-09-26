@@ -29,16 +29,15 @@ class DiscountController extends Controller
     {
         try {
             $newData = new Discount();
-            $newData->name = $request->input('discountName');
-            $newData->code = $request->input('discountCode');
-            $newData->percentage = $request->input('discountPercentage');
-            $newData->note = $request->input('discountNote');
-
+            $newData->name = $request->input('name');
+            $newData->code = $request->input('code');
+            $newData->percentage = $request->input('percentage');
+            $newData->note = $request->input('note');
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/discounts')->with('message', 'İndiirm Başarıyla Kaydedildi!');
+                return redirect()->route('discount.index')->with('message', 'İndiirm Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -52,9 +51,9 @@ class DiscountController extends Controller
     public function getDiscount($id)
     {
         try {
-            $discounts = Discount::where('id', '=', $id)->first();
+            $discount = Discount::where('id', '=', $id)->first();
 
-            return response()->json([$discounts], 200);
+            return response()->json([$discount], 200);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -78,13 +77,13 @@ class DiscountController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['discount_name'] = $request->input('discountName');
-            $temp['discount_code'] = $request->input('discountCode');
-            $temp['discount_percentage'] = $request->input('discountPercentage');
-            $temp['note'] = $request->input('discountNote');
+            $temp['name'] = $request->input('name');
+            $temp['code'] = $request->input('code');
+            $temp['percentage'] = $request->input('percentage');
+            $temp['note'] = $request->input('note');
 
             if (Discount::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/discounts')->with('message', 'İndirim Başarıyla Güncellendi!');
+                return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -98,7 +97,7 @@ class DiscountController extends Controller
     public function destroy($id){
         try {
             Discount::where('id', '=', $id)->delete();
-            return redirect('definitions/discounts')->with('message', 'İndirim Başarıyla Silindi!');
+            return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

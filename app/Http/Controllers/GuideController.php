@@ -56,7 +56,7 @@ class GuideController extends Controller
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/guides')->with('message', 'Rehber Başarıyla Kaydedildi!');
+                return redirect()->route('guide.index')->with('message', 'Rehber Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -90,7 +90,7 @@ class GuideController extends Controller
             $temp['note'] = $request->input('note');
 
             if (Guide::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/guides')->with('message', 'Rehber Başarıyla Güncellendi!');
+                return redirect()->route('guide.index')->with('message', 'Rehber Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -104,7 +104,7 @@ class GuideController extends Controller
     public function destroy($id){
         try {
             Guide::where('id', '=', $id)->delete();
-            return redirect('definitions/guides')->with('message', 'Rehber Başarıyla Silindi!');
+            return redirect()->route('guide.index')->with('message', 'Rehber Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

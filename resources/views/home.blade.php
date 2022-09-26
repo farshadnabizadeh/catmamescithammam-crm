@@ -20,7 +20,7 @@
                         <div class="col">
                             <h5 class="card-title text-dashboard-card">Rezervasyonlar</h5>
                             <hr>
-                            <a href="{{ url('/definitions/reservations?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
+                            <a href="{{ route('reservation.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
                                 <span class="h2 mb-0 count-card">{{ $reservationCount }}</span>
                             </a>
                         </div>

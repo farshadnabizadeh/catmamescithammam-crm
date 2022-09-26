@@ -27,37 +27,20 @@ class HotelController extends Controller
         }
     }
 
-    public function getHotels()
-    {
-        try {
-            $hotels = Hotel::all();
-
-            $output = [];
-            foreach ($hotels as $hotel) {
-                $output[$hotel->id] = $hotel->name;
-            }
-
-            return json_encode($output);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
     public function store(Request $request)
     {
         try {
             $newData = new Hotel();
-            $newData->name = $request->input('hotelName');
-            $newData->phone = $request->input('hotelPhone');
-            $newData->person = $request->input('hotelPerson');
-            $newData->person_account_number = $request->input('hotelPersonAccountNumber');
+            $newData->name = $request->input('name');
+            $newData->phone = $request->input('phone');
+            $newData->person = $request->input('person');
+            $newData->person_account_number = $request->input('personAccountNumber');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Kaydedildi!');
+                return redirect()->route('hotel.index')->with('message', 'Otel Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -85,13 +68,13 @@ class HotelController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['name'] = $request->input('hotelName');
-            $temp['phone'] = $request->input('hotelPhone');
-            $temp['person'] = $request->input('hotelPerson');
-            $temp['person_account_number'] = $request->input('hotelPersonAccountNumber');
+            $temp['name'] = $request->input('name');
+            $temp['phone'] = $request->input('phone');
+            $temp['person'] = $request->input('person');
+            $temp['person_account_number'] = $request->input('personAccountNumber');
 
             if (Hotel::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/hotels')->with('message', 'Otel Başarıyla Güncellendi!');
+                return redirect()->route('hotel.index')->with('message', 'Otel Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -105,7 +88,7 @@ class HotelController extends Controller
     public function destroy($id){
         try {
             Hotel::where('id', '=', $id)->delete();
-            return redirect('definitions/hotels')->with('message', 'Otel Başarıyla Silindi!');
+            return redirect()->route('hotel.index')->with('message', 'Otel Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

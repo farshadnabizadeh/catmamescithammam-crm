@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
              <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Form Durumları</li>
                 </ol>
             </nav>
@@ -42,10 +42,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit form statuses')
-                                        <li><a href="{{ url('/definitions/formstatuses/edit/'.$form_status->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ route('formstatus.edit', ['id' => $form_status->id]) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete form statuses')
-                                        <li><a href="{{ url('/definitions/formstatuses/destroy/'.$form_status->id) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                        <li><a href="{{ route('formstatus.destroy', ['id' => $form_status->id]) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -71,19 +71,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/formstatuses/store') }}" method="POST">
+                <form action="{{ route('formstatus.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="statusName">Durum Adı</label>
-                                <input type="text" class="form-control" id="statusName" name="statusName" placeholder="Durum Adı" required>
+                                <label for="name">Durum Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Durum Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceColor">Durum Rengi</label>
-                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="statusColor" placeholder="Durum Rengi">
+                                <label for="color">Durum Rengi</label>
+                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="color" placeholder="Durum Rengi">
                             </div>
                         </div>
                     </div>

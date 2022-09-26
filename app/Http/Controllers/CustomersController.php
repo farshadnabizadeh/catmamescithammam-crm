@@ -28,10 +28,10 @@ class CustomersController extends Controller
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/definitions/customers/edit/'.$item->id.'" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                        <a href="'.route('customer.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
                                     </li>
                                     <li>
-                                        <a href="/definitions/customers/destroy/'.$item->id.'" onclick="return confirm(Are you sure?);" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                        <a href="'.route('customer.destroy', ['id' => $item->id]).'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
                                     </li>
                                 </ul>
                             </div>';
@@ -62,16 +62,16 @@ class CustomersController extends Controller
     {
         try {
             $newData = new Customer();
-            $newData->name_surname = $request->input('customerNameSurname');
-            $newData->phone = $request->input('customerPhone');
-            $newData->country = $request->input('customerCountry');
-            $newData->email = $request->input('customerEmail');
+            $newData->name_surname = $request->input('nameSurname');
+            $newData->phone = $request->input('phone');
+            $newData->country = $request->input('country');
+            $newData->email = $request->input('email');
 
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Kaydedildi!');
+                return redirect()->route('customer.index')->with('message', 'Müşteri Başarıyla Kaydedildi!');
             }
             else {
                 return response(false, 500);
@@ -86,11 +86,10 @@ class CustomersController extends Controller
     {
         try {
             $newData = new Customer();
-            $newData->name_surname = $request->input('customerNameSurname');
-            $newData->phone = $request->input('customerPhone');
-            $newData->country = $request->input('customerCountry');
-            $newData->email = $request->input('customerEmail');
-
+            $newData->name_surname = $request->input('nameSurname');
+            $newData->phone = $request->input('phone');
+            $newData->country = $request->input('country');
+            $newData->email = $request->input('email');
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
@@ -123,13 +122,13 @@ class CustomersController extends Controller
         try {
             $user = auth()->user();
 
-            $temp['name_surname'] = $request->input('customerNameSurname');
-            $temp['phone'] = $request->input('customerPhone');
-            $temp['country'] = $request->input('customerCountry');
-            $temp['email'] = $request->input('customerEmail');
+            $temp['name_surname'] = $request->input('name_surname');
+            $temp['phone'] = $request->input('phone');
+            $temp['country'] = $request->input('country');
+            $temp['email'] = $request->input('email');
 
             if (Customer::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/customers')->with('message', 'Müşteri Başarıyla Güncellendi!');
+                return redirect()->route('customer.index')->with('message', 'Müşteri Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -143,7 +142,7 @@ class CustomersController extends Controller
     public function destroy($id){
         try {
             Customer::where('id', '=', $id)->delete();
-            return redirect('definitions/customers')->with('message', 'Müşteri Başarıyla Silindi!');
+            return redirect()->route('customer.index')->with('message', 'Müşteri Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

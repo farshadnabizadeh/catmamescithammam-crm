@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Hizmetler</li>
                 </ol>
             </nav>
@@ -43,10 +43,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit services')
-                                        <li><a href="{{ url('/definitions/services/edit/'.$service->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ route('service.edit', ['id' => $service->id]) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete services')
-                                        <li><a href="{{ url('/definitions/services/destroy/'.$service->id) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                        <li><a href="{{ route('service.destroy', ['id' => $service->id]) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -73,7 +73,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/services/store') }}" method="POST">
+                <form action="{{ route('service.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

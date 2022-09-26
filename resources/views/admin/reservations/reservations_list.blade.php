@@ -9,7 +9,7 @@
         <div class="col-md-12 table-responsive">
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Rezervasyonlar</li>
                 </ol>
             </nav>
@@ -39,7 +39,7 @@
                             <h2>Rezervasyonlar</h2>
                         </div>
                         <div class="col-lg-6">
-                            <a href="{{ url('/definitions/reservations/create') }}" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon</a>
+                            <a href="{{ route('reservation.create') }}" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Rezervasyon</a>
                         </div>
                     </div>
                 </div>

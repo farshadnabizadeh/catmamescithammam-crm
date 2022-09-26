@@ -10,7 +10,7 @@
     <title>Catma Mescit Hammam CRM</title>
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/app.css?v=1.0') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/jquery-steps.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/fullcalendar-5.11.0.css') }}" rel="stylesheet">
@@ -61,8 +61,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/datatable.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jscolor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/extension-btns-custom.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/rest_api.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/app.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('assets/js/app.js?v=1.0') }}" defer></script>
     <script>
         $('.inline-popups').magnificPopup({
             type: 'inline',

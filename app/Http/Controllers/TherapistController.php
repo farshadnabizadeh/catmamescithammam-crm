@@ -30,13 +30,13 @@ class TherapistController extends Controller
     {
         try {
             $newData = new Therapist();
-            $$newData->name = $request->input('therapistName');
+            $$newData->name = $request->input('name');
             $$newData->user_id = auth()->user()->id;
 
             $result = $$newData->save();
 
             if ($result) {
-                return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Eklendi!');
+                return redirect()->route('therapist.index')->with('message', 'Terapist Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -62,10 +62,10 @@ class TherapistController extends Controller
     {
         $user = auth()->user();
 
-        $temp['therapist_name'] = $request->input('therapistName');
+        $temp['therapist_name'] = $request->input('name');
 
         if (Therapist::where('id', '=', $id)->update($temp)) {
-            return redirect('/definitions/therapists')->with('message', 'Terapist Başarıyla Güncellendi!');
+            return redirect()->route('therapist.index')->with('message', 'Terapist Başarıyla Güncellendi!');
         }
         else {
             return back()->withInput($request->input());
@@ -75,7 +75,7 @@ class TherapistController extends Controller
     public function destroy($id){
         try {
             Therapist::find($id)->delete();
-            return redirect('definitions/therapists')->with('message', 'Terapist Başarıyla Silindi!');
+            return redirect()->route('therapist.index')->with('message', 'Terapist Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

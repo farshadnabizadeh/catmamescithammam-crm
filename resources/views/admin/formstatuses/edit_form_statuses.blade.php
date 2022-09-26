@@ -13,7 +13,7 @@
                     <h3>Durumu Güncelle</h3>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $form_status->user->name }}</p>
                 </div>
-                <form action="{{ url('/definitions/formstatuses/update/'.$form_status->id) }}" method="POST">
+                <form action="{{ route('formstatus.update', ['id' => $form_status->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
