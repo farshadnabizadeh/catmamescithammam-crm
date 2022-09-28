@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use Cache;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,25 +22,11 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::with("roles")->get();
+            $users = User::with("roles")->get();    
             $roles = Role::pluck('name', 'name')->all();
-
             $data = array('users' => $users, 'roles' => $roles);
 
             return view('admin.users.users_list')->with($data);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function create()
-    {
-        try {
-            // $roles = UserRole::all();
-            $roles = Role::pluck('name', 'name')->all();
-            $data = array('roles' => $roles);
-            return view('users.new_user')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -49,17 +37,18 @@ class UserController extends Controller
     {
         try {
             $newData = new User;
-            $newData->name = $request->input('userName');
-            $newData->email = $request->input('userEmail');
-            $newData->password = bcrypt($request->input('userPassword'));
+            $newData->name = $request->input('name');
+            $newData->email = $request->input('email');
+            $newData->password = bcrypt($request->input('password'));
+            $result = $newData->save();
 
-            if ($newData->save()) {
+            if ($result) {
                 $newData->assignRole($request->input('roles'));
-                return redirect('definitions/users')->with('message', 'New Users Added Successfully!');
+                return redirect()->route('user.index')->with('message', 'New Users Added Successfully!');
             }
             else {
                 return back()->withInput($request->input());
-            }
+            }    
         }
         catch (\Throwable $th) {
             throw $th;
@@ -73,7 +62,7 @@ class UserController extends Controller
             $roles = Role::pluck('name', 'name')->all();
             $userRole = $user->roles->pluck('name', 'name')->all();
 
-            return view('users.edit_user', compact('user', 'roles', 'userRole'));
+            return view('users.edit_user', compact('user', 'roles', 'userRole')); 
         }
         catch (\Throwable $th) {
             throw $th;
@@ -84,10 +73,12 @@ class UserController extends Controller
     {
         try {
             $user = User::find($id);
+
             $roles = Role::pluck('name', 'name')->all();
+
             $userRole = $user->roles->pluck('name', 'name')->all();
 
-            return view('admin.users.edit_user', compact('user', 'roles', 'userRole'));
+            return view('admin.users.edit_user', compact('user', 'roles', 'userRole')); 
         }
         catch (\Throwable $th) {
             throw $th;
@@ -97,18 +88,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $temp['name'] = $request->input('userName');
-            $temp['email'] = $request->input('userEmail');
+            $temp['name'] = $request->input('name');
+            $temp['email'] = $request->input('email');
 
-            if ($request->has('userPassword') && !empty($request->input('userPassword'))) {
-                $temp['password'] = bcrypt($request->input('userPassword'));
+            if ($request->has('password') && !empty($request->input('password'))) {
+                $temp['password'] = bcrypt($request->input('password'));
             }
 
             $updateSelectedData = User::where('id', '=', $id)->first();
             if ($updateSelectedData->update($temp)) {
                 DB::table('model_has_roles')->where('model_id', $id)->delete();
                 $updateSelectedData->assignRole($request->input('roles'));
-                return redirect('/definitions/users')->with('message', 'Kullanıcı Başarıyla Güncellendi!');
+                return redirect()->route('user.index')->with('message', 'User Updated Successfully!');
             }
             else {
                 return back()->withInput($request->input());
@@ -122,8 +113,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            DB::table("users")->where('id', $id)->delete();
-            return redirect('definitions/users')->with('message', 'User Deleted Successfully!');
+            User::find($id)->delete();
+            return redirect()->route('user.index')->with('message', 'User Deleted Successfully!');
         }
         catch (\Throwable $th) {
             throw $th;

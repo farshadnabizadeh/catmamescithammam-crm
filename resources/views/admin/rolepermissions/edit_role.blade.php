@@ -7,17 +7,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
+            <button class="btn btn-primary mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Page</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h2>Rolü Güncelle</h2>
+                    <h2>Edit Role</h2>
                 </div>
                 <form action="{{ url('/roles/update/'.$role->id) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="name">Rol Adı</label>
+                                <label for="name">Role Name</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}" autofocus required>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h2>Yetkiler</h2>
+                            <h2>Permissions</h2>
                         </div>
                         <div class="col-12">
                             <hr>
@@ -40,7 +40,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <button type="submit" class="btn btn-success mt-5 float-right">Güncelle <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success mt-5 float-right">Update <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>

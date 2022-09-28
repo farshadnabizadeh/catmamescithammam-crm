@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Discount;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DiscountController extends Controller
 {
@@ -18,42 +17,29 @@ class DiscountController extends Controller
         try {
             $discounts = Discount::orderBy('name', 'asc')->get();
             $data = array('discounts' => $discounts);
-            return view('admin.discounts.discounts_list')->with($data);   
+            return view('admin.discount.discount_list')->with($data);
         }
         catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         try {
             $newData = new Discount();
             $newData->name = $request->input('name');
-            $newData->code = $request->input('code');
+            $newData->amount = $request->input('amount');
             $newData->percentage = $request->input('percentage');
             $newData->note = $request->input('note');
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 
-            if ($result){
-                return redirect()->route('discount.index')->with('message', 'İndiirm Başarıyla Kaydedildi!');
+            if ($result) {
+                return redirect()->route('discount.index')->with('message', 'New Discount Added Successfully!');
             }
             else {
-                return response(false, 500);
+                return back()->withInput($request->input());
             }
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-
-    public function getDiscount($id)
-    {
-        try {
-            $discount = Discount::where('id', '=', $id)->first();
-
-            return response()->json([$discount], 200);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -63,8 +49,9 @@ class DiscountController extends Controller
     public function edit($id)
     {
         try {
-            $discount = Discount::where('id','=', $id)->first();
-            return view('admin.discounts.edit_discount', ['discount' => $discount]);
+            $discount = Discount::where('id','=',$id)->first();
+
+            return view('admin.discount.edit_discount', ['discount' => $discount]);
         }
         catch (\Throwable $th) {
             throw $th;
@@ -74,15 +61,13 @@ class DiscountController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = auth()->user();
-
             $temp['name'] = $request->input('name');
-            $temp['code'] = $request->input('code');
+            $temp['amount'] = $request->input('amount');
             $temp['percentage'] = $request->input('percentage');
             $temp['note'] = $request->input('note');
 
             if (Discount::where('id', '=', $id)->update($temp)) {
-                return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Güncellendi!');
+                return redirect()->route('discount.index')->with('message', 'Discount Updated Successfully!');
             }
             else {
                 return back()->withInput($request->input());
@@ -95,8 +80,8 @@ class DiscountController extends Controller
 
     public function destroy($id){
         try {
-            Discount::where('id', '=', $id)->delete();
-            return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Silindi!');
+            Discount::find($id)->delete();
+            return redirect()->route('discount.index')->with('message', 'Discount Deleted Successfully!');
         }
         catch (\Throwable $th) {
             throw $th;

@@ -65,7 +65,7 @@ body .fc {
 }
 
 .fc-unthemed td.fc-today {
-    background: #eee
+    background: #fff
 }
 
 .fc-highlight {
@@ -393,13 +393,15 @@ a[data-goto]:hover {
 .fc-row .fc-helper-skeleton td {
     background: 0 0;
     cursor: pointer;
-    border-color: transparent;
-    border-bottom: 0
+    border-color: #eee;
+    border-bottom: 0;
+    background-color: #fff
 }
 
 .fc-row .fc-content-skeleton tbody td,
 .fc-row .fc-helper-skeleton tbody td {
     border-top: 0;
+    border: 1px solid #eee;
     cursor: pointer
 }
 
@@ -430,7 +432,7 @@ a[data-goto]:hover {
 
 .fc-event,
 .fc-event-dot {
-    /* background-color: #3a87ad */
+    background-color: #3a87ad
 }
 
 .fc-event,
