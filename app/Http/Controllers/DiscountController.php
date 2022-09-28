@@ -58,7 +58,6 @@ class DiscountController extends Controller
         catch (\Throwable $th) {
             throw $th;
         }
-       
     }
 
     public function edit($id)

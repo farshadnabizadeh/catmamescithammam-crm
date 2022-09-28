@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FormStatuses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class FormStatusesController extends Controller
 {
@@ -36,7 +35,7 @@ class FormStatusesController extends Controller
             $result = $newData->save();
 
             if ($result){
-                return redirect('/definitions/formstatuses')->with('message', 'Form Durumu Başarıyla Eklendi!');
+                return redirect()->route('formstatus.index')->with('message', 'Form Durumu Başarıyla Eklendi!');
             }
             else {
                 return response(false, 500);
@@ -45,19 +44,6 @@ class FormStatusesController extends Controller
         catch (\Throwable $th) {
             throw $th;
         }
-    }
-
-    public function getDiscount($id)
-    {
-        try {
-            $discounts = Discount::where('id', '=', $id)->first();
-
-            return response()->json([$discounts], 200);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
-       
     }
 
     public function edit($id)
@@ -80,7 +66,7 @@ class FormStatusesController extends Controller
             $temp['color'] = $request->input('color');
 
             if (FormStatuses::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/formstatuses')->with('message', 'Form Durumu Başarıyla Güncellendi!');
+                return redirect()->route('formstatus.index')->with('message', 'Form Durumu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -94,7 +80,7 @@ class FormStatusesController extends Controller
     public function destroy($id){
         try {
             FormStatuses::where('id', '=', $id)->delete();
-            return redirect('definitions/formstatuses')->with('message', 'Form Durumu Başarıyla Silindi!');
+            return redirect()->route('formstatus.index')->with('message', 'Form Durumu Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

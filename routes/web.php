@@ -61,11 +61,11 @@ Route::group(['middleware' => ['auth']], function(){
     //Booking Forms end
 
     //Contact Forms
-    Route::GET('contactforms', 'ContactFormController@index')->middleware(['middleware' => 'permission:show contactform'])->name('');
-    Route::POST('contactforms/change/{id}', 'ContactFormController@changeStatus')->middleware(['middleware' => 'permission:edit contactform']);
-    Route::GET('contactforms/edit/{id}', 'ContactFormController@edit')->middleware(['middleware' => 'permission:edit contactform']);
-    Route::POST('contactforms/update/{id}', 'ContactFormController@update')->middleware(['middleware' => 'permission:edit contactform']);
-    Route::GET('contactforms/destroy/{id}', 'ContactFormController@destroy')->middleware(['middleware' => 'permission:delete contactform']);
+    Route::GET('contactforms', 'ContactFormController@index')->middleware(['middleware' => 'permission:show contactform'])->name('contactform.index');
+    Route::POST('contactforms/change/{id}', 'ContactFormController@changeStatus')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.change');
+    Route::GET('contactforms/edit/{id}', 'ContactFormController@edit')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.edit');
+    Route::POST('contactforms/update/{id}', 'ContactFormController@update')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.update');
+    Route::GET('contactforms/destroy/{id}', 'ContactFormController@destroy')->middleware(['middleware' => 'permission:delete contactform'])->name('contactform.destroy');
     //Contact Forms end
 
     //Comissions
@@ -119,12 +119,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::POST('reservations/addComissiontoReservation', 'ReservationController@addComissiontoReservation')->middleware(['middleware' => 'permission:create reservation']);
 
     //hotel comission
-    Route::GET('reservations/hotelComission/edit/{id}', 'ReservationController@editHotelComission')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::POST('reservations/hotelComission/update/{id}', 'ReservationController@updateHotelComission')->middleware(['middleware' => 'permission:edit reservation']);
+    Route::GET('reservations/hotelComission/edit/{id}', 'ReservationController@editHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('hotelcomission.edit');
+    Route::POST('reservations/hotelComission/update/{id}', 'ReservationController@updateHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('hotelcomission.update');
 
     //guide comission
-    Route::GET('reservations/guideComission/edit/{id}', 'ReservationController@editGuideComission')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::POST('reservations/guideComission/update/{id}', 'ReservationController@updateGuideComission')->middleware(['middleware' => 'permission:edit reservation']);
+    Route::GET('reservations/guideComission/edit/{id}', 'ReservationController@editGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('guidecomission.update');
+    Route::POST('reservations/guideComission/update/{id}', 'ReservationController@updateGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('guidecomission.destroy');
 
     Route::GET('reservationbydate', 'ReservationController@allReservationByDate')->middleware(['middleware' => 'permission:show reservation']);
     Route::GET('reservations/destroy/{id}', 'ReservationController@destroy')->middleware(['middleware' => 'permission:delete reservation']);
@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Discounts end
 
     //Report
+    Route::GET('reports', 'ReportController@index')->name('report.index');
     Route::GET('reports/reservations', 'ReportController@reservationReport')->name('report.reservation');
     Route::GET('reports/payments', 'ReportController@paymentReport')->name('report.payment');
     Route::GET('reports/comissions', 'ReportController@comissionReport')->name('report.comission');

@@ -12,7 +12,7 @@
                 <div class="card-title">
                     <h3>Durumu Güncelle</h3>
                 </div>
-                <form action="{{ url('/definitions/contactforms/change/'.$contact_form->id) }}" method="POST">
+                <form action="{{ route('contactform.change', ['id' => $contact_form->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

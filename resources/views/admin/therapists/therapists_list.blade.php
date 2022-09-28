@@ -69,13 +69,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/therapists/store') }}" method="POST">
+                <form action="{{ route('therapist.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="therapistName">Terapist Adı</label>
-                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Terapist Adı" required>
+                                <label for="name">Terapist Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Terapist Adı" required>
                             </div>
                         </div>
                     </div>

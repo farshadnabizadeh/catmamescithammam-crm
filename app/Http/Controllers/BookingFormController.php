@@ -39,7 +39,7 @@ class BookingFormController extends Controller
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="'.url()->current().'/edit/'.$item->id.'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
+                                        <a href="'.route('bookingform.edit', ['id' => $item->id]).'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
                                     </li>
                                 </ul>
                             </div>
@@ -113,7 +113,7 @@ class BookingFormController extends Controller
             $temp['email'] = $request->input('email');
 
             if (BookingForm::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/contactforms')->with('message', 'Rezervasyon Formu Başarıyla Güncellendi!');
+                return redirect()->route('bookingform.index')->with('message', 'Rezervasyon Formu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -131,7 +131,7 @@ class BookingFormController extends Controller
             $temp['answered_time'] = Carbon::now()->toDateTimeString();
 
             if (BookingForm::where('id', '=', $id)->update($temp)) {
-                return redirect('definitions/bookings')->with('message', 'Form Durumu Başarıyla Güncellendi!');
+                return redirect()->route('bookingform.index')->with('message', 'Form Durumu Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -144,8 +144,8 @@ class BookingFormController extends Controller
 
     public function destroy($id){
         try {
-            ContactForm::find($id)->delete();
-            return redirect('definitions/contactforms')->with('message', 'Rezervasyon Formu Başarıyla Silindi!');
+            BookingForm::find($id)->delete();
+            return redirect()->route('bookingform.index')->with('message', 'Rezervasyon Formu Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

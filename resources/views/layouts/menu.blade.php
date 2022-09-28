@@ -23,7 +23,7 @@
                     </li>
                     @endcan
                     @can('show contactform')
-                    <li class="nav-item {{ request()->is('definitions/bookings*') || request()->is('definitions/contactforms*') ? 'active' : '' }}">
+                    <li class="nav-item">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-wpforms text-primary"></i>
                             <span class="nav-link-text">Formlar</span>
@@ -31,12 +31,12 @@
                         </a>
                         <ul class="nav-item_sub">
                             <li>
-                                <a href="{{ url('/definitions/contactforms?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").''); }}">
+                                <a href="{{ route('contactform.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
                                     <span>İletişim Formları</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ url('/definitions/bookings?startDate='.date("Y-m-d").'&endDate='.date("Y-m-d").'') }}">
+                                <a href="{{ route('bookingform.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
                                     <span>Rezervasyon Formları</span>
                                 </a>
                             </li>
@@ -131,6 +131,11 @@
                             <i class="fa fa-caret-right sub-icon"></i>
                         </a>
                         <ul class="nav-item_sub">
+                            <li>
+                                <a href="{{ route('report.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
+                                    <span>Genel Rapor</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('report.reservation', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
                                     <span>Rezervasyon Raporu</span>

@@ -6,13 +6,13 @@
                     <h2>Terapist Güncelle</h2>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $therapist->user->name }}</p>
                 </div>
-                <form action="{{ url('/definitions/therapists/update/'.$therapist->id) }}" method="POST">
+                <form action="{{ route('therapist.update', ['id' => $therapist->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="therapistName">Terapist Adı</label>
-                                <input type="text" class="form-control" id="therapistName" name="therapistName" placeholder="Terapist Adı" value="{{ $therapist->name }}" required>
+                                <label for="name">Terapist Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Terapist Adı" value="{{ $therapist->name }}" required>
                             </div>
                         </div>
                     </div>

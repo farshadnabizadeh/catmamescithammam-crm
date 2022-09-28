@@ -33,8 +33,6 @@ class HomeController extends Controller
             $contactFormCount = ContactForm::count();
             $bookingFormCount = BookingForm::count();
 
-            $user = auth()->user();
-
             $dashboard = array('lastReservations' => $lastReservations, 'customerCount' => $customerCount, 'hotelCount' => $hotelCount, 'serviceCount' => $serviceCount, 'therapistCount' => $therapistCount, 'reservationCount' => $reservationCount, 'contactFormCount' => $contactFormCount, 'bookingFormCount' => $bookingFormCount);
 
             return view('home')->with($dashboard);

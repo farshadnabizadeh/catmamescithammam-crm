@@ -71,13 +71,13 @@
             </button>
          </div>
          <div class="modal-body">
-            <form action="{{ url('/definitions/payment_types/store') }}" method="POST">
+            <form action="{{ route('paymenttype.store') }}" method="POST">
                @csrf
                <div class="row">
                   <div class="col-lg-6">
                      <div class="form-group">
-                        <label for="paymentTypeName">Ödeme Türü Adı</label>
-                        <input type="text" class="form-control" id="typeName" name="paymentTypeName" placeholder="Ödeme Türü Adı" required>
+                        <label for="name">Ödeme Türü Adı</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Ödeme Türü Adı" required>
                      </div>
                   </div>
                   <div class="col-lg-6">

@@ -16,6 +16,7 @@
     <link type="text/css" href="{{ asset('assets/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
 </head>
 <body>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -79,6 +80,7 @@
             </div>
         </div>
     </div>
+
     <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/js.cookie.js') }}"></script>

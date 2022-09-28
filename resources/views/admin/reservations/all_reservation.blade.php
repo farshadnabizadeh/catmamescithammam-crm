@@ -39,15 +39,14 @@
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            {{-- <li><a href="{{ url('/operation/cancel/'.$listAllByDate->tId) }}" class="btn btn-danger edit-btn" onclick="return confirm('Are you sure?');"><i class="fa fa-ban"></i> İptal Et</a></li> --}}
-                                            <li><a href="{{ url('/definitions/reservations/edit/'.$listAllByDate->tId) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ route('reservation.edit', ['id' => $listAllByDate->tId]) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                             <li><a href="{{ url('/definitions/reservations/download/'.$listAllByDate->tId.'?lang=en') }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
                                         </ul>
                                     </div>
                                 </td>
                                 <td>{{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
                                 <td>{{ $listAllByDate->reservation_time }}</td>
-                                <td><a href="{{ url('/definitions/customers/edit/'.$listAllByDate->customer_id) }}">{{ $listAllByDate->Cname }}</a></td>
+                                <td><a href="{{ route('customer.edit', ['id' => $listAllByDate->customer_id]) }}">{{ $listAllByDate->Cname }}</a></td>
                                 <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }}</td>
                                 <td>{{ $listAllByDate->total_customer }}</td>
                             </tr>

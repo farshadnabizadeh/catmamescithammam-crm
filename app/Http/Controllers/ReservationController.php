@@ -12,7 +12,6 @@ use App\Models\Service;
 use App\Models\PaymentType;
 use App\Models\Source;
 use App\Models\Therapist;
-use App\Models\Discount;
 use App\Models\Customer;
 use App\Models\Hotel;
 use App\Models\Guide;
@@ -51,7 +50,7 @@ class ReservationController extends Controller
                                     <a href="'.route('reservation.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
                                 </li>
                                 <li>
-                                    <a href="'.route('reservation.destroy', ['id' => $item->id]).'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                    <a href="'.route('reservation.edit', ['id' => $item->id]).'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
                                 </li>
                                 <li>
                                     <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>

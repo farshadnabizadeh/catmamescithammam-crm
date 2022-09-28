@@ -10,7 +10,7 @@
             <button class="btn btn-danger" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+                    <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                     <li class="breadcrumb-item active" aria-current="page">İletişim Formları</li>
                 </ol>
             </nav>
