@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.navbar')
+
 <div class="container-fluid">
    <div class="header-body">
       <div class="row align-items-center py-4">
@@ -146,9 +147,9 @@
                         <div class="dropdown">
                            <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                            <ul class="dropdown-menu">
-                              <li><a href="{{ url('/treatmentplans/edit/'.$requested_treatment_plan->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
+                              <li><a href="{{ route('treatmentplan.edit', ['id' => $requested_treatment_plan->id]) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Edit / Show</a></li>
                               @can('delete treatmentplan')
-                              <li><a href="{{ url('/treatmentplans/destroy/'.$requested_treatment_plan->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
+                              <li><a href="{{ route('treatmentplan.destroy', ['id' => $requested_treatment_plan->id]) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Delete</a></li>
                               @endcan
                            </ul>
                         </div>

@@ -174,7 +174,7 @@ class TreatmentPlanController extends Controller
                     ->whereNull('treatment_plans.arrival_date')
                     ->orderBy('created_date', 'desc');
                     return DataTables::of($data)
-                        ->editColumn('action', function ($item) {
+                        ->editColumn('action', function ($item, User $user) {
                             $action = '<div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">Actions <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
