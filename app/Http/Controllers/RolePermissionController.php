@@ -51,7 +51,7 @@ class RolePermissionController extends Controller
             $role = Role::create(['name' => $request->input('name')]);
             $role->syncPermissions($request->input('permission'));
 
-            return redirect('roles')->with('message', 'New Role Added Successfully!');
+            return redirect('roles')->with('message', 'Yeni Rol Başarıyla Eklendi!');
         }
         catch (\Throwable $th) {
             throw $th;
@@ -113,18 +113,17 @@ class RolePermissionController extends Controller
 
         $role->syncPermissions($request->input('permission'));
 
-        return redirect('roles')->with('message', 'Role Permissions Successfully Updated');
+        return redirect('roles')->with('message', 'Rol Başarıyla Güncellendi!');
     }
 
     public function destroy($id)
     {
         try {
             DB::table("roles")->where('id', $id)->delete();
-            return redirect('roles')->with('message', 'Role Successfully Deleted!');
+            return redirect('roles')->with('message', 'Rol Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;
         }
     }
-
 }
