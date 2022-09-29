@@ -447,7 +447,7 @@ class ReservationController extends Controller
             $temp['reservation_note'] = $request->input('note');
 
             if (Reservation::where('id', '=', $id)->update($temp)) {
-                return redirect('/definitions/reservations/calendar')->with('message', 'Rezervasyon Başarıyla Güncellendi!');
+                return redirect()->route('reservation.calendar')->with('message', 'Rezervasyon Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());

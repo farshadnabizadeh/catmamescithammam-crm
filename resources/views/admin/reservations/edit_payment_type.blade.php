@@ -5,7 +5,7 @@
                 <div class="card-title">
                     <h2>Ödeme Türünü Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/reservations/paymenttype/update/'.$reservation_payment_type->id) }}" method="POST">
+                <form action="{{ route('reservation.paymenttype.update', ['id' => $reservation_payment_type->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

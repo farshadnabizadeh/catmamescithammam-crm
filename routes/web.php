@@ -101,27 +101,28 @@ Route::group(['middleware' => ['auth']], function(){
 
     //payment type
     Route::POST('reservations/addPaymentTypetoReservation', 'ReservationController@addPaymentTypetoReservation')->middleware(['middleware' => 'permission:create reservation']);
-    Route::GET('reservations/paymenttype/edit/{id}', 'ReservationController@editPaymentType')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::POST('reservations/paymenttype/update/{id}', 'ReservationController@updatePaymentType')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::GET('reservations/paymenttype/destroy/{id}', 'ReservationController@destroyPaymentType')->middleware(['middleware' => 'permission:delete reservation']);
+    Route::GET('reservations/paymenttype/edit/{id}', 'ReservationController@editPaymentType')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.paymenttype.edit');
+    Route::POST('reservations/paymenttype/update/{id}', 'ReservationController@updatePaymentType')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.paymenttype.update');
+    Route::GET('reservations/paymenttype/destroy/{id}', 'ReservationController@destroyPaymentType')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.paymenttype.destroy');
 
     //service
     Route::POST('reservations/addServicetoReservation', 'ReservationController@addServicetoReservation')->middleware(['middleware' => 'permission:create reservation']);
-    Route::GET('reservations/service/edit/{id}', 'ReservationController@editService')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::POST('reservations/service/update/{id}', 'ReservationController@updateService')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::GET('reservations/service/destroy/{id}', 'ReservationController@destroyService')->middleware(['middleware' => 'permission:delete reservation']);
+    Route::GET('reservations/service/edit/{id}', 'ReservationController@editService')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.service.edit');
+    Route::POST('reservations/service/update/{id}', 'ReservationController@updateService')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.service.update');
+    Route::GET('reservations/service/destroy/{id}', 'ReservationController@destroyService')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.service.destroy');
 
     //therapist
     Route::POST('reservations/addTherapisttoReservation', 'ReservationController@addTherapisttoReservation')->middleware(['middleware' => 'permission:create reservation']);
-    Route::GET('reservations/therapist/edit/{id}', 'ReservationController@editTherapist')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::POST('reservations/therapist/update/{id}', 'ReservationController@updateTherapist')->middleware(['middleware' => 'permission:edit reservation']);
-    Route::GET('reservations/therapist/destroy/{id}', 'ReservationController@destroyTherapist')->middleware(['middleware' => 'permission:delete reservation']);
+    Route::GET('reservations/therapist/edit/{id}', 'ReservationController@editTherapist')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.therapist.edit');
+    Route::POST('reservations/therapist/update/{id}', 'ReservationController@updateTherapist')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.therapist.update');
+    Route::GET('reservations/therapist/destroy/{id}', 'ReservationController@destroyTherapist')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.therapist.destroy');
     //commissions
     Route::POST('reservations/addComissiontoReservation', 'ReservationController@addComissiontoReservation')->middleware(['middleware' => 'permission:create reservation']);
 
     //hotel comission
-    Route::GET('reservations/hotelComission/edit/{id}', 'ReservationController@editHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('hotelcomission.edit');
-    Route::POST('reservations/hotelComission/update/{id}', 'ReservationController@updateHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('hotelcomission.update');
+    Route::GET('reservations/hotelComission/edit/{id}', 'ReservationController@editHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.hotelcomission.edit');
+    Route::POST('reservations/hotelComission/update/{id}', 'ReservationController@updateHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.hotelcomission.update');
+    Route::GET('reservations/hotelComission/destroy/{id}', 'ReservationController@destroyHotelComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.hotelcomission.destroy');
 
     //guide comission
     Route::GET('reservations/guideComission/edit/{id}', 'ReservationController@editGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('guidecomission.update');

@@ -11,9 +11,9 @@
             <div class="card p-3 mt-3">
                 <div class="card-title">
                     <nav class="nav nav-borders">
-                        <a class="nav-link active ms-0" href="{{ route('reservation.edit', ['id' => $reservation->id]) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
+                        <a class="nav-link" href="{{ route('reservation.edit', ['id' => $reservation->id]) }}"><i class="fa fa-user"></i> Rezervasyon Bilgileri</a>
                         <a class="nav-link" href="{{ route('reservation.edit', ['id' => $reservation->id, 'page' => 'payments']) }}"><i class="fa fa-money"></i> Ödeme Bilgileri @if(!$hasPaymentType) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
-                        <a class="nav-link" href="{{ route('reservation.edit', ['id' => $reservation->id, 'page' => 'comissions']) }}"><i class="fa fa-percent"></i> Komisyon @if(!$hasComission) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
+                        <a class="nav-link active ms-0" href="{{ route('reservation.edit', ['id' => $reservation->id, 'page' => 'comissions']) }}"><i class="fa fa-percent"></i> Komisyon @if(!$hasComission) <i class="fa fa-ban"></i> @else <i class="fa fa-check"></i> @endif</a>
                     </nav>
                 </div>
                 <div class="card">
@@ -35,8 +35,8 @@
                                             <td>{{ $subHotelComission->name }}</td>
                                             <td>{{ number_format($subHotelComission->comission_price, 2) . ' ' . $subHotelComission->comission_currency }}</td>
                                             <td>
-                                                <a href="{{ url('/definitions/reservations/hotelComission/edit/'.$subHotelComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                                <a href="{{ url('/definitions/reservations/hotelComission/destroy/'.$subHotelComission->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                                <a href="{{ route('reservation.hotelcomission.edit', ['id' => $subHotelComission->id]) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ route('reservation.hotelcomission.destroy', ['id' => $subHotelComission->id]) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
                                             </td>
                                         </tr>
                                         @endforeach

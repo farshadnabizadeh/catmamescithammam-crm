@@ -87,8 +87,8 @@
                                                     <td>{{ $subService->name }}</td>
                                                     <td>{{ $subService->piece }}</td>
                                                     <td>
-                                                        <a href="{{ url('/definitions/reservations/service/edit/'.$subService->id) }}" class="btn btn-warning inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                                        <a href="{{ url('/definitions/reservations/service/destroy/'.$subService->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                                        <a href="{{ route('reservation.service.edit', ['id' => $subService->id]) }}" class="btn btn-warning inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                        <a href="{{ route('reservation.service.destroy', ['id' => $subService->id]) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -116,8 +116,8 @@
                                                     <td>{{ $subTherapist->name }}</td>
                                                     <td>{{ $subTherapist->piece }}</td>
                                                     <td>
-                                                        <a href="{{ url('/definitions/reservations/therapist/edit/'.$subTherapist->id) }}" class="btn btn-warning inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
-                                                        <a href="{{ url('/definitions/reservations/therapist/destroy/'.$subTherapist->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
+                                                        <a href="{{ route('reservation.therapist.edit', ['id' => $subTherapist->id]) }}" class="btn btn-warning inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                        <a href="{{ route('reservation.therapist.destroy', ['id' => $subTherapist->id]) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
