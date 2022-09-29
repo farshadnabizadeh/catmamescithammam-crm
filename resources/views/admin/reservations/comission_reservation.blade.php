@@ -59,7 +59,7 @@
                                             <td>{{ $subGuideComission->name }}</td>
                                             <td>{{ number_format($subGuideComission->comission_price, 2) . ' ' . $subGuideComission->comission_currency }}</td>
                                             <td>
-                                                <a href="{{ url('/definitions/reservations/guideComission/edit/'.$subGuideComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
+                                                <a href="{{ route('reservation.guidecomission.edit', ['id' => $subGuideComission->id]) }}{{ url('/definitions/reservations/guideComission/edit/'.$subGuideComission->id) }}" class="btn btn-primary inline-popups remove-btn"><i class="fa fa-edit"></i> Güncelle</a>
                                                 <a href="{{ url('/definitions/reservations/guideComission/destroy/'.$subGuideComission->id) }}" class="btn btn-danger remove-btn" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash"></i> Sil</a>
                                             </td>
                                         </tr>

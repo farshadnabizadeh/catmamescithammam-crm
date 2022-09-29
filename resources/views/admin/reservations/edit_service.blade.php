@@ -5,7 +5,7 @@
                 <div class="card-title">
                     <h2>Hizmeti Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/reservations/service/update/'.$reservation_service->id) }}" method="POST">
+                <form action="{{ route('reservation.service.update', ['id' => $reservation_service->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

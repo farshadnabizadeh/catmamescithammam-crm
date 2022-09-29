@@ -5,7 +5,7 @@
                 <div class="card-title">
                     <h2>Terapist Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/reservations/therapist/update/'.$reservation_therapist->id) }}" method="POST">
+                <form action="{{ route('reservation.therapist.update', ['id' => $reservation_therapist->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

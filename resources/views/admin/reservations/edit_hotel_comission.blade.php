@@ -5,7 +5,7 @@
                 <div class="card-title">
                     <h2>Otel Komisyonunu Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/reservations/hotelComission/update/'.$hotel_comission->id) }}" method="POST">
+                <form action="{{ route('reservation.hotelcomission.update', ['id' => $hotel_comission->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
