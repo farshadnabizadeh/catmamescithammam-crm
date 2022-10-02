@@ -101,7 +101,9 @@
                                 <div class="card mt-3 h-100">
                                     <div class="card-body">
                                         <h3 class="d-flex align-items-center mb-3">Terapistler</h3>
+                                        @can('create reservation')
                                         <button type="button" class="btn btn-primary float-right add-new-btn" data-toggle="modal" data-target="#addTherapistModal"><i class="fa fa-plus"></i> Terapist Ekle</button>
+                                        @endcan
                                         <table class="table table-striped table-bordered nowrap dataTable" id="tableTherapist">
                                             <thead>
                                                 <tr>

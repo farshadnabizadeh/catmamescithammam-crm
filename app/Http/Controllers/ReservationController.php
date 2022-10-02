@@ -50,10 +50,10 @@ class ReservationController extends Controller
                                     <a href="'.route('reservation.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
                                 </li>
                                 <li>
-                                    <a href="'.route('reservation.edit', ['id' => $item->id]).'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
+                                    <a href="/reservations/destroy/'.$item->id.'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
                                 </li>
                                 <li>
-                                    <a href="/definitions/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
+                                    <a href="/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
                                 </li>
                             </ul>
                         </div>';

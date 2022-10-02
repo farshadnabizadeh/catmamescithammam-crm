@@ -40,6 +40,7 @@
                                         <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li><a href="{{ route('reservation.edit', ['id' => $listAllByDate->tId]) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                            <li><a href="{{ url('/reservations/destroy/'.$listAllByDate->tId) }}" onclick="return confirm('Silmek İstediğinize Emin misiniz?')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                             <li><a href="{{ url('/definitions/reservations/download/'.$listAllByDate->tId.'?lang=en') }}" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a></li>
                                         </ul>
                                     </div>
