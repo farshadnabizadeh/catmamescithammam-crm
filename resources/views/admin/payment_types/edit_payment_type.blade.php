@@ -6,7 +6,7 @@
                     <h3>Ödeme Türünü Güncelle</h3>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $payment_type->user->name }}</p>
                 </div>
-                <form action="{{ url('/definitions/payment_types/update/'.$payment_type->id) }}" method="POST">
+                <form action="{{ route('paymenttype.update', ['id' => $payment_type->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-12 col-lg-6">

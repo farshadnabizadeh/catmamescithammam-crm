@@ -78,14 +78,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceName">Hizmet Adı</label>
-                                <input type="text" class="form-control" id="serviceName" name="serviceName" placeholder="Hizmet Adı" required>
+                                <label for="name">Hizmet Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Hizmet Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCurrency">Hizmet Para Birimi</label>
-                                <select id="serviceCurrency" name="serviceCurrency" class="form-control" required>
+                                <label for="currency">Hizmet Para Birimi</label>
+                                <select id="currency" name="currency" class="form-control" required>
                                     <option></option>
                                     <option value="EUR">EURO</option>
                                     <option value="USD">USD</option>
@@ -96,12 +96,12 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="serviceCost">Hizmet Ücreti</label>
-                                <input type="number" class="form-control" id="serviceCost" name="serviceCost" placeholder="Hizmet Ücreti" required>
+                                <label for="cost">Hizmet Ücreti</label>
+                                <input type="number" class="form-control" id="cost" name="cost" placeholder="Hizmet Ücreti" required>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

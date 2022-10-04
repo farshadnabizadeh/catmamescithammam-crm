@@ -42,10 +42,10 @@
                                     <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @can('edit sources')
-                                        <li><a href="{{ url('/definitions/sources/edit/'.$source->id) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                        <li><a href="{{ route('source.edit', ['id' => $source->id]) }}" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                                         @endcan
                                         @can('delete sources')
-                                        <li><a href="{{ url('/definitions/sources/destroy/'.$source->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                        <li><a href="{{ route('source.destroy', ['id' => $source->id]) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
                                         @endcan
                                     </ul>
                                 </div>
@@ -71,23 +71,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/definitions/sources/store') }}" method="POST">
+                <form action="{{ route('source.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceName">Kaynak Adı</label>
-                                <input type="text" class="form-control" id="sourceName" name="sourceName" placeholder="Kaynak Adı" required>
+                                <label for="name">Kaynak Adı</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Kaynak Adı" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="sourceColor">Kaynak Rengi</label>
-                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="sourceColor" placeholder="Kaynak Rengi">
+                                <label for="color">Kaynak Rengi</label>
+                                <input type="text" class="form-control" id="colorpicker" value='#276cb8' name="color" placeholder="Kaynak Rengi">
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-right" id="saveCustomerBtn">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="submit" class="btn btn-success float-right">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
                 </form>
             </div>
             <div class="modal-footer">

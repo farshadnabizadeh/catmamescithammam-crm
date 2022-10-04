@@ -30,10 +30,10 @@ class TherapistController extends Controller
     {
         try {
             $newData = new Therapist();
-            $$newData->name = $request->input('name');
-            $$newData->user_id = auth()->user()->id;
+            $newData->name = $request->input('name');
+            $newData->user_id = auth()->user()->id;
 
-            $result = $$newData->save();
+            $result = $newData->save();
 
             if ($result) {
                 return redirect()->route('therapist.index')->with('message', 'Terapist Başarıyla Eklendi!');
@@ -62,7 +62,7 @@ class TherapistController extends Controller
     {
         $user = auth()->user();
 
-        $temp['therapist_name'] = $request->input('name');
+        $temp['name'] = $request->input('name');
 
         if (Therapist::where('id', '=', $id)->update($temp)) {
             return redirect()->route('therapist.index')->with('message', 'Terapist Başarıyla Güncellendi!');

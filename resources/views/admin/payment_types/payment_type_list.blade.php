@@ -9,7 +9,7 @@
       <div class="col-md-12 table-responsive">
          <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
-               <li class="breadcrumb-item home-page"><a href="{{ url('home') }}">Arayüz</a></li>
+               <li class="breadcrumb-item home-page"><a href="{{ route('home') }}">Arayüz</a></li>
                <li class="breadcrumb-item active" aria-current="page">Ödeme Türleri</li>
             </ol>
          </nav>
@@ -42,11 +42,11 @@
                            <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                            <ul class="dropdown-menu">
                               @can('edit payment type')
-                              <li><a href="{{ url('/definitions/payment_types/edit/'.$payment_type->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                              <li><a href="{{ route('paymenttype.edit', ['id' => $payment_type->id]) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
                               @endcan
-                              {{-- @can('delete payment type')
-                              <li><a href="{{ url('/definitions/payment_types/destroy/'.$payment_type->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                              @endcan --}}
+                              @can('delete payment type')
+                              <li><a href="{{ route('paymenttype.destroy', ['id' => $payment_type->id]) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                              @endcan
                            </ul>
                         </div>
                      </td>
