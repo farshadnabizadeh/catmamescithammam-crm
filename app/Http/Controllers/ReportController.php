@@ -8,6 +8,7 @@ use App\Models\ReservationPaymentType;
 use App\Models\ReservationComission;
 use App\Models\ReservationTherapist;
 use App\Models\ReservationService;
+use App\Models\Reservation;
 use App\Models\Therapist;
 use App\Models\Service;
 use App\Models\Source;
@@ -30,71 +31,18 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
-            ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
-            ->whereBetween('reservations_therapists.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->groupBy('therapist_id')
-            ->get();
+            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'reservations.total_customer', 'sources.id as sId', 'sources.color', 'sources.name as source_name', 'customers.*', DB::raw('count(name) as countR'))
+            ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
+            ->whereNotNull('reservations.source_id')
+            ->groupBy(['date', 'customer_id', 'time', 'sId', 'total_customer']);
 
-            $serviceAll = ReservationService::select('services.*', DB::raw('service_id, sum(piece) as serviceCount'))
-            ->leftJoin('services', 'reservations_services.service_id', '=', 'services.id')
-            ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->groupBy('service_id')
-            ->get();
+            $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
+            $calendarCount->getBindings());
 
-            $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
-            ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
-            ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->whereNull('reservations_comissions.guide_id')
-            ->groupBy('hotel_id')
-            ->get();
-
-            $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
-            ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
-            ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->whereNull('reservations_comissions.hotel_id')
-            ->groupBy('guide_id')
-            ->get();
-
-            $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-                ->sum("payment_price");
-
-            $data = array('hotelComissions' => $hotelComissions, 'guideComissions' => $guideComissions, 'therapistAll' => $therapistAll, 'serviceAll' => $serviceAll, 'cashTl' => $cashTl, 'cashEur' => $cashEur, 'cashUsd' => $cashUsd, 'cashPound' => $cashPound, 'ykbTl' => $ykbTl, 'ziraatTl' => $ziraatTl, 'ziraatEuro' => $ziraatEuro, 'ziraatDolar' => $ziraatDolar, 'viatorEuro' => $viatorEuro, 'start' => $start, 'end' => $end);
+            $data = array('listCountByMonth' => $listCountByMonth, 'start' => $start, 'end' => $end);
             return view('admin.reports.index')->with($data);
-
         }
         catch (\Throwable $th) {
             throw $th;

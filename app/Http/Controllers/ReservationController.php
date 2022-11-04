@@ -53,7 +53,7 @@ class ReservationController extends Controller
                                     <a href="/reservations/destroy/'.$item->id.'" onclick="return confirm(\'Are you sure?\')" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a>
                                 </li>
                                 <li>
-                                    <a href="/reservations/download/'.$item->id.'?lang=en" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
+                                    <a href="'.route('reservation.download', ['id' => $item->id, 'lang' => 'en']).'" class="btn btn-success edit-btn"><i class="fa fa-download"></i> İndir</a>
                                 </li>
                             </ul>
                         </div>';

@@ -94,9 +94,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('reservations/create', 'ReservationController@create')->middleware(['middleware' => 'permission:create reservation'])->name('reservation.create');
     Route::POST('reservations/store', 'ReservationController@store')->middleware(['middleware' => 'permission:create reservation'])->name('reservation.store');
     Route::GET('reservations/edit/{id}', 'ReservationController@edit')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.edit');
-    Route::GET('reservations/download/{id}', 'ReservationController@download')->middleware(['middleware' => 'permission:edit reservation']);
+    Route::GET('reservations/download/{id}', 'ReservationController@download')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.download');
     Route::POST('reservations/update/{id}', 'ReservationController@update')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.update');
-    Route::GET('reservations/destroy/{id}', 'ReservationController@destroy')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.destroy');
+    Route::GET('reservations/destroy/{id}', 'ReservationController@destroy')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.delete');
     Route::POST('reservations/addCustomertoReservation', 'ReservationController@addCustomertoReservation')->middleware(['middleware' => 'permission:create reservation']);
 
     //payment type
