@@ -53,9 +53,9 @@
                                     <td>{{ $reservation->total_customer }}</td>
                                     <td>{{ $reservation->name_surname }}</td>
                                     <td>{{ $reservation->source_name }}</td>
+                                    <td>{{ $reservation->source_name }}</td>
                                     <td>
-                                        @foreach($reservation->agencies as $key => $value){{ $value->agency_name}}
-                                        <br/>@endforeach
+                                        {{-- @foreach($reservation->subHotelComissions as $key => $value){{ $value->comission_price}}@endforeach --}}
                                     </td>
                                 </tr>
                                 @endforeach
