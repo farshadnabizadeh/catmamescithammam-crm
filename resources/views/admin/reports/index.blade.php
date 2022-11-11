@@ -38,29 +38,102 @@
                        <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
                     </div>
                     <div class="card-body">
-                        <table id="basic-btn" class="table table-striped table-bordered nowrap">
-                            <thead>
-                                <tr>
-                                    <th>PAX</th>
-                                    <th>Açıklama Ad Soyad</th>
-                                    <th>Gönderen Otel / Acenta</th>
-                                    <th>Hak Ediş Tutar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($listCountByMonth as $reservation)
-                                <tr>
-                                    <td>{{ $reservation->total_customer }}</td>
-                                    <td>{{ $reservation->name_surname }}</td>
-                                    <td>{{ $reservation->source_name }}</td>
-                                    <td>{{ $reservation->source_name }}</td>
-                                    <td>
-                                        {{-- @foreach($reservation->subHotelComissions as $key => $value){{ $value->comission_price}}@endforeach --}}
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="dt-responsive table-responsive">
+                            <table id="basic-btn" style="zoom: 80%" class="table table-striped table-bordered nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>PAX</th>
+                                        <th>Açıklama Ad Soyad</th>
+                                        <th>Gönderen Otel / Acenta</th>
+                                        <th>Hak Ediş Tutar</th>
+                                        <th>Verilen Hizmet</th>
+                                        <th>CASH TL</th>
+                                        <th>CASH USD</th>
+                                        <th>CASH EURO</th>
+                                        <th>CASH GBP</th>
+                                        <th>Ziraat Pos TL</th>
+                                        <th>Ykb Pos TL</th>
+                                        <th>Ziraat Pos EURO</th>
+                                        <th>Ziraat Pos USD</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($reservations as $reservation)
+                                    <tr>
+                                        <td>{{ $reservation->total_customer }}</td>
+                                        <td>{{ $reservation->customer->name_surname }}</td>
+                                        <td>{{ $reservation->source->name }}</td>
+                                        <td>
+                                            @foreach($reservation->subHotelComissions as $value)
+                                                {{ $value->comission_currency }}
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subServices as $value)
+                                                <span>{{ $value->piece   }} {{ $value->name }} +</span> 
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 5)
+                                                <span>{{ $value->payment_price }} TL</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 7)
+                                                <span>{{ $value->payment_price }} USD</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 6)
+                                                <span>{{ $value->payment_price }} EURO</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 8)
+                                                <span>{{ $value->payment_price }} GBP</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 10)
+                                                <span>{{ $value->payment_price }} TL</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 9)
+                                                <span>{{ $value->payment_price }} TL</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 11)
+                                                <span>{{ $value->payment_price }} EURO</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 12)
+                                                <span>{{ $value->payment_price }} USD</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                  </div>
               </div>

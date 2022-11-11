@@ -31,17 +31,9 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
 
-            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'reservations.total_customer', 'sources.id as sId', 'sources.color', 'sources.name as source_name', 'customers.*', DB::raw('count(name) as countR'))
-            ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
-            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-            ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
-            ->whereNotNull('reservations.source_id')
-            ->groupBy(['date', 'customer_id', 'time', 'sId', 'total_customer']);
+            $reservations = Reservation::whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])->get();
 
-            $listCountByMonth = DB::select($calendarCount->groupBy(DB::raw('sId'))->toSql(),
-            $calendarCount->getBindings());
-
-            $data = array('listCountByMonth' => $listCountByMonth, 'start' => $start, 'end' => $end);
+            $data = array('reservations' => $reservations, 'start' => $start, 'end' => $end);
             return view('admin.reports.index')->with($data);
         }
         catch (\Throwable $th) {
