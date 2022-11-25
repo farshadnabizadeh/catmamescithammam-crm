@@ -128,7 +128,7 @@ class ReservationController extends Controller
                 'newID' => $newData->id
             ];
 
-            Mail::to(['enesdemir12@outlook.com.tr'])->send(new NotificationMail($body));
+            Mail::to(['catmamescit@gmail.com'])->send(new NotificationMail($body));
 
             if ($result) {
                 return response($newData->id, 200);

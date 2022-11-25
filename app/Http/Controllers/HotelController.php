@@ -70,14 +70,8 @@ class HotelController extends Controller
 
     public function edit($id)
     {
-        try {
-            $hotel = Hotel::where('id','=',$id)->first();
-
-            return view('admin.hotels.edit_hotel', ['hotel' => $hotel]);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        $hotel = Hotel::where('id','=',$id)->first();
+        return view('admin.hotels.edit_hotel', ['hotel' => $hotel]);
     }
 
     public function update(Request $request, $id)
@@ -103,12 +97,7 @@ class HotelController extends Controller
     }
 
     public function destroy($id){
-        try {
-            Hotel::where('id', '=', $id)->delete();
-            return redirect()->route('hotel.index')->with('message', 'Otel Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        Hotel::where('id', '=', $id)->delete();
+        return redirect()->route('hotel.index')->with('message', 'Otel Başarıyla Silindi!');
     }
 }

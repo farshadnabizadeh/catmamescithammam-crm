@@ -47,13 +47,8 @@ class CountryController extends Controller
 
     public function edit($id)
     {
-        try {
-            $country = Country::where('id', '=', $id)->first();
-            return view('admin.countries.edit_country', ['country' => $country]);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        $country = Country::where('id', '=', $id)->first();
+        return view('admin.countries.edit_country', ['country' => $country]);
     }
 
     public function update(Request $request, $id)
@@ -76,12 +71,7 @@ class CountryController extends Controller
 
     public function destroy($id)
     {
-        try {
-            Country::find($id)->delete();
-            return redirect()->route('country.index')->with('message', 'Treatment Deleted Successfully!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        Country::find($id)->delete();
+        return redirect()->route('country.index')->with('message', 'Treatment Deleted Successfully!');
     }
 }

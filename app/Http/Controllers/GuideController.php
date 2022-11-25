@@ -101,13 +101,9 @@ class GuideController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            Guide::where('id', '=', $id)->delete();
-            return redirect()->route('guide.index')->with('message', 'Rehber Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        Guide::where('id', '=', $id)->delete();
+        return redirect()->route('guide.index')->with('message', 'Rehber Başarıyla Silindi!');
     }
 }

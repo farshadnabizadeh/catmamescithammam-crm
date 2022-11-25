@@ -93,13 +93,9 @@ class DiscountController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            Discount::where('id', '=', $id)->delete();
-            return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        Discount::where('id', '=', $id)->delete();
+        return redirect()->route('discount.index')->with('message', 'İndirim Başarıyla Silindi!');
     }
 }
