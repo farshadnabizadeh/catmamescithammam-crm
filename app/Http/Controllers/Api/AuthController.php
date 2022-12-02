@@ -1,26 +1,49 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-
     public function login(Request $request)
     {
-        $loginData = $request->validate([
-            'email' => 'required',
-            'password' => 'required'
+        // validation
+        $request->validate([
+            "email" => "required|email",
+            "password" => "required"
         ]);
-
-        if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials'], 401);
+        // verify user + token
+        if (!$token = auth()->attempt(["email" => $request->email, "password" => $request->password])) {
+            return response()->json([
+                "status" => 0,
+                "message" => "Invalid credentials"
+            ]);
         }
+        // send response
+        return response()->json([
+            "status" => 1,
+            "message" => "Logged in successfully",
+            "access_token" => $token
+        ]);
+    }
 
-        return json_encode(['user' => auth()->user()],200);
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json([
+            "status" => 1,
+            "message" => "User logged out"
+        ]);
+    }
+
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->guard('api')->refresh());
     }
 }
 
