@@ -142,13 +142,9 @@ class BookingFormController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            BookingForm::find($id)->delete();
-            return redirect()->route('bookingform.index')->with('message', 'Rezervasyon Formu Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        BookingForm::find($id)->delete();
+        return redirect()->route('bookingform.index')->with('message', 'Rezervasyon Formu Başarıyla Silindi!');
     }
 }
