@@ -55,7 +55,7 @@ class UserController extends Controller
 
             if ($newData->save()) {
                 $newData->assignRole($request->input('roles'));
-                return redirect('definitions/users')->with('message', 'New Users Added Successfully!');
+                return redirect()->route('user.index')->with('message', 'New Users Added Successfully!');
             }
             else {
                 return back()->withInput($request->input());
@@ -108,7 +108,7 @@ class UserController extends Controller
             if ($updateSelectedData->update($temp)) {
                 DB::table('model_has_roles')->where('model_id', $id)->delete();
                 $updateSelectedData->assignRole($request->input('roles'));
-                return redirect('/definitions/users')->with('message', 'Kullanıcı Başarıyla Güncellendi!');
+                return redirect()->route('user.index')->with('message', 'Kullanıcı Başarıyla Güncellendi!');
             }
             else {
                 return back()->withInput($request->input());
@@ -121,12 +121,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        try {
-            DB::table("users")->where('id', $id)->delete();
-            return redirect('definitions/users')->with('message', 'User Deleted Successfully!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        DB::table("users")->where('id', $id)->delete();
+        return redirect()->route('user.index')->with('message', 'User Deleted Successfully!');
     }
 }

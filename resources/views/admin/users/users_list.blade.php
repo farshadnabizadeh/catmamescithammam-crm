@@ -24,31 +24,31 @@
                         </div>
                     </div>
                 </div>
-               <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
-                <thead class="thead-light">
+                <table class="table table-striped table-bordered nowrap dataTable" id="tableData">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">İşlem</th>
+                            <th scope="col">Rolü</th>
+                            <th scope="col">Kullanıcı Adı</th>
+                            <th scope="col">Email Adresi</th>
+                        </tr>
+                    </thead>
+                    @foreach ($users as $user)
                     <tr>
-                        <th scope="col">İşlem</th>
-                        <th scope="col">Rolü</th>
-                        <th scope="col">Kullanıcı Adı</th>
-                        <th scope="col">Email Adresi</th>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('user.edit', ['id' => $user->id]) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
+                                    <li><a href="{{ route('user.destroy', ['id' => $user->id]) }}" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>@foreach($user->roles as $key => $value){{ $value->name.' '}}@endforeach</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
                     </tr>
-                </thead>
-                @foreach ($users as $user)
-                <tr>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-danger dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ url('/definitions/users/edit/'.$user->id) }}" class="btn btn-info edit-btn inline-popups"><i class="fa fa-pencil-square-o"></i> Güncelle</a></li>
-                                <li><a href="{{ url('/definitions/users/delete/'.$user->id) }}" onclick="return confirm('Are you sure?');" class="btn btn-danger edit-btn"><i class="fa fa-trash"></i> Sil</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>@foreach($user->roles as $key => $value){{ $value->name.' '}}@endforeach</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                </tr>
-                @endforeach
+                    @endforeach
                </table>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form role="form" method="POST" action="{{ url('definitions/users/store') }}">
+                <form role="form" method="POST" action="{{ route('user.store') }}">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">

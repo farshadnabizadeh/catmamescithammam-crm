@@ -48,13 +48,8 @@ class FormStatusesController extends Controller
 
     public function edit($id)
     {
-        try {
-            $form_status = FormStatuses::where('id','=', $id)->first();
-            return view('admin.formstatuses.edit_form_statuses', ['form_status' => $form_status]);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        $form_status = FormStatuses::where('id','=', $id)->first();
+        return view('admin.formstatuses.edit_form_statuses', ['form_status' => $form_status]);
     }
 
     public function update(Request $request, $id)
@@ -77,13 +72,9 @@ class FormStatusesController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            FormStatuses::where('id', '=', $id)->delete();
-            return redirect()->route('formstatus.index')->with('message', 'Form Durumu Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        FormStatuses::where('id', '=', $id)->delete();
+        return redirect()->route('formstatus.index')->with('message', 'Form Durumu Başarıyla Silindi!');
     }
 }

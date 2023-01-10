@@ -82,15 +82,10 @@ class ContactFormController extends Controller
 
     public function edit($id)
     {
-        try {
-            $contact_form = ContactForm::where('id','=',$id)->first();
-            $form_statuses = FormStatuses::all();
+        $contact_form = ContactForm::where('id','=',$id)->first();
+        $form_statuses = FormStatuses::all();
 
-            return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form, 'form_statuses' => $form_statuses]);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form, 'form_statuses' => $form_statuses]);
     }
 
     public function update(Request $request, $id)
@@ -131,13 +126,9 @@ class ContactFormController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            ContactForm::find($id)->delete();
-            return redirect()->route('contactform.index')->with('message', 'İletişim Formu Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        ContactForm::find($id)->delete();
+        return redirect()->route('contactform.index')->with('message', 'İletişim Formu Başarıyla Silindi!');
     }
 }

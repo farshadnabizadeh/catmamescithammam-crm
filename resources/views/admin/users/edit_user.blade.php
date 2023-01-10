@@ -5,7 +5,7 @@
                 <div class="card-title">
                     <h2>Kullanıcıyı Güncelle</h2>
                 </div>
-                <form action="{{ url('/definitions/users/update/'.$user->id) }}" method="POST">
+                <form action="{{ route('user.update', ['id' => $user->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
