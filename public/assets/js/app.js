@@ -319,6 +319,7 @@ var app = (function() {
     addcustomerReservation();
 
     $("#colorpicker").spectrum();
+    $("#country").select2({ placeholder: 'Ülke Seçiniz',dropdownParent: $('#createWhatsappModal'), dropdownAutoWidth: true, allowClear: true });
     $("#general").select2({ placeholder: "", dropdownAutoWidth: true, allowClear: true });
     $("#formStatusId").select2({ placeholder: "Form Durumunu Seçiniz", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
@@ -368,7 +369,7 @@ var app = (function() {
                             });
                         }
                     },
-            
+
                     error: function () {
                     },
                 });
@@ -390,7 +391,7 @@ var app = (function() {
                             });
                         }
                     },
-            
+
                     error: function () {
                     },
                 });
@@ -411,7 +412,7 @@ var app = (function() {
             $("#contact_form_id").val(dataId);
         });
     });
-    
+
     var pageurl = window.location.href;
     $(".nav-item_sub li a").each(function(){
         if ($(this).attr("href") == pageurl || $(this).attr("href") == '')

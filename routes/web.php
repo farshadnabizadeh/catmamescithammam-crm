@@ -88,6 +88,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('definitions/payment_types/destroy/{id}', 'PaymentTypeController@destroy')->middleware(['middleware' => 'permission:delete payment type'])->name('paymenttype.destroy');
     //Payment Types end
 
+    //Whatsapp
+    Route::GET('definitions/whatsapp', 'WhatsappController@index')->middleware(['middleware' => 'permission:show payment type'])->name('whatsapp.index');
+    Route::POST('definitions/whatsapp/store', 'WhatsappController@store')->middleware(['middleware' => 'permission:create payment type'])->name('whatsapp.store');
+    Route::GET('definitions/whatsapp/edit/{id}', 'WhatsappController@edit')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.edit');
+    Route::POST('definitions/whatsapp/update/{id}', 'WhatsappController@update')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.update');
+    Route::GET('definitions/whatsapp/destroy/{id}', 'WhatsappController@destroy')->middleware(['middleware' => 'permission:delete payment type'])->name('whatsapp.destroy');
+    //Whatsapp end
+
     //Reservations
     Route::GET('reservations', 'ReservationController@index')->middleware(['middleware' => 'permission:show reservation'])->name('reservation.index');
     Route::GET('reservations/calendar', 'ReservationController@reservationCalendar')->middleware(['middleware' => 'permission:show reservation'])->name('reservation.calendar');

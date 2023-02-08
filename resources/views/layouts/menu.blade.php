@@ -122,6 +122,11 @@
                                 </a>
                             </li>
                             @endcan
+                            <li>
+                                <a href="{{ route('whatsapp.index'); }}">
+                                    <span>Whatsapp Numaralar</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
