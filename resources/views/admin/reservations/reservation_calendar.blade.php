@@ -94,8 +94,8 @@
                     events: [
                         @foreach($listCountByMonth as $reservation)
                         {
-                            title: '{{ $reservation->countR }} {{ $reservation->name }}',
-                            start: '{{ $reservation->date }}T{{ $reservation->time }}',
+                            title: '{{ $reservation->name }} - {{ $reservation->countR }} Pax',
+                            start: '{{ $reservation->date }} {{ $reservation->time }}',
                             description: '{{ $reservation->countR }} {{ $reservation->name }}',
                             end: '{{ $reservation->date }}',
                             color: '{{ $reservation->color }}',
