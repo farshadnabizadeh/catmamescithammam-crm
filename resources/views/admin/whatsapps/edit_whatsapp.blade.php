@@ -12,7 +12,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
                                 <label for="name_surname">Ad soyad</label>
-                                <input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Ad Soyad" value="{{ $whatsapp->name_surname }}" required>
+                                <input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Ad Soyad" value="{{ $whatsapp->name_surname }}">
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
@@ -24,7 +24,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
                                 <label for="email">E-mail</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="email" value="{{ $whatsapp->email }}" required>
+                                <input type="text" class="form-control" id="email" name="email" placeholder="email" value="{{ $whatsapp->email }}">
                             </div>
                         </div>
                         <div class="col-lg-6">

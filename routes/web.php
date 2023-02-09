@@ -89,11 +89,11 @@ Route::group(['middleware' => ['auth']], function(){
     //Payment Types end
 
     //Whatsapp
-    Route::GET('definitions/whatsapp', 'WhatsappController@index')->middleware(['middleware' => 'permission:show payment type'])->name('whatsapp.index');
-    Route::POST('definitions/whatsapp/store', 'WhatsappController@store')->middleware(['middleware' => 'permission:create payment type'])->name('whatsapp.store');
-    Route::GET('definitions/whatsapp/edit/{id}', 'WhatsappController@edit')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.edit');
-    Route::POST('definitions/whatsapp/update/{id}', 'WhatsappController@update')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.update');
-    Route::GET('definitions/whatsapp/destroy/{id}', 'WhatsappController@destroy')->middleware(['middleware' => 'permission:delete payment type'])->name('whatsapp.destroy');
+    Route::GET('whatsappforms', 'WhatsappController@index')->middleware(['middleware' => 'permission:show payment type'])->name('whatsapp.index');
+    Route::POST('whatsappforms/store', 'WhatsappController@store')->middleware(['middleware' => 'permission:create payment type'])->name('whatsapp.store');
+    Route::GET('whatsappforms/edit/{id}', 'WhatsappController@edit')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.edit');
+    Route::POST('whatsappforms/update/{id}', 'WhatsappController@update')->middleware(['middleware' => 'permission:edit payment type'])->name('whatsapp.update');
+    Route::GET('whatsappforms/destroy/{id}', 'WhatsappController@destroy')->middleware(['middleware' => 'permission:delete payment type'])->name('whatsapp.destroy');
     //Whatsapp end
 
     //Reservations

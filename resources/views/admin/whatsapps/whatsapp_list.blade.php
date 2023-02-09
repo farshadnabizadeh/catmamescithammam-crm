@@ -77,7 +77,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                        <label for="name_surname">Ad Soyad</label>
-                       <input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Ad Soyad" required>
+                       <input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Ad Soyad">
                     </div>
                  </div>
                  <div class="col-lg-6">
@@ -89,7 +89,7 @@
                  <div class="col-lg-6">
                     <div class="form-group">
                        <label for="email">E-mail</label>
-                       <input type="text" class="form-control" id="email" name="email" placeholder="E-mail" required>
+                       <input type="text" class="form-control" id="email" name="email" placeholder="E-mail">
                     </div>
                  </div>
                  <div class="col-lg-6">

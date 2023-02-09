@@ -15,10 +15,10 @@ class CreateWhatsappNumbers extends Migration
     {
         Schema::create('whatsapp_numbers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('phone');
-            $table->string('name_surname');
-            $table->string('email');
-            $table->string('country');
+            $table->string('phone')->nullable();
+            $table->string('name_surname')->nullable();
+            $table->string('email')->nullable();
+            $table->string('country')->nullable();
             $table->string('note')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
