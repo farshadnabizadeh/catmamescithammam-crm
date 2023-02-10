@@ -10,19 +10,37 @@
             <button class="btn btn-danger mt-3" onclick="previousPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Önceki Sayfa</button>
             <div class="card p-4 mt-3">
                 <div class="card-title">
-                    <h3>Durumu Güncelle</h3>
+                    <h3>İletişim Form Güncelle</h3>
                 </div>
-                <form action="{{ route('contactform.change', ['id' => $contact_form->id]) }}" method="POST">
+                <form action="{{ route('contactform.update', ['id' => $contact_form->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="formStatusId">Form Durumu</label>
-                                <select name="formStatusId" id="formStatusId">
-                                    <option value="{{ $contact_form->form_status_id }}" selected>{{ $contact_form->status->name }}</option>
-                                    @foreach ($form_statuses as $form_status)
-                                    <option value="{{ $form_status->id }}">{{ $form_status->name }}</option>
-                                @endforeach
+                                <label for="nameSurname">Adı Soyadı</label>
+                                <input type="text" class="form-control" name="nameSurname" id="nameSurname" value="{{$contact_form->name_surname}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="phone">Telefon Numarası</label>
+                                <input type="text" class="form-control" name="phone" id="phone" value="{{$contact_form->phone}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" name="email" id="email" value="{{$contact_form->email}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="country">Ülkesı</label>
+                                <select name="country" class="form-control" id="country">
+                                    <option value="{{ $contact_form->country }}">{{ $contact_form->country }}</option>
+                                    @foreach ($countries as $country)
+                                    <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

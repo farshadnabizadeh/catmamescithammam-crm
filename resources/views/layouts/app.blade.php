@@ -32,7 +32,11 @@
             swal({ icon: 'success', title: 'Başarılı!', text: '{{ session('message') }}', });
         </script>
     @endif
-
+    @if (session('error'))
+        <script type="text/javascript">
+            swal({ icon: 'error', title: 'Error!', text: '{{ session('error') }}', });
+        </script>
+    @endif
     <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/js.cookie.js') }}"></script>

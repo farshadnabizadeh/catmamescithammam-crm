@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactForm;
 use App\Models\FormStatuses;
+use App\Models\Country;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -37,7 +38,10 @@ class ContactFormController extends Controller
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="'.route('contactform.edit', ['id' => $item->id]).'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
+                                        <a href="'.route('contactform.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn"><i class="fa fa-pencil-square-o"></i> Güncelle</a>
+                                    </li>
+                                    <li>
+                                        <a href="'.route('contactform.status', ['id' => $item->id]).'" class="btn btn-success text-white edit-btn"><i class="fa fa-check"></i> Durum</a>
                                     </li>
                                 </ul>
                             </div>';
@@ -83,16 +87,23 @@ class ContactFormController extends Controller
     public function edit($id)
     {
         $contact_form = ContactForm::where('id','=',$id)->first();
+        $countries = Country::where('name','!=', $contact_form->country)->get();
+
+        return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form, 'countries' => $countries]);
+    }
+    public function status($id)
+    {
+        $contact_form = ContactForm::where('id','=',$id)->first();
         $form_statuses = FormStatuses::all();
 
-        return view('admin.contactforms.edit_contactform', ['contact_form' => $contact_form, 'form_statuses' => $form_statuses]);
+        return view('admin.contactforms.edit_contactformstatus', ['contact_form' => $contact_form, 'form_statuses' => $form_statuses]);
     }
 
     public function update(Request $request, $id)
     {
         try {
-            $temp['name_surname'] = $request->input('name_surname');
-            $temp['phone_number'] = $request->input('phone');
+            $temp['name_surname'] = $request->input('nameSurname');
+            $temp['phone'] = $request->input('phone');
             $temp['country'] = $request->input('country');
             $temp['email'] = $request->input('email');
 

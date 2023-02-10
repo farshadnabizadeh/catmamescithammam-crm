@@ -31,20 +31,25 @@ class WhatsappController extends Controller
     public function store(Request $request)
     {
         try {
-            $newData = new Whatsapp();
-            $newData->name_surname  = $request->input('name_surname');
-            $newData->phone         = $request->input('phone');
-            $newData->email         = $request->input('email');
-            $newData->country       = $request->input('country');
-            $newData->note          = $request->input('note');
-            $newData->user_id       = auth()->user()->id;
-            $result                 = $newData->save();
+            $whatsapp = Whatsapp::where('phone','=',$request->input('phone'))->count();
+            if ($whatsapp != 0) {
+                return redirect()->route('whatsapp.index')->with('error', 'Bu Whatsapp Numarası Zaten Kayıtlı');
+            }else{
+                $newData = new Whatsapp();
+                $newData->name_surname  = $request->input('name_surname');
+                $newData->phone         = $request->input('phone');
+                $newData->email         = $request->input('email');
+                $newData->country       = $request->input('country');
+                $newData->note          = $request->input('note');
+                $newData->user_id       = auth()->user()->id;
+                $result                 = $newData->save();
 
-            if ($result) {
-                return redirect()->route('whatsapp.index')->with('message', 'Whatsapp Numara Başarıyla Kaydedildi!');
-            }
-            else {
-                return response(false, 500);
+                if ($result) {
+                    return redirect()->route('whatsapp.index')->with('message', 'Whatsapp Numara Başarıyla Kaydedildi!');
+                }
+                else {
+                    return response(false, 500);
+                }
             }
         }
         catch (\Throwable $th) {

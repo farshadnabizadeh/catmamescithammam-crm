@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('bookings', 'BookingFormController@index')->middleware(['middleware' => 'permission:show bookingform'])->name('bookingform.index');
     Route::POST('bookings/change/{id}', 'BookingFormController@changeStatus')->middleware(['middleware' => 'permission:edit bookingform'])->name('bookingform.change');
     Route::GET('bookings/edit/{id}', 'BookingFormController@edit')->middleware(['middleware' => 'permission:edit bookingform'])->name('bookingform.edit');
+    Route::GET('bookings/status/{id}', 'BookingFormController@status')->middleware(['middleware' => 'permission:edit bookingform'])->name('bookingform.status');
     Route::POST('bookings/update/{id}', 'BookingFormController@update')->middleware(['middleware' => 'permission:edit bookingform'])->name('bookingform.update');
     Route::GET('bookings/destroy/{id}', 'BookingFormController@destroy')->middleware(['middleware' => 'permission:delete bookingform'])->name('bookingform.destroy');
     //Booking Forms end
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('contactforms', 'ContactFormController@index')->middleware(['middleware' => 'permission:show contactform'])->name('contactform.index');
     Route::POST('contactforms/change/{id}', 'ContactFormController@changeStatus')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.change');
     Route::GET('contactforms/edit/{id}', 'ContactFormController@edit')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.edit');
+    Route::GET('contactforms/status/{id}', 'ContactFormController@status')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.status');
     Route::POST('contactforms/update/{id}', 'ContactFormController@update')->middleware(['middleware' => 'permission:edit contactform'])->name('contactform.update');
     Route::GET('contactforms/destroy/{id}', 'ContactFormController@destroy')->middleware(['middleware' => 'permission:delete contactform'])->name('contactform.destroy');
     //Contact Forms end

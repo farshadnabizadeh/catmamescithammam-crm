@@ -321,6 +321,8 @@ var app = (function() {
     $("#colorpicker").spectrum();
     $("#country").select2({ placeholder: 'Ülke Seçiniz',dropdownParent: $('#createWhatsappModal'), dropdownAutoWidth: true, allowClear: true });
     $("#general").select2({ placeholder: "", dropdownAutoWidth: true, allowClear: true });
+    $("#massage_package").select2({ placeholder: "", dropdownAutoWidth: true, allowClear: true });
+    $("#hammam_package").select2({ placeholder: "", dropdownAutoWidth: true, allowClear: true });
     $("#formStatusId").select2({ placeholder: "Form Durumunu Seçiniz", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Hizmet Seç", dropdownAutoWidth: true, allowClear: true });
