@@ -296,7 +296,7 @@ class ReservationController extends Controller
         try {
             $user = auth()->user();
 
-            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'sources.id as sId', 'sources.color', 'sources.name', DB::raw('count(name) as countR'))
+            $calendarCount = Reservation::select('reservations.reservation_date as date', 'reservations.reservation_time as time', 'reservations.total_customer as total_customer', 'sources.id as sId', 'sources.color', 'sources.name', DB::raw('count(name) as countR'))
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->whereNull('reservations.deleted_at')
             ->whereNotNull('reservations.source_id')

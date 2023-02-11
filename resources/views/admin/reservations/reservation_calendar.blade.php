@@ -23,7 +23,6 @@
 
         @include('layouts.menu')
         <main class="main-content">
-
             @include('layouts.navbar')
             <div class="header bg-primary pb-6">
                 <div class="container-fluid">
@@ -94,7 +93,7 @@
                     events: [
                         @foreach($listCountByMonth as $reservation)
                         {
-                            title: '{{ $reservation->name }} - {{ $reservation->countR }} Pax',
+                            title: '{{ $reservation->name }} - {{ $reservation->total_customer }} Pax',
                             start: '{{ $reservation->date }} {{ $reservation->time }}',
                             description: '{{ $reservation->countR }} {{ $reservation->name }}',
                             end: '{{ $reservation->date }}',
