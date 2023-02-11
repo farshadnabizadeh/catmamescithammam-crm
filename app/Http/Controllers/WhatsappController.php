@@ -17,15 +17,10 @@ class WhatsappController extends Controller
 
     public function index()
     {
-        try {
-            $whatsapps = Whatsapp::all();
-            $countries = Country::orderBy('name', 'asc')->get();
-            $data      = array('whatsapps' => $whatsapps,'countries' => $countries);
-            return view('admin.whatsapps.whatsapp_list')->with($data);
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+        $whatsapps = Whatsapp::orderBy('created_at', 'desc')->get();
+        $countries = Country::orderBy('name', 'asc')->get();
+        $data = array('whatsapps' => $whatsapps,'countries' => $countries);
+        return view('admin.whatsapps.whatsapp_list')->with($data);
     }
 
     public function store(Request $request)
