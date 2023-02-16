@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\MedicalForm;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BaseController as BaseController;
 
-class MedicalFormController extends Controller
+class MedicalFormController extends BaseController
 {
 
     public function store(Request $request)
