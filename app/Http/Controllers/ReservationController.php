@@ -79,6 +79,8 @@ class ReservationController extends Controller
                     ['data' => 'source.name', 'name' => 'source.name', 'title' => 'Kaynak'],
                     ['data' => 'reservation_date', 'name' => 'reservation_date', 'title' => 'Rezervasyon Tarihi'],
                     ['data' => 'reservation_time', 'name' => 'reservation_time', 'title' => 'Rezervasyon Saati'],
+                    ['data' => 'pickup_time', 'name' => 'pickup_time', 'title' => 'Alınış Saati'],
+                    ['data' => 'room_number', 'name' => 'room_number', 'title' => 'Oda Numarası'],
                     ['data' => 'customer.name_surname', 'name' => 'customer.name_surname', 'title' => 'Müşteri Adı'],
                     ['data' => 'total_customer', 'name' => 'total_customer', 'title' => 'Kişi Sayısı'],
                 ];
@@ -115,6 +117,8 @@ class ReservationController extends Controller
             $newData = new Reservation();
             $newData->reservation_date = $request->input('arrivalDate');
             $newData->reservation_time = $request->input('arrivalTime');
+            $newData->pickup_time = $request->input('pickupTime');
+            $newData->room_number = $request->input('roomNumber');
             $newData->total_customer = $request->input('totalCustomer');
             $newData->customer_id = $request->input('customerId');
             $newData->discount_id = $request->input('discountId');
@@ -209,7 +213,7 @@ class ReservationController extends Controller
             throw $th;
         }
     }
-    
+
     public function addComissiontoReservation(Request $request)
     {
         try {
@@ -442,6 +446,8 @@ class ReservationController extends Controller
 
             $temp['reservation_date'] = $request->input('reservationDate');
             $temp['reservation_time'] = $request->input('reservationTime');
+            $temp['pickup_time'] = $request->input('pickupTime');
+            $temp['room_number'] = $request->input('roomNumber');
             $temp['total_customer'] = $request->input('totalCustomer');
             $temp['source_id'] = $request->input('sourceId');
             $temp['reservation_note'] = $request->input('note');

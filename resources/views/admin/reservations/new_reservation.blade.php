@@ -71,6 +71,20 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="pickupTime">Alınış Saati</label>
+                                                    <input type="text" class="form-control" id="pickupTime" name="pickupTime" placeholder="Alınış Saati" maxlength="5" onkeypress="timeFormat(this)" autocomplete="off" >
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="roomNumber">Oda Numarası</label>
+                                                    <input type="number" class="form-control" id="roomNumber" name="roomNumber" placeholder="Oda Numarası" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="totalCustomer">Toplam Müşteri</label>
@@ -157,6 +171,17 @@
                                             <div class="col-lg-3"></div>
                                             <div class="col-lg-3">
                                                 <p>Rezervasyon Saati: <span class="reservation-time"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <p>Alınış Saati: <span class="pickup-time"></span></p>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-3">
+                                                <p>Oda Numarası: <span class="room-number"></span></p>
                                             </div>
                                             <div class="col-lg-3"></div>
                                         </div>

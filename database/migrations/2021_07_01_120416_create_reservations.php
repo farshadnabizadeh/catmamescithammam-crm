@@ -18,6 +18,8 @@ class CreateReservations extends Migration
             $table->date('reservation_date');
             $table->string('reservation_time')->nullable();
             $table->string('total_customer')->nullable();
+            $table->string('pickup_time')->nullable();
+            $table->string('room_number')->nullable();
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')
                 ->on('customers')
