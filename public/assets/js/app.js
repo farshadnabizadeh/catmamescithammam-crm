@@ -636,20 +636,14 @@ function previousPage() {
 }
 
 function deleteTableRow(id) {
-    try {
-        $('table#therapistTable tr#' + id).remove();
-        $('#therapistTable').trigger('rowAddOrRemove');
+    $('table#therapistTable tr#' + id).remove();
+    $('#therapistTable').trigger('rowAddOrRemove');
 
-        $('table#serviceTable tr#' + id).remove();
-        $('#serviceTable').trigger('rowAddOrRemove');
+    $('table#serviceTable tr#' + id).remove();
+    $('#serviceTable').trigger('rowAddOrRemove');
 
-        $('table#paymentTypeTable tr#' + id).remove();
-        $('#paymentTypeTable').trigger('rowAddOrRemove');
-    }
-    catch(error){
-        console.log(error);
-    }
-    finally { }
+    $('table#paymentTypeTable tr#' + id).remove();
+    $('#paymentTypeTable').trigger('rowAddOrRemove');
 }
 
 function bookingFormStatusBtn() {
@@ -748,9 +742,7 @@ function datePicker(){
             locale: {
                 firstDay: 1,
                 format: userFormat
-            },
-            minDate: moment().add(0, 'days'),
-            maxDate: moment().add(359, 'days'),
+            }
         });
 
         $('#editArrivalDate').daterangepicker({
@@ -791,14 +783,8 @@ function datePicker(){
     }
 }
 
-function clockPicker(){
-    try {
-        $('#arrivalTime').clockpicker({ autoclose: true, donetext: 'Done', placement: 'left', align: 'top' });
-    }
-    catch(error){
-        console.log(error);
-    }
-    finally { }
+function clockPicker() {
+    $('#arrivalTime').clockpicker({ autoclose: true, donetext: 'Done', placement: 'left', align: 'top' });
 }
 
 function reservationStep() {
