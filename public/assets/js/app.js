@@ -331,7 +331,7 @@ var app = (function() {
     $("#discountId").select2({ placeholder: "İndirim Seç", dropdownAutoWidth: true, allowClear: true });
     $("#country").select2({ placeholder: "Ülke Seç", dropdownAutoWidth: true, allowClear: true });
     $("#sobId").select2({ placeholder: "Rezervasyon Kaynağı", dropdownAutoWidth: true, allowClear: true });
-    $("#paymentType").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#paymentTypeId").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
     $("#hotelId").select2({ placeholder: "Otel Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
@@ -1317,16 +1317,16 @@ function addPaymentTypeOperation() {
     try {
         $('#addPaymentTypetoReservationSave').on('click', function () {
             var reservationID = $("#addPaymentTypeModal").find('#reservation_id').val();
-            var paymentTypeId = $("#addPaymentTypeModal").find('#paymentType').children("option:selected").val();
+            var paymentTypeId = $("#addPaymentTypeModal").find('#paymentTypeId').children("option:selected").val();
             var paymentPrice = $("#addPaymentTypeModal").find('#paymentPrice').val();
-            if (paymentType == "" || paymentPrice == "") {
+            if (paymentTypeId == "" || paymentPrice == "") {
                 swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
             }
             else {
                 addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
                 swal({ icon: 'success', title: 'Başarılı!', text: 'Ödeme Türü Başarıyla Eklendi!', timer: 1000 });
                 setTimeout(() => {
-                    location.reload();
+                    // location.reload();
                 }, 1500);
             }
         });

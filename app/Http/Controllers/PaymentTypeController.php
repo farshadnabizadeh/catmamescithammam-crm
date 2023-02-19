@@ -56,8 +56,9 @@ class PaymentTypeController extends Controller
             $newData->reservation_id = $request->input('reservation_id');
             $newData->customer_id = $request->input('customer_id');
             $newData->user_id = $user->id;
+            $result = $newData->save();
 
-            if ($newData->save()) {
+            if ($result) {
                 return response(true, 200);
             }
             else {
@@ -98,13 +99,9 @@ class PaymentTypeController extends Controller
         }
     }
 
-    public function destroy($id){
-        try {
-            PaymentType::find($id)->delete();
-            return redirect()->route('paymenttype.index')->with('message', 'Ödeme Türü Başarıyla Silindi!');
-        }
-        catch (\Throwable $th) {
-            throw $th;
-        }
+    public function destroy($id)
+    {
+        PaymentType::find($id)->delete();
+        return redirect()->route('paymenttype.index')->with('message', 'Ödeme Türü Başarıyla Silindi!');
     }
 }

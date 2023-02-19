@@ -156,7 +156,7 @@
          <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Yeni Ödeme Türü Ekle</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <div class="modal-body">
@@ -166,8 +166,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label for="paymentType">Ödeme Türü</label>
-                            <select class="form-control" id="paymentType" name="paymentType" required>
+                            <label for="paymentTypeId">Ödeme Türü</label>
+                            <select class="form-control" id="paymentTypeId" name="paymentTypeId" required>
                                 <option></option>
                                 @foreach ($payment_types as $payment_type)
                                 <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>

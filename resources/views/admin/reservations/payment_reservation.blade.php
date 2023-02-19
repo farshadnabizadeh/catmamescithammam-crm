@@ -42,6 +42,7 @@
                                 <tr>
                                     <td>Toplam:</td>
                                     <td>{{ number_format($totalPayment, 2) }}</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -67,8 +68,8 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="paymentType">Ödeme Türü</label>
-                                    <select class="form-control" id="paymentType" name="paymentType" required>
+                                    <label for="paymentTypeId">Ödeme Türü</label>
+                                    <select class="form-control" id="paymentTypeId" name="paymentTypeId" required>
                                         <option></option>
                                         @foreach ($payment_types as $payment_type)
                                         <option value="{{ $payment_type->id }}">{{ $payment_type->type_name }}</option>
