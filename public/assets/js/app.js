@@ -1326,7 +1326,7 @@ function addPaymentTypeOperation() {
                 addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
                 swal({ icon: 'success', title: 'Başarılı!', text: 'Ödeme Türü Başarıyla Eklendi!', timer: 1000 });
                 setTimeout(() => {
-                    // location.reload();
+                     location.reload();
                 }, 1500);
             }
         });
