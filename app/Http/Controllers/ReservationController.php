@@ -273,7 +273,7 @@ class ReservationController extends Controller
                 ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
                 // ->whereNull('deleted_at')
                 ->whereDate('reservations.reservation_date', '=', $searchDate)
-                ->orderBy('reservation_date');
+                ->orderBy('reservation_time', 'ASC');
 
             if (!empty($tpStatus)) {
                 $arrivalsA->where('reservations.source_id', '=', $tpStatus);

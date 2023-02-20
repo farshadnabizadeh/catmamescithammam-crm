@@ -220,7 +220,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label for="piece">Hizmet Adeti</label>
-                            <input type="text" class="form-control" id="piece" placeholder="Hizmet Adeti">
+                            <input type="number" class="form-control" id="piece" placeholder="Hizmet Adeti">
                         </div>
                     </div>
                </div>
@@ -262,7 +262,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label for="piece">Kaç İş</label>
-                            <input type="text" class="form-control" id="piece">
+                            <input type="number" class="form-control" id="piece">
                         </div>
                     </div>
                </div>
