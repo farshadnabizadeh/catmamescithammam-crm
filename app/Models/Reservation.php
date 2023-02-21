@@ -69,13 +69,13 @@ class Reservation extends Model
     public function subHotelComissions()
     {
         return $this->belongsToMany(Hotel::class, 'reservations_comissions', 'reservation_id', 'hotel_id')
-            ->selectRaw('hotels.*, reservations_comissions.*');
+            ->selectRaw('hotels.*, reservations_comissions.*')->where('reservations_comissions.deleted_at', null);
     }
 
     public function subGuideComissions()
     {
         return $this->belongsToMany(Guide::class, 'reservations_comissions', 'reservation_id', 'guide_id')
-            ->selectRaw('guides.*, reservations_comissions.*');
+            ->selectRaw('guides.*, reservations_comissions.*')->where('reservations_comissions.deleted_at', null);
     }
 
     public function reservationPaymentType(){
