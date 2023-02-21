@@ -296,6 +296,8 @@ var app = (function() {
     addPaymentTypeOperation();
     createPaymentTypeOperation();
     //payment type end
+    addHotelComissionOperation();
+    addGuideComissionOperation();
 
     //service
     createServiceOperation();
@@ -333,6 +335,7 @@ var app = (function() {
     $("#sobId").select2({ placeholder: "Rezervasyon Kaynağı", dropdownAutoWidth: true, allowClear: true });
     $("#paymentTypeId").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
     $("#hotelId").select2({ placeholder: "Otel Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#guideId").select2({ placeholder: "Rehber Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -1190,6 +1193,66 @@ function addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice)
     }
 }
 
+function addHotelComissiontoReservation(reservationID, hotelId, paymentPrice) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/addComissiontoReservation',
+            type: 'POST',
+            data: {
+                'reservationId': reservationID,
+                'hotelId': hotelId,
+                'paymentPrice': paymentPrice
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({ icon: 'success', title: 'Başarılı!', text: 'Otel Komisyonu Başarıyla Eklendi!', timer: 1000 });
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addGuideComissiontoReservation(reservationID, guideId, paymentPrice) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/addComissiontoReservation',
+            type: 'POST',
+            data: {
+                'reservationId': reservationID,
+                'guideId': guideId,
+                'paymentPrice': paymentPrice
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({ icon: 'success', title: 'Başarılı!', text: 'Rehber Komisyonu Başarıyla Eklendi!', timer: 1000 });
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function addServicetoReservation(reservationID, serviceId, piece) {
     try {
         $.ajaxSetup({
@@ -1325,6 +1388,50 @@ function addPaymentTypeOperation() {
             else {
                 addPaymentTypetoReservation(reservationID, paymentTypeId, paymentPrice);
                 swal({ icon: 'success', title: 'Başarılı!', text: 'Ödeme Türü Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                     location.reload();
+                }, 1500);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addHotelComissionOperation() {
+    try {
+        $('#addHotelComissiontoReservationSave').on('click', function () {
+            var reservationID = $("#addHotelComissionModal").find('#reservation_id').val();
+            var hotelId = $("#addHotelComissionModal").find('#hotelId').children("option:selected").val();
+            var paymentPrice = $("#addHotelComissionModal").find('#paymentPrice').val();
+            if (hotelId == "" || paymentPrice == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addHotelComissiontoReservation(reservationID, hotelId, paymentPrice);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Otel Komisyonu Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                     location.reload();
+                }, 1500);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addGuideComissionOperation() {
+    try {
+        $('#addGuideComissiontoReservationSave').on('click', function () {
+            var reservationID = $("#addGuideComissionModal").find('#reservation_id').val();
+            var guideId = $("#addGuideComissionModal").find('#guideId').children("option:selected").val();
+            var paymentPrice = $("#addGuideComissionModal").find('#paymentPrice').val();
+            if (guideId == "" || paymentPrice == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addGuideComissiontoReservation(reservationID, guideId, paymentPrice);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Rehber Komisyonu Başarıyla Eklendi!', timer: 1000 });
                 setTimeout(() => {
                      location.reload();
                 }, 1500);

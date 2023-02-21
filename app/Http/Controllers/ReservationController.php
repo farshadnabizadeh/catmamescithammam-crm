@@ -223,6 +223,7 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->hotel_id = $request->input('hotelId');
             $newData->guide_id = $request->input('guideId');
+            $newData->comission_price = $request->input('paymentPrice');
             $newData->comission_currency = "TL";
             $newData->user_id = $user->id;
 
@@ -327,7 +328,7 @@ class ReservationController extends Controller
             $payment_types = PaymentType::all();
             $hotels = Hotel::all();
             $sources = Source::all();
-
+            $guides = Guide::all();
             $reservation_payment_type = ReservationPaymentType::where('reservations_payments_types.reservation_id', '=', $id);
 
             $hasPaymentType = false;
@@ -353,7 +354,7 @@ class ReservationController extends Controller
             }
             $totalPayment = array_sum($totalPrice);
 
-            $data = array('reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
+            $data = array('guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
 
             $page = $request->input('page');
 
@@ -596,8 +597,17 @@ class ReservationController extends Controller
 
     public function destroyHotelComission($id){
         try {
-            ReservationTherapist::find($id)->delete();
-            return back()->with('message', 'Terapist Başarıyla Silindi!');
+            ReservationComission::find($id)->delete();
+            return back()->with('message', 'Otel Komisyonu Başarıyla Silindi!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function destroyGuideComission($id){
+        try {
+            ReservationComission::find($id)->delete();
+            return back()->with('message', 'Rehber Komisyonu Başarıyla Silindi!');
         }
         catch (\Throwable $th) {
             throw $th;

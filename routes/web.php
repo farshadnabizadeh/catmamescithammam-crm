@@ -137,6 +137,7 @@ Route::group(['middleware' => ['auth']], function(){
     //guide comission
     Route::GET('reservations/guideComission/edit/{id}', 'ReservationController@editGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.guidecomission.edit');
     Route::POST('reservations/guideComission/update/{id}', 'ReservationController@updateGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.guidecomission.update');
+    Route::GET('reservations/guideComission/destroy/{id}', 'ReservationController@destroyGuideComission')->middleware(['middleware' => 'permission:edit reservation'])->name('reservation.guidecomission.destroy');
 
     Route::GET('reservationbydate', 'ReservationController@allReservationByDate')->middleware(['middleware' => 'permission:show reservation']);
     Route::GET('reservations/destroy/{id}', 'ReservationController@destroy')->middleware(['middleware' => 'permission:delete reservation']);
