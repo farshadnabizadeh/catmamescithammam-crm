@@ -35,66 +35,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div id="root">
-                                <div class="card p-3">
-                                    <div class="card-title">
-                                        <h2>Otel Komisyon Raporu</h2>
-                                    </div>
-                                    <div class="card-body" style="padding: 0; padding-top: 10px">
-                                        <div class="col-lg-12">
-                                            <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
-                                            <table id="tableGuides" class="table table-striped table-bordered nowrap table-responsive">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Otel Adı</th>
-                                                        <th>Alınan Komisyon Sayısı</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($hotelComissions as $hotelComission)
-                                                    <tr>
-                                                        <td>{{ $hotelComission->name }}</td>
-                                                        <td>{{ $hotelComission->totalPrice . ' TL' }}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card p-3">
-                                <div class="card-title">
-                                    <h2>Rehber Komisyon Raporu</h2>
-                                </div>
-                                <div class="card-body" style="padding: 0; padding-top: 10px">
-                                    <div class="col-lg-12">
-                                        <table id="tableData" class="table table-striped table-bordered nowrap table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>Otel Adı</th>
-                                                    <th>Alınan Komisyon Sayısı</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($guideComissions as $guideComission)
-                                                <tr>
-                                                    <td>{{ $guideComission->name }}</td>
-                                                    <td>{{ $guideComission->totalPrice . ' TL' }}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Otel Komisyon Raporu</h3>
@@ -104,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Rehber Komisyon Raporu</h3></h3>

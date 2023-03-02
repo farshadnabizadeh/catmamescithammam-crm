@@ -30,6 +30,8 @@
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Kaynak</th>
+                                <th scope="col">Oda Numarası</th>
+                                <th scope="col">Alınış Saati</th>
                                 <th scope="col">Kişi Sayısı</th>
                             </tr>
                         </thead>
@@ -49,6 +51,8 @@
                                 <td>{{ $listAllByDate->reservation_time }}</td>
                                 <td><a href="{{ route('customer.edit', ['id' => $listAllByDate->customer_id]) }}">{{ $listAllByDate->Cname }}</a></td>
                                 <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }}</td>
+                                <td>{{ $listAllByDate->room_number }}</td>
+                                <td>{{ $listAllByDate->pickup_time }}</td>
                                 <td>{{ $listAllByDate->total_customer }}</td>
                             </tr>
                         @endforeach
