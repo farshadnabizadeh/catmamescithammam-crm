@@ -87,6 +87,29 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Terapist Raporu</h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="therapist-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Hizmet Raporu</h3></h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="service-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,4 +117,65 @@
 </div>
 
 
+@endsection
+@section('footer')
+<script>
+    // Get hotel commission data from Laravel view
+    var therapistLabels = @json($therapistLabels);
+    var therapistData = @json($therapistData);
+    var therapistColors = @json($therapistColors);
+
+    // Get guide commission data from Laravel view
+    var serviceLabels = @json($serviceLabels);
+    var serviceData = @json($serviceData);
+    var serviceColors = @json($serviceColors);
+
+    // Create hotel commission chart
+    var therapistChart = new Chart(document.getElementById("therapist-chart"), {
+        type: 'bar',
+        data: {
+            labels: therapistLabels,
+            datasets: [{
+                label: 'Terapist Raporu',
+                data: therapistData,
+                backgroundColor: therapistColors,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Create guide commission chart
+    var serviceChart = new Chart(document.getElementById("service-chart"), {
+        type: 'bar',
+        data: {
+            labels: serviceLabels,
+            datasets: [{
+                label: 'Hizmet Raporu',
+                data: serviceData,
+                backgroundColor: serviceColors,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 @endsection

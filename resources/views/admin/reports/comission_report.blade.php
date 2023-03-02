@@ -44,7 +44,7 @@
                                     <div class="card-body" style="padding: 0; padding-top: 10px">
                                         <div class="col-lg-12">
                                             <button class="btn btn-primary float-right download-report-btn" onclick="paymentReportPdf();"><i class="fa fa-download"></i> İndir</button>
-                                            <table id="tableGuides" class="table table-striped table-bordered nowrap">
+                                            <table id="tableGuides" class="table table-striped table-bordered nowrap table-responsive">
                                                 <thead>
                                                     <tr>
                                                         <th>Otel Adı</th>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="card-body" style="padding: 0; padding-top: 10px">
                                     <div class="col-lg-12">
-                                        <table id="tableData" class="table table-striped table-bordered nowrap">
+                                        <table id="tableData" class="table table-striped table-bordered nowrap table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Otel Adı</th>
@@ -93,9 +93,93 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Otel Komisyon Raporu</h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="hotel-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Rehber Komisyon Raporu</h3></h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="guide-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('footer')
+
+<script>
+    // Get hotel commission data from Laravel view
+    var hotelComissionLabels = @json($hotelComissionLabels);
+    var hotelComissionData = @json($hotelComissionData);
+    var hotelComissionColors = @json($hotelComissionColors);
+
+    // Get guide commission data from Laravel view
+    var guideComissionLabels = @json($guideComissionLabels);
+    var guideComissionData = @json($guideComissionData);
+    var guideComissionColors = @json($guideComissionColors);
+
+    // Create hotel commission chart
+    var hotelComissionChart = new Chart(document.getElementById("hotel-chart"), {
+        type: 'bar',
+        data: {
+            labels: hotelComissionLabels,
+            datasets: [{
+                label: 'Otel Komisyon Raporu',
+                data: hotelComissionData,
+                backgroundColor: hotelComissionColors,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Create guide commission chart
+    var guideComissionChart = new Chart(document.getElementById("guide-chart"), {
+        type: 'bar',
+        data: {
+            labels: guideComissionLabels,
+            datasets: [{
+                label: 'Rehber Komisyon Raporu',
+                data: guideComissionData,
+                backgroundColor: guideComissionColors,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 @endsection

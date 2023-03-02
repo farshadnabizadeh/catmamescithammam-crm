@@ -59,8 +59,36 @@ class ReportController extends Controller
             ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
             ->groupBy('service_id')
             ->get();
+            $therapistLabels = [];
+            $therapistData = [];
+            $therapistColors = [];
 
-            $data = array('therapistAll' => $therapistAll, 'serviceAll' => $serviceAll, 'start' => $start, 'end' => $end);
+            foreach ($therapistAll as $therapist) {
+                array_push($therapistLabels, $therapist->name);
+                array_push($therapistData, $therapist->therapistCount);
+                $therapistColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
+            $serviceLabels = [];
+            $serviceData = [];
+            $serviceColors = [];
+
+            foreach ($serviceAll as $service) {
+                array_push($serviceLabels, $service->name);
+                array_push($serviceData, $service->serviceCount);
+                $serviceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+            $data = array(
+                'therapistLabels' => $therapistLabels,
+                'therapistData' => $therapistData,
+                'therapistColors' => $therapistColors,
+                'serviceLabels' => $serviceLabels,
+                'serviceData' => $serviceData,
+                'serviceColors' => $serviceColors,
+                'therapistAll' => $therapistAll,
+                'serviceAll' => $serviceAll,
+                'start' => $start,
+                'end' => $end);
             return view('admin.reports.reservation_report')->with($data);
 
         }
@@ -96,35 +124,65 @@ class ReportController extends Controller
     }
 
     public function comissionReport(Request $request)
-    {
-        try {
+{
+    try {
+        $start = $request->input('startDate');
+        $end = $request->input('endDate');
 
-            $start = $request->input('startDate');
-            $end = $request->input('endDate');
-
-            $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
+        $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
             ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
             ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
             ->whereNull('reservations_comissions.guide_id')
+            ->where('reservations_comissions.comission_price','!=',NULL)
             ->groupBy('hotel_id')
             ->get();
 
-            $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
+        $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
             ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
             ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start))." 00:00:00", date('Y-m-d', strtotime($end))." 23:59:59"])
             ->whereNull('reservations_comissions.hotel_id')
+            ->where('reservations_comissions.comission_price','!=',NULL)
             ->groupBy('guide_id')
             ->get();
 
-            $data = array('hotelComissions' => $hotelComissions, 'guideComissions' => $guideComissions, 'start' => $start, 'end' => $end);
+        $hotelComissionLabels = [];
+        $hotelComissionData = [];
+        $hotelComissionColors = [];
 
-            return view('admin.reports.comission_report')->with($data);
+        foreach ($hotelComissions as $hotelComission) {
+            array_push($hotelComissionLabels, $hotelComission->name);
+            array_push($hotelComissionData, $hotelComission->totalPrice);
+            $hotelComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         }
-        catch (\Throwable $th) {
-            throw $th;
+
+        $guideComissionLabels = [];
+        $guideComissionData = [];
+        $guideComissionColors = [];
+
+        foreach ($guideComissions as $guideComission) {
+            array_push($guideComissionLabels, $guideComission->name);
+            array_push($guideComissionData, $guideComission->totalPrice);
+            $guideComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
         }
+
+        $data = array(
+            'hotelComissions' => $hotelComissions,
+            'guideComissions' => $guideComissions,
+            'start' => $start,
+            'end' => $end,
+            'hotelComissionLabels' => $hotelComissionLabels,
+            'hotelComissionData' => $hotelComissionData,
+            'hotelComissionColors' => $hotelComissionColors,
+            'guideComissionLabels' => $guideComissionLabels,
+            'guideComissionData' => $guideComissionData,
+            'guideComissionColors' => $guideComissionColors,
+        );
+
+        return view('admin.reports.comission_report')->with($data);
+    } catch (\Throwable $th) {
+        throw $th;
     }
-
+}
     public function serviceReport(Request $request)
     {
         try {
