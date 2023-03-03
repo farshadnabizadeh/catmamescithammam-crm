@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Ciro Raporu</h3></h3>
