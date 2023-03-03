@@ -112,54 +112,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Ciro Raporu</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="payment-type-chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
-@section('footer')
-    <script>
-        // Get hotel commission data from Laravel view
-        var all_paymentLabels = @json($all_paymentLabels);
-        var all_paymentData = @json($all_paymentData);
-        var all_paymentColors = @json($all_paymentColors);
-
-        // Create hotel commission chart
-        var hotelComissionChart = new Chart(document.getElementById("payment-type-chart"), {
-            type: 'bar',
-            data: {
-                labels: all_paymentLabels,
-                datasets: [{
-                    label: 'Ciro Raporu',
-                    data: all_paymentData,
-                    backgroundColor: all_paymentColors,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
 @endsection

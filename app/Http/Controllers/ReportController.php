@@ -77,7 +77,26 @@ class ReportController extends Controller
                 array_push($serviceData, $service->serviceCount);
                 $serviceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
+            //Ciro Report
+            $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
+            ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->groupBy('payment_type_id')
+            ->get();
+
+            $all_paymentLabels = [];
+            $all_paymentData = [];
+            $all_paymentColors = [];
+            foreach ($all_payments as $all_payment) {
+                array_push($all_paymentLabels, $all_payment->type_name);
+                array_push($all_paymentData, $all_payment->totalPrice);
+                $all_paymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
             $data = array(
+                'all_paymentLabels' => $all_paymentLabels,
+                'all_paymentData' => $all_paymentData,
+                'all_paymentColors' => $all_paymentColors,
                 'therapistLabels' => $therapistLabels,
                 'therapistData' => $therapistData,
                 'therapistColors' => $therapistColors,

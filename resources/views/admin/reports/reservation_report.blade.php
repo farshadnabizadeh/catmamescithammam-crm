@@ -59,6 +59,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Ciro Raporu</h3></h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="payment-type-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,17 +81,14 @@
 @endsection
 @section('footer')
 <script>
-    // Get hotel commission data from Laravel view
     var therapistLabels = @json($therapistLabels);
     var therapistData = @json($therapistData);
     var therapistColors = @json($therapistColors);
 
-    // Get guide commission data from Laravel view
     var serviceLabels = @json($serviceLabels);
     var serviceData = @json($serviceData);
     var serviceColors = @json($serviceColors);
 
-    // Create hotel commission chart
     var therapistChart = new Chart(document.getElementById("therapist-chart"), {
         type: 'bar',
         data: {
@@ -103,7 +112,6 @@
         }
     });
 
-    // Create guide commission chart
     var serviceChart = new Chart(document.getElementById("service-chart"), {
         type: 'bar',
         data: {
@@ -126,5 +134,31 @@
             }
         }
     });
+// Ciro Report
+    var all_paymentLabels = @json($all_paymentLabels);
+        var all_paymentData = @json($all_paymentData);
+        var all_paymentColors = @json($all_paymentColors);
+        var hotelComissionChart = new Chart(document.getElementById("payment-type-chart"), {
+            type: 'bar',
+            data: {
+                labels: all_paymentLabels,
+                datasets: [{
+                    label: 'Ciro Raporu',
+                    data: all_paymentData,
+                    backgroundColor: all_paymentColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
 </script>
 @endsection
