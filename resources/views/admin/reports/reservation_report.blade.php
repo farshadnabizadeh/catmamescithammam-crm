@@ -38,6 +38,29 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card p-3">
+                                <div class="card-title">
+                                    <h2>Terapist Raporu</h2>
+                                </div>
+                                <table id="basic-btn" class="table table-striped table-bordered nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Terapist Adı</th>
+                                        <th>Yaptığı Bakım</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($therapistAll as $therapist)
+                                        <tr>
+                                            <td>{{ $therapist->name }}</td>
+                                            <td>{{ $therapist->therapistCount }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -46,6 +69,31 @@
                                 <div class="card-body">
                                     <canvas id="therapist-chart"></canvas>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card p-3">
+                                <div class="card-title">
+                                    <h2>Hizmet Raporu</h2>
+                                </div>
+                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Bakım</th>
+                                        <th>Yaptığı Bakım</th>
+                                        <th>Toplam Fiyat</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($serviceAll as $service)
+                                        <tr>
+                                            <td>{{ $service->name }}</td>
+                                            <td>{{ $service->serviceCount }}</td>
+                                            <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="col-md-6">
