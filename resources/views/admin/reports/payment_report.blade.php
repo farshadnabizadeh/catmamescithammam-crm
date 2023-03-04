@@ -42,8 +42,7 @@
                 <div id="root">
                     <div class="card">
                         <div class="card-header">
-                            <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri
-                                arasındaki Ciro Raporu</h3>
+                            <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
                         </div>
                         <div class="card-body" style="padding: 0; padding-top: 10px">
                             <div class="row">

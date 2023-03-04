@@ -93,6 +93,57 @@ class ReportController extends Controller
                 $all_paymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
 
+            $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
+            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+            $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
+
+            $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
+            ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->groupBy('payment_type_id')
+            ->get();
+
+            $all_paymentLabels = [];
+            $all_paymentData = [];
+            $all_paymentColors = [];
+            foreach ($all_payments as $all_payment) {
+                array_push($all_paymentLabels, $all_payment->type_name);
+                array_push($all_paymentData, $all_payment->totalPrice);
+                $all_paymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
             $data = array(
                 'all_paymentLabels' => $all_paymentLabels,
                 'all_paymentData' => $all_paymentData,
@@ -105,6 +156,15 @@ class ReportController extends Controller
                 'serviceColors' => $serviceColors,
                 'therapistAll' => $therapistAll,
                 'serviceAll' => $serviceAll,
+                'cashTl' => $cashTl,
+                'cashEur' => $cashEur,
+                'cashUsd' => $cashUsd,
+                'cashPound' => $cashPound,
+                'ykbTl' => $ykbTl,
+                'ziraatTl' => $ziraatTl,
+                'ziraatEuro' => $ziraatEuro,
+                'ziraatDolar' => $ziraatDolar,
+                'viatorEuro' => $viatorEuro,
                 'start' => $start,
                 'end' => $end
             );
