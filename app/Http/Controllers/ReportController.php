@@ -135,6 +135,22 @@ class ReportController extends Controller
             ->groupBy('payment_type_id')
             ->get();
 
+            $open = simplexml_load_file('https://www.tcmb.gov.tr/kurlar/today.xml');
+
+            $euro_satis = $open->Currency[3]->BanknoteSelling;
+            $usd_satis = $open->Currency[0]->BanknoteSelling;
+            $gbp_satis = $open->Currency[4]->BanknoteSelling;
+            $euro_usd_satis = $open->Currency[3]->CrossRateOther;
+
+            $totalUsd = $cashUsd + $ziraatDolar;
+
+            $totalPound = $cashPound;
+
+            //only need pound convert
+            $totalEuro = $cashEur + $ziraatEuro + $viatorEuro  + $cashUsd * $euro_usd_satis + $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
+
+            $totalTl = $cashTl + $ykbTl + $ziraatTl + $cashEur * $euro_satis + $ziraatEuro * $euro_satis + $viatorEuro * $euro_satis + $totalUsd * $usd_satis + $totalPound * $gbp_satis;
+
             $all_paymentLabels = [];
             $all_paymentData = [];
             $all_paymentColors = [];
@@ -166,6 +182,8 @@ class ReportController extends Controller
                 'ziraatEuro' => $ziraatEuro,
                 'ziraatDolar' => $ziraatDolar,
                 'viatorEuro' => $viatorEuro,
+                'totalEuro' => $totalEuro,
+                'totalTl' => $totalTl,
                 'start' => $start,
                 'end' => $end
             );
@@ -177,14 +195,9 @@ class ReportController extends Controller
 
     public function sourceReport(Request $request)
     {
-        try {
+        $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))->get();
 
-            $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))->get();
-
-            return json_encode($data);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return json_encode($data);
     }
 
     public function therapistReport(Request $request)
@@ -259,16 +272,12 @@ class ReportController extends Controller
             throw $th;
         }
     }
+
     public function serviceReport(Request $request)
     {
-        try {
+        $data = Service::select("services.name", \DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->get();
 
-            $data = Service::select("services.name", \DB::raw("(SELECT count(*) FROM reservations_services a WHERE a.service_id = services.id) as aCount"))->get();
-
-            return json_encode($data);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return json_encode($data);
     }
 
     public function paymentReport(Request $request)
@@ -346,7 +355,8 @@ class ReportController extends Controller
             );
 
             return view('admin.reports.payment_report')->with($totalData);
-        } catch (\Throwable $th) {
+        }
+        catch (\Throwable $th) {
             throw $th;
         }
     }

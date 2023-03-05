@@ -489,16 +489,21 @@ caption
 
 .subTitle {
     background-color: var(--third);
-        display: inline-block;
-        padding: 5px 10px;
-        font-size: 13px;
-        font-weight: bold;
-        color: white;
-        font-family: var(--font-montserrat)
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    font-family: var(--font-montserrat)
 }
 
 .subTable {
     height: 500px
+}
+
+.report-card {
+    height: 430px;
+    overflow: auto
 }
 
 .currencyText {
