@@ -45,6 +45,29 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card p-3">
+                                <div class="card-title">
+                                    <h2>Hizmet Raporu</h2>
+                                </div>
+                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Bakım</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($reservationsAll as $reservation)
+                                        <tr>
+                                            <td>{{ $reservation->reservationCount }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="col-lg-12">
                                 <div id="root">
@@ -61,10 +84,10 @@
                                                     <b>₺ {{ number_format($cashTl, 2) }}</b>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <p>YKB KK TL:</p>
+                                                    <p>CASH DOLAR:</p>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <b>₺ {{ number_format($ykbTl, 2) }}</b>
+                                                    <b>$ {{ number_format($cashUsd, 2) }}</b>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -74,20 +97,19 @@
                                                 <div class="col-lg-8">
                                                     <b>€ {{ number_format($cashEur, 2) }}</b>
                                                 </div>
-                                                <hr>
-                                                <div class="col-lg-4">
-                                                    <p>ZİRAAT KK TL:</p>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <b>₺ {{ number_format($ziraatTl, 2) }}</b>
-                                                </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-lg-4">
                                                     <p>CASH POUND:</p>
                                                 </div>
                                                 <div class="col-lg-8">
                                                     <b>£ {{ number_format($cashPound, 2) }}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <p>ZİRAAT KK TL:</p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <b>₺ {{ number_format($ziraatTl, 2) }}</b>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <p>ZİRAAT KK DOLAR:</p>
@@ -98,10 +120,24 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-4">
+                                                    <p>ZİRAAT KK EURO:</p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <b>€ {{ number_format($ziraatEuro, 2) }}</b>
+                                                </div>
+                                                <div class="col-lg-4">
                                                     <p>VIATOR EURO:</p>
                                                 </div>
                                                 <div class="col-lg-8">
                                                     <b>€ {{ number_format($viatorEuro, 2) }}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <p>YKB KK TL:</p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <b>€ {{ number_format($ykbTl, 2) }}</b>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,6 +152,43 @@
                                 </div>
                                 <div class="card-body">
                                     <canvas id="payment-type-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card p-3">
+                                <div class="card-title">
+                                    <h2>Hizmet Raporu</h2>
+                                </div>
+                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Bakım</th>
+                                        <th>Yaptığı Bakım</th>
+                                        <th>Toplam Fiyat</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($serviceAll as $service)
+                                        <tr>
+                                            <td>{{ $service->name }}</td>
+                                            <td>{{ $service->serviceCount }}</td>
+                                            <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Hizmet Raporu</h3></h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="service-chart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -154,43 +227,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card p-3">
-                                <div class="card-title">
-                                    <h2>Hizmet Raporu</h2>
-                                </div>
-                                <table id="tableData" class="table table-striped table-bordered nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th>Bakım</th>
-                                        <th>Yaptığı Bakım</th>
-                                        <th>Toplam Fiyat</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($serviceAll as $service)
-                                        <tr>
-                                            <td>{{ $service->name }}</td>
-                                            <td>{{ $service->serviceCount }}</td>
-                                            <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Hizmet Raporu</h3></h3>
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="service-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
+                    
                 </div>
             </div>
         </div>

@@ -26,18 +26,13 @@ class ReportController extends Controller
 
     public function index(Request $request)
     {
-        try {
+        $start = $request->input('startDate');
+        $end = $request->input('endDate');
 
-            $start = $request->input('startDate');
-            $end = $request->input('endDate');
+        $reservations = Reservation::whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])->get();
 
-            $reservations = Reservation::whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])->get();
-
-            $data = array('reservations' => $reservations, 'start' => $start, 'end' => $end);
-            return view('admin.reports.index')->with($data);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $data = array('reservations' => $reservations, 'start' => $start, 'end' => $end);
+        return view('admin.reports.index')->with($data);
     }
 
     public function reservationReport(Request $request)
@@ -46,6 +41,10 @@ class ReportController extends Controller
 
             $start = $request->input('startDate');
             $end = $request->input('endDate');
+
+            $reservationsAll = Reservation::select('reservations.*', DB::raw('id as reservationCount'))
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->get();
 
             $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
                 ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
@@ -58,6 +57,7 @@ class ReportController extends Controller
                 ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('service_id')
                 ->get();
+
             $therapistLabels = [];
             $therapistData = [];
             $therapistColors = [];
@@ -156,6 +156,7 @@ class ReportController extends Controller
                 'serviceColors' => $serviceColors,
                 'therapistAll' => $therapistAll,
                 'serviceAll' => $serviceAll,
+                'reservationsAll' => $reservationsAll,
                 'cashTl' => $cashTl,
                 'cashEur' => $cashEur,
                 'cashUsd' => $cashUsd,
