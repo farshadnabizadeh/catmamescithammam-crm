@@ -62,7 +62,7 @@
                                         @foreach($sourcesAll as $source)
                                         <tr>
                                             <td>{{ $source->source->name }}</td>
-                                            <td>{{ $source->sourceCount }}</td>
+                                            <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -58,7 +58,7 @@ class ReportController extends Controller
                 ->groupBy('service_id')
                 ->get();
 
-            $sourcesAll = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
+            $sourcesAll = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
