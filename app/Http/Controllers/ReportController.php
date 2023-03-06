@@ -62,6 +62,13 @@ class ReportController extends Controller
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
+                ->orderBy('sourceCount', 'DESC')
+                ->get();
+
+            $sourcesAllByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->groupBy('reservation_date')
                 ->get();
 
             $therapistLabels = [];
@@ -88,16 +95,32 @@ class ReportController extends Controller
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
+                ->orderBy('sourceCount', 'DESC')
                 ->get();
-                    $sourceLabels = [];
-                $sourceData = [];
-                $sourceColors = [];
+            $sourceLabels = [];
+            $sourceData = [];
+            $sourceColors = [];
 
-                foreach ($sources as $source) {
-                    array_push($sourceLabels, $source->source->name);
-                    array_push($sourceData, $source->sourceCount);
-                    $sourceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-                }
+            foreach ($sources as $source) {
+                array_push($sourceLabels, $source->source->name);
+                array_push($sourceData, $source->sourceCount);
+                $sourceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
+             //Reservation Source By Date
+             $sourcesByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount'))
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->groupBy('reservation_date')
+                ->get();
+            $sourcesByDateLabels = [];
+            $sourcesByDateData = [];
+            $sourcesByDateColors = [];
+            foreach ($sourcesByDate as $source) {
+                array_push($sourcesByDateLabels, $source->reservation_date);
+                array_push($sourcesByDateData, $source->sourceCount);
+                $sourcesByDateColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
             //Ciro Report
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
             ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
@@ -182,6 +205,10 @@ class ReportController extends Controller
             }
 
             $data = array(
+                'sourcesByDateLabels' => $sourcesByDateLabels,
+                'sourcesByDateData' => $sourcesByDateData,
+                'sourcesByDateColors' => $sourcesByDateColors,
+                'sourcesAllByDate' => $sourcesAllByDate,
                 'all_paymentLabels' => $all_paymentLabels,
                 'all_paymentData' => $all_paymentData,
                 'all_paymentColors' => $all_paymentColors,

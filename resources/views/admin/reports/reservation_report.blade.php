@@ -49,6 +49,41 @@
                         <div class="col-lg-6">
                             <div class="card p-3 report-card">
                                 <div class="card-title">
+                                    <h2>Tarihe Göre Rezervasyon Kaynağı</h2>
+                                </div>
+                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Kaynak Tarihe</th>
+                                        <th>Toplam</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($sourcesAllByDate as $source)
+                                        <tr>
+                                            <td>{{ $source->reservation_date }}</td>
+                                            <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Tarihe Göre Rezervasyon Kaynağı</h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="source-date-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card p-3 report-card">
+                                <div class="card-title">
                                     <h2>Rezervasyon Kaynak Özetleri</h2>
                                 </div>
                                 <table id="tableData" class="table table-striped table-bordered nowrap">
@@ -352,6 +387,33 @@
                 label: 'Rezervasyon Kaynak Özetleri',
                 data: sourceData,
                 backgroundColor: sourceColors,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+     // Source By Date Report
+     var sourcesByDateLabels = @json($sourcesByDateLabels);
+    var sourcesByDateData = @json($sourcesByDateData);
+    var sourcesByDateColors = @json($sourcesByDateColors);
+    var hotelComissionChart = new Chart(document.getElementById("source-date-chart"), {
+        type: 'bar',
+        data: {
+            labels: sourcesByDateLabels,
+            datasets: [{
+                label: 'Tarihe Göre Rezervasyon Kaynağı',
+                data: sourcesByDateData,
+                backgroundColor: sourcesByDateColors,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             }]
