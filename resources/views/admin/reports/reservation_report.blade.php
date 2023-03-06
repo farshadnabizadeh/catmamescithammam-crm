@@ -53,9 +53,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <p>TOPLAM Reservazyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                        <p>TOPLAM Rezervasyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
                                     </div><div class="col-lg-6">
-                                        <p>TOPLAM Pax: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                        <p>TOPLAM Kişi: <b class="ml-3">{{ $paxByDateCount }}</b></p>
                                     </div>
                                 </div>
                                 <hr class="pb-3">
@@ -96,9 +96,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <p>TOPLAM Reservazyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                        <p>TOPLAM Rezervasyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
                                     </div><div class="col-lg-6">
-                                        <p>TOPLAM Pax: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                        <p>TOPLAM Kişi: <b class="ml-3">{{ $paxByDateCount }}</b></p>
                                     </div>
                                 </div>
                                 <hr class="pb-3">
