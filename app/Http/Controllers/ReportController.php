@@ -57,11 +57,13 @@ class ReportController extends Controller
                 ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('service_id')
                 ->get();
+
             $sourcesAll = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
-            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-            ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->groupBy('source_id')
-            ->get();
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->groupBy('source_id')
+                ->get();
+
             $therapistLabels = [];
             $therapistData = [];
             $therapistColors = [];
@@ -84,7 +86,7 @@ class ReportController extends Controller
             //Reservation Source
             $sources = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('source_id')
                 ->get();
                 $sourceLabels = [];
