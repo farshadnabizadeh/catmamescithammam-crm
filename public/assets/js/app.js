@@ -433,6 +433,7 @@ var app = (function() {
     $("#tableServices").dataTable({ paging: true, pageLength: 25 });
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
+    $("#tableSource").dataTable({ paging: true, pageLength: 25 });
 
     $('.navbar-nav li a').on('click', function () {
         $(this).parent().toggleClass('active');

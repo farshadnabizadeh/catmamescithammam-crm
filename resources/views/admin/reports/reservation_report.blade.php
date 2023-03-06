@@ -49,19 +49,19 @@
                         <div class="col-lg-6">
                             <div class="card p-3 report-card">
                                 <div class="card-title">
-                                    <h2>Tarihe Göre Rezervasyon Kaynağı</h2>
+                                    <h2>Tarihe Göre Rezervasyon Adetleri</h2>
                                 </div>
                                 <table id="tableData" class="table table-striped table-bordered nowrap">
                                     <thead>
                                     <tr>
-                                        <th>Kaynak Tarihe</th>
+                                        <th>Tarih</th>
                                         <th>Toplam</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($sourcesAllByDate as $source)
                                         <tr>
-                                            <td>{{ $source->reservation_date }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($source->reservation_date)) }}</td>
                                             <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax</td>
                                         </tr>
                                         @endforeach
@@ -86,7 +86,7 @@
                                 <div class="card-title">
                                     <h2>Rezervasyon Kaynak Özetleri</h2>
                                 </div>
-                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                <table id="tableSource" class="table table-striped table-bordered nowrap">
                                     <thead>
                                     <tr>
                                         <th>Kaynak Adı</th>
