@@ -58,9 +58,9 @@ class ReportController extends Controller
                 ->groupBy('service_id')
                 ->get();
 
-            $sourcesAll = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
+            $sourcesAll = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
                 ->get();
 
@@ -84,12 +84,12 @@ class ReportController extends Controller
                 $serviceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
             //Reservation Source
-            $sources = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
+            $sources = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
                 ->get();
-                $sourceLabels = [];
+                    $sourceLabels = [];
                 $sourceData = [];
                 $sourceColors = [];
 
