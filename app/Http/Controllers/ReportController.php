@@ -71,6 +71,12 @@ class ReportController extends Controller
                 ->groupBy('reservation_date')
                 ->get();
 
+            $reservationByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
+                ->count('source_id');
+
+            $paxByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
+                ->sum('total_customer');
+
             $therapistLabels = [];
             $therapistData = [];
             $therapistColors = [];
@@ -205,6 +211,8 @@ class ReportController extends Controller
             }
 
             $data = array(
+                'reservationByDateCount'=>$reservationByDateCount,
+                'paxByDateCount'=>$paxByDateCount,
                 'sourcesByDateLabels' => $sourcesByDateLabels,
                 'sourcesByDateData' => $sourcesByDateData,
                 'sourcesByDateColors' => $sourcesByDateColors,

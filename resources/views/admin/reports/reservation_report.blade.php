@@ -51,6 +51,14 @@
                                 <div class="card-title">
                                     <h2>Tarihe Göre Rezervasyon Adetleri</h2>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>TOPLAM Reservazyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                    </div><div class="col-lg-6">
+                                        <p>TOPLAM Pax: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                    </div>
+                                </div>
+                                <hr class="pb-3">
                                 <table id="tableData" class="table table-striped table-bordered nowrap">
                                     <thead>
                                     <tr>
@@ -86,6 +94,14 @@
                                 <div class="card-title">
                                     <h2>Rezervasyon Kaynak Özetleri</h2>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>TOPLAM Reservazyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                    </div><div class="col-lg-6">
+                                        <p>TOPLAM Pax: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                    </div>
+                                </div>
+                                <hr class="pb-3">
                                 <table id="tableSource" class="table table-striped table-bordered nowrap">
                                     <thead>
                                     <tr>
