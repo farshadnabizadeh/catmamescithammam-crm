@@ -64,6 +64,7 @@
                         </ul>
                     </li>
                     @endcan
+                    @can('show definitions')
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-tasks text-primary"></i>
@@ -129,6 +130,8 @@
                             @endcan
                         </ul>
                     </li>
+                    @endcan
+                    @can('show reports')
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-file-text text-primary"></i>
@@ -153,6 +156,8 @@
                             </li>
                         </ul>
                     </li>
+                    @endcan
+                    @can('show reservation')
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:;">
                             <i class="fa fa-check text-primary"></i>
@@ -173,6 +178,7 @@
 
                         </ul>
                     </li>
+                    @endcan
                     @can('show users')
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:;">

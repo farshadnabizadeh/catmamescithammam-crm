@@ -13,26 +13,30 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-4 col-md-6">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-dashboard-card">Rezervasyonlar</h5>
-                            <hr>
-                            <a href="{{ route('reservation.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                <span class="h2 mb-0 count-card">{{ $reservationCount }}</span>
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
-                                <i class="fa fa-check"></i>
+        @can('show reservation')
+
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-dashboard-card">Rezervasyonlar</h5>
+                                <hr>
+                                <a href="{{ route('reservation.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
+                                    <span class="h2 mb-0 count-card">{{ $reservationCount }}</span>
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                                    <i class="fa fa-check"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endcan
+        @can('show contactform')
         <div class="col-xl-4 col-md-6">
             <div class="card card-stats">
                 <div class="card-body">
@@ -73,6 +77,7 @@
                 </div>
             </div>
         </div>
+        @endcan
     </div>
 </div>
 

@@ -57,7 +57,11 @@ class ReportController extends Controller
                 ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('service_id')
                 ->get();
-
+            $sourcesAll = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->groupBy('source_id')
+            ->get();
             $therapistLabels = [];
             $therapistData = [];
             $therapistColors = [];
@@ -77,6 +81,21 @@ class ReportController extends Controller
                 array_push($serviceData, $service->serviceCount);
                 $serviceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
+            //Reservation Source
+            $sources = Reservation::select('reservations.*', DB::raw('reservations.source_id, sum(source_id) as sourceCount'))
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->groupBy('source_id')
+                ->get();
+                $sourceLabels = [];
+                $sourceData = [];
+                $sourceColors = [];
+
+                foreach ($sources as $source) {
+                    array_push($sourceLabels, $source->source->name);
+                    array_push($sourceData, $source->sourceCount);
+                    $sourceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
             //Ciro Report
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
             ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
@@ -147,7 +166,7 @@ class ReportController extends Controller
             $totalPound = $cashPound;
 
             //only need pound convert
-            $totalEuro = $cashEur + $ziraatEuro + $viatorEuro  + $cashUsd * $euro_usd_satis + $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
+            $totalEuro = $cashEur + $ziraatEuro + $viatorEuro + $cashUsd * $euro_usd_satis + (($totalPound*$gbp_satis)/$euro_satis)+ $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
 
             $totalTl = $cashTl + $ykbTl + $ziraatTl + $cashEur * $euro_satis + $ziraatEuro * $euro_satis + $viatorEuro * $euro_satis + $totalUsd * $usd_satis + $totalPound * $gbp_satis;
 
@@ -170,9 +189,13 @@ class ReportController extends Controller
                 'serviceLabels' => $serviceLabels,
                 'serviceData' => $serviceData,
                 'serviceColors' => $serviceColors,
+                'sourceLabels' => $sourceLabels,
+                'sourceData' => $sourceData,
+                'sourceColors' => $sourceColors,
                 'therapistAll' => $therapistAll,
                 'serviceAll' => $serviceAll,
                 'reservationsAll' => $reservationsAll,
+                'sourcesAll' => $sourcesAll,
                 'cashTl' => $cashTl,
                 'cashEur' => $cashEur,
                 'cashUsd' => $cashUsd,
