@@ -149,11 +149,6 @@
                                     <span>Rezervasyon Raporu</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('report.comission', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                    <span>Komisyon Raporu</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     @endcan

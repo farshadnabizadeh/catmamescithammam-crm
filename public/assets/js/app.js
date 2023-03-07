@@ -90,7 +90,7 @@ function dashboard() {
 
 function voucherPdf() {
     try {
-        var elem = document.getElementById('root');
+        var elem = document.getElementById('hotelsPDF');
         let date_ob = new Date();
         let date = ("0" + date_ob.getDate()).slice(-2);
         let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
@@ -433,6 +433,7 @@ var app = (function() {
     $("#tableServices").dataTable({ paging: true, pageLength: 25 });
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
+    $("#tableHotels").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
     $("#tableService").dataTable({ paging: true, pageLength: 25 });
 
@@ -1547,4 +1548,33 @@ function scrollToService() {
 function scrollToReservation() {
     var div = document.getElementById("reservation");
     div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function scrollToHotelComission() {
+    var div = document.getElementById("tableHotels");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function scrollToGuideComission() {
+    var div = document.getElementById("tableGuides");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+//Download PDF's
+function hotelsPDF() {
+    var element = document.getElementById('tableHotels');
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    var now_date = (date + "." + month + "." + year);
+    var opt = {
+    margin:       1,
+    filename:     'Otel_Komisyon_Raporu_'+now_date+'.pdf',
+    title: 'Otel Komisyon Raporu',
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
 }

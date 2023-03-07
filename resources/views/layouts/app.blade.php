@@ -65,7 +65,9 @@
     <script type="text/javascript" src="{{ asset('assets/js/datatable.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jscolor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/extension-btns-custom.js') }}"></script>
+
     <script type="text/javascript" src="{{ asset('assets/js/app.js?v=1.0') }}" defer></script>
+
     <script>
         $('.inline-popups').magnificPopup({
             type: 'inline',

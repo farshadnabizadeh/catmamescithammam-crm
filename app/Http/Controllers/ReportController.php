@@ -43,8 +43,8 @@ class ReportController extends Controller
             $end = $request->input('endDate');
 
             $reservationsAll = Reservation::select('reservations.*', DB::raw('id as reservationCount'))
-            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->get();
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->get();
 
             $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
                 ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
@@ -113,8 +113,8 @@ class ReportController extends Controller
                 $sourceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
 
-             //Reservation Source By Date
-             $sourcesByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount'))
+            //Reservation Source By Date
+            $sourcesByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('reservation_date')
@@ -129,10 +129,10 @@ class ReportController extends Controller
             }
             //Ciro Report
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
-            ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
-            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->groupBy('payment_type_id')
-            ->get();
+                ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->groupBy('payment_type_id')
+                ->get();
 
             $all_paymentLabels = [];
             $all_paymentData = [];
@@ -144,8 +144,8 @@ class ReportController extends Controller
             }
 
             $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
-            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->sum("payment_price");
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum("payment_price");
 
             $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
                 ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
@@ -180,10 +180,10 @@ class ReportController extends Controller
                 ->sum("payment_price");
 
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
-            ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
-            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->groupBy('payment_type_id')
-            ->get();
+                ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->groupBy('payment_type_id')
+                ->get();
 
             $open = simplexml_load_file('https://www.tcmb.gov.tr/kurlar/today.xml');
 
@@ -197,7 +197,7 @@ class ReportController extends Controller
             $totalPound = $cashPound;
 
             //only need pound convert
-            $totalEuro = $cashEur + $ziraatEuro + $viatorEuro + $cashUsd * $euro_usd_satis + (($totalPound*$gbp_satis)/$euro_satis)+ $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
+            $totalEuro = $cashEur + $ziraatEuro + $viatorEuro + $cashUsd * $euro_usd_satis + (($totalPound * $gbp_satis) / $euro_satis) + $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
 
             $totalTl = $cashTl + $ykbTl + $ziraatTl + $cashEur * $euro_satis + $ziraatEuro * $euro_satis + $viatorEuro * $euro_satis + $totalUsd * $usd_satis + $totalPound * $gbp_satis;
 
@@ -209,43 +209,92 @@ class ReportController extends Controller
                 array_push($all_paymentData, $all_payment->totalPrice);
                 $all_paymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
+            // comission reports
+
+
+            $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
+                ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
+                ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereNull('reservations_comissions.guide_id')
+                ->where('reservations_comissions.comission_price', '!=', NULL)
+                ->groupBy('hotel_id')
+                ->orderBy('totalPrice', 'DESC')
+                ->get();
+
+            $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
+                ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
+                ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereNull('reservations_comissions.hotel_id')
+                ->where('reservations_comissions.comission_price', '!=', NULL)
+                ->groupBy('guide_id')
+                ->orderBy('totalPrice', 'DESC')
+
+                ->get();
+
+            $hotelComissionLabels = [];
+            $hotelComissionData = [];
+            $hotelComissionColors = [];
+
+            foreach ($hotelComissions as $hotelComission) {
+                array_push($hotelComissionLabels, $hotelComission->name);
+                array_push($hotelComissionData, $hotelComission->totalPrice);
+                $hotelComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
+            $guideComissionLabels = [];
+            $guideComissionData = [];
+            $guideComissionColors = [];
+
+            foreach ($guideComissions as $guideComission) {
+                array_push($guideComissionLabels, $guideComission->name);
+                array_push($guideComissionData, $guideComission->totalPrice);
+                $guideComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
 
             $data = array(
-                'reservationByDateCount'=>$reservationByDateCount,
-                'paxByDateCount'=>$paxByDateCount,
-                'sourcesByDateLabels' => $sourcesByDateLabels,
-                'sourcesByDateData' => $sourcesByDateData,
-                'sourcesByDateColors' => $sourcesByDateColors,
-                'sourcesAllByDate' => $sourcesAllByDate,
-                'all_paymentLabels' => $all_paymentLabels,
-                'all_paymentData' => $all_paymentData,
-                'all_paymentColors' => $all_paymentColors,
-                'therapistLabels' => $therapistLabels,
-                'therapistData' => $therapistData,
-                'therapistColors' => $therapistColors,
-                'serviceLabels' => $serviceLabels,
-                'serviceData' => $serviceData,
-                'serviceColors' => $serviceColors,
-                'sourceLabels' => $sourceLabels,
-                'sourceData' => $sourceData,
-                'sourceColors' => $sourceColors,
-                'therapistAll' => $therapistAll,
-                'serviceAll' => $serviceAll,
-                'reservationsAll' => $reservationsAll,
-                'sourcesAll' => $sourcesAll,
-                'cashTl' => $cashTl,
-                'cashEur' => $cashEur,
-                'cashUsd' => $cashUsd,
-                'cashPound' => $cashPound,
-                'ykbTl' => $ykbTl,
-                'ziraatTl' => $ziraatTl,
-                'ziraatEuro' => $ziraatEuro,
-                'ziraatDolar' => $ziraatDolar,
-                'viatorEuro' => $viatorEuro,
-                'totalEuro' => $totalEuro,
-                'totalTl' => $totalTl,
-                'start' => $start,
-                'end' => $end
+                'hotelComissions'          => $hotelComissions,
+                'guideComissions'          => $guideComissions,
+                'hotelComissionLabels'     => $hotelComissionLabels,
+                'hotelComissionData'       => $hotelComissionData,
+                'hotelComissionColors'     => $hotelComissionColors,
+                'guideComissionLabels'     => $guideComissionLabels,
+                'guideComissionData'       => $guideComissionData,
+                'guideComissionColors'     => $guideComissionColors,
+                'reservationByDateCount'   => $reservationByDateCount,
+                'paxByDateCount'           => $paxByDateCount,
+                'sourcesByDateLabels'      => $sourcesByDateLabels,
+                'sourcesByDateData'        => $sourcesByDateData,
+                'sourcesByDateColors'      => $sourcesByDateColors,
+                'sourcesAllByDate'         => $sourcesAllByDate,
+                'all_paymentLabels'        => $all_paymentLabels,
+                'all_paymentData'          => $all_paymentData,
+                'all_paymentColors'        => $all_paymentColors,
+                'therapistLabels'          => $therapistLabels,
+                'therapistData'            => $therapistData,
+                'therapistColors'          => $therapistColors,
+                'serviceLabels'            => $serviceLabels,
+                'serviceData'              => $serviceData,
+                'serviceColors'            => $serviceColors,
+                'sourceLabels'             => $sourceLabels,
+                'sourceData'               => $sourceData,
+                'sourceColors'             => $sourceColors,
+                'therapistAll'             => $therapistAll,
+                'serviceAll'               => $serviceAll,
+                'reservationsAll'          => $reservationsAll,
+                'sourcesAll'               => $sourcesAll,
+                'cashTl'                   => $cashTl,
+                'cashEur'                  => $cashEur,
+                'cashUsd'                  => $cashUsd,
+                'cashPound'                => $cashPound,
+                'ykbTl'                    => $ykbTl,
+                'ziraatTl'                 => $ziraatTl,
+                'ziraatEuro'               => $ziraatEuro,
+                'ziraatDolar'              => $ziraatDolar,
+                'viatorEuro'               => $viatorEuro,
+                'totalEuro'                => $totalEuro,
+                'totalTl'                  => $totalTl,
+                'start'                    => $start,
+                'end'                      => $end
             );
             return view('admin.reports.reservation_report')->with($data);
         } catch (\Throwable $th) {
@@ -384,10 +433,10 @@ class ReportController extends Controller
                 ->sum("payment_price");
 
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
-            ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
-            ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->groupBy('payment_type_id')
-            ->get();
+                ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->groupBy('payment_type_id')
+                ->get();
 
             $all_paymentLabels = [];
             $all_paymentData = [];
@@ -415,8 +464,7 @@ class ReportController extends Controller
             );
 
             return view('admin.reports.payment_report')->with($totalData);
-        }
-        catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             throw $th;
         }
     }
