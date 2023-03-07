@@ -434,6 +434,7 @@ var app = (function() {
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
+    $("#tableService").dataTable({ paging: true, pageLength: 25 });
 
     $('.navbar-nav li a').on('click', function () {
         $(this).parent().toggleClass('active');
@@ -1526,4 +1527,24 @@ function addCustomertoReservation(reservationID, customersId){
     } catch (error) {
         console.log(error);
     }
+}
+
+function scrollToCiro() {
+    var div = document.getElementById("ciro");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function scrollToTherapist() {
+    var div = document.getElementById("therapist");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function scrollToService() {
+    var div = document.getElementById("service");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function scrollToReservation() {
+    var div = document.getElementById("reservation");
+    div.scrollIntoView({ behavior: "smooth", block: "center" });
 }

@@ -32,9 +32,10 @@
 
     <div class="row pb-3 pl-3">
         <div class="d-flex">
-            <button class="btn btn-primary">Ciro Raporu</button>
-            <button class="btn btn-primary">Terapist Raporu</button>
-            <button class="btn btn-primary">Hizmet Raporu</button>
+            <button class="btn btn-primary" onclick="scrollToCiro()">Ciro Raporu</button>
+            <button class="btn btn-primary" onclick="scrollToTherapist()">Terapist Raporu</button>
+            <button class="btn btn-primary" onclick="scrollToService()">Hizmet Raporu</button>
+            <button class="btn btn-primary" onclick="scrollToReservation()">Rezervasyon Kaynak</button>
         </div>
     </div>
 
@@ -90,7 +91,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="card p-3 report-card">
+                            <div class="card p-3 report-card" id="reservation">
                                 <div class="card-title">
                                     <h2>Rezervasyon Kaynak Özetleri</h2>
                                 </div>
@@ -135,7 +136,7 @@
                         <div class="col-md-6">
                             <div class="col-lg-12">
                                 <div id="root">
-                                    <div class="card">
+                                    <div class="card" id="ciro">
                                         <div class="card-header">
                                             <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
                                         </div>
@@ -231,11 +232,11 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="card p-3 report-card">
+                            <div class="card p-3 report-card" id="service">
                                 <div class="card-title">
                                     <h2>Hizmet Raporu</h2>
                                 </div>
-                                <table id="tableData" class="table table-striped table-bordered nowrap">
+                                <table id="tableService" class="table table-striped table-bordered nowrap">
                                     <thead>
                                     <tr>
                                         <th>Bakım</th>
@@ -268,7 +269,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="card p-3 report-card">
+                            <div class="card p-3 report-card" id="therapist">
                                 <div class="card-title">
                                     <h2>Terapist Raporu</h2>
                                 </div>
@@ -444,5 +445,6 @@
             }
         }
     });
+
 </script>
 @endsection
