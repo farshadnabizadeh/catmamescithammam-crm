@@ -39,7 +39,7 @@
                 <button class="btn btn-primary" onclick="scrollToCiro()">Ciro Raporu</button>
                 <button class="btn btn-primary" onclick="scrollToTherapist()">Terapist Raporu</button>
                 <button class="btn btn-primary" onclick="scrollToService()">Hizmet Raporu</button>
-                <button class="btn btn-primary" onclick="scrollToReservation()">Rezervasyon Kaynak</button>
+                <button class="btn btn-primary" onclick="scrollToReservation()">Rezervasyon Kaynak Raporu</button>
                 <button class="btn btn-primary" onclick="scrollToHotelComission()">Otel Komisyon</button>
                 <button class="btn btn-primary" onclick="scrollToGuideComission()">Rehber Komisyon</button>
             </div>
@@ -253,6 +253,12 @@
                                         <div class="card-title">
                                             <h2>Otel Komisyon Raporu</h2>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p>TOPLAM Otel Komisyonu: <b class="ml-3">₺ {{ $hotelComissionsCount }}</b></p>
+                                            </div>
+                                        </div>
+                                        <hr class="pb-3">
                                         <div class="card-body" style="padding: 0; padding-top: 10px">
                                             <div class="col-lg-12">
                                                 <!--button class="btn btn-primary float-right download-report-btn" onclick="hotelsPDF();"><i class="fa fa-download"></i> İndir</button-->
@@ -293,6 +299,12 @@
                                     <div class="card-title">
                                         <h2>Rehber Komisyon Raporu</h2>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p>TOPLAM Rehber Komisyonu: <b class="ml-3">₺ {{ $guideComissionsCount }}</b></p>
+                                        </div>
+                                    </div>
+                                    <hr class="pb-3">
                                     <div class="card-body" style="padding: 0; padding-top: 10px">
                                         <div class="col-lg-12">
                                             <table id="tableGuides" class="table table-striped table-bordered nowrap">

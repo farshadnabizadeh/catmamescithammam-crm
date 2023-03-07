@@ -59,18 +59,21 @@
                                 </thead>
                                 <tbody>
                                     @foreach($reservations as $reservation)
+
                                     <tr>
                                         <td>{{ $reservation->total_customer }}</td>
                                         <td>{{ $reservation->customer->name_surname }}</td>
                                         <td>{{ $reservation->source->name }}</td>
                                         <td>
                                             @foreach($reservation->subHotelComissions as $value)
-                                                {{ $value->comission_currency }}
+                                                @if ( $value->comission_price != NULL)
+                                                    {{ $value->comission_price }} {{ $value->comission_currency }}
+                                                @endif
                                             @endforeach
                                         </td>
                                         <td>
                                             @foreach($reservation->subServices as $value)
-                                                <span>{{ $value->piece   }} {{ $value->name }} +</span> 
+                                                <span>{{ $value->piece   }} {{ $value->name }} +</span>
                                             @endforeach
                                         </td>
                                         <td>

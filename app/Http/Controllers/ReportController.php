@@ -110,7 +110,7 @@ class ReportController extends Controller
             foreach ($sources as $source) {
                 array_push($sourceLabels, $source->source->name);
                 array_push($sourceData, $source->sourceCount);
-                $sourceColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                array_push($sourceColors, $source->source->color);
             }
 
             //Reservation Source By Date
@@ -220,7 +220,9 @@ class ReportController extends Controller
                 ->groupBy('hotel_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
-
+            $hotelComissionsCount = ReservationComission::whereBetween('created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->where('guide_id', NULL)
+                ->sum('comission_price');
             $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
                 ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
                 ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
@@ -228,9 +230,11 @@ class ReportController extends Controller
                 ->where('reservations_comissions.comission_price', '!=', NULL)
                 ->groupBy('guide_id')
                 ->orderBy('totalPrice', 'DESC')
-
                 ->get();
 
+            $guideComissionsCount = ReservationComission::whereBetween('created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->where('hotel_id', NULL)
+                ->sum('comission_price');
             $hotelComissionLabels = [];
             $hotelComissionData = [];
             $hotelComissionColors = [];
@@ -252,6 +256,8 @@ class ReportController extends Controller
             }
 
             $data = array(
+                'hotelComissionsCount'    => $hotelComissionsCount ,
+                'guideComissionsCount'    => $guideComissionsCount ,
                 'hotelComissions'          => $hotelComissions,
                 'guideComissions'          => $guideComissions,
                 'hotelComissionLabels'     => $hotelComissionLabels,
