@@ -1560,21 +1560,99 @@ function scrollToGuideComission() {
     div.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-//Download PDF's
-function hotelsPDF() {
-    var element = document.getElementById('tableHotels');
-    let date_ob = new Date();
-    let date = ("0" + date_ob.getDate()).slice(-2);
-    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    let year = date_ob.getFullYear();
-    var now_date = (date + "." + month + "." + year);
-    var opt = {
-    margin:       1,
-    filename:     'Otel_Komisyon_Raporu_'+now_date+'.pdf',
-    title: 'Otel Komisyon Raporu',
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
+//Download Reports as Excel
 
-    html2pdf().set(opt).from(element).save();
+let date_ob = new Date();
+let date = ("0" + date_ob.getDate()).slice(-2);
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+let year = date_ob.getFullYear();
+var now_date = (date + "_" + month + "_" + year);
+function tableHotelsExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableHotels'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Otel_Komisyon_Raporu_'+now_date+'.xlsx');
+}
+
+function tableGuidesExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableGuides'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rehber_Komisyon_Raporu_'+now_date+'.xlsx');
+}
+
+function tableSourceExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableSource'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Kaynak_Özetleri_Raporu_'+now_date+'.xlsx');
+}
+
+function tableDataExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableData'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Tarihe_Göre_Rezervasyon_Adetleri_Raporu_'+now_date+'.xlsx');
+}
+
+function tableServiceExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableService'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Hizmet_Raporu_'+now_date+'.xlsx');
+}
+
+function therapistExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('basic-btn'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Terapist_Raporu_'+now_date+'.xlsx');
 }

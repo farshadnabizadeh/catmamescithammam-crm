@@ -68,23 +68,26 @@
                                         </div>
                                     </div>
                                     <hr class="pb-3">
-                                    <table id="tableData" class="table table-striped table-bordered nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>Tarih</th>
-                                                <th>Toplam</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($sourcesAllByDate as $source)
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-primary float-right download-report-btn" onclick="tableDataExcel()"><i class="fa fa-download"></i> İndir</button>
+                                        <table id="tableData" class="table table-striped table-bordered nowrap">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ date('d-m-Y', strtotime($source->reservation_date)) }}</td>
-                                                    <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax
-                                                    </td>
+                                                    <th>Tarih</th>
+                                                    <th>Toplam</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($sourcesAllByDate as $source)
+                                                    <tr>
+                                                        <td>{{ date('d-m-Y', strtotime($source->reservation_date)) }}</td>
+                                                        <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -113,23 +116,26 @@
                                         </div>
                                     </div>
                                     <hr class="pb-3">
-                                    <table id="tableSource" class="table table-striped table-bordered nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>Kaynak Adı</th>
-                                                <th>Toplam</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($sourcesAll as $source)
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-primary float-right download-report-btn" onclick="tableSourceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                        <table id="tableSource" class="table table-striped table-bordered nowrap">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $source->source->name }}</td>
-                                                    <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }}
-                                                        Pax</td>
+                                                    <th>Kaynak Adı</th>
+                                                    <th>Toplam</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($sourcesAll as $source)
+                                                    <tr>
+                                                        <td>{{ $source->source->name }}</td>
+                                                        <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }}
+                                                            Pax</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -255,13 +261,13 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <p>TOPLAM Otel Komisyonu: <b class="ml-3">₺ {{ $hotelComissionsCount }}</b></p>
+                                                <p>TOPLAM Otel Komisyonu: <b class="ml-3">₺ {{ number_format($hotelComissionsCount, 2) }}</b></p>
                                             </div>
                                         </div>
                                         <hr class="pb-3">
                                         <div class="card-body" style="padding: 0; padding-top: 10px">
                                             <div class="col-lg-12">
-                                                <!--button class="btn btn-primary float-right download-report-btn" onclick="hotelsPDF();"><i class="fa fa-download"></i> İndir</button-->
+                                                <button class="btn btn-primary float-right download-report-btn" onclick="tableHotelsExcel()"><i class="fa fa-download"></i> İndir</button>
                                                 <table id="tableHotels" class="table table-striped table-bordered nowrap">
                                                     <thead>
                                                         <tr>
@@ -273,7 +279,7 @@
                                                         @foreach ($hotelComissions as $hotelComission)
                                                             <tr>
                                                                 <td>{{ $hotelComission->name }}</td>
-                                                                <td>{{ $hotelComission->totalPrice . ' TL' }}</td>
+                                                                <td>{{ number_format($hotelComission->totalPrice, 2) . ' TL' }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -301,12 +307,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <p>TOPLAM Rehber Komisyonu: <b class="ml-3">₺ {{ $guideComissionsCount }}</b></p>
+                                            <p>TOPLAM Rehber Komisyonu: <b class="ml-3">₺ {{ number_format($guideComissionsCount, 2) }}</b></p>
                                         </div>
                                     </div>
                                     <hr class="pb-3">
                                     <div class="card-body" style="padding: 0; padding-top: 10px">
                                         <div class="col-lg-12">
+                                            <button class="btn btn-primary float-right download-report-btn" onclick="tableGuidesExcel()"><i class="fa fa-download"></i> İndir</button>
                                             <table id="tableGuides" class="table table-striped table-bordered nowrap">
                                                 <thead>
                                                     <tr>
@@ -318,7 +325,7 @@
                                                     @foreach ($guideComissions as $guideComission)
                                                         <tr>
                                                             <td>{{ $guideComission->name }}</td>
-                                                            <td>{{ $guideComission->totalPrice . ' TL' }}</td>
+                                                            <td>{{ number_format($guideComission->totalPrice, 2) . ' TL' }}</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -346,24 +353,27 @@
                                     <div class="card-title">
                                         <h2>Hizmet Raporu</h2>
                                     </div>
-                                    <table id="tableService" class="table table-striped table-bordered nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>Bakım</th>
-                                                <th>Yaptığı Bakım</th>
-                                                <th>Toplam Fiyat</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($serviceAll as $service)
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-primary float-right download-report-btn" onclick="tableServiceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                        <table id="tableService" class="table table-striped table-bordered nowrap">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $service->name }}</td>
-                                                    <td>{{ $service->serviceCount }}</td>
-                                                    <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
+                                                    <th>Bakım</th>
+                                                    <th>Yaptığı Bakım</th>
+                                                    <th>Toplam Fiyat</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($serviceAll as $service)
+                                                    <tr>
+                                                        <td>{{ $service->name }}</td>
+                                                        <td>{{ $service->serviceCount }}</td>
+                                                        <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -384,22 +394,26 @@
                                     <div class="card-title">
                                         <h2>Terapist Raporu</h2>
                                     </div>
-                                    <table id="basic-btn" class="table table-striped table-bordered nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>Terapist Adı</th>
-                                                <th>Yaptığı Bakım</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($therapistAll as $therapist)
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-primary float-right download-report-btn" onclick="therapistExcel()"><i class="fa fa-download"></i> İndir</button>
+
+                                        <table id="basic-btn" class="table table-striped table-bordered nowrap">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $therapist->name }}</td>
-                                                    <td>{{ $therapist->therapistCount }}</td>
+                                                    <th>Terapist Adı</th>
+                                                    <th>Yaptığı Bakım</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($therapistAll as $therapist)
+                                                    <tr>
+                                                        <td>{{ $therapist->name }}</td>
+                                                        <td>{{ $therapist->therapistCount }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">

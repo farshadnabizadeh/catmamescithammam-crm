@@ -141,7 +141,7 @@
                         <ul class="nav-item_sub">
                             <li>
                                 <a href="{{ route('report.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                    <span>Genel Rapor</span>
+                                    <span>Muhasebe Raporu</span>
                                 </a>
                             </li>
                             <li>
