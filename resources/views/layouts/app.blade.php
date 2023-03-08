@@ -65,9 +65,8 @@
     <script type="text/javascript" src="{{ asset('assets/js/datatable.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jscolor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/extension-btns-custom.js') }}"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/xlsx.full.min.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('assets/js/FileSaver.min.js') }}" defer></script>
     <script type="text/javascript" src="{{ asset('assets/js/app.js?v=1.0') }}" defer></script>
 
     <script>

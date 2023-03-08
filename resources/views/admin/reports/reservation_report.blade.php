@@ -234,6 +234,9 @@
                                                         <p>TOPLAM TL: <b class="ml-3">₺
                                                                 {{ number_format($totalTl, 2) }}</b></p>
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <p>TOPLAM KİŞİ: <b class="ml-3">{{$payments_customer_count }}</b></p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

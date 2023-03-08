@@ -133,7 +133,9 @@ class ReportController extends Controller
                 ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('payment_type_id')
                 ->get();
-
+            $payments_customer_count = ReservationPaymentType::leftJoin('reservations', 'reservations_payments_types.reservation_id', '=', 'reservations.id')
+                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->sum('reservations.total_customer');
             $all_paymentLabels = [];
             $all_paymentData = [];
             $all_paymentColors = [];
@@ -256,8 +258,9 @@ class ReportController extends Controller
             }
 
             $data = array(
-                'hotelComissionsCount'    => $hotelComissionsCount ,
-                'guideComissionsCount'    => $guideComissionsCount ,
+                'payments_customer_count'  => $payments_customer_count ,
+                'hotelComissionsCount'     => $hotelComissionsCount ,
+                'guideComissionsCount'     => $guideComissionsCount ,
                 'hotelComissions'          => $hotelComissions,
                 'guideComissions'          => $guideComissions,
                 'hotelComissionLabels'     => $hotelComissionLabels,
