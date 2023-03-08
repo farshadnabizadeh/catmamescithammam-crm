@@ -31198,3 +31198,12 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
 {
     background: transparent;
 }
+.check-icon {
+    color: #11c711;
+    font-size: 23px;
+}
+
+.non-icon {
+    color: red;
+    font-size: 23px;
+}

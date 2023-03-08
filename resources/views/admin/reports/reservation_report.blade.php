@@ -238,7 +238,7 @@
                                                         <p>Ortalama Euro: <b class="ml-3">€ {{number_format(($totalEuro/$paxByDateCount),2) }}</b></p>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <p>Ortalama TL: <b class="ml-3">€ {{number_format(($totalTl/$paxByDateCount),2) }}</b></p>
+                                                        <p>Ortalama TL: <b class="ml-3">₺ {{number_format(($totalTl/$paxByDateCount),2) }}</b></p>
                                                     </div>
                                                 </div>
                                             </div>

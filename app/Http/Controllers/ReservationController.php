@@ -269,9 +269,11 @@ class ReservationController extends Controller
             $searchDate = $request->input('s');
             $tpStatus = $request->input('ps');
 
-            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId',  'sources.color', 'sources.name', 'customers.name_surname as Cname')
-                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
+            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId','reservations_payments_types.payment_price',  'sources.color', 'sources.name', 'customers.name_surname as Cname')
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
+                ->with('reservationPaymentType')
                 // ->whereNull('deleted_at')
                 ->whereDate('reservations.reservation_date', '=', $searchDate)
                 ->orderBy('reservation_time', 'ASC');
