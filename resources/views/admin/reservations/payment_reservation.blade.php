@@ -39,12 +39,9 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                <tr>
-                                    <td>Toplam:</td>
-                                    <td>{{ number_format($totalPayment, 2) }}</td>
-                                    <td></td>
-                                </tr>
                             </tbody>
+                            <td>Toplam TL: {{ number_format($totalPayment, 2) }}</td>
+                            <td>Toplam EURO: {{ number_format($totalPayment, 2) }}</td>
                         </table>
                     </div>
                 </div>

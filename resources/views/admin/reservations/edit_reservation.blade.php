@@ -150,48 +150,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="addPaymentTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Yeni Ödeme Türü Ekle</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <form method="POST">
-                @csrf
-                <input type="hidden" id="reservation_id" value="{{ $reservation->id }}">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label for="paymentTypeId">Ödeme Türü</label>
-                            <select class="form-control" id="paymentTypeId" name="paymentTypeId" required>
-                                <option></option>
-                                @foreach ($payment_types as $payment_type)
-                                <option value="{{ $payment_type->id }}">{{ $payment_type->payment_type_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label for="paymentPrice">Ücret</label>
-                            <input type="text" class="form-control" placeholder="Ücret" id="paymentPrice">
-                        </div>
-                    </div>
-               </div>
-               <button type="button" class="btn btn-success float-right" id="addPaymentTypetoReservationSave">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
-            </form>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
-         </div>
-      </div>
-   </div>
-</div>
-
 <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">

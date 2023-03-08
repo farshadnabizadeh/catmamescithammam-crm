@@ -17,6 +17,7 @@
         "yajra/laravel-datatables-html": "^4.41"
     },
     "require-dev": {
+        "barryvdh/laravel-dompdf": "^2.0",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",

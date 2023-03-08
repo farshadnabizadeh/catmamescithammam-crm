@@ -273,10 +273,9 @@ class ReservationController extends Controller
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
-                ->with('reservationPaymentType')
-                // ->whereNull('deleted_at')
-                ->whereDate('reservations.reservation_date', '=', $searchDate)
-                ->orderBy('reservation_time', 'ASC');
+            ->with('reservationPaymentType')
+            ->whereDate('reservations.reservation_date', '=', $searchDate)
+            ->orderBy('reservation_time', 'ASC');
 
             if (!empty($tpStatus)) {
                 $arrivalsA->where('reservations.source_id', '=', $tpStatus);
@@ -354,6 +353,7 @@ class ReservationController extends Controller
             foreach($reservation->subPaymentTypes as $subPaymentType) {
                 array_push($totalPrice, $subPaymentType->payment_price);
             }
+
             $totalPayment = array_sum($totalPrice);
 
             $data = array('guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
