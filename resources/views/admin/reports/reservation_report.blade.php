@@ -12,17 +12,32 @@
                     <div class="card-body">
                         <form action="" method="GET">
                             <div class="row pb-3">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <label for="startDate">Başlangıç Tarihi</label>
                                     <input type="text" class="form-control datepicker" id="startDate" name="startDate"
                                         placeholder="Başlangıç Tarihi" value="{{ $start }}" autocomplete="off"
                                         required>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <label for="endDate">Bitiş Tarihi</label>
                                     <input type="text" class="form-control datepicker" id="endDate" name="endDate"
                                         placeholder="Bitiş Tarihi" autocomplete="off" value="{{ $end }}" required>
                                 </div>
+                                <div class="col-lg-4">
+                                    <label for="selectedSource">Kaynaklar</label>
+                                    <select name="selectedSource[]" id="selectedSource" multiple>
+                                        <option value=""></option>
+                                        @foreach ($sourcesSelect as $source)
+                                            @if (in_array($source->id, $selectedSources))
+                                                <option value="{{$source->id}}" selected>{{$source->name}}</option>
+                                            @else
+                                                <option value="{{$source->id}}">{{$source->name}}</option>
+                                            @endif
+
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="col-lg-12">
                                     <button class="btn btn-success mt-3 float-right" type="submit"><i
                                             class="fa fa-check"></i> Raporu Al</button>

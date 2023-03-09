@@ -336,6 +336,7 @@ var app = (function() {
     $("#paymentTypeId").select2({ placeholder: "Ödeme Türü Seç", dropdownAutoWidth: true, allowClear: true });
     $("#hotelId").select2({ placeholder: "Otel Seç", dropdownAutoWidth: true, allowClear: true });
     $("#guideId").select2({ placeholder: "Rehber Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#selectedSource").select2({ placeholder: "Rezervasyon Kaynak Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',

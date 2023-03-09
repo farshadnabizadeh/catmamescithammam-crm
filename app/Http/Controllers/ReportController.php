@@ -41,29 +41,40 @@ class ReportController extends Controller
 
             $start = $request->input('startDate');
             $end = $request->input('endDate');
+            $sourcesSelect = Source::all();
+            $selectedSources = $request->input('selectedSource', []);
             $user = auth()->user();
 
             $reservationsAll = Reservation::select('reservations.*', DB::raw('count(id) as reservationCount'))
-            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->where('reservations.source_id', '=', 1)
-                          ->orWhere('reservations.source_id', '=', 2);
-                });
-            })
-            ->groupBy('reservations.id')
-            ->get();
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 2);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+                ->groupBy('reservations.id')
+                ->get();
 
             $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
                 ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_therapists.reservation_id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
-                    ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('therapist_id')
                 ->get();
 
@@ -71,12 +82,16 @@ class ReportController extends Controller
                 ->leftJoin('services', 'reservations_services.service_id', '=', 'services.id')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_services.reservation_id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
-                    ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('service_id')
                 ->get();
 
@@ -85,9 +100,13 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
@@ -99,8 +118,13 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 2);
+                            ->orWhere('reservations.source_id', '=', 2);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->groupBy('reservation_date')
                 ->get();
@@ -108,18 +132,26 @@ class ReportController extends Controller
             $reservationByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->count('source_id');
 
             $paxByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->sum('total_customer');
 
@@ -147,11 +179,15 @@ class ReportController extends Controller
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
                 })
                 ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
@@ -171,9 +207,13 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->groupBy('reservation_date')
                 ->get();
@@ -192,9 +232,13 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
+                        $query->whereIn('reservations.source_id', [1,12]);
                     });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
                 })
                 ->groupBy('payment_type_id')
                 ->get();
@@ -202,10 +246,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum('reservations.total_customer');
             $all_paymentLabels = [];
             $all_paymentData = [];
@@ -221,10 +269,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
@@ -232,10 +284,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
@@ -243,10 +299,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
@@ -254,10 +314,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
@@ -265,10 +329,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
@@ -276,10 +344,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
@@ -287,10 +359,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
@@ -298,10 +374,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
@@ -309,10 +389,14 @@ class ReportController extends Controller
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                              ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum("payment_price");
 
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
@@ -320,11 +404,15 @@ class ReportController extends Controller
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('payment_type_id')
                 ->get();
 
@@ -363,10 +451,14 @@ class ReportController extends Controller
                 ->where('reservations_comissions.comission_price', '!=', NULL)
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('hotel_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
@@ -375,10 +467,14 @@ class ReportController extends Controller
                 ->where('guide_id', NULL)
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum('comission_price');
             $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
                 ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
@@ -388,10 +484,14 @@ class ReportController extends Controller
                 ->where('reservations_comissions.comission_price', '!=', NULL)
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->groupBy('guide_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
@@ -401,10 +501,14 @@ class ReportController extends Controller
                 ->where('hotel_id', NULL)
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
-                        $query->where('reservations.source_id', '=', 1)
-                            ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                        $query->whereIn('reservations.source_id', [1,12]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
                 ->sum('comission_price');
             $hotelComissionLabels = [];
             $hotelComissionData = [];
@@ -427,9 +531,9 @@ class ReportController extends Controller
             }
 
             $data = array(
-                'payments_customer_count'  => $payments_customer_count ,
-                'hotelComissionsCount'     => $hotelComissionsCount ,
-                'guideComissionsCount'     => $guideComissionsCount ,
+                'payments_customer_count'  => $payments_customer_count,
+                'hotelComissionsCount'     => $hotelComissionsCount,
+                'guideComissionsCount'     => $guideComissionsCount,
                 'hotelComissions'          => $hotelComissions,
                 'guideComissions'          => $guideComissions,
                 'hotelComissionLabels'     => $hotelComissionLabels,
@@ -472,12 +576,15 @@ class ReportController extends Controller
                 'totalEuro'                => $totalEuro,
                 'totalTl'                  => $totalTl,
                 'start'                    => $start,
-                'end'                      => $end
+                'end'                      => $end,
+                'sourcesSelect'                  => $sourcesSelect,
+                'selectedSources'          => $selectedSources
+
             );
 
             if ($user->hasRole('Performance Marketing Admin')) {
                 return view('admin.reports.reservation_report_pm')->with($data);
-            }else {
+            } else {
                 return view('admin.reports.reservation_report')->with($data);
             }
         } catch (\Throwable $th) {
@@ -489,7 +596,7 @@ class ReportController extends Controller
     {
         $user = auth()->user();
         $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))
-            ->leftJoin('reservations','reservations.source_id','=','sources.id')
+            ->leftJoin('reservations', 'reservations.source_id', '=', 'sources.id')
             ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                 $query->where(function ($query) {
                     $query->where('reservations.source_id', '=', 1)
