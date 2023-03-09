@@ -13,7 +13,7 @@
                     <h2>Rezervasyon Kaynağını Güncelle</h2>
                     <p class="float-right last-user">İşlem Yapan Son Kullanıcı: {{ $source->user->name }}</p>
                 </div>
-                <form action="{{ route('source.update', ['id' => $therapist->id]) }}" method="POST">
+                <form action="{{ route('source.update', ['id' => $source->id]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
