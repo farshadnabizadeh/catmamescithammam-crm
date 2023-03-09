@@ -234,12 +234,29 @@
                                                         <p>TOPLAM TL: <b class="ml-3">₺
                                                                 {{ number_format($totalTl, 2) }}</b></p>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <p>Ortalama Euro: <b class="ml-3">€ {{number_format(($totalEuro/$paxByDateCount),2) }}</b></p>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <p>Ortalama TL: <b class="ml-3">₺ {{number_format(($totalTl/$paxByDateCount),2) }}</b></p>
-                                                    </div>
+
+                                                        <div class="col-lg-6">
+                                                            <p>Ortalama Euro:
+                                                                <b class="ml-3">
+                                                                    € @if ($totalEuro > 0)
+                                                                        {{number_format(($totalEuro/$paxByDateCount),2) }}
+                                                                    @else
+                                                                        {{number_format(0,2)}}
+                                                                    @endif
+                                                                </b>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <p>Ortalama TL:
+                                                                <b class="ml-3">
+                                                                    @if ($totalTl > 0)
+                                                                        ₺ {{number_format(($totalTl/$paxByDateCount),2) }}
+                                                                    @else
+                                                                        ₺ {{number_format(0,2)}}
+                                                                    @endif
+                                                                </b>
+                                                            </p>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>

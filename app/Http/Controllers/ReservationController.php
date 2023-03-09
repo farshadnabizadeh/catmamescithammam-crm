@@ -273,8 +273,8 @@ class ReservationController extends Controller
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
-            ->with('reservationPaymentType')
             ->whereDate('reservations.reservation_date', '=', $searchDate)
+            ->groupBy('reservations.id')
             ->orderBy('reservation_time', 'ASC');
 
             if (!empty($tpStatus)) {
@@ -348,15 +348,37 @@ class ReservationController extends Controller
             $hasTherapist = false;
             $hasTherapist = $reservation_therapist->get()->count() > 0 ? true : false;
 
-            $totalPrice = [];
-
+            $totalPrice     = [];
+            $totalPriceTL   = [];
+            $totalPriceGBP  = [];
+            $totalPriceEuro = [];
+            $totalPriceUsd  = [];
             foreach($reservation->subPaymentTypes as $subPaymentType) {
-                array_push($totalPrice, $subPaymentType->payment_price);
+                if($subPaymentType->type_name == 'CASH TL' || $subPaymentType->type_name == 'ZİRAAT KK TL' || $subPaymentType->type_name == 'YKB KK TL'){
+                    array_push($totalPriceTL, $subPaymentType->payment_price);
+                }elseif ($subPaymentType->type_name == 'CASH POUND') {
+                    array_push($totalPriceGBP, $subPaymentType->payment_price);
+                }elseif($subPaymentType->type_name == 'CASH EURO' || $subPaymentType->type_name == 'ZİRAAT KK EURO' || $subPaymentType->type_name == 'VIATOR EURO') {
+                    array_push($totalPriceEuro, $subPaymentType->payment_price);
+                }elseif($subPaymentType->type_name == 'CASH DOLAR' || $subPaymentType->type_name == 'ZİRAAT KK DOLAR'){
+                    array_push($totalPriceUsd, $subPaymentType->payment_price);
+                }
             }
+            $open = simplexml_load_file('https://www.tcmb.gov.tr/kurlar/today.xml');
 
-            $totalPayment = array_sum($totalPrice);
+            $euro_satis = $open->Currency[3]->BanknoteSelling;
+            $usd_satis = $open->Currency[0]->BanknoteSelling;
+            $gbp_satis = $open->Currency[4]->BanknoteSelling;
+            $euro_usd_satis = $open->Currency[3]->CrossRateOther;
 
-            $data = array('guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'totalPayment' => $totalPayment, 'hotels' => $hotels);
+
+            $totalPaymentGBP  = array_sum($totalPriceGBP);
+            $totalPaymentEuro = array_sum($totalPriceEuro);
+            $totalPaymentUsd  = array_sum($totalPriceUsd);
+            $totalPayment     = array_sum($totalPriceTL);
+            $totalTL= $totalPayment + ($totalPaymentGBP * $gbp_satis) + ($totalPaymentEuro * $euro_satis) + ($totalPaymentUsd * $usd_satis);
+            $totalEuro = $totalTL / $euro_satis;
+            $data = array('totalTL'=>$totalTL,'totalEuro' => $totalEuro,'guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'hotels' => $hotels);
 
             $page = $request->input('page');
 

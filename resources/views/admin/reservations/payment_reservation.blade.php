@@ -40,8 +40,8 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                            <td>Toplam TL: {{ number_format($totalPayment, 2) }}</td>
-                            <td>Toplam EURO: {{ number_format($totalPayment, 2) }}</td>
+                            <td>Toplam TL: {{ number_format($totalTL, 2) }}</td>
+                            <td>Toplam EURO: {{ number_format($totalEuro, 2) }}</td>
                         </table>
                     </div>
                 </div>
