@@ -80,7 +80,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="roomNumber">Oda Numarası</label>
-                                                    <input type="number" class="form-control" id="roomNumber" name="roomNumber" placeholder="Oda Numarası" >
+                                                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Oda Numarası" >
                                                 </div>
                                             </div>
                                         </div>

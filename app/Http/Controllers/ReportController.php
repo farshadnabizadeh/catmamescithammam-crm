@@ -324,7 +324,7 @@ class ReportController extends Controller
                             ->orWhere('reservations.source_id', '=', 12);
                         });
                     })
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('payment_type_id')
                 ->get();
 
@@ -487,8 +487,17 @@ class ReportController extends Controller
 
     public function sourceReport(Request $request)
     {
-        $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))->get();
-
+        $user = auth()->user();
+        $data = Source::select("sources.*", \DB::raw("(SELECT count(*) FROM reservations a WHERE a.source_id = sources.id) as aCount"))
+            ->leftJoin('reservations','reservations.source_id','=','sources.id')
+            ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                $query->where(function ($query) {
+                    $query->where('reservations.source_id', '=', 1)
+                        ->orWhere('reservations.source_id', '=', 12);
+                });
+            })
+            ->groupBy('sources.id')
+            ->get();
         return json_encode($data);
     }
 

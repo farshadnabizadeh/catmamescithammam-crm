@@ -248,7 +248,7 @@
                                                     </div>
 
                                                         <div class="col-lg-6">
-                                                            <p>Ortalama Euro:
+                                                            <p>Ortalama Kisi Bası Euro:
                                                                 <b class="ml-3">
                                                                     € @if ($totalEuro > 0)
                                                                         {{number_format(($totalEuro/$paxByDateCount),2) }}
@@ -259,7 +259,7 @@
                                                             </p>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <p>Ortalama TL:
+                                                            <p>Ortalama Kisi Bası TL:
                                                                 <b class="ml-3">
                                                                     @if ($totalTl > 0)
                                                                         ₺ {{number_format(($totalTl/$paxByDateCount),2) }}
