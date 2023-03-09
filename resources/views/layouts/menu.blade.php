@@ -139,16 +139,20 @@
                             <i class="fa fa-caret-right sub-icon"></i>
                         </a>
                         <ul class="nav-item_sub">
-                            <li>
-                                <a href="{{ route('report.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                    <span>Muhasebe Raporu</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('report.reservation', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                    <span>Rezervasyon Raporu</span>
-                                </a>
-                            </li>
+                            @can('show accounting reports')
+                                <li>
+                                    <a href="{{ route('report.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
+                                        <span>Muhasebe Raporu</span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('show reservation reports')
+                                <li>
+                                    <a href="{{ route('report.reservation', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
+                                        <span>Rezervasyon Raporu</span>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                     @endcan

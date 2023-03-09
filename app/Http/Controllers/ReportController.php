@@ -29,7 +29,7 @@ class ReportController extends Controller
         $start = $request->input('startDate');
         $end = $request->input('endDate');
 
-        $reservations = Reservation::whereBetween('reservations.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])->get();
+        $reservations = Reservation::with('subHotelComissions')->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])->get();
 
         $data = array('reservations' => $reservations, 'start' => $start, 'end' => $end);
         return view('admin.reports.index')->with($data);
@@ -41,26 +41,54 @@ class ReportController extends Controller
 
             $start = $request->input('startDate');
             $end = $request->input('endDate');
+            $user = auth()->user();
 
-            $reservationsAll = Reservation::select('reservations.*', DB::raw('id as reservationCount'))
-                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-                ->get();
+            $reservationsAll = Reservation::select('reservations.*', DB::raw('count(id) as reservationCount'))
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                $query->where(function ($query) {
+                    $query->where('reservations.source_id', '=', 1)
+                          ->orWhere('reservations.source_id', '=', 2);
+                });
+            })
+            ->groupBy('reservations.id')
+            ->get();
 
             $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
                 ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
-                ->whereBetween('reservations_therapists.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_therapists.reservation_id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                    ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                        $query->where(function ($query) {
+                            $query->where('reservations.source_id', '=', 1)
+                                ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->groupBy('therapist_id')
                 ->get();
 
             $serviceAll = ReservationService::select('services.*', DB::raw('service_id, sum(piece) as serviceCount'))
                 ->leftJoin('services', 'reservations_services.service_id', '=', 'services.id')
-                ->whereBetween('reservations_services.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_services.reservation_id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                    ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                        $query->where(function ($query) {
+                            $query->where('reservations.source_id', '=', 1)
+                                ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->groupBy('service_id')
                 ->get();
 
             $sourcesAll = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
@@ -68,13 +96,31 @@ class ReportController extends Controller
             $sourcesAllByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 2);
+                    });
+                })
                 ->groupBy('reservation_date')
                 ->get();
 
             $reservationByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->count('source_id');
 
             $paxByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->sum('total_customer');
 
             $therapistLabels = [];
@@ -99,6 +145,12 @@ class ReportController extends Controller
             //Reservation Source
             $sources = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
@@ -117,6 +169,12 @@ class ReportController extends Controller
             $sourcesByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->groupBy('reservation_date')
                 ->get();
             $sourcesByDateLabels = [];
@@ -130,11 +188,24 @@ class ReportController extends Controller
             //Ciro Report
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
                 ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->leftJoin('reservations', 'reservations.id', '=', 'payment_types.id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                                ->orWhere('reservations.source_id', '=', 12);
+                    });
+                })
                 ->groupBy('payment_type_id')
                 ->get();
             $payments_customer_count = ReservationPaymentType::leftJoin('reservations', 'reservations_payments_types.reservation_id', '=', 'reservations.id')
-                ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum('reservations.total_customer');
             $all_paymentLabels = [];
             $all_paymentData = [];
@@ -148,50 +219,111 @@ class ReportController extends Controller
             $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                              ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum("payment_price");
 
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
                 ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->whereBetween('reservations_payments_types.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->groupBy('payment_type_id')
                 ->get();
@@ -225,26 +357,54 @@ class ReportController extends Controller
 
             $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
                 ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
-                ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_comissions.reservation_id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->whereNull('reservations_comissions.guide_id')
                 ->where('reservations_comissions.comission_price', '!=', NULL)
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->groupBy('hotel_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
-            $hotelComissionsCount = ReservationComission::whereBetween('created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            $hotelComissionsCount = ReservationComission::leftJoin('reservations', 'reservations.id', '=', 'reservations_comissions.reservation_id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->where('guide_id', NULL)
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum('comission_price');
             $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
                 ->leftJoin('guides', 'reservations_comissions.guide_id', '=', 'guides.id')
-                ->whereBetween('reservations_comissions.created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_comissions.reservation_id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->whereNull('reservations_comissions.hotel_id')
                 ->where('reservations_comissions.comission_price', '!=', NULL)
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->groupBy('guide_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
 
-            $guideComissionsCount = ReservationComission::whereBetween('created_at', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            $guideComissionsCount = ReservationComission::leftJoin('reservations', 'reservations.id', '=', 'reservations_comissions.reservation_id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->where('hotel_id', NULL)
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('reservations.source_id', '=', 1)
+                            ->orWhere('reservations.source_id', '=', 12);
+                        });
+                    })
                 ->sum('comission_price');
             $hotelComissionLabels = [];
             $hotelComissionData = [];
@@ -314,7 +474,12 @@ class ReportController extends Controller
                 'start'                    => $start,
                 'end'                      => $end
             );
-            return view('admin.reports.reservation_report')->with($data);
+
+            if ($user->hasRole('Performance Marketing Admin')) {
+                return view('admin.reports.reservation_report_pm')->with($data);
+            }else {
+                return view('admin.reports.reservation_report')->with($data);
+            }
         } catch (\Throwable $th) {
             throw $th;
         }

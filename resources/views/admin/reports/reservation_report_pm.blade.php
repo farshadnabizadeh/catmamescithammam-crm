@@ -37,11 +37,7 @@
         <div class="row pb-3 pl-3">
             <div class="d-flex">
                 <button class="btn btn-primary" onclick="scrollToCiro()">Ciro Raporu</button>
-                <button class="btn btn-primary" onclick="scrollToTherapist()">Terapist Raporu</button>
-                <button class="btn btn-primary" onclick="scrollToService()">Hizmet Raporu</button>
                 <button class="btn btn-primary" onclick="scrollToReservation()">Rezervasyon Kaynak Raporu</button>
-                <button class="btn btn-primary" onclick="scrollToHotelComission()">Otel Komisyon</button>
-                <button class="btn btn-primary" onclick="scrollToGuideComission()">Rehber Komisyon</button>
             </div>
         </div>
 
@@ -282,205 +278,7 @@
                                         </h3>
                                     </div>
                                     <div class="card-body">
-                                        <canvas id="payment-type-chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div id="root">
-                                    <div class="card p-3 report-card">
-                                        <div class="card-title">
-                                            <div class="row">
-                                                <div class="col-lg-8">
-                                                    <h3>Otel Komisyon Raporu</h3>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableHotelsExcel()"><i class="fa fa-download"></i> İndir</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <p>TOPLAM Otel Komisyonu: <b class="ml-3">₺ {{ number_format($hotelComissionsCount, 2) }}</b></p>
-                                            </div>
-                                        </div>
-                                        <hr class="pb-3">
-                                        <div class="card-body" style="padding: 0; padding-top: 10px">
-                                            <div class="col-lg-12">
-                                                <table id="tableHotels" class="table table-striped table-bordered nowrap">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Otel Adı</th>
-                                                            <th>Alınan Komisyon Sayısı</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($hotelComissions as $hotelComission)
-                                                            <tr>
-                                                                <td>{{ $hotelComission->name }}</td>
-                                                                <td>{{ number_format($hotelComission->totalPrice, 2) . ' TL' }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Otel Komisyon Raporu</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="hotel-chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="card p-3">
-                                    <div class="card-title">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <h3>Rehber Komisyon Raporu</h3>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableGuidesExcel()"><i class="fa fa-download"></i> İndir</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <p>TOPLAM Rehber Komisyonu: <b class="ml-3">₺ {{ number_format($guideComissionsCount, 2) }}</b></p>
-                                        </div>
-                                    </div>
-                                    <hr class="pb-3">
-                                    <div class="card-body" style="padding: 0; padding-top: 10px">
-                                        <div class="col-lg-12">
-                                            <table id="tableGuides" class="table table-striped table-bordered nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Rehber Adı</th>
-                                                        <th>Alınan Komisyon Sayısı</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($guideComissions as $guideComission)
-                                                        <tr>
-                                                            <td>{{ $guideComission->name }}</td>
-                                                            <td>{{ number_format($guideComission->totalPrice, 2) . ' TL' }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Rehber Komisyon Raporu</h3>
-                                        </h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="guide-chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="card p-3 report-card" id="service">
-                                    <div class="card-title">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <h3>Hizmet Raporu</h3>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableServiceExcel()"><i class="fa fa-download"></i> İndir</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <table id="tableService" class="table table-striped table-bordered nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Bakım</th>
-                                                    <th>Yaptığı Bakım</th>
-                                                    <th>Toplam Fiyat</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($serviceAll as $service)
-                                                    <tr>
-                                                        <td>{{ $service->name }}</td>
-                                                        <td>{{ $service->serviceCount }}</td>
-                                                        <td>{{ $service->cost * $service->serviceCount . ' EURO' }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Hizmet Raporu</h3>
-                                        </h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="service-chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="card p-3 report-card" id="therapist">
-                                    <div class="card-title">
-                                        <div class="row">
-                                            <div class="col-lg-8">
-                                                <h3>Terapist  Raporu</h3>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="therapistExcel()"><i class="fa fa-download"></i> İndir</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <table id="basic-btn" class="table table-striped table-bordered nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Terapist Adı</th>
-                                                    <th>Yaptığı Bakım</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($therapistAll as $therapist)
-                                                    <tr>
-                                                        <td>{{ $therapist->name }}</td>
-                                                        <td>{{ $therapist->therapistCount }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Terapist Raporu</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="therapist-chart"></canvas>
+                                        <canvas id="payment-type-chart-2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -493,65 +291,12 @@
 @endsection
 @section('footer')
     <script>
-        var therapistLabels = @json($therapistLabels);
-        var therapistData = @json($therapistData);
-        var therapistColors = @json($therapistColors);
-
-        var serviceLabels = @json($serviceLabels);
-        var serviceData = @json($serviceData);
-        var serviceColors = @json($serviceColors);
-
-        var therapistChart = new Chart(document.getElementById("therapist-chart"), {
-            type: 'bar',
-            data: {
-                labels: therapistLabels,
-                datasets: [{
-                    label: 'Terapist Raporu',
-                    data: therapistData,
-                    backgroundColor: therapistColors,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        var serviceChart = new Chart(document.getElementById("service-chart"), {
-            type: 'bar',
-            data: {
-                labels: serviceLabels,
-                datasets: [{
-                    label: 'Hizmet Raporu',
-                    data: serviceData,
-                    backgroundColor: serviceColors,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
 
         // Ciro Report
         var all_paymentLabels = @json($all_paymentLabels);
         var all_paymentData = @json($all_paymentData);
         var all_paymentColors = @json($all_paymentColors);
-        var hotelComissionChart = new Chart(document.getElementById("payment-type-chart"), {
+        var hotelComissionChart = new Chart(document.getElementById("payment-type-chart-2"), {
             type: 'bar',
             data: {
                 labels: all_paymentLabels,
@@ -628,62 +373,6 @@
             }
         });
 
-        // Get hotel commission data from Laravel view
-        var hotelComissionLabels = @json($hotelComissionLabels);
-        var hotelComissionData = @json($hotelComissionData);
-        var hotelComissionColors = @json($hotelComissionColors);
 
-        // Get guide commission data from Laravel view
-        var guideComissionLabels = @json($guideComissionLabels);
-        var guideComissionData = @json($guideComissionData);
-        var guideComissionColors = @json($guideComissionColors);
-
-        // Create hotel commission chart
-        var hotelComissionChart = new Chart(document.getElementById("hotel-chart"), {
-            type: 'bar',
-            data: {
-                labels: hotelComissionLabels,
-                datasets: [{
-                    label: 'Otel Komisyon Raporu',
-                    data: hotelComissionData,
-                    backgroundColor: hotelComissionColors,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        // Create guide commission chart
-        var guideComissionChart = new Chart(document.getElementById("guide-chart"), {
-            type: 'bar',
-            data: {
-                labels: guideComissionLabels,
-                datasets: [{
-                    label: 'Rehber Komisyon Raporu',
-                    data: guideComissionData,
-                    backgroundColor: guideComissionColors,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
     </script>
 @endsection
