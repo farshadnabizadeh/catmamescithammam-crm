@@ -123,6 +123,7 @@ class ReservationController extends Controller
             $newData->customer_id = $request->input('customerId');
             $newData->discount_id = $request->input('discountId');
             $newData->source_id = $request->input('sourceId');
+            $newData->sales_person_name = $request->input('salePersonName');
             $newData->reservation_note = $request->input('reservationNote');
 
             $newData->user_id = auth()->user()->id;

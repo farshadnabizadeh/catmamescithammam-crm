@@ -1024,6 +1024,7 @@ function addReservationOperation() {
             var pickupTime = $("#tab2").find('#pickupTime').val();
             var roomNumber = $("#tab2").find('#roomNumber').val();
             var totalCustomer = $("#tab2").find('#totalCustomer').val();
+            var salePersonName = $("#tab2").find('#salePersonName').val();
             var sourceName = $("#tab2").find("#sobId").children("option:selected").text();
             var therapistId = $("#tab2").find('#therapistId').children("option:selected").val();
             if (arrivalDate == "" || arrivalTime == "" || totalCustomer == "" || therapistId == "" || sourceName == ""){
@@ -1035,6 +1036,7 @@ function addReservationOperation() {
                 $(".total-customer").text(totalCustomer);
                 $(".pickup-time").text(pickupTime);
                 $(".room-number").text(roomNumber);
+                $(".sale-person-name").text(salePersonName);
                 //Services
                 $("#serviceTable").find("tbody tr").each(function (i) {
                     var $tds = $(this).find('td');
@@ -1082,12 +1084,13 @@ function completeReservation() {
                     var roomNumber = $("#tab2").find('#roomNumber').val();
                     var sourceId = $('#tab2').find("#sobId").children("option:selected").val();
                     var reservationNote = $('#tab2').find("#note").val();
+                    var salePersonName = $("#tab2").find('#salePersonName').val();
 
                     var serviceCurrency = $("#tab3").find("#serviceCurrency").children("option:selected").val();
                     var serviceCost = $("#tab3").find("#serviceCost").val();
                     var serviceComission = $('#tab3').find("#serviceComission").val();
                     var discountId = $('#tab3').find("#discountId").children("option:selected").val();
-                    addReservation(arrivalDate, pickupTime,roomNumber, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote);
+                    addReservation(arrivalDate, pickupTime,roomNumber, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote, salePersonName);
 
                     //Payment Types
                     $("#paymentTypeTable").find("tbody tr").each(function (i) {
@@ -1124,7 +1127,7 @@ function completeReservation() {
     catch (error) { }
 }
 
-function addReservation(arrivalDate,pickupTime,roomNumber, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote){
+function addReservation(arrivalDate,pickupTime,roomNumber, arrivalTime, totalCustomer, customerID, serviceCurrency, serviceCost, serviceComission, discountId, sourceId, reservationNote,salePersonName){
     try {
         $.ajaxSetup({
             headers: {
@@ -1144,6 +1147,7 @@ function addReservation(arrivalDate,pickupTime,roomNumber, arrivalTime, totalCus
                 'serviceCurrency': serviceCurrency,
                 'serviceCost': serviceCost,
                 'serviceComission': serviceComission,
+                'salePersonName': salePersonName,
                 'discountId': discountId,
                 'sourceId': sourceId,
                 'reservationNote': reservationNote
