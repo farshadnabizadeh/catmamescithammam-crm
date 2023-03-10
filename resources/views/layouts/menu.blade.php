@@ -121,7 +121,7 @@
                                 </a>
                             </li>
                             @endcan
-                            @can('show therapist')
+                            @can('show sales person')
                             <li>
                                 <a href="{{ route('salesperson.index'); }}">
                                     <span>Satışcılar</span>

@@ -179,11 +179,11 @@ Route::group(['middleware' => ['auth']], function(){
     //Guides end
 
     //Sales Persons
-    Route::GET('definitions/salespersons', 'SalesPersonController@index')->middleware(['middleware' => 'permission:show therapist'])->name('salesperson.index');
-    Route::POST('definitions/salespersons/store', 'SalesPersonController@store')->middleware(['middleware' => 'permission:create therapist'])->name('salesperson.store');
-    Route::GET('definitions/salespersons/edit/{id}', 'SalesPersonController@edit')->middleware(['middleware' => 'permission:edit therapist'])->name('salesperson.edit');
-    Route::POST('definitions/salespersons/update/{id}', 'SalesPersonController@update')->middleware(['middleware' => 'permission:edit therapist'])->name('salesperson.update');
-    Route::GET('definitions/salespersons/destroy/{id}', 'SalesPersonController@destroy')->middleware(['middleware' => 'permission:delete therapist'])->name('salesperson.destroy');
+    Route::GET('definitions/salespersons', 'SalesPersonController@index')->middleware(['middleware' => 'permission:show sales person'])->name('salesperson.index');
+    Route::POST('definitions/salespersons/store', 'SalesPersonController@store')->middleware(['middleware' => 'permission:create sales person'])->name('salesperson.store');
+    Route::GET('definitions/salespersons/edit/{id}', 'SalesPersonController@edit')->middleware(['middleware' => 'permission:edit sales person'])->name('salesperson.edit');
+    Route::POST('definitions/salespersons/update/{id}', 'SalesPersonController@update')->middleware(['middleware' => 'permission:edit sales person'])->name('salesperson.update');
+    Route::GET('definitions/salespersons/destroy/{id}', 'SalesPersonController@destroy')->middleware(['middleware' => 'permission:delete sales person'])->name('salesperson.destroy');
     //Sales Persons end
 
     //Therapists
