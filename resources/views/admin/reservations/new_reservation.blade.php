@@ -296,7 +296,7 @@
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <label for="customerNumber">Kaç Kişi</label>
+                        <label for="customerNumber">Adeti</label>
                         <input type="number" class="form-control" id="customerNumber">
                     </div>
                 </div>
