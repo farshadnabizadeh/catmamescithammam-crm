@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Country;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -108,8 +109,9 @@ class CustomersController extends Controller
     {
         try {
             $customer = Customer::where('id','=',$id)->first();
+            $countries = Country::where('name','!=',$customer->country)->get();
 
-            return view('admin.customers.edit_customer', ['customer' => $customer]);
+            return view('admin.customers.edit_customer', ['customer' => $customer,'countries'=>$countries]);
         }
         catch (\Throwable $th) {
             throw $th;

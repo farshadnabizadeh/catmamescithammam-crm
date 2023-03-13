@@ -33,7 +33,12 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="country">Ülkesi</label>
-                                <input type="text" class="form-control" id="country" name="country" placeholder="Ülkesi" value="{{ $customer->country }}" required>
+                                <select class="form-control" id="country" name="country" required>
+                                    <option value="{{ $customer->country }}" selected>{{ $customer->country }}</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->name }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6">
