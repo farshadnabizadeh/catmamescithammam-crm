@@ -188,7 +188,7 @@
                                                 <h3>Rezervasyon Google Kaynak Özetleri</h3>
                                             </div>
                                             <div class="col-lg-4">
-                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableSourceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableGoogleSourceExcel()"><i class="fa fa-download"></i> İndir</button>
                                             </div>
                                         </div>
                                     </div>

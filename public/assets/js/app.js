@@ -1617,6 +1617,20 @@ function tableSourceExcel() {
     }
     saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Kaynak_Özetleri_Raporu_'+now_date+'.xlsx');
 }
+function tableGoogleSourceExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableGoogleSource'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Google_Kaynak_Özetleri_Raporu_'+now_date+'.xlsx');
+}
 
 function tableDataExcel() {
     /* Get table data */
