@@ -156,8 +156,11 @@
                                                 @foreach ($sourcesAll as $source)
                                                     <tr>
                                                         <td>{{ $source->source->name }}</td>
-                                                        <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }}
-                                                            Pax</td>
+                                                        @if ($source->source->id == 1)
+                                                        <td>{{ $source->sourceCount + $subSourceCount }} Reservation / {{ $source->paxCount + $subSourcePax }} Pax</td>
+                                                        @else
+                                                            <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax</td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -172,6 +175,59 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="source-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card p-3 report-card" id="reservation">
+                                    <div class="card-title">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h3>Rezervasyon Google Kaynak Özetleri</h3>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableSourceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Rezervasyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Kişi: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                        </div>
+                                    </div>
+                                    <hr class="pb-3">
+                                    <div class="col-lg-12">
+                                        <table id="tableGoogleSource" class="table table-striped table-bordered nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kaynak Adı</th>
+                                                    <th>Toplam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($googleSources as $source)
+                                                    <tr>
+                                                        <td>{{ $source->source->name }}</td>
+                                                        <td>{{ $source->sourceGoogleCount }} Reservation / {{ $source->paxGoogleCount }} Pax</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Rezervasyon Google Kaynak Özetleri</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="google-source-chart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -601,6 +657,33 @@
                     label: 'Rezervasyon Kaynak Özetleri',
                     data: sourceData,
                     backgroundColor: sourceColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Google Source Report
+        var googleSourceLabels = @json($googleSourceLabels);
+        var googleSourceData = @json($googleSourceData);
+        var googleSourceColors = @json($googleSourceColors);
+        var hotelComissionChart = new Chart(document.getElementById("google-source-chart"), {
+            type: 'bar',
+            data: {
+                labels: googleSourceLabels,
+                datasets: [{
+                    label: 'Rezervasyon Google Kaynak Özetleri',
+                    data: googleSourceData,
+                    backgroundColor: googleSourceColors,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
                 }]

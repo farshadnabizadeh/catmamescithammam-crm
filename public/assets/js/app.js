@@ -436,6 +436,7 @@ var app = (function() {
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
     $("#tableHotels").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
+    $("#tableGoogleSource").dataTable({ paging: true, pageLength: 25 });
     $("#tableService").dataTable({ paging: true, pageLength: 25 });
 
     $('.navbar-nav li a').on('click', function () {

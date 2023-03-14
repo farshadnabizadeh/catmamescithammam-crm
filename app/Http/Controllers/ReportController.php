@@ -97,6 +97,7 @@ class ReportController extends Controller
 
             $sourcesAll = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereNotIn('reservations.source_id',[12,14,15])
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
@@ -111,7 +112,18 @@ class ReportController extends Controller
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
-
+            $googleSources = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceGoogleCount, sum(total_customer) as paxGoogleCount'))
+                ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereIn('reservations.source_id',[1,12,14,15])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+                ->groupBy('source_id')
+                ->orderBy('sourceGoogleCount', 'DESC')
+                ->get();
             $sourcesAllByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereBetween('reservations.reservation_date', [$start, $end])
@@ -177,6 +189,7 @@ class ReportController extends Controller
             //Reservation Source
             $sources = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+                ->whereNotIn('reservations.source_id',[12,14,15])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,12]);
@@ -191,16 +204,49 @@ class ReportController extends Controller
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
+
+                $subSourceCount = Reservation::whereIn('reservations.source_id',[12,14,15])
+                    ->whereBetween('reservations.reservation_date', [$start, $end])
+                    ->count();
+                $subSourcePax = Reservation::whereIn('reservations.source_id',[12,14,15])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->sum('total_customer');
+
             $sourceLabels = [];
             $sourceData = [];
             $sourceColors = [];
 
             foreach ($sources as $source) {
+                if ($source->source->id == 1) {
+                    array_push($sourceData, ($source->sourceCount + $subSourceCount));
+                }else {
+                    array_push($sourceData, $source->sourceCount);
+                }
                 array_push($sourceLabels, $source->source->name);
-                array_push($sourceData, $source->sourceCount);
                 array_push($sourceColors, $source->source->color);
             }
+            //google Sources
+            $googleSourcesChart = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as googleSourceCount'))
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->whereIn('reservations.source_id',[1,12,14,15])
+            ->whereBetween('reservations.reservation_date', [$start, $end])
+            ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                $query->whereIn('reservations.source_id', $selectedSources);
+            }, function ($query) {
+                $query->whereNotNull('reservations.source_id');
+            })
+            ->groupBy('source_id')
+            ->orderBy('googleSourceCount', 'DESC')
+            ->get();
+            $googleSourceLabels = [];
+            $googleSourceData = [];
+            $googleSourceColors = [];
 
+            foreach ($googleSourcesChart as $source) {
+                array_push($googleSourceData, $source->googleSourceCount);
+                array_push($googleSourceLabels, $source->source->name);
+                array_push($googleSourceColors, $source->source->color);
+            }
             //Reservation Source By Date
             $sourcesByDate = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
@@ -577,8 +623,14 @@ class ReportController extends Controller
                 'totalTl'                  => $totalTl,
                 'start'                    => $start,
                 'end'                      => $end,
-                'sourcesSelect'                  => $sourcesSelect,
-                'selectedSources'          => $selectedSources
+                'sourcesSelect'            => $sourcesSelect,
+                'selectedSources'          => $selectedSources,
+                'subSourceCount'           => $subSourceCount,
+                'subSourcePax'             => $subSourcePax,
+                'googleSources'            => $googleSources,
+                'googleSourceLabels'       => $googleSourceLabels,
+                'googleSourceData'         => $googleSourceData,
+                'googleSourceColors'       => $googleSourceColors,
 
             );
 

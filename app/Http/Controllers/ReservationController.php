@@ -99,7 +99,7 @@ class ReservationController extends Controller
     {
         try {
             $services = Service::orderBy('name', 'asc')->get();
-            $sources = Source::orderBy('name', 'asc')->get();
+            $sources = Source::whereNotIn('id',[1])->orderBy('name', 'asc')->get();
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $customers = Customer::orderBy('name_surname', 'asc')->get();
             $payment_types = PaymentType::orderBy('type_name', 'asc')->get();
@@ -329,7 +329,7 @@ class ReservationController extends Controller
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $payment_types = PaymentType::all();
             $hotels = Hotel::all();
-            $sources = Source::all();
+            $sources = Source::where('id','!=',$reservation->source_id)->whereNotIn('id',[1])->get();
             $guides = Guide::all();
             $reservation_payment_type = ReservationPaymentType::where('reservations_payments_types.reservation_id', '=', $id);
 
