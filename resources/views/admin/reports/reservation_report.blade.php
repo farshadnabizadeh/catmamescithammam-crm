@@ -161,8 +161,13 @@
                                                         @else
                                                             <td>{{ $source->sourceCount }} Reservation / {{ $source->paxCount }} Pax</td>
                                                         @endif
+
                                                     </tr>
                                                 @endforeach
+                                                @if ($subSourcesCount == 0 )
+                                                    <td>GOOGLE</td>
+                                                    <td>{{ $subSourceCount }} Reservation / {{ $subSourcePax }} Pax</td>
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

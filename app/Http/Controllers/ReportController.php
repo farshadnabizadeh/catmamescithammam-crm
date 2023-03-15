@@ -211,19 +211,34 @@ class ReportController extends Controller
                 $subSourcePax = Reservation::whereIn('reservations.source_id',[12,14,15])
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->sum('total_customer');
+                $subSourcesCount = Reservation::whereIn('reservations.source_id',[1])
+                    ->whereBetween('reservations.reservation_date', [$start, $end])
+                    ->count();
 
             $sourceLabels = [];
             $sourceData = [];
             $sourceColors = [];
 
             foreach ($sources as $source) {
+
+
+            if ($subSourceCount > 0) {
                 if ($source->source->id == 1) {
                     array_push($sourceData, ($source->sourceCount + $subSourceCount));
+                    array_push($sourceLabels, $source->source->name);
+                    array_push($sourceColors, $source->source->color);
                 }else {
                     array_push($sourceData, $source->sourceCount);
+                    array_push($sourceLabels, $source->source->name);
+                    array_push($sourceColors, $source->source->color);
                 }
-                array_push($sourceLabels, $source->source->name);
-                array_push($sourceColors, $source->source->color);
+            }
+
+            }
+            if ($subSourcesCount == 0) {
+                array_push($sourceData, $subSourceCount);
+                array_push($sourceLabels, 'GOOGLE');
+                array_push($sourceColors, '#276cb8');
             }
             //google Sources
             $googleSourcesChart = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as googleSourceCount'))
@@ -631,6 +646,7 @@ class ReportController extends Controller
                 'googleSourceLabels'       => $googleSourceLabels,
                 'googleSourceData'         => $googleSourceData,
                 'googleSourceColors'       => $googleSourceColors,
+                'subSourcesCount'          => $subSourcesCount,
 
             );
 
