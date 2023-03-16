@@ -29,9 +29,80 @@ class ReportController extends Controller
         $start = $request->input('startDate');
         $end = $request->input('endDate');
 
-        $reservations = Reservation::with('subHotelComissions')->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])->get();
+        $reservations = Reservation::with('subHotelComissions','subGuideComissions')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->get();
+        $totalPax = Reservation::whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum('total_customer');
+        $comissionNames = Reservation::select('reservations.*','sources.id as sId', 'sources.color', 'sources.name', 'reservations_comissions.hotel_id','hotels.name as hName','hotels.name as hName','reservations_comissions.guide_id','guides.name as gName')
+            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+            ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
+            ->leftJoin('hotels', 'hotels.id', '=', 'reservations_comissions.hotel_id')
+            ->leftJoin('guides', 'guides.id', '=', 'reservations_comissions.guide_id')
+            ->whereNull('reservations_comissions.deleted_at')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->get();
 
-        $data = array('reservations' => $reservations, 'start' => $start, 'end' => $end);
+        $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
+            ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum("payment_price");
+
+        $data = array(
+                'cashTl'                   => $cashTl,
+                'cashEur'                  => $cashEur,
+                'cashUsd'                  => $cashUsd,
+                'cashPound'                => $cashPound,
+                'ykbTl'                    => $ykbTl,
+                'ziraatTl'                 => $ziraatTl,
+                'ziraatEuro'               => $ziraatEuro,
+                'ziraatDolar'              => $ziraatDolar,
+                'viatorEuro'               => $viatorEuro,
+                'comissionNames'           => $comissionNames,
+                'reservations'             => $reservations,
+                'totalPax'                 => $totalPax,
+                'start'                    => $start,
+                'end'                      => $end);
         return view('admin.reports.index')->with($data);
     }
 
@@ -41,9 +112,21 @@ class ReportController extends Controller
 
             $start = $request->input('startDate');
             $end = $request->input('endDate');
-            $sourcesSelect = Source::all();
-            $selectedSources = $request->input('selectedSource', []);
+            $sourcesSelect = Source::whereNotIn('id',[12,14,15])->get();
             $user = auth()->user();
+
+            $selectedSources = $request->input('selectedSource', []); // original variable
+
+            $old_id = '1'; // ID to be replaced
+            $new_ids = ['14', '15', '12']; // new IDs to replace the old ID
+
+            // replace the old ID with the new IDs for all IDs
+            $selectedSources = array_map(function($id) use ($old_id, $new_ids) {
+                return ($id === $old_id) ? $new_ids : [$id];
+            }, $selectedSources);
+
+            // flatten the array of arrays into a single array
+            $selectedSources = array_merge(...$selectedSources);
 
             $reservationsAll = Reservation::select('reservations.*', DB::raw('count(id) as reservationCount'))
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])

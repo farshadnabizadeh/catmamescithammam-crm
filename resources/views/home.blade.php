@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0">
-                    <canvas id="source-chart" width="800" height="450"></canvas>
+                    <canvas id="source-chart-all" width="800" height="450"></canvas>
                 </div>
             </div>
         </div>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0">
-                    <canvas id="therapist-chart" width="800" height="450"></canvas>
+                    <canvas id="therapist-chart-all" width="800" height="450"></canvas>
                 </div>
             </div>
         </div>
@@ -123,11 +123,94 @@
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0">
-                    <canvas id="services-chart" width="800" height="450"></canvas>
+                    <canvas id="services-chart-all" width="800" height="450"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@endsection
+@section('footer')
+    <script>
+        // Source Report
+        var sourceLabels = @json($sourceLabels);
+        var sourceData = @json($sourceData);
+        var sourceColors = @json($sourceColors);
+        var SourceChart = new Chart(document.getElementById("source-chart-all"), {
+            type: 'bar',
+            data: {
+                labels: sourceLabels,
+                datasets: [{
+                    label: 'Rezervasyon Kaynak Özetleri',
+                    data: sourceData,
+                    backgroundColor: sourceColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        // Therapist  Report
+        var therapistLabels = @json($therapistLabels);
+        var therapistData = @json($therapistData);
+        var therapistColors = @json($therapistColors);
+        var therapistChart = new Chart(document.getElementById("therapist-chart-all"), {
+            type: 'bar',
+            data: {
+                labels: therapistLabels,
+                datasets: [{
+                    label: 'Terapist Özetleri',
+                    data: therapistData,
+                    backgroundColor: therapistColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        // Services  Report
+        var serviceLabels = @json($serviceLabels);
+        var serviceData = @json($serviceData);
+        var serviceColors = @json($serviceColors);
+        var serviceChart = new Chart(document.getElementById("services-chart-all"), {
+            type: 'bar',
+            data: {
+                labels: serviceLabels,
+                datasets: [{
+                    label: 'Hizmet Özetleri',
+                    data: serviceData,
+                    backgroundColor: serviceColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    </script>
 @endsection

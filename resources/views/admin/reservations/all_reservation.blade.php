@@ -50,8 +50,14 @@
                                 </td>
                                 <td>{{ date('d-m-Y', strtotime($listAllByDate->reservation_date)) }}</td>
                                 <td>{{ $listAllByDate->reservation_time }}</td>
+
                                 <td><a href="{{ route('customer.edit', ['id' => $listAllByDate->customer_id]) }}">{{ $listAllByDate->Cname }}</a></td>
-                                <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }}</td>
+                                @if ($listAllByDate->sId == 15 || $listAllByDate->sId == 14 || $listAllByDate->sId == 12)
+                                    <td class="text-white" style="background-color: #276cb8">GOOGLE</td>
+                                @else
+                                    <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }} @if($listAllByDate->hName)/ {{ $listAllByDate->hName }}@endif</td>
+                                @endif
+
                                 <td>
                                     @if($listAllByDate->payment_price == NULL)
                                     <p class="text-center"><i class="fa fa-times non-icon"></i></p>

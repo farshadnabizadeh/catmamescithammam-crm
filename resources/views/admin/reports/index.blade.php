@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <table id="basic-btn" style="zoom: 80%" class="table table-striped table-bordered nowrap">
+                            <table id="financeTable" style="zoom: 80%" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
                                         <th>PAX</th>
@@ -63,11 +63,31 @@
                                     <tr>
                                         <td>{{ $reservation->total_customer }}</td>
                                         <td>{{ $reservation->customer->name_surname }}</td>
-                                        <td>{{ $reservation->source->name }}</td>
+                                        @if ($reservation->source->id == 15 || $reservation->source->id == 14 || $reservation->source->id == 12)
+                                            <td>GOOGLE</td>
+                                        @elseif ($reservation->source->id == 3 || $reservation->source->id == 10)
+                                            @foreach ($comissionNames as $comissionName)
+                                                @if ($reservation->id ==  $comissionName->id)
+                                                    @if($comissionName->hName)
+                                                        <td>{{ $reservation->source->name }} / {{ $comissionName->hName }}</td>
+                                                    @elseif ($comissionName->gName)
+                                                        <td>{{ $reservation->source->name }} / {{ $comissionName->gName }}</td>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+
+                                        @else
+                                            <td>{{ $reservation->source->name }}</td>
+                                        @endif
                                         <td>
                                             @foreach($reservation->subHotelComissions as $value)
                                                 @if ( $value->comission_price != NULL)
                                                     {{ $value->comission_price }} {{ $value->comission_currency }}
+                                                @endif
+                                            @endforeach
+                                            @foreach($reservation->subGuideComissions as $values)
+                                                @if ( $values->comission_price != NULL)
+                                                    {{ $values->comission_price }} {{ $values->comission_currency }}
                                                 @endif
                                             @endforeach
                                         </td>
@@ -135,6 +155,23 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Toplam Pax: <b>{{ $totalPax }} Kişi</b></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Toplam CASH TL: <b>₺ {{ number_format($cashTl, 2) }}</b></th>
+                                        <th>Toplam CASH USD: <b>$ {{ number_format($cashUsd, 2) }}</b></th>
+                                        <th>Toplam CASH EURO: <b>€ {{ number_format($cashEur, 2) }}</b></th>
+                                        <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
+                                        <th>Toplam Ziraat Pos TL: <b>₺ {{ number_format($ziraatTl, 2) }}</b></th>
+                                        <th>Toplam Ykb Pos TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></th>
+                                        <th>Toplam Ziraat Pos EURO: <b>€ {{ number_format($ziraatEuro, 2) }}</b></th>
+                                        <th>Toplam Ziraat Pos USD: <b>$ {{ number_format($ziraatDolar, 2) }}</b></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
