@@ -93,7 +93,7 @@
                     events: [
                         @foreach($listCountByMonth as $reservation)
                         {
-                            @if ($reservation->sId == 15 || $reservation->sId == 14 || $reservation->sId == 12 )
+                            @if ($reservation->sId == 15 || $reservation->sId == 14 || $reservation->sId == 12 || $reservation->sId == 13 )
                                 title: 'GOOGLE - {{ $reservation->total_customer }} Pax',
                                 color: '#276cb8',
                             @else

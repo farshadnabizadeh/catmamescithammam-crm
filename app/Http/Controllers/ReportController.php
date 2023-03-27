@@ -118,7 +118,7 @@ class ReportController extends Controller
             $selectedSources = $request->input('selectedSource', []); // original variable
 
             $old_id = '1'; // ID to be replaced
-            $new_ids = ['14', '15', '12']; // new IDs to replace the old ID
+            $new_ids = ['13', '14', '15', '12']; // new IDs to replace the old ID
 
             // replace the old ID with the new IDs for all IDs
             $selectedSources = array_map(function($id) use ($old_id, $new_ids) {

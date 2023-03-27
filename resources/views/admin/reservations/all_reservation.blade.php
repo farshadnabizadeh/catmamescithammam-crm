@@ -52,7 +52,7 @@
                                 <td>{{ $listAllByDate->reservation_time }}</td>
 
                                 <td><a href="{{ route('customer.edit', ['id' => $listAllByDate->customer_id]) }}">{{ $listAllByDate->Cname }}</a></td>
-                                @if ($listAllByDate->sId == 15 || $listAllByDate->sId == 14 || $listAllByDate->sId == 12)
+                                @if ($listAllByDate->sId == 15 || $listAllByDate->sId == 14 || $listAllByDate->sId == 12|| $listAllByDate->sId == 13)
                                     <td class="text-white" style="background-color: #276cb8">GOOGLE</td>
                                 @else
                                     <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }} @if($listAllByDate->hName)/ {{ $listAllByDate->hName }}@endif</td>
