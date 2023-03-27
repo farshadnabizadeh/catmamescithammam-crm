@@ -39,7 +39,7 @@ class HomeController extends Controller
             //Reservation Source
             $sources = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as sourceCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
-                ->whereNotIn('reservations.source_id', [12, 14, 15])
+                ->whereNotIn('reservations.source_id', [12,13,14,15])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1, 12]);
@@ -48,7 +48,7 @@ class HomeController extends Controller
                 ->groupBy('source_id')
                 ->get();
 
-            $subSourceCount = Reservation::whereIn('reservations.source_id', [12, 14, 15])
+            $subSourceCount = Reservation::whereIn('reservations.source_id', [12,13,14,15])
                 ->count();
             $subSourcesCount = Reservation::whereIn('reservations.source_id', [1])
                 ->count();
@@ -137,20 +137,18 @@ class HomeController extends Controller
                     ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
                     ->leftJoin('reservations', 'reservations.id', '=', 'payment_types.id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->groupBy('payment_type_id')
                     ->get();
                 $payments_customer_count = ReservationPaymentType::leftJoin('reservations', 'reservations_payments_types.reservation_id', '=', 'reservations.id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum('reservations.total_customer');
                 $all_paymentLabels = [];
                 $all_paymentData = [];
@@ -164,102 +162,92 @@ class HomeController extends Controller
                 $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->sum("payment_price");
 
                 $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
                     ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
                     ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                     ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
-                        $query->where(function ($query) {
-                            $query->where('reservations.source_id', '=', 1)
-                                ->orWhere('reservations.source_id', '=', 12);
-                        });
-                    })
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,12,13,14,15]);
+                    });
+                })
                     ->groupBy('payment_type_id')
                     ->get();
 
@@ -288,6 +276,9 @@ class HomeController extends Controller
                     $all_paymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
                 }
                 $dashboard = array(
+                    'sourceLabels'             => $sourceLabels,
+                    'sourceData'               => $sourceData,
+                    'sourceColors'             => $sourceColors,
                     'payments_customer_count'  => $payments_customer_count,
                     'all_paymentLabels'        => $all_paymentLabels,
                     'all_paymentData'          => $all_paymentData,

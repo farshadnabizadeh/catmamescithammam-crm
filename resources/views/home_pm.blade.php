@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="card-body" style="padding: 0">
-                                <canvas id="source-chart" width="800" height="450"></canvas>
+                                <canvas id="source-chart-all" width="800" height="450"></canvas>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,32 @@
 
         @section('footer')
         <script>
-
+        // Source Report
+        var sourceLabels = @json($sourceLabels);
+                var sourceData = @json($sourceData);
+                var sourceColors = @json($sourceColors);
+                var SourceChart = new Chart(document.getElementById("source-chart-all"), {
+                    type: 'bar',
+                    data: {
+                        labels: sourceLabels,
+                        datasets: [{
+                            label: 'Rezervasyon Kaynak Özetleri',
+                            data: sourceData,
+                            backgroundColor: sourceColors,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
             // Ciro Report
             var all_paymentLabels = @json($all_paymentLabels);
             var all_paymentData = @json($all_paymentData);
