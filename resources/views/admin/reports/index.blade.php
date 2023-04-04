@@ -35,8 +35,16 @@
            <div id="root">
               <div class="card">
                     <div class="card-header">
-                       <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="financeTableExcel()"><i class="fa fa-download"></i> İndir</button>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
                             <table id="financeTable" style="zoom: 80%" class="table table-striped table-bordered nowrap">

@@ -30,6 +30,7 @@
                                 <th scope="col">Rezervasyon Saati</th>
                                 <th scope="col">Müşteri Adı</th>
                                 <th scope="col">Kaynak</th>
+                                <th scope="col">Hizmet</th>
                                 <th scope="col">Ödeme</th>
                                 <th scope="col">Oda Numarası</th>
                                 <th scope="col">Alınış Saati</th>
@@ -57,7 +58,7 @@
                                 @else
                                     <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }} @if($listAllByDate->hName)/ {{ $listAllByDate->hName }}@endif</td>
                                 @endif
-
+                                <td>{{ $listAllByDate->service_names }}</td>
                                 <td>
                                     @if($listAllByDate->payment_price == NULL)
                                     <p class="text-center"><i class="fa fa-times non-icon"></i></p>

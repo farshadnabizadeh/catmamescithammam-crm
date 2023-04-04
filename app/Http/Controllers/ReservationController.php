@@ -270,11 +270,13 @@ class ReservationController extends Controller
             $searchDate = $request->input('s');
             $tpStatus = $request->input('ps');
 
-            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'reservations.*', 'reservations.id as tId', 'sources.id as sId', 'reservations_payments_types.payment_price',  'sources.color', 'sources.name', 'customers.name_surname as Cname','reservations_comissions.hotel_id','hotels.name as hName')
+            $arrivalsA = Reservation::select('reservations.reservation_date as date', 'services.*', 'reservations_services.*','reservations.*', 'reservations.id as tId', 'sources.id as sId', 'reservations_payments_types.payment_price',  'sources.color', 'sources.name', 'reservations_services.service_id as svId', 'customers.name_surname as Cname','reservations_comissions.hotel_id','hotels.name as hName','services.name as sName', DB::raw('(SELECT GROUP_CONCAT(services.name) FROM services INNER JOIN reservations_services ON services.id = reservations_services.service_id WHERE reservations_services.reservation_id = reservations.id) as service_names'))
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
             ->leftJoin('hotels', 'hotels.id', '=', 'reservations_comissions.hotel_id')
             ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+            ->leftJoin('reservations_services', 'reservations.id', '=', 'reservations_services.reservation_id')
+            ->leftJoin('services', 'services.id', '=', 'reservations_services.service_id')
             ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
             ->whereDate('reservations.reservation_date', '=', $searchDate)
             ->groupBy('reservations.id')
