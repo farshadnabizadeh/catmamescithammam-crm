@@ -58,7 +58,7 @@
                                 @else
                                     <td class="text-white" style="background-color: {{ $listAllByDate->color }}">{{ $listAllByDate->name }} @if($listAllByDate->hName)/ {{ $listAllByDate->hName }}@endif</td>
                                 @endif
-                                <td>{{ $listAllByDate->service_names }}</td>
+                                <td>{{ implode(' + ', explode(',', $listAllByDate->service_names)) }}</td>
                                 <td>
                                     @if($listAllByDate->payment_price == NULL)
                                     <p class="text-center"><i class="fa fa-times non-icon"></i></p>

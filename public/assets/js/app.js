@@ -337,6 +337,7 @@ var app = (function() {
     $("#hotelId").select2({ placeholder: "Otel Seç", dropdownAutoWidth: true, allowClear: true });
     $("#guideId").select2({ placeholder: "Rehber Seç", dropdownAutoWidth: true, allowClear: true });
     $("#selectedSource").select2({ placeholder: "Rezervasyon Kaynak Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#selectedSales").select2({ placeholder: "Satıscı Seç", dropdownAutoWidth: true, allowClear: true });
 
     $.ajax({
         url: '/getCurrencies',
@@ -436,6 +437,7 @@ var app = (function() {
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
     $("#tableHotels").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
+    $("#tableSale").dataTable({ paging: true, pageLength: 25 });
     $("#tableGoogleSource").dataTable({ paging: true, pageLength: 25 });
     $("#tableService").dataTable({ paging: true, pageLength: 25 });
     $("#financeTable").dataTable({ paging: true, pageLength: 50 });
@@ -1618,6 +1620,22 @@ function tableSourceExcel() {
     }
     saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Kaynak_Özetleri_Raporu_'+now_date+'.xlsx');
 }
+function tableSaleExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableSale'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Satıscı_Özetleri_Raporu_'+now_date+'.xlsx');
+}
+
+
 function tableGoogleSourceExcel() {
     /* Get table data */
     var wb = XLSX.utils.table_to_book(document.getElementById('tableGoogleSource'), {sheet:"Sheet JS"});

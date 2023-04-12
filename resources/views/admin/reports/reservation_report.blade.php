@@ -6,24 +6,23 @@
     <div class="container-fluid">
         <div class="row mt-3">
             <div class="col-lg-12">
-                <button class="btn btn-danger" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki
-                    Sayfa</button>
+                <button class="btn btn-danger" onclick="previousPage();"><i class="fa fa-chevron-left"></i> Önceki Sayfa</button>
                 <div class="card mt-3">
                     <div class="card-body">
                         <form action="" method="GET">
                             <div class="row pb-3">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label for="startDate">Başlangıç Tarihi</label>
                                     <input type="text" class="form-control datepicker" id="startDate" name="startDate"
                                         placeholder="Başlangıç Tarihi" value="{{ $start }}" autocomplete="off"
                                         required>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label for="endDate">Bitiş Tarihi</label>
                                     <input type="text" class="form-control datepicker" id="endDate" name="endDate"
                                         placeholder="Bitiş Tarihi" autocomplete="off" value="{{ $end }}" required>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label for="selectedSource">Kaynaklar</label>
                                     <select name="selectedSource[]" id="selectedSource" multiple>
                                         <option value=""></option>
@@ -34,6 +33,15 @@
                                                 <option value="{{$source->id}}">{{$source->name}}</option>
                                             @endif
 
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="selectedSales">Satıscı</label>
+                                    <select name="selectedSales[]" id="selectedSales" multiple>
+                                        <option value=""></option>
+                                        @foreach ($salesSelect as $sales)
+                                            <option value="{{$sales->sales_person_name}}">{{$sales->sales_person_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -118,6 +126,59 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="source-date-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card p-3 report-card" id="reservation">
+                                    <div class="card-title">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h3>Satıscı Özetleri</h3>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableSaleExcel()"><i class="fa fa-download"></i> İndir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Rezervasyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Kişi: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                        </div>
+                                    </div>
+                                    <hr class="pb-3">
+                                    <div class="col-lg-12">
+                                        <table id="tableSale" class="table table-striped table-bordered nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Satıscı Adı</th>
+                                                    <th>Toplam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($salesPersons as $sale)
+                                                    <tr>
+                                                        <td>{{ $sale->sales_person_name }}</td>
+                                                        <td>{{ $sale->salesCount }} Reservation / {{ $sale->paxCount }} Pax</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Satıscı Özetleri</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="sales-chart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -774,6 +835,35 @@
                     label: 'Rehber Komisyon Raporu',
                     data: guideComissionData,
                     backgroundColor: guideComissionColors,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Get guide commission data from Laravel view
+        var salesPersonLabels = @json($salesPersonLabels);
+        var salesPersonData   = @json($salesPersonData);
+        var salesPersonColors = @json($salesPersonColors);
+
+        // Create Sales chart
+        var salesPersonChart = new Chart(document.getElementById("sales-chart"), {
+            type: 'bar',
+            data: {
+                labels: salesPersonLabels,
+                datasets: [{
+                    label: 'Satıscı Özetleri',
+                    data: salesPersonData,
+                    backgroundColor: salesPersonColors,
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]

@@ -113,6 +113,8 @@ class ReportController extends Controller
             $start = $request->input('startDate');
             $end = $request->input('endDate');
             $sourcesSelect = Source::whereNotIn('id',[12,13,14,15])->get();
+            $salesSelect   = Reservation::whereNotNull('sales_person_name')->groupBy('sales_person_name')->get();
+            $selectedSales = $request->input('selectedSales', []);
             $user = auth()->user();
 
             $selectedSources = $request->input('selectedSource', []); // original variable
@@ -140,6 +142,9 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('reservations.id')
                 ->get();
 
@@ -156,6 +161,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->groupBy('therapist_id')
                 ->get();
@@ -174,10 +183,14 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('service_id')
                 ->get();
 
-            $sourcesAll = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
+                $sourcesAll = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceCount, sum(total_customer) as paxCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereNotIn('reservations.source_id',[12,13,14,15])
                 ->whereBetween('reservations.reservation_date', [$start, $end])
@@ -191,10 +204,40 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
-            $googleSources = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceGoogleCount, sum(total_customer) as paxGoogleCount'))
+
+                $salesPersons = Reservation::select('reservations.*', DB::raw('sales_person_name, count(sales_person_name) as salesCount, sum(total_customer) as paxCount'))
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->whereNotNull('sales_person_name')
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
+                ->groupBy('sales_person_name')
+                ->orderBy('salesCount', 'DESC')
+                ->get();
+
+                $salesPersonLabels = [];
+                $salesPersonData = [];
+                $salesPersonColors = [];
+
+                foreach ($salesPersons as $sale) {
+                    array_push($salesPersonLabels, $sale->sales_person_name);
+                    array_push($salesPersonData, $sale->salesCount);
+                    $salesPersonColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
+                $googleSources = Reservation::select('sources.*', 'reservations.*', DB::raw('source_id, count(source_id) as sourceGoogleCount, sum(total_customer) as paxGoogleCount'))
                 ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
                 ->whereIn('reservations.source_id',[1,13,12,14,15])
                 ->whereBetween('reservations.reservation_date', [$start, $end])
@@ -202,6 +245,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->groupBy('source_id')
                 ->orderBy('sourceGoogleCount', 'DESC')
@@ -219,6 +266,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('reservation_date')
                 ->get();
 
@@ -233,6 +284,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->count('source_id');
 
             $paxByDateCount = Reservation::whereBetween('reservations.reservation_date', [$start, $end])
@@ -245,6 +300,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum('total_customer');
 
@@ -281,6 +340,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->groupBy('source_id')
                 ->orderBy('sourceCount', 'DESC')
@@ -357,6 +420,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('reservation_date')
                 ->get();
             $sourcesByDateLabels = [];
@@ -382,6 +449,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('payment_type_id')
                 ->get();
             $payments_customer_count = ReservationPaymentType::leftJoin('reservations', 'reservations_payments_types.reservation_id', '=', 'reservations.id')
@@ -395,6 +466,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum('reservations.total_customer');
             $all_paymentLabels = [];
@@ -419,6 +494,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->sum("payment_price");
 
             $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
@@ -433,6 +512,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum("payment_price");
 
@@ -449,6 +532,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->sum("payment_price");
 
             $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
@@ -463,6 +550,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum("payment_price");
 
@@ -479,6 +570,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->sum("payment_price");
 
             $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
@@ -493,6 +588,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum("payment_price");
 
@@ -509,6 +608,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->sum("payment_price");
 
             $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
@@ -523,6 +626,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum("payment_price");
 
@@ -539,6 +646,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->sum("payment_price");
 
             $all_payments = ReservationPaymentType::select('payment_types.*', DB::raw('payment_type_id, sum(payment_price) as totalPrice'))
@@ -554,6 +665,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->groupBy('payment_type_id')
                 ->get();
@@ -601,6 +716,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('hotel_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
@@ -616,6 +735,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum('comission_price');
             $guideComissions = ReservationComission::select('guides.*', DB::raw('guide_id, sum(comission_price) as totalPrice'))
@@ -634,6 +757,10 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
                 ->groupBy('guide_id')
                 ->orderBy('totalPrice', 'DESC')
                 ->get();
@@ -650,6 +777,10 @@ class ReportController extends Controller
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->sum('comission_price');
             $hotelComissionLabels = [];
@@ -693,6 +824,10 @@ class ReportController extends Controller
                 'all_paymentLabels'        => $all_paymentLabels,
                 'all_paymentData'          => $all_paymentData,
                 'all_paymentColors'        => $all_paymentColors,
+                'salesPersons'             => $salesPersons,
+                'salesPersonLabels'        => $salesPersonLabels,
+                'salesPersonData'          => $salesPersonData,
+                'salesPersonColors'        => $salesPersonColors,
                 'therapistLabels'          => $therapistLabels,
                 'therapistData'            => $therapistData,
                 'therapistColors'          => $therapistColors,
@@ -728,6 +863,8 @@ class ReportController extends Controller
                 'googleSourceData'         => $googleSourceData,
                 'googleSourceColors'       => $googleSourceColors,
                 'subSourcesCount'          => $subSourcesCount,
+                'salesSelect'              => $salesSelect,
+
 
             );
 
