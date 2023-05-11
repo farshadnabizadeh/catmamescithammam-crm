@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::POST('/medicalform/store', 'App\Http\Controllers\Api\MedicalFormController@store');
+Route::POST('/contactform/store', 'App\Http\Controllers\Api\ContactFormController@store');

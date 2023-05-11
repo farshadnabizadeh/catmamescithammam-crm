@@ -46,46 +46,55 @@ class ReportController extends Controller
         $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $data = array(
