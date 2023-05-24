@@ -221,6 +221,37 @@ class ReportController extends Controller
                 ->orderBy('sourceCount', 'DESC')
                 ->get();
 
+
+                $byCountry = Reservation::select('customers.*', 'reservations.*', DB::raw('customer_id, count(customer_id) as customerCount, sum(total_customer) as paxCount'))
+                ->leftJoin('customers', 'reservations.customer_id', '=', 'customers.id')
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
+                ->groupBy('customers.country')
+                ->orderBy('customerCount', 'DESC')
+                ->get();
+                $byCountryLabels = [];
+                $byCountryData = [];
+                $byCountryColors = [];
+
+                foreach ($byCountry as $country) {
+                    array_push($byCountryLabels, $country->country);
+                    array_push($byCountryData, $country->customerCount);
+                    $byCountryColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
+
                 $salesPersons = Reservation::select('reservations.*', DB::raw('sales_person_name, count(sales_person_name) as salesCount, sum(total_customer) as paxCount'))
                 ->whereBetween('reservations.reservation_date', [$start, $end])
                 ->whereNotNull('sales_person_name')
@@ -873,7 +904,10 @@ class ReportController extends Controller
                 'googleSourceColors'       => $googleSourceColors,
                 'subSourcesCount'          => $subSourcesCount,
                 'salesSelect'              => $salesSelect,
-
+                'byCountry'                => $byCountry,
+                'byCountryLabels'          => $byCountryLabels,
+                'byCountryData'            => $byCountryData,
+                'byCountryColors'          => $byCountryColors
 
             );
 
