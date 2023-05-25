@@ -206,7 +206,7 @@
                                     </div>
                                     <hr class="pb-3">
                                     <div class="col-lg-12">
-                                        <table id="tableSource" class="table table-striped table-bordered nowrap">
+                                        <table id="tableCountry" class="table table-striped table-bordered nowrap">
                                             <thead>
                                                 <tr>
                                                     <th>Ülke Adı</th>

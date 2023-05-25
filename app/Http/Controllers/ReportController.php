@@ -240,7 +240,7 @@ class ReportController extends Controller
                     $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
                 ->groupBy('customers.country')
-                ->orderBy('customerCount', 'DESC')
+                ->orderBy('customerCount', 'ASC')
                 ->get();
                 $byCountryLabels = [];
                 $byCountryData = [];
