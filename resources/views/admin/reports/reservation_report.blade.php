@@ -192,7 +192,7 @@
                                                 <h3>Rezervasyon Ülke Özetleri</h3>
                                             </div>
                                             <div class="col-lg-4">
-                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableSourceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableCountryExcel()"><i class="fa fa-download"></i> İndir</button>
                                             </div>
                                         </div>
                                     </div>
@@ -294,6 +294,59 @@
                                     </div>
                                     <div class="card-body">
                                         <canvas id="source-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card p-3 report-card" id="reservation">
+                                    <div class="card-title">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h3>Rezervasyon Kaynak Özetleri</h3>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="tableSourcePriceExcel()"><i class="fa fa-download"></i> İndir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Rezervasyon: <b class="ml-3">{{ $reservationByDateCount }}</b></p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p>TOPLAM Kişi: <b class="ml-3">{{ $paxByDateCount }}</b></p>
+                                        </div>
+                                    </div>
+                                    <hr class="pb-3">
+                                    <div class="col-lg-12">
+                                        <table id="tableSourcePrice" class="table table-striped table-bordered nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kaynak Adı</th>
+                                                    <th>Toplam EURO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for ($i = 0; $i < count($sourcePaymentLabels); $i++)
+                                                    <tr>
+                                                        <td>{{ $sourcePaymentLabels[$i] }}</td>
+                                                        <td>{{ number_format($sourcePaymentData[$i], 2)}}</td>
+                                                    </tr>
+                                                @endfor
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Rezervasyon Kaynak Özetleri</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="source-payment-chart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -944,6 +997,33 @@
                     label: 'Rezervasyon Ükle Özetleri',
                     data: byCountryData,
                     backgroundColor: byCountryColors,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Source Report
+        var sourcePaymentLabels = @json($sourcePaymentLabels);
+        var sourcePaymentData = @json($sourcePaymentData);
+        var sourcePaymentColors = @json($sourcePaymentColors);
+        var hotelComissionChart = new Chart(document.getElementById("source-payment-chart"), {
+            type: 'bar',
+            data: {
+                labels: sourcePaymentLabels,
+                datasets: [{
+                    label: 'Rezervasyon Kaynak Özetleri',
+                    data: sourcePaymentData,
+                    backgroundColor: sourcePaymentColors,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
                 }]

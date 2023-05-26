@@ -843,6 +843,93 @@ class ReportController extends Controller
                 $guideComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
             }
 
+            $sourcesPayment = DB::table('sources')
+                ->leftJoin('reservations', 'sources.id', '=', 'reservations.source_id')
+                ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+                ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->select(
+                    'sources.id',
+                    DB::raw('IF(sources.id IN (12, 13, 14, 15), "Google", sources.name) AS name'),
+                    'payment_types.type_name',
+                    'reservations_payments_types.payment_type_id',
+                    DB::raw('SUM(reservations_payments_types.payment_price) as total_payment')
+                )
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1, 13, 12, 14, 15]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
+                ->groupBy('name')
+                ->orderBy('total_payment', 'DESC')
+                ->get();
+
+            $sourcePaymentLabels = [];
+            $sourcePaymentData   = [];
+            $sourcePaymentColors = [];
+            $googlePayment = 0;
+
+            foreach ($sourcesPayment as $sourcePayment) {
+                $paymentType = $sourcePayment->payment_type_id;
+                $payment = $sourcePayment->total_payment;
+                $eurTotal = 0;
+
+                if ($paymentType == 5 || $paymentType == 9 || $paymentType == 10) {
+                    $eurTotal += $payment / $euro_satis;
+                } elseif ($paymentType == 6 || $paymentType == 11 || $paymentType == 13 || $paymentType == 15) {
+                    $eurTotal += $payment;
+                } elseif ($paymentType == 7 || $paymentType == 12) {
+                    $eurTotal += $payment * $euro_usd_satis;
+                }
+
+                if ($sourcePayment->name === 'Google') {
+                    $googlePayment += $eurTotal;
+                } else {
+                    array_push($sourcePaymentLabels, $sourcePayment->name);
+                    array_push($sourcePaymentData, $eurTotal);
+                    $sourcePaymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
+            }
+
+            if ($googlePayment > 0) {
+                $sourcePaymentLabels[] = 'GOOGLE';
+                $sourcePaymentData[] = $googlePayment;
+                $sourcePaymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+
+
+            $sourcesPaymentGoogle = DB::table('sources')
+                ->leftJoin('reservations', 'sources.id', '=', 'reservations.source_id')
+                ->leftJoin('reservations_payments_types', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+                ->leftJoin('payment_types', 'reservations_payments_types.payment_type_id', '=', 'payment_types.id')
+                ->select(DB::raw("'Google' as source_name"), 'payment_types.type_name', DB::raw('SUM(reservations_payments_types.payment_price) as total_payment'))
+                ->whereIn('sources.id', [12, 13, 14, 15])
+                ->whereBetween('reservations.reservation_date', [$start, $end])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
+                ->groupBy('source_name', 'payment_types.type_name')
+                ->get();
+
             $data = array(
                 'payments_customer_count'  => $payments_customer_count,
                 'hotelComissionsCount'     => $hotelComissionsCount,
@@ -907,8 +994,13 @@ class ReportController extends Controller
                 'byCountry'                => $byCountry,
                 'byCountryLabels'          => $byCountryLabels,
                 'byCountryData'            => $byCountryData,
-                'byCountryColors'          => $byCountryColors
-
+                'byCountryColors'          => $byCountryColors,
+                'sourcesPayment'           => $sourcesPayment,
+                'sourcesPaymentGoogle'     => $sourcesPaymentGoogle,
+                'sourcePaymentLabels'      =>$sourcePaymentLabels,
+                'sourcePaymentData'        =>$sourcePaymentData,
+                'sourcePaymentColors'        =>$sourcePaymentColors,
+                'googlePayment'        =>$googlePayment,
             );
 
             if ($user->hasRole('Performance Marketing Admin')) {

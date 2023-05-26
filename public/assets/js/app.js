@@ -437,6 +437,7 @@ var app = (function() {
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
     $("#tableHotels").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
+    $("#tableSourcePrice").dataTable({ paging: true, pageLength: 25 });
     $("#tableCountry").dataTable({ paging: true, pageLength: 25 });
     $("#tableSale").dataTable({ paging: true, pageLength: 25 });
     $("#tableGoogleSource").dataTable({ paging: true, pageLength: 25 });
@@ -1610,6 +1611,34 @@ function tableGuidesExcel() {
 function tableSourceExcel() {
     /* Get table data */
     var wb = XLSX.utils.table_to_book(document.getElementById('tableSource'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Kaynak_Özetleri_Raporu_'+now_date+'.xlsx');
+}
+function tableCountryExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableCountry'), {sheet:"Sheet JS"});
+
+    /* Save to file */
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Rezervasyon_Ülke_Özetleri_Raporu_'+now_date+'.xlsx');
+}
+function tableSourcePriceExcel() {
+    /* Get table data */
+    var wb = XLSX.utils.table_to_book(document.getElementById('tableSourcePrice'), {sheet:"Sheet JS"});
 
     /* Save to file */
     var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
