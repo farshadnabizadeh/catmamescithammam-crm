@@ -216,7 +216,13 @@
                                             <tbody>
                                                 @foreach ($byCountry as $Country)
                                                     <tr>
-                                                        <td>{{ $Country->customer->country }}</td>
+                                                        @if ($Country->customer && $Country->customer->country)
+                                                            <td>
+                                                                {{ $Country->customer->country }}
+                                                            </td>
+                                                        @else
+                                                            <td></td>
+                                                        @endif
                                                         <td>{{ $Country->customerCount }} Reservation / {{ $Country->paxCount}} Pax</td>
                                                     </tr>
                                                 @endforeach
