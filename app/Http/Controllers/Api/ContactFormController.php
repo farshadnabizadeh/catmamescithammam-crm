@@ -28,6 +28,7 @@ class ContactFormController extends BaseController
         $treatment = ContactForm::create([
             'name_surname' => $request->name_surname,
             'phone' => $request->phone,
+            'email' => $request->email,
             'country' => $request->country,
             'form_status_id' => 1,
         ]);
