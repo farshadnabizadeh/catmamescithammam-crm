@@ -55,14 +55,38 @@
                                         <th>Gönderen Otel / Acenta</th>
                                         <th>Hak Ediş Tutar</th>
                                         <th>Verilen Hizmet</th>
+                                        @if($cashTl <= 0)
+                                        @else
                                         <th>CASH TL</th>
+                                        @endif
+                                        @if($cashUsd <= 0)
+                                        @else
                                         <th>CASH USD</th>
+                                        @endif
+                                        @if($cashEur <= 0)
+                                        @else
                                         <th>CASH EURO</th>
+                                        @endif
+                                        @if($cashPound <= 0)
+                                        @else
                                         <th>CASH GBP</th>
+                                        @endif
+                                        @if($ziraatTl <= 0)
+                                        @else
                                         <th>Ziraat Pos TL</th>
+                                        @endif
+                                        @if($ykbTl <= 0)
+                                        @else
                                         <th>Ykb Pos TL</th>
+                                        @endif
+                                        @if($ziraatEuro <= 0)
+                                        @else
                                         <th>Ziraat Pos EURO</th>
+                                        @endif
+                                        @if($ziraatDolar <= 0)
+                                        @else
                                         <th>Ziraat Pos USD</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,6 +128,8 @@
                                                 <span>{{ $value->piece   }} {{ $value->name }} +</span>
                                             @endforeach
                                         </td>
+                                        @if($cashTl <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 5)
@@ -111,6 +137,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($cashUsd <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 7)
@@ -118,6 +147,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($cashEur <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 6)
@@ -125,6 +157,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($cashPound <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 8)
@@ -132,6 +167,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($ziraatTl <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 10)
@@ -139,6 +177,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($ykbTl <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 9)
@@ -146,6 +187,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($ziraatEuro <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 11)
@@ -153,6 +197,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
+                                        @if($ziraatDolar <= 0)
+                                        @else
                                         <td>
                                             @foreach($reservation->subPaymentTypes as $value)
                                                 @if($value->payment_type_id == 12)
@@ -160,6 +207,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -168,16 +216,40 @@
                                         <th>Toplam Pax: <b>{{ $totalPax }} Kişi</b></th>
                                         <th></th>
                                         <th></th>
+                                        <th>{{ $totalComission }} TL</th>
                                         <th></th>
-                                        <th></th>
+                                        @if($cashTl <= 0)
+                                        @else
                                         <th>Toplam CASH TL: <b>₺ {{ number_format($cashTl, 2) }}</b></th>
+                                        @endif
+                                        @if($cashUsd <= 0)
+                                        @else
                                         <th>Toplam CASH USD: <b>$ {{ number_format($cashUsd, 2) }}</b></th>
+                                        @endif
+                                        @if($cashEur <= 0)
+                                        @else
                                         <th>Toplam CASH EURO: <b>€ {{ number_format($cashEur, 2) }}</b></th>
+                                        @endif
+                                        @if($cashPound <= 0)
+                                        @else
                                         <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
+                                        @endif
+                                        @if($ziraatTl <= 0)
+                                        @else
                                         <th>Toplam Ziraat Pos TL: <b>₺ {{ number_format($ziraatTl, 2) }}</b></th>
+                                        @endif
+                                        @if($ykbTl <= 0)
+                                        @else
                                         <th>Toplam Ykb Pos TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></th>
+                                        @endif
+                                        @if($ziraatEuro <= 0)
+                                        @else
                                         <th>Toplam Ziraat Pos EURO: <b>€ {{ number_format($ziraatEuro, 2) }}</b></th>
+                                        @endif
+                                        @if($ziraatDolar <= 0)
+                                        @else
                                         <th>Toplam Ziraat Pos USD: <b>$ {{ number_format($ziraatDolar, 2) }}</b></th>
+                                        @endif
                                     </tr>
                                 </tfoot>
                             </table>

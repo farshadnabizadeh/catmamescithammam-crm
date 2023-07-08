@@ -32,8 +32,16 @@ class ReportController extends Controller
         $reservations = Reservation::with('subHotelComissions','subGuideComissions')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
             ->get();
+
         $totalPax = Reservation::whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
             ->sum('total_customer');
+
+       $totalComission = Reservation::select('reservations.*', 'reservations_comissions.hotel_id', 'reservations_comissions.guide_id')
+            ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
+            ->whereNull('reservations_comissions.deleted_at')
+            ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->sum('comission_price');
+
         $comissionNames = Reservation::select('reservations.*','sources.id as sId', 'sources.color', 'sources.name', 'reservations_comissions.hotel_id','hotels.name as hName','hotels.name as hName','reservations_comissions.guide_id','guides.name as gName')
             ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
             ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
@@ -110,6 +118,7 @@ class ReportController extends Controller
                 'comissionNames'           => $comissionNames,
                 'reservations'             => $reservations,
                 'totalPax'                 => $totalPax,
+                'totalComission'           => $totalComission,
                 'start'                    => $start,
                 'end'                      => $end);
         return view('admin.reports.index')->with($data);
