@@ -87,6 +87,10 @@
                                         @else
                                         <th>Ziraat Pos USD</th>
                                         @endif
+                                        @if($viatorEuro <= 0)
+                                        @else
+                                        <th>Viator EURO</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -208,6 +212,16 @@
                                             @endforeach
                                         </td>
                                         @endif
+                                        @if($viatorEuro <= 0)
+                                        @else
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 13)
+                                                <span>{{ $value->payment_price }} EURO</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -250,6 +264,10 @@
                                         @else
                                         <th>Toplam Ziraat Pos USD: <b>$ {{ number_format($ziraatDolar, 2) }}</b></th>
                                         @endif
+                                        @if($viatorEuro <= 0)
+                                        @else
+                                        <th>Toplam Viator EURO: <b>€ {{ number_format($viatorEuro, 2) }}</b></th>
+                                        @endif
                                     </tr>
                                 </tfoot>
                             </table>
@@ -260,7 +278,6 @@
            </div>
         </div>
     </div>
-
 </div>
 
 
