@@ -363,9 +363,9 @@ class ReservationController extends Controller
                     array_push($totalPriceTL, $subPaymentType->payment_price);
                 }elseif ($subPaymentType->type_name == 'CASH POUND') {
                     array_push($totalPriceGBP, $subPaymentType->payment_price);
-                }elseif($subPaymentType->type_name == 'CASH EURO' || $subPaymentType->type_name == 'ZİRAAT KK EURO' || $subPaymentType->type_name == 'VIATOR EURO') {
+                }elseif($subPaymentType->type_name == 'CASH EURO' || $subPaymentType->type_name == 'HOTELISTAN VP EURO' || $subPaymentType->type_name == 'ZİRAAT KK EURO' || $subPaymentType->type_name == 'VIATOR EURO') {
                     array_push($totalPriceEuro, $subPaymentType->payment_price);
-                }elseif($subPaymentType->type_name == 'CASH DOLAR' || $subPaymentType->type_name == 'ZİRAAT KK DOLAR'){
+                }elseif($subPaymentType->type_name == 'CASH DOLAR' || $subPaymentType->type_name == 'HOTELISTAN VP USD' || $subPaymentType->type_name == 'ZİRAAT KK DOLAR'){
                     array_push($totalPriceUsd, $subPaymentType->payment_price);
                 }
             }

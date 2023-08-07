@@ -701,7 +701,7 @@ class ReportController extends Controller
                 })
                 ->sum("payment_price");
 
-            $hotelistanVPEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '17')
+            $hotelistanVPEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '16')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
@@ -719,7 +719,7 @@ class ReportController extends Controller
                 })
                 ->sum("payment_price");
 
-            $hotelistanVPUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '16')
+            $hotelistanVPUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '17')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
