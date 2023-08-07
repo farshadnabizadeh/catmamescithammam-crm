@@ -482,7 +482,7 @@
                                                         <p>HOTELISTAN VP USD:</p>
                                                     </div>
                                                     <div class="col-lg-8">
-                                                        <b>€ {{ number_format($ziraatEuro, 2) }}</b>
+                                                        <b>$ {{ number_format($ziraatEuro, 2) }}</b>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <p>VIATOR EURO:</p>
