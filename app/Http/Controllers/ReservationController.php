@@ -340,7 +340,7 @@ class ReservationController extends Controller
             $hasPaymentType = false;
             $hasPaymentType = $reservation_payment_type->get()->count() > 0 ? true : false;
 
-            $reservation_comission = ReservationComission::where('reservations_comissions.reservation_id', '=', $id);
+            $reservation_comission = ReservationComission::where('reservations_comissions.reservation_id', '=', $id)->whereNotNull('reservations_comissions.comission_price');
 
             $hasComission = false;
             $hasComission = $reservation_comission->get()->count() > 0 ? true : false;
