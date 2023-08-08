@@ -28,8 +28,14 @@ class ReportController extends Controller
     {
         $start = $request->input('startDate');
         $end = $request->input('endDate');
+        $user = auth()->user();
 
         $reservations = Reservation::with('subHotelComissions','subGuideComissions')
+            ->when($user->hasRole('Sales Admin'), function ($query) {
+                $query->where(function ($query) {
+                    $query->whereIn('reservations.source_id', [3]);
+                });
+            })
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
             ->get();
 
@@ -155,6 +161,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -173,6 +184,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -196,6 +212,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -215,6 +236,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -237,6 +263,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -269,7 +300,11 @@ class ReportController extends Controller
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
-
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
                     $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
@@ -310,6 +345,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -328,6 +368,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -343,6 +388,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -382,6 +432,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->whereBetween('reservations.reservation_date', [$start, $end])
@@ -429,9 +484,12 @@ class ReportController extends Controller
 
             }
             if ($subSourcesCount == 0) {
-                array_push($sourceData, $subSourceCount);
-                array_push($sourceLabels, 'GOOGLE');
-                array_push($sourceColors, '#276cb8');
+                if ($user->hasRole('Sales Admin')) {
+                }else{
+                    array_push($sourceData, $subSourceCount);
+                    array_push($sourceLabels, 'GOOGLE');
+                    array_push($sourceColors, '#276cb8');
+                }
             }
             //google Sources
             $googleSourcesChart = Reservation::select('sources.*', DB::raw('source_id, count(source_id) as googleSourceCount'))
@@ -464,12 +522,16 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
                     $query->whereNotNull('reservations.source_id');
                 })
-
                 ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
                     $query->whereIn('reservations.sales_person_name', $selectedSales);
                 })
@@ -493,6 +555,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -509,6 +576,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -538,6 +610,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -555,6 +632,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -576,6 +658,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -593,6 +680,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -614,6 +706,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -631,6 +728,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -652,6 +754,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -669,6 +776,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -690,6 +802,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -707,6 +824,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -727,6 +849,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -743,6 +870,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
@@ -796,6 +928,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -814,6 +951,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -837,6 +979,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -856,6 +1003,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -905,6 +1057,11 @@ class ReportController extends Controller
                         $query->whereIn('reservations.source_id', [1, 13, 12, 14, 15]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
                     $query->whereIn('reservations.source_id', $selectedSources);
                 }, function ($query) {
@@ -945,9 +1102,12 @@ class ReportController extends Controller
             }
 
             if ($googlePayment > 0) {
-                $sourcePaymentLabels[] = 'GOOGLE';
-                $sourcePaymentData[] = $googlePayment;
-                $sourcePaymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                if ($user->hasRole('Sales Admin')) {
+                }else{
+                    $sourcePaymentLabels[] = 'GOOGLE';
+                    $sourcePaymentData[] = $googlePayment;
+                    $sourcePaymentColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
             }
 
 
@@ -961,6 +1121,11 @@ class ReportController extends Controller
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
                     $query->where(function ($query) {
                         $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
                     });
                 })
                 ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
@@ -1052,7 +1217,10 @@ class ReportController extends Controller
 
             if ($user->hasRole('Performance Marketing Admin')) {
                 return view('admin.reports.reservation_report_pm')->with($data);
-            } else {
+            }elseif ($user->hasRole('Sales Admin')) {
+                return view('admin.reports.reservation_report_sales_admin')->with($data);
+            }
+             else {
                 return view('admin.reports.reservation_report')->with($data);
             }
         } catch (\Throwable $th) {
