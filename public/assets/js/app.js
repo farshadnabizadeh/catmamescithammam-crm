@@ -443,6 +443,7 @@ var app = (function() {
     $("#tableGoogleSource").dataTable({ paging: true, pageLength: 25 });
     $("#tableService").dataTable({ paging: true, pageLength: 25 });
     $("#financeTable").dataTable({ paging: true, pageLength: 50 });
+    $("#financeTableSalesAdmin").dataTable({ paging: true, pageLength: 50,order: [[1, "asc"]] });
 
     $('.navbar-nav li a').on('click', function () {
         $(this).parent().toggleClass('active');

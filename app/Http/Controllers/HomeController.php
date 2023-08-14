@@ -12,6 +12,7 @@ use App\Models\Therapist;
 use App\Models\ReservationPaymentType;
 use App\Models\ReservationTherapist;
 use App\Models\ReservationService;
+use App\Models\ReservationComission;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +46,11 @@ class HomeController extends Controller
                         $query->whereIn('reservations.source_id', [1, 12]);
                     });
                 })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->groupBy('source_id')
                 ->get();
 
@@ -72,17 +78,25 @@ class HomeController extends Controller
                     }
                 }
             }
-            if ($subSourcesCount == 0) {
-                array_push($sourceData, $subSourceCount);
-                array_push($sourceLabels, 'GOOGLE');
-                array_push($sourceColors, '#276cb8');
-            }
+            if ($user->hasRole('Sales Admin')) {
+            }else {
+
+                if ($subSourcesCount == 0) {
+                    array_push($sourceData, $subSourceCount);
+                    array_push($sourceLabels, 'GOOGLE');
+                    array_push($sourceColors, '#276cb8');
+                }            }
 
 
 
             $therapistAll = ReservationTherapist::select('therapists.*', DB::raw('therapist_id, sum(piece) as therapistCount'))
                 ->leftJoin('therapists', 'reservations_therapists.therapist_id', '=', 'therapists.id')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_therapists.reservation_id')
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
                 ->groupBy('therapist_id')
                 ->orderBy('therapistCount', 'desc')
                 ->get();
@@ -100,6 +114,11 @@ class HomeController extends Controller
             $serviceAll = ReservationService::select('services.*', DB::raw('service_id, sum(piece) as serviceCount'))
             ->leftJoin('services', 'reservations_services.service_id', '=', 'services.id')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_services.reservation_id')
+            ->when($user->hasRole('Sales Admin'), function ($query) {
+                $query->where(function ($query) {
+                    $query->whereIn('reservations.source_id', [3]);
+                });
+            })
             ->groupBy('service_id')
             ->orderBy('serviceCount', 'desc')
             ->get();
@@ -296,7 +315,50 @@ class HomeController extends Controller
                     'totalTl'                  => $totalTl,
                 );
                 return view('home_pm')->with($dashboard);
-            } else {
+            } else if ($user->hasRole('Sales Admin')) {
+                $hotelComissions = ReservationComission::select('hotels.*', DB::raw('hotel_id, sum(comission_price) as totalPrice'))
+                ->leftJoin('hotels', 'reservations_comissions.hotel_id', '=', 'hotels.id')
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_comissions.reservation_id')
+                ->whereNull('reservations_comissions.guide_id')
+                ->where('reservations_comissions.comission_price', '!=', NULL)
+                ->whereIn('reservations.source_id', [3])
+                ->groupBy('hotel_id')
+                ->orderBy('totalPrice', 'DESC')
+                ->get();
+                $hotelComissionLabels = [];
+                $hotelComissionData = [];
+                $hotelComissionColors = [];
+
+                foreach ($hotelComissions as $hotelComission) {
+                    array_push($hotelComissionLabels, $hotelComission->name);
+                    array_push($hotelComissionData, $hotelComission->totalPrice);
+                    $hotelComissionColors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+                }
+                $dashboard = array(
+                    'sourceLabels'             => $sourceLabels,
+                    'sourceData'               => $sourceData,
+                    'sourceColors'             => $sourceColors,
+                    'therapistLabels'          => $therapistLabels,
+                    'therapistData'            => $therapistData,
+                    'therapistColors'          => $therapistColors,
+                    'serviceLabels'          => $serviceLabels,
+                    'serviceData'            => $serviceData,
+                    'serviceColors'          => $serviceColors,
+                    'lastReservations' => $lastReservations,
+                    'customerCount' => $customerCount,
+                    'hotelCount' => $hotelCount,
+                    'serviceCount' => $serviceCount,
+                    'therapistCount' => $therapistCount,
+                    'reservationCount' => $reservationCount,
+                    'contactFormCount' => $contactFormCount,
+                    'bookingFormCount' => $bookingFormCount,
+                    'hotelComissionLabels'     => $hotelComissionLabels,
+                    'hotelComissionData'       => $hotelComissionData,
+                    'hotelComissionColors'     => $hotelComissionColors,
+                );
+                return view('home_salesAdmin')->with($dashboard);
+
+                }else {
                 return view('home')->with($dashboard);
             }
         } catch (\Throwable $th) {
