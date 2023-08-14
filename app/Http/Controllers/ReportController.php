@@ -901,7 +901,29 @@ class ReportController extends Controller
                 })
                 ->sum("payment_price");
 
-            $hotelistanVPUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '17')
+                $hotelistanVPUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '17')
+                ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
+                ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+                ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [1,13,12,14,15]);
+                    });
+                })
+                ->when($user->hasRole('Sales Admin'), function ($query) {
+                    $query->where(function ($query) {
+                        $query->whereIn('reservations.source_id', [3]);
+                    });
+                })
+                ->when(!empty($selectedSources), function ($query) use ($selectedSources) {
+                    $query->whereIn('reservations.source_id', $selectedSources);
+                }, function ($query) {
+                    $query->whereNotNull('reservations.source_id');
+                })
+                ->when(!empty($selectedSales), function ($query) use ($selectedSales) {
+                    $query->whereIn('reservations.sales_person_name', $selectedSales);
+                })
+                ->sum("payment_price");
+                $hotelistanVPTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '18')
                 ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
                 ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
                 ->when($user->hasRole('Performance Marketing Admin'), function ($query) {
@@ -962,9 +984,9 @@ class ReportController extends Controller
             $totalPound = $cashPound;
 
             //only need pound convert
-            $totalEuro = ($hotelistanVPUsd * $euro_usd_satis)+ $hotelistanVPEuro + $cashEur + $ziraatEuro + $viatorEuro + $cashUsd * $euro_usd_satis + (($totalPound * $gbp_satis) / $euro_satis) + $ziraatDolar * $euro_usd_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
+            $totalEuro = ($hotelistanVPUsd * $euro_usd_satis)+ $hotelistanVPEuro + $cashEur + $ziraatEuro + $viatorEuro + $cashUsd * $euro_usd_satis + (($totalPound * $gbp_satis) / $euro_satis) + $ziraatDolar * $euro_usd_satis + $hotelistanVPTl / $euro_satis + $cashTl / $euro_satis + $ykbTl / $euro_satis + $ziraatTl / $euro_satis;
 
-            $totalTl = ($hotelistanVPUsd * $usd_satis) + ($hotelistanVPEuro * $euro_satis) + $cashTl + $ykbTl + $ziraatTl + $cashEur * $euro_satis + $ziraatEuro * $euro_satis + $viatorEuro * $euro_satis + $totalUsd * $usd_satis + $totalPound * $gbp_satis;
+            $totalTl = ($hotelistanVPUsd * $usd_satis) + ($hotelistanVPEuro * $euro_satis) + $hotelistanVPTl + $cashTl + $ykbTl + $ziraatTl + $cashEur * $euro_satis + $ziraatEuro * $euro_satis + $viatorEuro * $euro_satis + $totalUsd * $usd_satis + $totalPound * $gbp_satis;
 
             $all_paymentLabels = [];
             $all_paymentData = [];
@@ -1273,6 +1295,7 @@ class ReportController extends Controller
                 'googlePayment'            =>$googlePayment,
                 'hotelistanVPEuro'         =>$hotelistanVPEuro,
                 'hotelistanVPUsd'          =>$hotelistanVPUsd,
+                'hotelistanVPTl'           =>$hotelistanVPTl,
             );
 
             if ($user->hasRole('Performance Marketing Admin')) {

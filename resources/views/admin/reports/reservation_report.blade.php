@@ -484,14 +484,21 @@
                                                     <div class="col-lg-8">
                                                         <b>$ {{ number_format($hotelistanVPUsd, 2) }}</b>
                                                     </div>
+
+                                                    <div class="col-lg-4">
+                                                        <p>HOTELISTAN VP TL:</p>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <b>₺ {{ number_format($hotelistanVPTl, 2) }}</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-lg-4">
                                                         <p>VIATOR EURO:</p>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <b>€ {{ number_format($viatorEuro, 2) }}</b>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-lg-4">
                                                         <p>YKB KK TL:</p>
                                                     </div>
