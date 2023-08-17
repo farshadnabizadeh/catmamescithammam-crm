@@ -36,6 +36,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('medicalform.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
+                                    <span>Medikal Formları</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('bookingform.index', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
                                     <span>Rezervasyon Formları</span>
                                 </a>
