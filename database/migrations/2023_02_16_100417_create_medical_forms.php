@@ -40,6 +40,7 @@ class CreateMedicalForms extends Migration
             $table->longText('covid_note')->nullable();
             $table->string('surgery')->nullable();
             $table->longText('surgery_note')->nullable();
+            $table->longText('signature')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

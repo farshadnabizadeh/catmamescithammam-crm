@@ -494,6 +494,12 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-4">
+                                                        <p>HOTELISTAN VP GBP:</p>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <b>₺ {{ number_format($hotelistanVPGbp, 2) }}</b>
+                                                    </div>
+                                                    <div class="col-lg-4">
                                                         <p>VIATOR EURO:</p>
                                                     </div>
                                                     <div class="col-lg-8">

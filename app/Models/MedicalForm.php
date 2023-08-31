@@ -11,6 +11,6 @@ class MedicalForm extends Model
 {
     use SoftDeletes;
     protected $table = 'medical_forms';
-    protected $fillable = ['name_surname','phone','country','email','birthday','gender','therapist_gender','heart_problems','blood_pressure','varicose_veins','asthma','vertebral_problem','joint_problems','fractures','skin_allergies','lodine_allergies','hyperthyroidism','diabetes','epilepsy','pregnant','back_problems','covid','covid_note','surgery','surgery_note' ];
+    protected $fillable = ['name_surname','phone','country','email','birthday','gender','therapist_gender','heart_problems','blood_pressure','varicose_veins','asthma','vertebral_problem','joint_problems','fractures','skin_allergies','lodine_allergies','hyperthyroidism','diabetes','epilepsy','pregnant','back_problems','covid','covid_note','surgery','surgery_note', 'signature' ];
 
 }

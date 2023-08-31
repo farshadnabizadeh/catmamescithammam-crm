@@ -148,6 +148,32 @@ function paymentReportPdf() {
     finally {}
 }
 
+function medicalFormPdf() {
+    try {
+        var elem = document.getElementById('root');
+        var patient_name = "Adnane";
+
+        html2pdf().from(elem).set({
+            margin: 0,
+            filename: patient_name+'_medical_form.pdf',
+            html2canvas: {
+                scale: 2,
+                y: -2
+            },
+            jsPDF: {
+                orientation: 'portrait',
+                unit: 'in',
+                format: 'A4',
+                compressPDF: true
+            }
+        }).save();
+    }
+    catch (error) {
+        console.info(error);
+    }
+    finally {}
+}
+
 function timeFormat(timeInput) {
     try {
         validTime = timeInput.value;

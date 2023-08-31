@@ -53,5 +53,14 @@
 @endsection
 @section('footer')
 {!! $html->scripts() !!}
-
+<script>
+    $(document).ready(function () {
+        $('.image-popup').magnificPopup({
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
+    });
+</script>
 @endsection

@@ -41,6 +41,7 @@ class MedicalFormController extends BaseController
             'covid_note' => '',
             'surgery' => 'required',
             'surgery_note' => '',
+            'signature' => '',
         ]);
 
         if($validator->fails()){

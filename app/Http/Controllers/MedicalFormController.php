@@ -33,6 +33,9 @@ class MedicalFormController extends Controller
                                 <button class="btn btn-primary dropdown-toggle action-btn" type="button" data-toggle="dropdown">İşlem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="'.route('medicalform.edit', ['id' => $item->id]).'" class="btn btn-info edit-btn"><i class="fa fa-eye"></i> Görüntüle</a>
+                                    </li>
+                                    <li>
                                         <a href="'.route('medicalform.destroy', ['id' => $item->id]).'" class="btn btn-danger edit-btn"><i class="fa fa-pencil-square-o"></i> Sil</a>
                                     </li>
                                 </ul>
@@ -46,7 +49,24 @@ class MedicalFormController extends Controller
                         $action = now()->diffInMinutes($item->created_at) . ' Dakika';
                         return $action;
                     })
-                    ->rawColumns(['action', 'id', 'created_at'])
+                    ->editColumn('signature', function ($item) {
+                        // return "<a href='$item->signature' id='image-popup'><img src='$item->signature' alt='Signature' width='150' height='auto'></a>";
+                        return "<button id='show-img' data-toggle='modal' data-target='#addHotelComissionModal'><img src='$item->signature' width='150' height='auto'></button>
+
+                        <div id='addHotelComissionModal' class='modal fade' aria-labelledby='my-modalLabel' aria-hidden='true' tabindex='-1' role='dialog'>
+                            <div class='modal-dialog' data-dismiss='modal' style='margin: 20% auto;'>
+                                <div class='modal-content' >
+                                    <div class='modal-body'>
+                                        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                                        <img src='$item->signature' class='img-responsive' style='width: 100%;'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>";
+                    })
+
+
+                    ->rawColumns(['action', 'id', 'created_at', 'signature'])
 
                     ->toJson();
                 };
@@ -78,6 +98,7 @@ class MedicalFormController extends Controller
                     ['data' => 'covid_note', 'name' => 'covid_note', 'title' => 'Covid Note'],
                     ['data' => 'surgery', 'name' => 'surgery', 'title' => 'Surgery'],
                     ['data' => 'surgery_note', 'name' => 'surgery_note', 'title' => 'Surgery Note'],
+                    ['data' => 'signature', 'name' => 'signature', 'title' => 'Signature'],
                     ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Sisteme Kayıt'],
                 ];
                 $html = $builder->columns($columns)->parameters([
@@ -93,10 +114,10 @@ class MedicalFormController extends Controller
 
     public function edit($id)
     {
-        $contact_form = MedicalForm::where('id','=',$id)->first();
-        $countries = Country::where('name','!=', $contact_form->country)->get();
+        $medical_form = MedicalForm::where('id','=',$id)->first();
+        $countries = Country::where('name','!=', $medical_form->country)->get();
 
-        return view('admin.medicalforms.edit_medicalform', ['contact_form' => $contact_form, 'countries' => $countries]);
+        return view('admin.medicalforms.edit_medicalform', ['medical_form' => $medical_form, 'countries' => $countries]);
     }
 
     public function update(Request $request, $id)
