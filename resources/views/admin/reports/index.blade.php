@@ -91,6 +91,22 @@
                                         @else
                                         <th>Viator EURO</th>
                                         @endif
+                                        @if($hotelistanVPEuro <= 0)
+                                        @else
+                                        <th>Hotelistan VP EURO</th>
+                                        @endif
+                                        @if($hotelistanVPUsd <= 0)
+                                        @else
+                                        <th>Hotelistan VP USD</th>
+                                        @endif
+                                        @if($hotelistanVPTl <= 0)
+                                        @else
+                                        <th>Hotelistan VP TL</th>
+                                        @endif
+                                        @if($hotelistanVPGbp <= 0)
+                                        @else
+                                        <th>Hotelistan VP GBP</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -222,6 +238,46 @@
                                             @endforeach
                                         </td>
                                         @endif
+                                        @if($hotelistanVPEuro <= 0)
+                                        @else
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 16)
+                                                <span>{{ $value->payment_price }} EURO</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @endif
+                                        @if($hotelistanVPUsd <= 0)
+                                        @else
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 17)
+                                                <span>{{ $value->payment_price }} USD</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @endif
+                                        @if($hotelistanVPTl <= 0)
+                                        @else
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 18)
+                                                <span>{{ $value->payment_price }} TL</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @endif
+                                        @if($hotelistanVPGbp <= 0)
+                                        @else
+                                        <td>
+                                            @foreach($reservation->subPaymentTypes as $value)
+                                                @if($value->payment_type_id == 19)
+                                                <span>{{ $value->payment_price }} GBP</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -246,7 +302,7 @@
                                         @endif
                                         @if($cashPound <= 0)
                                         @else
-                                        <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
+                                        <th>Toplam CASH GBP: <b>£ {{ number_format($cashPound, 2) }}</b></th>
                                         @endif
                                         @if($ziraatTl <= 0)
                                         @else
@@ -267,6 +323,22 @@
                                         @if($viatorEuro <= 0)
                                         @else
                                         <th>Toplam Viator EURO: <b>€ {{ number_format($viatorEuro, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPEuro <= 0)
+                                        @else
+                                        <th>Hotelistan VP EURO: <b>€ {{ number_format($hotelistanVPEuro, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPUsd <= 0)
+                                        @else
+                                        <th>Hotelistan VP USD: <b>$ {{ number_format($hotelistanVPUsd, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPTl <= 0)
+                                        @else
+                                        <th>Hotelistan VP TL: <b>₺ {{ number_format($hotelistanVPTl, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPGbp <= 0)
+                                        @else
+                                        <th>Hotelistan VP GBP: <b>£ {{ number_format($hotelistanVPGbp, 2) }}</b></th>
                                         @endif
                                     </tr>
                                 </tfoot>
