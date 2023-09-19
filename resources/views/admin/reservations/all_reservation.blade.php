@@ -63,7 +63,11 @@
                                     @if($listAllByDate->payment_price == NULL)
                                     <p class="text-center"><i class="fa fa-times non-icon"></i></p>
                                     @else
-                                    <p class="text-center"><i class="fa fa-check check-icon"></i></p>
+                                        @if ($listAllByDate->payment_type_count == 1 && in_array($listAllByDate->payment_type_id, [16, 17, 18, 19]))
+                                            <p class="text-center"><i class="fa fa-check check-icon" style="color:orange"></i></p>
+                                        @else
+                                            <p class="text-center"><i class="fa fa-check check-icon"></i></p>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>{{ $listAllByDate->room_number }}</td>
