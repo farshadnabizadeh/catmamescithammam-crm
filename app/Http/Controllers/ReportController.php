@@ -232,9 +232,11 @@ class ReportController extends Controller
                 'hotelistanVPTl'           => $hotelistanVPTl,
                 'hotelistanVPGbp'          => $hotelistanVPGbp
             );
+
         if ($user->hasRole('Sales Admin')) {
             return view('admin.reports.index_salesAdmin')->with($data);
-        }else {
+        }
+        else {
             return view('admin.reports.index')->with($data);
         }
     }

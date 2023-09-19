@@ -50,12 +50,9 @@
                             <table id="financeTableSalesAdmin" style="zoom: 80%" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
-                                        <th>PAX</th>
                                         <th>Rezervasyon Tarihi</th>
                                         <th>Gönderen Otel / Acenta</th>
-                                        <th>Açıklama Ad Soyad</th>
-                                        <th>Hak Ediş Tutar</th>
-                                        <th>Verilen Hizmet</th>
+                                        <th>PAX</th>
                                         @if($cashTl <= 0)
                                         @else
                                         <th>CASH TL</th>
@@ -92,16 +89,17 @@
                                         @else
                                         <th>Viator EURO</th>
                                         @endif
+                                        <th>Hak Ediş Tutar</th>
+                                        <th>Açıklama Ad Soyad</th>
+                                        <th>Verilen Hizmet</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($reservations as $reservation)
-
                                     <tr>
-                                        <td>{{ $reservation->total_customer }}</td>
                                         <td>{{ $reservation->reservation_date }}</td>
                                         @if ($reservation->source->id == 15 || $reservation->source->id == 14 || $reservation->source->id == 12)
-                                            <td>GOOGLE</td>
+                                        <td>GOOGLE</td>
                                         @elseif ($reservation->source->id == 3 || $reservation->source->id == 10)
                                             @foreach ($comissionNames as $comissionName)
                                                 @if ($reservation->id ==  $comissionName->id)
@@ -116,24 +114,7 @@
                                         @else
                                             <td>{{ $reservation->source->name }}</td>
                                         @endif
-                                        <td>{{ $reservation->customer->name_surname }}</td>
-                                        <td>
-                                            @foreach($reservation->subHotelComissions as $value)
-                                                @if ( $value->comission_price != NULL)
-                                                    {{ $value->comission_price }} {{ $value->comission_currency }}
-                                                @endif
-                                            @endforeach
-                                            @foreach($reservation->subGuideComissions as $values)
-                                                @if ( $values->comission_price != NULL)
-                                                    {{ $values->comission_price }} {{ $values->comission_currency }}
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @foreach($reservation->subServices as $value)
-                                                <span>{{ $value->piece   }} {{ $value->name }} +</span>
-                                            @endforeach
-                                        </td>
+                                        <td>{{ $reservation->total_customer }}</td>
                                         @if($cashTl <= 0)
                                         @else
                                         <td>
@@ -224,17 +205,32 @@
                                             @endforeach
                                         </td>
                                         @endif
+                                        <td>
+                                            @foreach($reservation->subHotelComissions as $value)
+                                                @if ( $value->comission_price != NULL)
+                                                    {{ $value->comission_price }} {{ $value->comission_currency }}
+                                                @endif
+                                            @endforeach
+                                            @foreach($reservation->subGuideComissions as $values)
+                                                @if ( $values->comission_price != NULL)
+                                                    {{ $values->comission_price }} {{ $values->comission_currency }}
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $reservation->customer->name_surname }}</td>
+                                        <td>
+                                            @foreach($reservation->subServices as $value)
+                                                <span>{{ $value->piece   }} {{ $value->name }} +</span>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th></th>
+                                        <th></th>
                                         <th>Toplam Pax: <b>{{ $totalPax }} Kişi</b></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>{{ $totalComission }} TL</th>
-                                        <th></th>
                                         @if($cashTl <= 0)
                                         @else
                                         <th>Toplam CASH TL: <b>₺ {{ number_format($cashTl, 2) }}</b></th>
@@ -247,17 +243,9 @@
                                         @else
                                         <th>Toplam CASH EURO: <b>€ {{ number_format($cashEur, 2) }}</b></th>
                                         @endif
-                                        @if($cashPound <= 0)
-                                        @else
-                                        <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
-                                        @endif
                                         @if($ziraatTl <= 0)
                                         @else
                                         <th>Toplam Ziraat Pos TL: <b>₺ {{ number_format($ziraatTl, 2) }}</b></th>
-                                        @endif
-                                        @if($ykbTl <= 0)
-                                        @else
-                                        <th>Toplam Ykb Pos TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></th>
                                         @endif
                                         @if($ziraatEuro <= 0)
                                         @else
@@ -266,6 +254,17 @@
                                         @if($ziraatDolar <= 0)
                                         @else
                                         <th>Toplam Ziraat Pos USD: <b>$ {{ number_format($ziraatDolar, 2) }}</b></th>
+                                        @endif
+                                        <th>{{ $totalComission }} TL</th>
+                                        <th></th>
+                                        <th></th>
+                                        @if($cashPound <= 0)
+                                        @else
+                                        <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
+                                        @endif
+                                        @if($ykbTl <= 0)
+                                        @else
+                                        <th>Toplam Ykb Pos TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></th>
                                         @endif
                                         @if($viatorEuro <= 0)
                                         @else
