@@ -232,10 +232,6 @@ class ReportController extends Controller
                 'hotelistanVPTl'           => $hotelistanVPTl,
                 'hotelistanVPGbp'          => $hotelistanVPGbp
             );
-            if ($request->has('export')) {
-                // Generate and download the Excel file
-                return Excel::download(new ReservationsExport($data), 'finance_report.xlsx');
-            }
         if ($user->hasRole('Sales Admin')) {
             return view('admin.reports.index_salesAdmin')->with($data);
         }
