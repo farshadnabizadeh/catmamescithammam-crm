@@ -40,7 +40,7 @@
                                 <h3>{{ date('d-m-Y', strtotime($start)) }} & {{ date('d-m-Y', strtotime($end)) }} tarihleri arasındaki Ciro Raporu</h3>
                             </div>
                             <div class="col-lg-4">
-                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="financeTableExcel()"><i class="fa fa-download"></i> İndir</button>
+                                <button class="btn btn-success float-right download-report-btn mt-1" onclick="financeTableSalesAdmin()"><i class="fa fa-download"></i> İndir</button>
                             </div>
                         </div>
                     </div>

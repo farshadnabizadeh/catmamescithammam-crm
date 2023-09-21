@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReservationsExport;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\ReservationPaymentType;
@@ -210,7 +211,6 @@ class ReportController extends Controller
             })
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
-
         $data = array(
                 'cashTl'                   => $cashTl,
                 'cashEur'                  => $cashEur,
@@ -232,7 +232,10 @@ class ReportController extends Controller
                 'hotelistanVPTl'           => $hotelistanVPTl,
                 'hotelistanVPGbp'          => $hotelistanVPGbp
             );
-
+            if ($request->has('export')) {
+                // Generate and download the Excel file
+                return Excel::download(new ReservationsExport($data), 'finance_report.xlsx');
+            }
         if ($user->hasRole('Sales Admin')) {
             return view('admin.reports.index_salesAdmin')->with($data);
         }

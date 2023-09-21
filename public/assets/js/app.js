@@ -1754,16 +1754,140 @@ function therapistExcel() {
 }
 
 function financeTableExcel() {
-    /* Get table data */
-    var wb = XLSX.utils.table_to_book(document.getElementById('root'), {sheet:"Sheet JS"});
+    var table = $('#financeTable').DataTable();
 
-    /* Save to file */
-    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
-    function s2ab(s) {
-        var buf = new ArrayBuffer(s.length);
-        var view = new Uint8Array(buf);
-        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-        return buf;
+    // Store the original paging information
+    var originalPaging = table.page.info();
+
+    // Disable pagination temporarily
+    table.page('first').draw(false);
+
+    // Get the table data
+    var data = table.rows({ search: 'applied' }).data().toArray();
+
+    // Function to remove HTML tags, including <span> tags, from a string
+    function removeHtmlTags(input) {
+        return input.replace(/<\/?[^>]+(>|$)/g, "");
     }
-    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Ciro_Raporu_'+now_date+'.xlsx');
+
+    // Remove HTML tags from the cell values
+    for (var i = 0; i < data.length; i++) {
+        for (var j = 0; j < data[i].length; j++) {
+            data[i][j] = removeHtmlTags(data[i][j]);
+        }
+    }
+
+    // Create a worksheet from the data
+    var ws = XLSX.utils.json_to_sheet(data);
+
+    // Get the content of the <thead> and <tfoot> sections
+    var theadContent = $('#financeTable thead').html();
+    var tfootContent = $('#financeTable tfoot').html();
+
+    // Create a workbook and add the worksheet to it
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    // Modify the workbook to include <thead> and <tfoot>
+    if (theadContent) {
+        // Parse the <thead> content to extract header labels
+        var theadLabels = [];
+        $(theadContent).find('th').each(function() {
+            theadLabels.push($(this).text());
+        });
+
+        // Insert the <thead> labels as the first row in the worksheet
+        XLSX.utils.sheet_add_aoa(ws, [theadLabels], { origin: 'A1' });
+    }
+
+    if (tfootContent) {
+        // Parse the <tfoot> content to extract footer labels
+        var tfootLabels = [];
+        $(tfootContent).find('th').each(function() {
+            tfootLabels.push($(this).text());
+        });
+
+        // Insert the <tfoot> labels as the last row in the worksheet
+        XLSX.utils.sheet_add_aoa(ws, [tfootLabels], { origin: -1 });
+    }
+
+    // Generate a filename based on the current date and time
+    var now = new Date();
+    var filename = 'Ciro_Raporu_' + now.toISOString() + '.xlsx';
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, filename);
+
+    // Restore the original pagination settings
+    table.page(originalPaging.page).draw(false);
+}
+
+
+function financeTableSalesAdmin() {
+    var table = $('#financeTableSalesAdmin').DataTable();
+
+    // Store the original paging information
+    var originalPaging = table.page.info();
+
+    // Disable pagination temporarily
+    table.page('first').draw(false);
+
+    // Get the table data
+    var data = table.rows({ search: 'applied' }).data().toArray();
+
+    // Function to remove HTML tags, including <span> tags, from a string
+    function removeHtmlTags(input) {
+        return input.replace(/<\/?[^>]+(>|$)/g, "");
+    }
+
+    // Remove HTML tags from the cell values
+    for (var i = 0; i < data.length; i++) {
+        for (var j = 0; j < data[i].length; j++) {
+            data[i][j] = removeHtmlTags(data[i][j]);
+        }
+    }
+
+    // Create a worksheet from the data
+    var ws = XLSX.utils.json_to_sheet(data);
+
+    // Get the content of the <thead> and <tfoot> sections
+    var theadContent = $('#financeTableSalesAdmin thead').html();
+    var tfootContent = $('#financeTableSalesAdmin tfoot').html();
+
+    // Create a workbook and add the worksheet to it
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    // Modify the workbook to include <thead> and <tfoot>
+    if (theadContent) {
+        // Parse the <thead> content to extract header labels
+        var theadLabels = [];
+        $(theadContent).find('th').each(function() {
+            theadLabels.push($(this).text());
+        });
+
+        // Insert the <thead> labels as the first row in the worksheet
+        XLSX.utils.sheet_add_aoa(ws, [theadLabels], { origin: 'A1' });
+    }
+
+    if (tfootContent) {
+        // Parse the <tfoot> content to extract footer labels
+        var tfootLabels = [];
+        $(tfootContent).find('th').each(function() {
+            tfootLabels.push($(this).text());
+        });
+
+        // Insert the <tfoot> labels as the last row in the worksheet
+        XLSX.utils.sheet_add_aoa(ws, [tfootLabels], { origin: -1 });
+    }
+
+    // Generate a filename based on the current date and time
+    var now = new Date();
+    var filename = 'Ciro_Raporu_' + now.toISOString() + '.xlsx';
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, filename);
+
+    // Restore the original pagination settings
+    table.page(originalPaging.page).draw(false);
 }
