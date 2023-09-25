@@ -89,6 +89,22 @@
                                         @else
                                         <th>Viator EURO</th>
                                         @endif
+                                        @if($hotelistanVPEuro <= 0)
+                                        @else
+                                        <th>Hotelistan VP EURO</th>
+                                        @endif
+                                        @if($hotelistanVPUsd <= 0)
+                                        @else
+                                        <th>Hotelistan VP USD</th>
+                                        @endif
+                                        @if($hotelistanVPTl <= 0)
+                                        @else
+                                        <th>Hotelistan VP TL</th>
+                                        @endif
+                                        @if($hotelistanVPGbp <= 0)
+                                        @else
+                                        <th>Hotelistan VP GBP</th>
+                                        @endif
                                         <th>Hak Ediş Tutar</th>
                                         <th>Açıklama Ad Soyad</th>
                                         <th>Verilen Hizmet</th>
@@ -269,6 +285,22 @@
                                         @if($viatorEuro <= 0)
                                         @else
                                         <th>Toplam Viator EURO: <b>€ {{ number_format($viatorEuro, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPEuro <= 0)
+                                        @else
+                                        <th>Hotelistan VP EURO: <b>€ {{ number_format($hotelistanVPEuro, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPUsd <= 0)
+                                        @else
+                                        <th>Hotelistan VP USD: <b>$ {{ number_format($hotelistanVPUsd, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPTl <= 0)
+                                        @else
+                                        <th>Hotelistan VP TL: <b>₺ {{ number_format($hotelistanVPTl, 2) }}</b></th>
+                                        @endif
+                                        @if($hotelistanVPGbp <= 0)
+                                        @else
+                                        <th>Hotelistan VP GBP: <b>£ {{ number_format($hotelistanVPGbp, 2) }}</b></th>
                                         @endif
                                     </tr>
                                 </tfoot>
