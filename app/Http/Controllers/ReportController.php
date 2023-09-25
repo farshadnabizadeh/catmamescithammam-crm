@@ -211,7 +211,17 @@ class ReportController extends Controller
             })
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
+
+        $totalTL    = $hotelistanVPTl + $cashTl + $ykbTl + $ziraatTl;
+        $totalEURO  = $hotelistanVPEuro + $cashEur + $ziraatEuro + $viatorEuro;
+        $totalUSD   = $hotelistanVPUsd + $cashUsd + $ziraatDolar;
+        $totalGBP   = $hotelistanVPGbp + $cashPound;
+
         $data = array(
+                'totalTL'                  => $totalTL,
+                'totalEURO'                =>$totalEURO,
+                'totalUSD'                 =>$totalUSD,
+                'totalGBP'                 =>$totalGBP,
                 'cashTl'                   => $cashTl,
                 'cashEur'                  => $cashEur,
                 'cashUsd'                  => $cashUsd,

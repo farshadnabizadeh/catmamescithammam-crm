@@ -53,57 +53,21 @@
                                         <th>Rezervasyon Tarihi</th>
                                         <th>Gönderen Otel / Acenta</th>
                                         <th>PAX</th>
-                                        @if($cashTl <= 0)
+                                        @if($totalTL  <= 0)
                                         @else
-                                        <th>CASH TL</th>
+                                        <th>Toplam TL</th>
                                         @endif
-                                        @if($cashUsd <= 0)
+                                        @if($totalUSD <= 0)
                                         @else
-                                        <th>CASH USD</th>
+                                        <th>Toplam USD</th>
                                         @endif
-                                        @if($cashEur <= 0)
+                                        @if($totalEURO <= 0)
                                         @else
-                                        <th>CASH EURO</th>
+                                        <th>Toplam EURO</th>
                                         @endif
-                                        @if($cashPound <= 0)
+                                        @if($totalGBP <= 0)
                                         @else
-                                        <th>CASH GBP</th>
-                                        @endif
-                                        @if($ziraatTl <= 0)
-                                        @else
-                                        <th>Ziraat Pos TL</th>
-                                        @endif
-                                        @if($ykbTl <= 0)
-                                        @else
-                                        <th>Ykb Pos TL</th>
-                                        @endif
-                                        @if($ziraatEuro <= 0)
-                                        @else
-                                        <th>Ziraat Pos EURO</th>
-                                        @endif
-                                        @if($ziraatDolar <= 0)
-                                        @else
-                                        <th>Ziraat Pos USD</th>
-                                        @endif
-                                        @if($viatorEuro <= 0)
-                                        @else
-                                        <th>Viator EURO</th>
-                                        @endif
-                                        @if($hotelistanVPEuro <= 0)
-                                        @else
-                                        <th>Hotelistan VP EURO</th>
-                                        @endif
-                                        @if($hotelistanVPUsd <= 0)
-                                        @else
-                                        <th>Hotelistan VP USD</th>
-                                        @endif
-                                        @if($hotelistanVPTl <= 0)
-                                        @else
-                                        <th>Hotelistan VP TL</th>
-                                        @endif
-                                        @if($hotelistanVPGbp <= 0)
-                                        @else
-                                        <th>Hotelistan VP GBP</th>
+                                        <th>Toplam GBP</th>
                                         @endif
                                         <th>Hak Ediş Tutar</th>
                                         <th>Açıklama Ad Soyad</th>
@@ -131,96 +95,83 @@
                                             <td>{{ $reservation->source->name }}</td>
                                         @endif
                                         <td>{{ $reservation->total_customer }}</td>
-                                        @if($cashTl <= 0)
-                                        @else
+                                        @if($totalTL > 0)
                                         <td>
+                                            @php
+                                            $totalTLPayment = 0; // Initialize the variable to store the sum
+                                            @endphp
+
                                             @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 5)
-                                                <span>{{ $value->payment_price }} TL</span>
+                                                @if($value->payment_type_id == 5 || $value->payment_type_id == 9 || $value->payment_type_id == 10 || $value->payment_type_id == 18)
+                                                    @php
+                                                        $totalTLPayment += $value->payment_price; // Add the current payment_price to the total
+                                                    @endphp
                                                 @endif
                                             @endforeach
+                                            @if ($totalTLPayment > 0)
+                                                <span>{{ $totalTLPayment }} TL</span>
+                                            @endif
+
                                         </td>
                                         @endif
-                                        @if($cashUsd <= 0)
-                                        @else
+
+                                        @if($totalUSD > 0)
                                         <td>
+                                            @php
+                                            $totalUSDPayment = 0; // Initialize the variable to store the sum
+                                            @endphp
+
                                             @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 7)
-                                                <span>{{ $value->payment_price }} USD</span>
+                                                @if($value->payment_type_id == 7 || $value->payment_type_id == 12 || $value->payment_type_id == 17)
+                                                    @php
+                                                        $totalUSDPayment += $value->payment_price; // Add the current payment_price to the total
+                                                    @endphp
                                                 @endif
                                             @endforeach
+                                            @if ($totalUSDPayment > 0)
+                                                <span>{{ $totalUSDPayment }} USD</span>
+                                            @endif
                                         </td>
                                         @endif
-                                        @if($cashEur <= 0)
-                                        @else
+
+                                        @if($totalEURO > 0)
                                         <td>
+                                            @php
+                                            $totalEUROPayment = 0; // Initialize the variable to store the sum
+                                            @endphp
+
                                             @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 6)
-                                                <span>{{ $value->payment_price }} EURO</span>
+                                                @if($value->payment_type_id == 6 || $value->payment_type_id == 11 || $value->payment_type_id == 13 || $value->payment_type_id == 16)
+                                                    @php
+                                                        $totalEUROPayment += $value->payment_price; // Add the current payment_price to the total
+                                                    @endphp
                                                 @endif
                                             @endforeach
+                                            @if ($totalEUROPayment > 0)
+                                                <span>{{ $totalEUROPayment }} EURO</span>
+                                            @endif
                                         </td>
                                         @endif
-                                        @if($cashPound <= 0)
-                                        @else
+
+                                        @if($totalGBP > 0)
                                         <td>
+                                            @php
+                                            $totalGBPPayment = 0; // Initialize the variable to store the sum
+                                            @endphp
+
                                             @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 8)
-                                                <span>{{ $value->payment_price }} GBP</span>
+                                                @if($value->payment_type_id == 8 || $value->payment_type_id == 19)
+                                                    @php
+                                                        $totalGBPPayment += $value->payment_price; // Add the current payment_price to the total
+                                                    @endphp
                                                 @endif
                                             @endforeach
+                                            @if ($totalGBPPayment > 0)
+                                                <span>{{ $totalGBPPayment }} GBP</span>
+                                            @endif
                                         </td>
                                         @endif
-                                        @if($ziraatTl <= 0)
-                                        @else
-                                        <td>
-                                            @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 10)
-                                                <span>{{ $value->payment_price }} TL</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        @endif
-                                        @if($ykbTl <= 0)
-                                        @else
-                                        <td>
-                                            @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 9)
-                                                <span>{{ $value->payment_price }} TL</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        @endif
-                                        @if($ziraatEuro <= 0)
-                                        @else
-                                        <td>
-                                            @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 11)
-                                                <span>{{ $value->payment_price }} EURO</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        @endif
-                                        @if($ziraatDolar <= 0)
-                                        @else
-                                        <td>
-                                            @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 12)
-                                                <span>{{ $value->payment_price }} USD</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        @endif
-                                        @if($viatorEuro <= 0)
-                                        @else
-                                        <td>
-                                            @foreach($reservation->subPaymentTypes as $value)
-                                                @if($value->payment_type_id == 13)
-                                                <span>{{ $value->payment_price }} EURO</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        @endif
+
                                         <td>
                                             @foreach($reservation->subHotelComissions as $value)
                                                 @if ( $value->comission_price != NULL)
@@ -247,61 +198,25 @@
                                         <th></th>
                                         <th></th>
                                         <th>Toplam Pax: <b>{{ $totalPax }} Kişi</b></th>
-                                        @if($cashTl <= 0)
+                                        @if($totalTL <= 0)
                                         @else
-                                        <th>Toplam CASH TL: <b>₺ {{ number_format($cashTl, 2) }}</b></th>
+                                        <th>Toplam TL: <b>₺ {{ number_format($totalTL, 2) }}</b></th>
                                         @endif
-                                        @if($cashUsd <= 0)
+                                        @if($totalUSD <= 0)
                                         @else
-                                        <th>Toplam CASH USD: <b>$ {{ number_format($cashUsd, 2) }}</b></th>
+                                        <th>Toplam USD: <b>$ {{ number_format($totalUSD, 2) }}</b></th>
                                         @endif
-                                        @if($cashEur <= 0)
+                                        @if($totalEURO <= 0)
                                         @else
-                                        <th>Toplam CASH EURO: <b>€ {{ number_format($cashEur, 2) }}</b></th>
+                                        <th>Toplam EURO: <b>€ {{ number_format($totalEURO, 2) }}</b></th>
                                         @endif
-                                        @if($ziraatTl <= 0)
+                                        @if($totalGBP <= 0)
                                         @else
-                                        <th>Toplam Ziraat Pos TL: <b>₺ {{ number_format($ziraatTl, 2) }}</b></th>
+                                        <th>Toplam GBP: <b>£ {{ number_format($totalGBP, 2) }}</b></th>
                                         @endif
-                                        @if($ziraatEuro <= 0)
-                                        @else
-                                        <th>Toplam Ziraat Pos EURO: <b>€ {{ number_format($ziraatEuro, 2) }}</b></th>
-                                        @endif
-                                        @if($ziraatDolar <= 0)
-                                        @else
-                                        <th>Toplam Ziraat Pos USD: <b>$ {{ number_format($ziraatDolar, 2) }}</b></th>
-                                        @endif
-                                        <th>{{ $totalComission }} TL</th>
+                                        <th>Toplam HAK EDIŞ <b>{{ number_format($totalComission, 2) }} TL</th>
                                         <th></th>
                                         <th></th>
-                                        @if($cashPound <= 0)
-                                        @else
-                                        <th>Toplam CASH GBP: <b>₺ {{ number_format($cashPound, 2) }}</b></th>
-                                        @endif
-                                        @if($ykbTl <= 0)
-                                        @else
-                                        <th>Toplam Ykb Pos TL: <b>₺ {{ number_format($ykbTl, 2) }}</b></th>
-                                        @endif
-                                        @if($viatorEuro <= 0)
-                                        @else
-                                        <th>Toplam Viator EURO: <b>€ {{ number_format($viatorEuro, 2) }}</b></th>
-                                        @endif
-                                        @if($hotelistanVPEuro <= 0)
-                                        @else
-                                        <th>Hotelistan VP EURO: <b>€ {{ number_format($hotelistanVPEuro, 2) }}</b></th>
-                                        @endif
-                                        @if($hotelistanVPUsd <= 0)
-                                        @else
-                                        <th>Hotelistan VP USD: <b>$ {{ number_format($hotelistanVPUsd, 2) }}</b></th>
-                                        @endif
-                                        @if($hotelistanVPTl <= 0)
-                                        @else
-                                        <th>Hotelistan VP TL: <b>₺ {{ number_format($hotelistanVPTl, 2) }}</b></th>
-                                        @endif
-                                        @if($hotelistanVPGbp <= 0)
-                                        @else
-                                        <th>Hotelistan VP GBP: <b>£ {{ number_format($hotelistanVPGbp, 2) }}</b></th>
-                                        @endif
                                     </tr>
                                 </tfoot>
                             </table>
