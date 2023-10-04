@@ -760,7 +760,7 @@
                                 <table class="table table-striped table-bordered nowrap dataTable" id="tableData2">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">Operation</th>
+                                            <th scope="col">İşlem</th>
                                             <th scope="col">Adı Soyadı</th>
                                             <th scope="col">Telefon</th>
                                             <th scope="col">Ülke</th>
@@ -794,7 +794,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Bakım Ekle</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Medikal Form Ekle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
                 </button>

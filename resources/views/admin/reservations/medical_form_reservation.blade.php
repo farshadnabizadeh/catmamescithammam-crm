@@ -81,7 +81,7 @@
                                 <table class="table table-bordered mt-3" id="mFormTable">
                                     <tr>
                                         <th>Ad Soyad</th>
-                                        <th>Operation</th>
+                                        <th>İşlem</th>
                                     </tr>
                                 </table>
                             </div>
