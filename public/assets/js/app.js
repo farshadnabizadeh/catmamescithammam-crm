@@ -1,5 +1,6 @@
 var reservationID;
 var customerID;
+var medicalFormID;
 var totalCost = [];
 var servicePieces = [];
 var total;
@@ -313,6 +314,7 @@ var app = (function() {
 
     reservationStep();
     getCustomerId();
+    getMedicalFormId();
     getDiscountDetail();
     completeReservation();
     clockPicker();
@@ -329,6 +331,12 @@ var app = (function() {
     createServiceOperation();
     addServiceOperation();
     //service end
+
+    //Medical Form
+    createFormOperation();
+    // addFormOperation();
+    saveMedicalForm();
+    //Medical Form End
 
     //therapist
     createTherapistOperation();
@@ -354,6 +362,7 @@ var app = (function() {
     $("#formStatusId").select2({ placeholder: "Form Durumunu Seçiniz", dropdownAutoWidth: true, allowClear: true });
     $("#serviceCurrency").select2({ placeholder: "Para Birimi Seç", dropdownAutoWidth: true, allowClear: true });
     $("#serviceId").select2({ placeholder: "Hizmet Seç", dropdownAutoWidth: true, allowClear: true });
+    $("#mFormID").select2({ placeholder: "Medikal Form Seç",dropdownParent: $('#addMform'), dropdownAutoWidth: true, allowClear: true });
     $("#therapistId").select2({ placeholder: "Terapist Seç", dropdownAutoWidth: true, allowClear: true });
     $("#customerId").select2({ placeholder: "Select Customer", dropdownAutoWidth: true, allowClear: true });
     $("#discountId").select2({ placeholder: "İndirim Seç", dropdownAutoWidth: true, allowClear: true });
@@ -460,6 +469,7 @@ var app = (function() {
     $("#tableTherapist").dataTable({ paging: true, pageLength: 25 });
     $("#tableServices").dataTable({ paging: true, pageLength: 25 });
     $("#tableData").dataTable({ paging: true, pageLength: 25 });
+    $("#tableData2").dataTable({ paging: true, pageLength: 25 });
     $("#tableGuides").dataTable({ paging: true, pageLength: 25 });
     $("#tableHotels").dataTable({ paging: true, pageLength: 25 });
     $("#tableSource").dataTable({ paging: true, pageLength: 25 });
@@ -468,6 +478,8 @@ var app = (function() {
     $("#tableSale").dataTable({ paging: true, pageLength: 25 });
     $("#tableGoogleSource").dataTable({ paging: true, pageLength: 25 });
     $("#tableService").dataTable({ paging: true, pageLength: 25 });
+    $("#mFormTable").dataTable({ paging: true, pageLength: 25 });
+    $("#serviceTable").dataTable({ paging: true, pageLength: 25 });
     $("#financeTable").dataTable({ paging: true, pageLength: 50 });
     $("#financeTableSalesAdmin").dataTable({ paging: true, pageLength: 50,order: [[1, "asc"]] });
 
@@ -681,6 +693,9 @@ function deleteTableRow(id) {
 
     $('table#serviceTable tr#' + id).remove();
     $('#serviceTable').trigger('rowAddOrRemove');
+
+    $('table#mFormTable tr#' + id).remove();
+    $('#mFormTable').trigger('rowAddOrRemove');
 
     $('table#paymentTypeTable tr#' + id).remove();
     $('#paymentTypeTable').trigger('rowAddOrRemove');
@@ -906,6 +921,34 @@ function getCustomerId() {
     }
 }
 
+function getMedicalFormId() {
+    try {
+        $('#chooseMedicalFormModal tbody').on('click', 'td .create-registered-customer-reservation', function () {
+            var selectedMedicalFormID = this.id;
+            var patientName = $(this).attr("data-name");
+            $(".close").trigger("click");
+            $(this).text("Seçildi");
+            $(this).addClass("btn-danger");
+            var rowId = selectedMedicalFormID;
+                var markup = "<tr class='medical_form' id='" + rowId + "'>" +
+                    "<td id='" + rowId + "'>" + patientName + "</td>" +
+                    // "<td>" + customerNumber + "</td>" +
+                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Kaldır</button></td>" +
+                    "</tr>";
+
+                // $("#addMform").find('#customerNumber').val("");
+                $('#mFormTable tbody').append(markup);
+                $('#mFormTable').trigger('rowAddOrRemove');
+            $("#next-step").trigger("click");
+            $(".patientName").html('<i class="fa fa-user text-primary mr-2"></i>' + patientName);
+            medicalFormID = selectedMedicalFormID;
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 function getDiscountDetail() {
     try {
         $("#discountId").on("change", function () {
@@ -1020,6 +1063,33 @@ function createServiceOperation() {
         console.log(error);
     }
 }
+function createFormOperation() {
+    try {
+        $('#createMForm').on('click', function () {
+            var mFormID = $("#addMform").find('#mFormID').children("option:selected").val();
+            var serviceName = $("#addMform").find('#mFormID').children("option:selected").text();
+            // var customerNumber = $("#addMform").find('#customerNumber').val();
+
+            // if (mFormID == "" || customerNumber == "") {
+            //     swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            // }
+            // else {
+                var rowId = mFormID;
+                var markup = "<tr class='medical_form' id='" + rowId + "'>" +
+                    "<td id='" + rowId + "'>" + serviceName + "</td>" +
+                    // "<td>" + customerNumber + "</td>" +
+                    "<td><button onclick='deleteTableRow(" + rowId + ")' class='btn btn-danger delete-btn'><i class='fa fa-window-close'></i> Kaldır</button></td>" +
+                    "</tr>";
+
+                // $("#addMform").find('#customerNumber').val("");
+                $('#mFormTable tbody').append(markup);
+                $('#mFormTable').trigger('rowAddOrRemove');
+            // }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function createTherapistOperation(){
     try {
@@ -1046,6 +1116,21 @@ function createTherapistOperation(){
         });
     } catch (error) {
         console.log(error);
+    }
+}
+function saveMedicalForm(){
+    try {
+        $('#saveMedicalForm').on('click',function() {
+            $("#mFormTable").find("tbody tr").each(function (i) {
+                var reservationID = $('#addMform').find('#reservation_id').val();
+                var $tds = $(this).find('td');
+                medicalFormId = $tds.attr("id");
+                addMedicalFormReservation(reservationID, medicalFormId);
+            });
+        })
+
+    } catch (error) {
+
     }
 }
 
@@ -1084,16 +1169,23 @@ function addReservationOperation() {
                     $(".therapist-name").text(therapistName);
                 });
 
+                //Medical Form
+                $("#mFormTable").find("tbody tr").each(function (i) {
+                    var $tds = $(this).find('td');
+                });
+
                 $(".sob-name").text(sourceName);
                 $("#next-step").trigger("click");
                 // $(".payment-type").text(paymentType);
                 if (customerID == undefined) {
-                    var name_surname = $("#addCustomerModal").find('#name_surname').val();
-                    var phone = $("#addCustomerModal").find('#phone').val();
-                    var country = $("#addCustomerModal").find('#country').children("option:selected").val();
-                    var email = $("#addCustomerModal").find('#email').val();
+                    var medicalForm_id = medicalFormID;
+                    // var name_surname = $("#addCustomerModal").find('#name_surname').val();
+                    // var phone = $("#addCustomerModal").find('#phone').val();
+                    // var country = $("#addCustomerModal").find('#country').children("option:selected").val();
+                    // var email = $("#addCustomerModal").find('#email').val();
                     setTimeout(() => {
-                        addCustomer(name_surname, phone, country, email);
+                        // addCustomer(name_surname, phone, country, email);
+                        addCustomer(medicalForm_id);
                     }, 500);
                 }
             }
@@ -1139,6 +1231,13 @@ function completeReservation() {
                         serviceId = $tds.attr("id");
                         piece = $tds.eq(1).text();
                         addServicetoReservation(reservationID, serviceId, piece);
+                    });
+
+                    //Medical Form
+                    $("#mFormTable").find("tbody tr").each(function (i) {
+                        var $tds = $(this).find('td');
+                        medicalFormId = $tds.attr("id");
+                        addMedicalFormReservation(reservationID, medicalFormId);
                     });
 
                     //Therapists
@@ -1324,6 +1423,39 @@ function addServicetoReservation(reservationID, serviceId, piece) {
     }
 }
 
+
+function addMedicalFormReservation(reservationID, medicalFormId) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/reservations/addMedicalFormtoReservation',
+            type: 'POST',
+            data: {
+                'reservationId': reservationID,
+                'medicalFormId': medicalFormId,
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    swal({ icon: 'success', title: 'Başarılı!', text: 'Medikal Form Başarıyla Eklendi!', timer: 1000 });
+                    setTimeout(() => {
+                        location.reload();
+                   }, 1500);
+                }
+            },
+
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function addTherapisttoReservation(reservationID, therapistId, piece) {
     try {
         $.ajaxSetup({
@@ -1385,7 +1517,7 @@ function addComission(hotelId, guideId) {
     }
 }
 
-function addCustomer(name_surname, phone, country, email) {
+function addCustomer(medicalForm_id) {
     try {
         $.ajaxSetup({
             headers: {
@@ -1396,10 +1528,10 @@ function addCustomer(name_surname, phone, country, email) {
             url: '/customers/save',
             type: 'POST',
             data: {
-                'name_surname': name_surname,
-                'phone': phone,
-                'country': country,
-                'email': email
+                'id': medicalForm_id
+                // 'phone': phone,
+                // 'country': country,
+                // 'email': email
             },
             async: false,
             dataType: 'json',
@@ -1475,6 +1607,28 @@ function addGuideComissionOperation() {
                 swal({ icon: 'success', title: 'Başarılı!', text: 'Rehber Komisyonu Başarıyla Eklendi!', timer: 1000 });
                 setTimeout(() => {
                      location.reload();
+                }, 1500);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addServiceOperation() {
+    try {
+        $('#addServicetoReservationSave').on('click', function () {
+            var reservationID = $("#addServiceModal").find('#reservation_id').val();
+            var serviceId = $("#addServiceModal").find('#serviceId').children("option:selected").val();
+            var piece = $("#addServiceModal").find('#piece').val();
+            if (serviceId == "" || piece == "") {
+                swal({ icon: 'error', title: 'Lütfen Boşlukları Doldurunuz!', text: '' });
+            }
+            else {
+                addServicetoReservation(reservationID, serviceId, piece);
+                swal({ icon: 'success', title: 'Başarılı!', text: 'Hizmet Başarıyla Eklendi!', timer: 1000 });
+                setTimeout(() => {
+                    location.reload();
                 }, 1500);
             }
         });

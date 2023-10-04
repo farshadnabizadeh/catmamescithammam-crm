@@ -17,6 +17,8 @@ use App\Models\Hotel;
 use App\Models\Guide;
 use App\Models\User;
 use App\Mail\NotificationMail;
+use App\Models\MedicalForm;
+use App\Models\ReservationMedicalForm;
 use Mail;
 use Auth;
 use Illuminate\Http\Request;
@@ -102,8 +104,9 @@ class ReservationController extends Controller
             $sources = Source::whereNotIn('id',[1])->orderBy('name', 'asc')->get();
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $customers = Customer::orderBy('name_surname', 'asc')->get();
+            $medical_forms = MedicalForm::orderBy('name_surname', 'asc')->get();
             $payment_types = PaymentType::orderBy('type_name', 'asc')->get();
-            $data = array('services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'payment_types' => $payment_types);
+            $data = array('medical_forms' => $medical_forms,'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'payment_types' => $payment_types);
             return view('admin.reservations.new_reservation')->with($data);
         }
         catch (\Throwable $th) {
@@ -178,6 +181,28 @@ class ReservationController extends Controller
             $newData->reservation_id = $request->input('reservationId');
             $newData->service_id = $request->input('serviceId');
             $newData->piece = $request->input('piece');
+            $newData->user_id = $user->id;
+
+            if ($newData->save()) {
+                return response(true, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addMedicalFormtoReservation(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $newData = new ReservationMedicalForm();
+            $newData->reservation_id = $request->input('reservationId');
+            $newData->medical_form_id = $request->input('medicalFormId');
             $newData->user_id = $user->id;
 
             if ($newData->save()) {
@@ -330,6 +355,7 @@ class ReservationController extends Controller
         try {
             $reservation = Reservation::where('id','=', $id)->first();
             $services = Service::orderBy('name', 'asc')->get();
+            $medical_forms = MedicalForm::orderBy('name_surname', 'asc')->get();
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $payment_types = PaymentType::all();
             $hotels = Hotel::all();
@@ -352,6 +378,10 @@ class ReservationController extends Controller
             $reservation_therapist = ReservationTherapist::where('reservations_therapists.reservation_id', '=', $id);
             $hasTherapist = false;
             $hasTherapist = $reservation_therapist->get()->count() > 0 ? true : false;
+
+            $reservation_medical_form = ReservationMedicalForm::where('reservations_medical_forms.reservation_id', '=', $id);
+            $hasMedicalForm = false;
+            $hasMedicalForm = $reservation_medical_form->get()->count() > 0 ? true : false;
 
             $totalPrice     = [];
             $totalPriceTL   = [];
@@ -383,12 +413,15 @@ class ReservationController extends Controller
             $totalPayment     = array_sum($totalPriceTL);
             $totalTL= $totalPayment + ($totalPaymentGBP * $gbp_satis) + ($totalPaymentEuro * $euro_satis) + ($totalPaymentUsd * $usd_satis);
             $totalEuro = $totalTL / $euro_satis;
-            $data = array('totalTL'=>$totalTL,'totalEuro' => $totalEuro,'guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'hotels' => $hotels);
+            $data = array('medical_forms'=>$medical_forms,'totalTL'=>$totalTL,'totalEuro' => $totalEuro,'guides'=>$guides,'reservation' => $reservation, 'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'payment_types' => $payment_types, 'hasPaymentType' => $hasPaymentType, 'hasComission' => $hasComission, 'hasService' => $hasService, 'hasTherapist' => $hasTherapist, 'hasMedicalForm' => $hasMedicalForm,'hotels' => $hotels);
 
             $page = $request->input('page');
 
             if($page == "payments"){
                 return view('admin.reservations.payment_reservation')->with($data);
+            }
+            else if($page == "medicalforms"){
+                return view('admin.reservations.medical_form_reservation')->with($data);
             }
             else if($page == "comissions"){
                 return view('admin.reservations.comission_reservation')->with($data);
@@ -593,7 +626,15 @@ class ReservationController extends Controller
             throw $th;
         }
     }
-
+    public function destroyMedicalForm($id){
+        try {
+            ReservationMedicalForm::find($id)->delete();
+            return back()->with('message', 'Medikal Form Başarıyla Silindi!');
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     public function destroyPaymentType($id){
         try {
             ReservationPaymentType::find($id)->delete();

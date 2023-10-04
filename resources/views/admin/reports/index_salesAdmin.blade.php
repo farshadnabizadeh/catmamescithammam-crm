@@ -214,7 +214,7 @@
                                         @else
                                         <th>Toplam GBP: <b>£ {{ number_format($totalGBP, 2) }}</b></th>
                                         @endif
-                                        <th>Toplam HAK EDIŞ <b>{{ number_format($totalComission, 2) }} TL</th>
+                                        <th>Toplam HAK EDIŞ: <b>₺ {{ number_format($totalComission, 2) }}</b></th>
                                         <th></th>
                                         <th></th>
                                     </tr>

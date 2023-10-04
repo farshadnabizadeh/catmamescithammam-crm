@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Country;
+use App\Models\MedicalForm;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -85,11 +86,13 @@ class CustomersController extends Controller
     public function save(Request $request)
     {
         try {
+            $id=$request->input('id');
+            $customer= MedicalForm::where('id','=',$id)->first();
             $newData = new Customer();
-            $newData->name_surname = $request->input('name_surname');
-            $newData->phone = $request->input('phone');
-            $newData->country = $request->input('country');
-            $newData->email = $request->input('email');
+            $newData->name_surname = $customer->name_surname;
+            $newData->phone = $customer->phone;
+            $newData->country = $customer->country;
+            $newData->email = $customer->email;
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 

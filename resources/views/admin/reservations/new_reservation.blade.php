@@ -36,7 +36,9 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
                                     <div class="card p-3 mt-3">
-                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Yeni Müşteri Oluştur <i class="fa fa-plus"></i></button>
+                                        {{-- <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Yeni Müşteri Oluştur <i class="fa fa-plus"></i></button> --}}
+                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseMedicalFormModal">Kayıtlı Medikal Formlardan Seçin <i class="fa fa-wpforms"></i></button>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-xs-6">
@@ -120,6 +122,19 @@
                                                 <div class="form-group">
                                                     <label for="note">Rezervasyon Notu</label>
                                                     <textarea class="form-control" id="note" placeholder="Rezervasyon Notu"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMform">Medikal Form Ekle</button>
+                                                    <table class="table table-bordered mt-3" id="mFormTable">
+                                                        <tr>
+                                                            <th>Ad Soyad</th>
+                                                            <th>Operation</th>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -708,7 +723,7 @@
                                     @foreach ($customers as $customer)
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->customer_name_surname }}"><i class="fa fa-check"></i> Seç</button>
+                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->name_surname }}"><i class="fa fa-check"></i> Seç</button>
                                         </td>
                                         <td>{{ $customer->name_surname }}</td>
                                         <td>{{ $customer->phone }}</td>
@@ -728,5 +743,80 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="chooseMedicalFormModal">
+    <div class="modal-dialog" style="max-width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Kayıtlı Medikal Formları</h4>
+                <button type="button" class="close add-reservation-close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card p-3">
+                            <div class="dt-responsive table-responsive">
+                                <table class="table table-striped table-bordered nowrap dataTable" id="tableData2">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Operation</th>
+                                            <th scope="col">Adı Soyadı</th>
+                                            <th scope="col">Telefon</th>
+                                            <th scope="col">Ülke</th>
+                                            <th scope="col">Email</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($medical_forms as $customer)
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-success action-btn create-registered-customer-reservation" id="{{ $customer->id }}" data-name="{{ $customer->name_surname }}"><i class="fa fa-check"></i> Seç</button>
+                                        </td>
+                                        <td>{{ $customer->name_surname }}</td>
+                                        <td>{{ $customer->phone }}</td>
+                                        <td>{{ $customer->country }}</td>
+                                        <td>{{ $customer->email }}</td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addMform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bakım Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <label for="mFormID">Ad Soyad</label>
+                        <select id="mFormID" class="form-control">
+                            <option></option>
+                            @foreach ($medical_forms as $service)
+                            <option value="{{ $service->id }}">{{ $service->name_surname }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right mt-3" id="createMForm">Kaydet <i class="fa fa-check" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -65,6 +65,11 @@ class Reservation extends Model
         return $this->belongsToMany(PaymentType::class, 'reservations_payments_types', 'reservation_id', 'payment_type_id')
             ->selectRaw('payment_types.*, reservations_payments_types.*');
     }
+    public function subMedicalForms()
+    {
+        return $this->belongsToMany(MedicalForm::class, 'reservations_medical_forms', 'reservation_id', 'medical_form_id')
+            ->selectRaw('medical_forms.*, reservations_medical_forms.*');
+    }
 
     public function subHotelComissions()
     {

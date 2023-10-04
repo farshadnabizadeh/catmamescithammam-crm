@@ -67,12 +67,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::GET('contactforms/destroy/{id}', 'ContactFormController@destroy')->middleware(['middleware' => 'permission:delete contactform'])->name('contactform.destroy');
     //Contact Forms end
 
-      //Contact Forms
-      Route::GET('medicalforms', 'MedicalFormController@index')->middleware(['middleware' => 'permission:show contactform'])->name('medicalform.index');
-      Route::GET('medicalforms/edit/{id}', 'MedicalFormController@edit')->middleware(['middleware' => 'permission:edit contactform'])->name('medicalform.edit');
-      Route::POST('medicalforms/update/{id}', 'MedicalFormController@update')->middleware(['middleware' => 'permission:edit contactform'])->name('medicalform.update');
-      Route::GET('medicalforms/destroy/{id}', 'MedicalFormController@destroy')->middleware(['middleware' => 'permission:delete contactform'])->name('medicalform.destroy');
-      //Contact Forms end
+    //Medical Forms
+    Route::POST('reservations/addMedicalFormtoReservation', 'ReservationController@addMedicalFormtoReservation')->middleware(['middleware' => 'permission:create reservation']);
+    Route::GET('reservations/medicalform/destroy/{id}', 'ReservationController@destroyMedicalForm')->middleware(['middleware' => 'permission:delete reservation'])->name('reservation.medicalform.destroy');
+    Route::GET('medicalforms', 'MedicalFormController@index')->middleware(['middleware' => 'permission:show contactform'])->name('medicalform.index');
+    Route::GET('medicalforms/edit/{id}', 'MedicalFormController@edit')->middleware(['middleware' => 'permission:edit contactform'])->name('medicalform.edit');
+    Route::POST('medicalforms/update/{id}', 'MedicalFormController@update')->middleware(['middleware' => 'permission:edit contactform'])->name('medicalform.update');
+    Route::GET('medicalforms/destroy/{id}', 'MedicalFormController@destroy')->middleware(['middleware' => 'permission:delete contactform'])->name('medicalform.destroy');
+    //Medical Forms end
 
     //Comissions
     Route::POST('addComissiontoReservation', 'ReservationController@addComissiontoReservation');
