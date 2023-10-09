@@ -197,24 +197,24 @@
                                     <tr>
                                         <th></th>
                                         <th></th>
-                                        <th>Toplam Pax: <b>{{ $totalPax }} Kişi</b></th>
+                                        <th><b>{{ $totalPax }}</b></th>
                                         @if($totalTL <= 0)
                                         @else
-                                        <th>Toplam TL: <b>₺ {{ number_format($totalTL, 2) }}</b></th>
+                                        <th><b> {{ number_format($totalTL, 2) }}</b></th>
                                         @endif
                                         @if($totalUSD <= 0)
                                         @else
-                                        <th>Toplam USD: <b>$ {{ number_format($totalUSD, 2) }}</b></th>
+                                        <th><b> {{ number_format($totalUSD, 2) }}</b></th>
                                         @endif
                                         @if($totalEURO <= 0)
                                         @else
-                                        <th>Toplam EURO: <b>€ {{ number_format($totalEURO, 2) }}</b></th>
+                                        <th><b> {{ number_format($totalEURO, 2) }}</b></th>
                                         @endif
                                         @if($totalGBP <= 0)
                                         @else
-                                        <th>Toplam GBP: <b>£ {{ number_format($totalGBP, 2) }}</b></th>
+                                        <th><b>{{ number_format($totalGBP, 2) }}</b></th>
                                         @endif
-                                        <th>Toplam HAK EDIŞ: <b>₺ {{ number_format($totalComission, 2) }}</b></th>
+                                        <th><b> {{ number_format($totalComission, 2) }}</b></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
