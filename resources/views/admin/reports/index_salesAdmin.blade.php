@@ -109,7 +109,7 @@
                                                 @endif
                                             @endforeach
                                             @if ($totalTLPayment > 0)
-                                                <span>{{ number_format($totalTLPayment, 2) }}</span>
+                                                {{ $totalTLPayment }}
                                             @endif
 
                                         </td>
@@ -129,7 +129,7 @@
                                                 @endif
                                             @endforeach
                                             @if ($totalUSDPayment > 0)
-                                                <span>{{ number_format($totalUSDPayment,2) }}</span>
+                                                {{ $totalUSDPayment }}
                                             @endif
                                         </td>
                                         @endif
@@ -148,7 +148,7 @@
                                                 @endif
                                             @endforeach
                                             @if ($totalEUROPayment > 0)
-                                                <span>{{ number_format($totalEUROPayment,2) }}</span>
+                                                {{ $totalEUROPayment }}
                                             @endif
                                         </td>
                                         @endif
@@ -167,7 +167,7 @@
                                                 @endif
                                             @endforeach
                                             @if ($totalGBPPayment > 0)
-                                                <span>{{ number_format($totalGBPPayment,2) }}</span>
+                                                {{ $totalGBPPayment }}
                                             @endif
                                         </td>
                                         @endif
@@ -175,19 +175,19 @@
                                         <td>
                                             @foreach($reservation->subHotelComissions as $value)
                                                 @if ( $value->comission_price != NULL)
-                                                    {{ number_format($value->comission_price,2) }}
+                                                    {{ $value->comission_price }}
                                                 @endif
                                             @endforeach
                                             @foreach($reservation->subGuideComissions as $values)
                                                 @if ( $values->comission_price != NULL)
-                                                    {{ number_format($value->comission_price,2) }}
+                                                    {{ $values->comission_price }}
                                                 @endif
                                             @endforeach
                                         </td>
                                         <td>{{ $reservation->customer->name_surname }}</td>
                                         <td>
                                             @foreach($reservation->subServices as $value)
-                                                <span>{{ $value->piece   }} {{ $value->name }} +</span>
+                                               {{ $value->piece   }} {{ $value->name }} +
                                             @endforeach
                                         </td>
                                     </tr>

@@ -88,6 +88,11 @@ class ReportController extends Controller
         $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
+            ->when($user->hasRole('Sales Admin'), function ($query) {
+                $query->where(function ($query) {
+                    $query->whereIn('reservations.source_id', [3]);
+                });
+            })
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
