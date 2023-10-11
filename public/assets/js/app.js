@@ -994,12 +994,13 @@ function getDiscountDetail() {
 function addCustomertoReservationModal() {
     try {
         $('#addCustomertoReservationSave').on('click', function(){
-            var customerNameSurname = $("#addCustomerModal").find('#customerNameSurname').val();
-            if (customerNameSurname == ""){
+            var patientName = $("#addCustomerModal").find('#name_surname').val();
+            if (patientName == ""){
                 swal({ icon: 'error', title: 'Lütfen boşlukları doldurun!', text: '' });
             }
             else {
                 $("#next-step").trigger("click");
+                $(".patientName").html('<i class="fa fa-user text-primary mr-2"></i>' + patientName);
                 $('.add-reservation-close').trigger('click');
             }
         });
@@ -1179,13 +1180,13 @@ function addReservationOperation() {
                 // $(".payment-type").text(paymentType);
                 if (customerID == undefined) {
                     var medicalForm_id = medicalFormID;
-                    // var name_surname = $("#addCustomerModal").find('#name_surname').val();
-                    // var phone = $("#addCustomerModal").find('#phone').val();
-                    // var country = $("#addCustomerModal").find('#country').children("option:selected").val();
-                    // var email = $("#addCustomerModal").find('#email').val();
+                    var name_surname = $("#addCustomerModal").find('#name_surname').val();
+                    var phone = $("#addCustomerModal").find('#phone').val();
+                    var country = $("#addCustomerModal").find('#country').children("option:selected").val();
+                    var email = $("#addCustomerModal").find('#email').val();
                     setTimeout(() => {
-                        // addCustomer(name_surname, phone, country, email);
-                        addCustomer(medicalForm_id);
+                        addCustomer(name_surname, phone, country, email);
+                        addCustomerMF(medicalForm_id);
                     }, 500);
                 }
             }
@@ -1516,8 +1517,38 @@ function addComission(hotelId, guideId) {
         console.log(error);
     }
 }
+// function addCustomerMform(medicalForm_id) {
+//     try {
+//         $.ajaxSetup({
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             }
+//         });
+//         $.ajax({
+//             url: '/customers/save',
+//             type: 'POST',
+//             data: {
+//                 'id': medicalForm_id
+//                 // 'phone': phone,
+//                 // 'country': country,
+//                 // 'email': email
+//             },
+//             async: false,
+//             dataType: 'json',
+//             success: function (response) {
+//                 if (response) {
+//                     // swal({ icon: 'success', title: 'Başarılı!', text: 'Customer Added Successfully!', timer: 1000 });
+//                     customerID = response;
+//                 }
+//             },
 
-function addCustomer(medicalForm_id) {
+//             error: function () { },
+//         });
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+function addCustomer(name_surname, phone, country, email) {
     try {
         $.ajaxSetup({
             headers: {
@@ -1528,10 +1559,10 @@ function addCustomer(medicalForm_id) {
             url: '/customers/save',
             type: 'POST',
             data: {
-                'id': medicalForm_id
-                // 'phone': phone,
-                // 'country': country,
-                // 'email': email
+                'name_surname': name_surname,
+                'phone': phone,
+                'country': country,
+                'email': email
             },
             async: false,
             dataType: 'json',
@@ -1548,7 +1579,34 @@ function addCustomer(medicalForm_id) {
         console.log(error);
     }
 }
+function addCustomerMF(medicalForm_id) {
+    try {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/customers/saveMF',
+            type: 'POST',
+            data: {
+                'id': medicalForm_id,
+            },
+            async: false,
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    // swal({ icon: 'success', title: 'Başarılı!', text: 'Customer Added Successfully!', timer: 1000 });
+                    customerID = response;
+                }
+            },
 
+            error: function () { },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
 function addPaymentTypeOperation() {
     try {
         $('#addPaymentTypetoReservationSave').on('click', function () {
@@ -2064,42 +2122,41 @@ function financeTableSalesAdmin() {
 
     // Function to check if a value is numeric
     function isNumeric(value) {
-        return !isNaN(value) && !isNaN(parseFloat(value));
+        return !isNaN(value) && value !== '' && value !== null;
     }
 
-    // Iterate through all cells, format numeric values as numbers, and trim the last column
+    // Initialize an array to store the sums of numeric columns
+    var columnSums = new Array(data[0].length).fill(0);
+
+    // Iterate through all cells, format numeric values as numbers, and calculate column sums
     for (var i = 0; i < data.length; i++) {
         for (var j = 0; j < data[i].length; j++) {
             var cellValue = data[i][j];
             if (typeof cellValue === 'string' && isNumeric(cellValue)) {
                 data[i][j] = parseFloat(cellValue);
+                // Update column sum for this numeric column
+                columnSums[j] += data[i][j];
             } else if (typeof cellValue === 'string') {
                 data[i][j] = removeHtmlTags(cellValue);
             }
-        }
-        // Trim the last column value
-        if (i > 0) {
-            var lastColValue = data[i][data[i].length - 1];
-            data[i][data[i].length - 1] = lastColValue.trim();
         }
     }
 
     // Create a worksheet from the data
     var ws = XLSX.utils.json_to_sheet(data);
 
-    // Get the content of the <thead> and <tfoot> sections
+    // Get the content of the <thead> section
     var theadContent = $('#financeTableSalesAdmin thead').html();
-    var tfootContent = $('#financeTableSalesAdmin tfoot').html();
 
     // Create a workbook and add the worksheet to it
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    // Modify the workbook to include <thead> and <tfoot>
+    // Modify the workbook to include <thead>
     if (theadContent) {
         // Parse the <thead> content to extract header labels
         var theadLabels = [];
-        $(theadContent).find('th').each(function() {
+        $(theadContent).find('th').each(function () {
             theadLabels.push($(this).text());
         });
 
@@ -2107,15 +2164,17 @@ function financeTableSalesAdmin() {
         XLSX.utils.sheet_add_aoa(ws, [theadLabels], { origin: 'A1' });
     }
 
-    if (tfootContent) {
-        // Parse the <tfoot> content to extract footer labels
-        var tfootLabels = [];
-        $(tfootContent).find('th').each(function() {
-            tfootLabels.push($(this).text());
-        });
+    // Add an additional row at the end
+    var newRow = new Array(data[0].length).fill('');
+    XLSX.utils.sheet_add_aoa(ws, [newRow], { origin: -1 });
 
-        // Insert the <tfoot> labels as the last row in the worksheet
-        XLSX.utils.sheet_add_aoa(ws, [tfootLabels], { origin: -1 });
+    // Add the SUM functions to the new row for all numeric columns
+    for (var j = 0; j < data[0].length; j++) {
+        if (columnSums[j] !== 0) {
+            // Place the SUM formula in the new row of the column
+            var cellAddress = String.fromCharCode('A'.charCodeAt(0) + j) + (data.length + 2); // Note: Use data.length + 2 for the new row
+            ws[cellAddress] = { t: 'f', f: '=SUM(' + String.fromCharCode('A'.charCodeAt(0) + j) + '2:' + String.fromCharCode('A'.charCodeAt(0) + j) + (data.length + 1) + ')' };
+        }
     }
 
     // Generate a filename based on the current date and time
@@ -2128,3 +2187,6 @@ function financeTableSalesAdmin() {
     // Restore the original pagination settings
     table.page(originalPaging.page).draw(false);
 }
+
+
+

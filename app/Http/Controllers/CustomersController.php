@@ -83,7 +83,7 @@ class CustomersController extends Controller
         }
     }
 
-    public function save(Request $request)
+    public function saveMF(Request $request)
     {
         try {
             $id=$request->input('id');
@@ -93,6 +93,29 @@ class CustomersController extends Controller
             $newData->phone = $customer->phone;
             $newData->country = $customer->country;
             $newData->email = $customer->email;
+            $newData->user_id = auth()->user()->id;
+            $result = $newData->save();
+
+            if ($result) {
+                return response($newData->id, 200);
+            }
+            else {
+                return response(false, 500);
+            }
+        }
+        catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function save(Request $request)
+    {
+        try {
+            $newData = new Customer();
+            $newData->name_surname = $request->input('name_surname');
+            $newData->phone = $request->input('phone');
+            $newData->country = $request->input('country');
+            $newData->email = $request->input('email');
             $newData->user_id = auth()->user()->id;
             $result = $newData->save();
 

@@ -34,14 +34,17 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-sm-4 col-xs-4">
                                     <div class="card p-3 mt-3">
-                                        {{-- <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Yeni Müşteri Oluştur <i class="fa fa-plus"></i></button> --}}
-                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseMedicalFormModal">Kayıtlı Medikal Formlardan Seçin <i class="fa fa-wpforms"></i></button>
-
+                                        <button class="btn btn-primary" id="createNewPatient" data-toggle="modal" data-target="#addCustomerModal">Yeni Müşteri Oluştur <i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-sm-4 col-xs-4">
+                                    <div class="card p-3 mt-3">
+                                        <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseMedicalFormModal">Kayıtlı Medikal Formlardan Seçin <i class="fa fa-wpforms"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4 col-xs-4">
                                     <div class="card p-3 mt-3">
                                         <button class="btn btn-primary" id="choosePatient" data-toggle="modal" data-target="#chooseCustomerModal">Kayıtlı Müşterilerden Seç <i class="fa fa-user"></i></button>
                                     </div>

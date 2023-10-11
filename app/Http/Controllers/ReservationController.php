@@ -104,7 +104,9 @@ class ReservationController extends Controller
             $sources = Source::whereNotIn('id',[1])->orderBy('name', 'asc')->get();
             $therapists = Therapist::orderBy('name', 'asc')->get();
             $customers = Customer::orderBy('name_surname', 'asc')->get();
-            $medical_forms = MedicalForm::orderBy('name_surname', 'asc')->get();
+            $medical_forms = MedicalForm::whereDate('created_at', now()->toDateString())
+            ->orderBy('name_surname', 'asc')
+            ->get();
             $payment_types = PaymentType::orderBy('type_name', 'asc')->get();
             $data = array('medical_forms' => $medical_forms,'services' => $services, 'sources' => $sources, 'therapists' => $therapists, 'customers' => $customers, 'payment_types' => $payment_types);
             return view('admin.reservations.new_reservation')->with($data);
