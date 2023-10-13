@@ -1000,8 +1000,8 @@ function addCustomertoReservationModal() {
             }
             else {
                 $("#next-step").trigger("click");
-                $(".patientName").html('<i class="fa fa-user text-primary mr-2"></i>' + patientName);
                 $('.add-reservation-close').trigger('click');
+                $(".patientName").html('<i class="fa fa-user text-primary mr-2"></i>' + patientName);
             }
         });
     } catch (error) {
