@@ -1184,10 +1184,17 @@ function addReservationOperation() {
                     var phone = $("#addCustomerModal").find('#phone').val();
                     var country = $("#addCustomerModal").find('#country').children("option:selected").val();
                     var email = $("#addCustomerModal").find('#email').val();
-                    setTimeout(() => {
-                        addCustomer(name_surname, phone, country, email);
-                        addCustomerMF(medicalForm_id);
-                    }, 500);
+
+                    if (name_surname == ""){
+                        setTimeout(() => {
+                            addCustomerMF(medicalForm_id);
+                        }, 500);
+                    }else{
+                        setTimeout(() => {
+                            addCustomer(name_surname, phone, country, email);
+                            // addCustomerMF(medicalForm_id);
+                        }, 500);
+                    }
                 }
             }
         });

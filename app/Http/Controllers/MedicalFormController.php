@@ -51,9 +51,9 @@ class MedicalFormController extends Controller
                     })
                     ->editColumn('signature', function ($item) {
                         // return "<a href='$item->signature' id='image-popup'><img src='$item->signature' alt='Signature' width='150' height='auto'></a>";
-                        return "<button id='show-img' data-toggle='modal' data-target='#addHotelComissionModal'><img src='$item->signature' width='150' height='auto'></button>
+                        return "<button id='show-img' data-toggle='modal' data-target='#img$item->id'><img src='$item->signature' width='150' height='auto'></button>
 
-                        <div id='addHotelComissionModal' class='modal fade' aria-labelledby='my-modalLabel' aria-hidden='true' tabindex='-1' role='dialog'>
+                        <div id='img$item->id' class='modal fade' aria-labelledby='my-modalLabel' aria-hidden='true' tabindex='-1' role='dialog'>
                             <div class='modal-dialog' data-dismiss='modal' style='margin: 20% auto;'>
                                 <div class='modal-content' >
                                     <div class='modal-body'>
