@@ -98,3 +98,14 @@
         </div>
     </div>
 @endsection
+@section('footer')
+<script>
+    $(document).ready(function() {
+        // When a navigation item is clicked
+        $(".nav-item").click(function() {
+            // Toggle the "active" class on the clicked navigation item
+            $(this).toggleClass("active");
+        });
+    });
+    </script>
+@endsection
