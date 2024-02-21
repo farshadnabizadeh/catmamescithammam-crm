@@ -158,13 +158,6 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('show reservation reports')
-                                <li>
-                                    <a href="{{ route('report.reservation', ['startDate' => date("Y-m-d"), 'endDate' => date("Y-m-d")]) }}">
-                                        <span>Rezervasyon Raporu</span>
-                                    </a>
-                                </li>
-                            @endcan
                         </ul>
                     </li>
                     @endcan
