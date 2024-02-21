@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 Route::GET('/', function () {
     return view('auth.login');
@@ -9,13 +11,19 @@ Route::GET('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::GET('/clear-cache', function() {
+Route::GET('/clear-cache', function () {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('config:cache');
     return 'DONE';
 });
-
-Route::group(['middleware' => ['auth']], function(){
+Route::get('/create/user', function () {
+    $createUser = User::create([
+        'name' => 'farshadnabizadeh1993@gmail.com',
+        'email' => 'farshadnabizadeh1993@gmail.com',
+        'password' => bcrypt('farshadnabizadeh1993@gmail.com'),
+    ]);
+});
+Route::group(['middleware' => ['auth']], function () {
 
     Route::GET('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::GET('logout', '\App\Http\Controllers\Auth\LoginController@logout');
@@ -223,4 +231,170 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Report end
 
+});
+Route::get('/user/permission', function () {
+    $permissions = [
+        'show users',
+        'create users',
+        'edit users',
+        'delete users',
+        'show roles',
+        'create roles',
+        'edit roles',
+        'delete roles',
+        'show customers',
+        'create customers',
+        'edit customers',
+        'delete customers',
+        'show bookingform',
+        'edit bookingform',
+        'delete bookingform',
+        'show contactform',
+        'edit contactform',
+        'delete contactform',
+        'create reservation',
+        'edit reservation',
+        'delete reservation',
+        'show hotel',
+        'create hotel',
+        'edit hotel',
+        'delete hotel',
+        'show payment type',
+        'create payment type',
+        'edit payment type',
+        'delete payment type',
+        'show sources',
+        'create sources',
+        'edit sources',
+        'delete sources',
+        'show form statuses',
+        'create form statuses',
+        'edit form statuses',
+        'delete form statuses',
+        'show services',
+        'create services',
+        'edit services',
+        'delete services',
+        'show guides',
+        'create guides',
+        'edit guides',
+        'delete guides',
+        'show sales person',
+        'create sales person',
+        'edit sales person',
+        'delete sales person',
+        'show therapist',
+        'create therapist',
+        'edit therapist',
+        'delete therapist',
+        'show discount',
+        'create discount',
+        'edit discount',
+        'delete discount',
+    ];
+    foreach ($permissions as $item) {
+        // Check if the permission already exists
+        $existingPermission = Permission::where('name', $item)->where('guard_name', 'web')->first();
+        if (!$existingPermission) {
+            Permission::create(['name' => $item, 'guard_name' => 'web']);
+        }
+    }
+
+    echo "Permissions seeded successfully.";
+    // 
+    // Permission::create(['name' => 'edit users']);
+    // Permission::create(['name' => 'delete users']);
+
+});
+
+
+Route::get('/user/role/create', function () {
+    $permissions = [
+        'show users',
+        'create users',
+        'edit users',
+        'delete users',
+        'show roles',
+        'create roles',
+        'edit roles',
+        'delete roles',
+        'show customers',
+        'create customers',
+        'edit customers',
+        'delete customers',
+        'show bookingform',
+        'edit bookingform',
+        'delete bookingform',
+        'show contactform',
+        'edit contactform',
+        'delete contactform',
+        'create reservation',
+        'edit reservation',
+        'delete reservation',
+        'show hotel',
+        'create hotel',
+        'edit hotel',
+        'delete hotel',
+        'show payment type',
+        'create payment type',
+        'edit payment type',
+        'delete payment type',
+        'show sources',
+        'create sources',
+        'edit sources',
+        'delete sources',
+        'show form statuses',
+        'create form statuses',
+        'edit form statuses',
+        'delete form statuses',
+        'show services',
+        'create services',
+        'edit services',
+        'delete services',
+        'show guides',
+        'create guides',
+        'edit guides',
+        'delete guides',
+        'show sales person',
+        'create sales person',
+        'edit sales person',
+        'delete sales person',
+        'show therapist',
+        'create therapist',
+        'edit therapist',
+        'delete therapist',
+        'show discount',
+        'create discount',
+        'edit discount',
+        'delete discount',
+    ];
+    $roleName = 'super admin';
+    $role = Role::where('name', $roleName)->first();
+    if (!$role) {
+        $role = Role::create(['name' => $roleName]);
+    }
+
+    foreach ($permissions as $item) {
+        // Check if the permission already exists
+        $permission = Permission::where('name', $item)->first();
+        if (!$permission) {
+            $permission = Permission::create(['name' => $item]);
+        }
+        // Attach the permission to the role if it's not already attached
+        if (!$role->hasPermissionTo($item)) {
+            $role->givePermissionTo($item);
+        }
+    }
+
+    $userId = 1; // Example user ID
+    $user = User::find($userId);
+    if ($user) {
+        // Assign the role to the user if not already assigned
+        if (!$user->hasRole($roleName)) {
+            $user->assignRole($roleName);
+        }
+        return "Role and permissions assigned successfully.";
+    } else {
+        return "User not found.";
+    }
 });
