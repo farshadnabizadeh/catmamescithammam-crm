@@ -310,6 +310,12 @@ Route::get('/user/permission', function () {
 
 Route::get('/user/role/create', function () {
     $permissions = [
+        'show reservation',
+        'show reservation reports',
+        'show accounting reports',
+        'show reports',
+        'show definitions',
+        'show reservation',
         'show users',
         'create users',
         'edit users',
