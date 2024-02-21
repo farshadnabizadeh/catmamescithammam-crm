@@ -33,43 +33,26 @@ class ReportController extends Controller
 
         $reservations = Reservation::with('subHotelComissions','subGuideComissions')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                })
-                ->orderBy('reservation_date', 'ASC');
-            })
+           
             ->get();
 
         $totalPax = Reservation::whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-        ->when($user->hasRole('Sales Admin'), function ($query) {
-            $query->where(function ($query) {
-                $query->whereIn('reservations.source_id', [3]);
-            });
-        })
+       
         ->sum('total_customer');
 
-       $totalComission = Reservation::select('reservations.*', 'reservations_comissions.hotel_id', 'reservations_comissions.guide_id')
+       $totalComission = Reservation::select('reservations.*')
             ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations_comissions.deleted_at')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
             ->sum('comission_price');
 
-        $comissionNames = Reservation::select('reservations.*','sources.id as sId', 'sources.color', 'sources.name', 'reservations_comissions.hotel_id','hotels.name as hName','hotels.name as hName','reservations_comissions.guide_id','guides.name as gName')
-            ->leftJoin('sources', 'reservations.source_id', '=', 'sources.id')
+        $comissionNames = Reservation::select('reservations.*')
+            
             ->leftJoin('reservations_comissions', 'reservations_comissions.reservation_id', '=', 'reservations.id')
-            ->leftJoin('hotels', 'hotels.id', '=', 'reservations_comissions.hotel_id')
-            ->leftJoin('guides', 'guides.id', '=', 'reservations_comissions.guide_id')
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+            
+           
+           
             ->whereNull('reservations_comissions.deleted_at')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
             ->get();
@@ -77,143 +60,91 @@ class ReportController extends Controller
         $cashTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '5')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashEur = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '6')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '7')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+          
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $cashPound = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '8')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+            
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ykbTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '9')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '10')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '11')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $ziraatDolar = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '12')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $viatorEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '13')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $hotelistanVPEuro = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '16')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $hotelistanVPUsd = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '17')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+           
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $hotelistanVPTl = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '18')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+          
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
         $hotelistanVPGbp = ReservationPaymentType::where('reservations_payments_types.payment_type_id', '19')
             ->leftJoin('reservations', 'reservations.id', '=', 'reservations_payments_types.reservation_id')
             ->whereBetween('reservations.reservation_date', [date('Y-m-d', strtotime($start)) . " 00:00:00", date('Y-m-d', strtotime($end)) . " 23:59:59"])
-            ->when($user->hasRole('Sales Admin'), function ($query) {
-                $query->where(function ($query) {
-                    $query->whereIn('reservations.source_id', [3]);
-                });
-            })
+          
             ->whereNull('reservations.deleted_at')
             ->sum("payment_price");
 
@@ -254,7 +185,6 @@ class ReportController extends Controller
             return view('admin.reports.index')->with($data);
         }
     }
-
     public function reservationReport(Request $request)
     {
         try {
